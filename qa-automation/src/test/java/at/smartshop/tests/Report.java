@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.browser.Factory;
@@ -40,6 +42,7 @@ import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowEmployeeDevice;
+import at.smartshop.pages.CashoutLog;
 import at.smartshop.pages.ConsumerFeedbackSurvey;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
@@ -193,8 +196,8 @@ public class Report extends TestInfra {
 	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
 	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
 	private CreditTransaction creditTransaction = new CreditTransaction();
-	
-	
+	private CashoutLog cashOutLog = new CashoutLog();
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
 	private Map<String, String> rstProductSummaryData;
@@ -205,17 +208,17 @@ public class Report extends TestInfra {
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstV5DeviceData;
 
-//	@Parameters({ "driver", "browser", "reportsDB" })
-//	@BeforeClass
-//	public void beforeTest(String drivers, String browsers, String reportsDB) {
-//		try {
-//			browser.launch(drivers, browsers);
-//			dataSourceManager.switchToReportsDB(reportsDB);
-//			browser.close();
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
+	@Parameters({ "driver", "browser", "reportsDB" })
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -324,6 +327,8 @@ public class Report extends TestInfra {
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
+			System.out.println("uiData :" + uiData);
+			System.out.println("dbData :" + dbData);
 			// Validate account adjustment adjusted report data
 			CustomisedAssert.assertEquals(uiData, dbData);
 
@@ -5850,9 +5855,10 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * Credit Transaction Spend Report Data Validation
+	 * 
 	 * @author ravindhara Date: 22-09-2022
 	 * @date: 24-08-2022
 	 */
@@ -5893,14 +5899,15 @@ public class Report extends TestInfra {
 
 			creditTransaction.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH, (String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
+					(String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
 			creditTransaction.getTblRecordsUI();
 			creditTransaction.getIntialData().putAll(creditTransaction.getReportsData());
 			creditTransaction.getRequiredRecord((String) creditTransaction.getJsonData().get(Reports.TRANS_DATE_TIME));
 
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			
+
 			// apply calculation and update data
 			creditTransaction.updateData(creditTransaction.getTableHeaders().get(0),
 					(String) creditTransaction.getJsonData().get(Reports.TRANS_DATE_TIME));
@@ -5910,24 +5917,70 @@ public class Report extends TestInfra {
 					(String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
 			creditTransaction.updateData(creditTransaction.getTableHeaders().get(3),
 					creditTransaction.getRequiredJsonData().get(0));
-			creditTransaction.updateData(creditTransaction.getTableHeaders().get(4),
-					requiredData.get(0));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(4), requiredData.get(0));
 			creditTransaction.updateData(creditTransaction.getTableHeaders().get(5),
 					creditTransaction.getRequiredJsonData().get(1));
 			creditTransaction.updateData(creditTransaction.getTableHeaders().get(6),
 					creditTransaction.getRequiredJsonData().get(2));
 			creditTransaction.updateData(creditTransaction.getTableHeaders().get(7),
 					creditTransaction.getRequiredJsonData().get(3));
-			creditTransaction.updateData(creditTransaction.getTableHeaders().get(9),
-					requiredData.get(1));
-			creditTransaction.updateData(creditTransaction.getTableHeaders().get(10),
-					requiredData.get(2));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(9), requiredData.get(1));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(10), requiredData.get(2));
 
 			// verify report headers
 			creditTransaction.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
 
 			// verify report data
 			creditTransaction.verifyReportData();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cashout Log Report data validation
+	 * 
+	 * @author KarthikR Date: 22-09-2022
+	 */
+	@Test(description = "120168 - CashOut Log Report data validation")
+	public void cashOutLogReportDataValidation() {
+		try {
+			final String CASE_NUM = "120168";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process Kiosk Cashout API to generate data
+			cashOutLog.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			cashOutLog.getCashoutJsonData();
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			cashOutLog.selectAndRunReport(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstReportListData.get(CNReportList.REPORT_NAME), rstReportListData.get(CNReportList.DATE_RANGE),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Report Data from UI
+			textBox.enterText(CashoutLog.TXT_SEARCH_FILTER, cashOutLog.getRequiredCashOutJsonData().get(0));
+			cashOutLog.getCashOutLog();
+
+			// verify Report Headers
+			cashOutLog.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify Report Data
+			cashOutLog.verifyKCORecord();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

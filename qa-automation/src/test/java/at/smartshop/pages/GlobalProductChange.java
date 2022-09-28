@@ -144,11 +144,14 @@ public class GlobalProductChange extends Factory {
 	public static final By TXT_TAX2_PRODUCT=By.xpath("//input[@id='tax-2']");
 	public static final By COL_TAX2_PRODUCT=By.xpath("(//tr[@class='odd']//td)[11]");
 	public static final By TABLE_TAX2_COL=By.xpath("//table[@id='filtered-prd-dt']//tbody//td[11]");
-
-	public static final By TABLE_PRODUCT=By.xpath("//tbody//tr[@class='odd']");
 	public static final By ERROR_MSG=By.xpath("//div[text()='Min value should be less than or equal to Max value  ']");
-    public static final By TXT_UPC=By.xpath("//input[@id='single-num']");
-    public static final By CLOUMN_PRODUCT=By.xpath("//tbody[@aria-relevant='all']");
+  public static final By TXT_UPC=By.xpath("//input[@id='single-num']");
+  public static final By CLOUMN_PRODUCT=By.xpath("//tbody[@aria-relevant='all']");
+  public static final By TXT_EXACT=By.xpath("//input[@id='single-num']");
+  public static final By TXT_START=By.id("start-num");
+  public static final By TXT_END=By.id("end-num");
+  public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']");
+	public static final By TABLE_PRODUCT=By.xpath("(//tbody//tr[@class='odd']/td)[2]");
 
 
 	public By objTableRow(String location) {
@@ -376,7 +379,7 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(INPUT_TEXT, "CONFIRM");
 		foundation.threadWait(1);
 		foundation.clickEnter();
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);
 
@@ -561,6 +564,36 @@ public class GlobalProductChange extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
 		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
 	}
+	
+	/**
+	 *verify Start And End range values
+	 * @param option
+	 * @param start
+	 * @param end
+	 */
+	public void verifyStartAndEnd(String option,String start,String end) {
+	dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY,option, Constants.TEXT);
+	foundation.click(GlobalProductChange.TXT_START);
+	textBox.enterText(GlobalProductChange.TXT_START,start);
+	foundation.click(GlobalProductChange.TXT_END);
+	textBox.enterText(GlobalProductChange.TXT_END,end);
+	foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+	
+}
+	
+	/**
+	 * verify Exact Match value
+	 * @param option
+	 * @param range
+	 */
+	public void verifyExactMatch(String option,String range) {
+		dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY,option, Constants.TEXT);
+		foundation.click(GlobalProductChange.TXT_EXACT);
+		textBox.enterText(GlobalProductChange.TXT_EXACT,range);
+		foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+		
+	}
+
 }
 	
 

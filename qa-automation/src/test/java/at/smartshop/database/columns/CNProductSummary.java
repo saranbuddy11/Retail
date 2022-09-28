@@ -51,4 +51,5 @@ public class CNProductSummary {
 	public static final String PRODUCT_NAME = "ProductName";
 	public static final String DEVICE_ID = "DeviceID";
 	public static final String TAX = "Tax";
+	public static final String LOCATION_NAME = "LocationName";
 }

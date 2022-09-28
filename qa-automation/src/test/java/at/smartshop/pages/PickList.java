@@ -143,6 +143,7 @@ public class PickList extends Factory {
 	public static final By DPD_PICKLIST_ACTIONS = By.id("pick-list-action");
 	public static final By FILTER_PICKLIST = By.id("filter-prd-title");
 	public static final By DPD_CATEGORY = By.id("cate-select");
+	public static final By DPD_DRIVERS=By.xpath("//li[@class='ui-igcombo-listitem ui-state-default ui-unselectable ui-state-hover' and text()='Select']");
 	public static final By PRODUCT_NAME_GRID = By.id("filter-prd-grid_name");
 	public static final By BTN_SCHEDULING = By.xpath("//button[@onclick='toScheduling()']");
 	public static final By TXT_ROUTE_SCHEDULING = By.id("Route Scheduling");
@@ -175,9 +176,11 @@ public class PickList extends Factory {
 	public static final By CHECKBOX_ACTIVE = By.xpath("//form//input[@id='active']");
 	public static final By TBL_PRODUCTS = By.id("filter-prd-grid");
 	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#filter-prd-grid > thead");
-	public static final By SELECTED_ROW = By.xpath("//tr[@aria-selected='true']//td[@aria-describedby='filter-prd-grid_name']");
 
-	public By objRouteText(String keyword) {
+	public static final By TBL_ADD_PRODUCT = By.xpath("//tbody/tr/td[@aria-describedby='new-prd-grid_location']");
+	public static final By SELECTED_ROW = By.xpath("//tr[@aria-selected='true']//td[@aria-describedby='filter-prd-grid_name']");
+	
+  public By objRouteText(String keyword) {
 		return By.xpath("//li[text()='" + keyword + "']");
 	}
 
@@ -186,8 +189,7 @@ public class PickList extends Factory {
 	}
 
 	public By objDriverText(String driver) {
-		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"
-				+ driver + "']");
+		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"+ driver + "']");
 	}
 
 	public By objDayCheckbox(String day) {
@@ -392,8 +394,8 @@ public class PickList extends Factory {
 		foundation.click(DATA_GRID_DRIVER);
 		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
 		foundation.click(DPD_DRIVER);
-		foundation.threadWait(5);
-		foundation.click(objDriverText(option2));
+		//foundation.threadWait(3);
+		foundation.click(objRouteText(option2));
 		foundation.threadWait(5);
 		for (int i = 0; i <= list.size() - 1; i++) {
 			if (checkboxSelection.equals("true")) {
@@ -409,6 +411,41 @@ public class PickList extends Factory {
 			}
 		}
 
+	}
+	/**
+	 * Enter driver , route and select service day
+	 * 
+	 * @param option1
+	 * @param option2
+	 * @param checkboxSelection
+	 */
+	public void checkBoxsServiceDay(String option1, String option2, String checkboxSelection) {
+		List<WebElement> list = getDriver().findElements(CHECKBOX);
+		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
+		foundation.click(DATA_GRID_ROUTE);
+		foundation.waitforElementToBeVisible(DPD_ROUTE, 3);
+		foundation.click(DPD_ROUTE);
+		foundation.click(objRouteText(option1));
+		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
+		foundation.click(DATA_GRID_DRIVER);
+		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
+		foundation.click(DPD_DRIVER);
+		foundation.threadWait(3);
+		foundation.click(DPD_DRIVERS);
+		foundation.threadWait(5);
+		for (int i = 0; i <= list.size() - 1; i++) {
+			if (checkboxSelection.equals("true")) {
+				if (!checkBox.isChecked(objDayCheckbox(String.valueOf(i + 1)))) {
+					foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+					foundation.threadWait(Constants.SHORT_TIME);
+				}
+				String value = getDriver().findElement(objDay(String.valueOf(i + 1))).getAttribute("aria-checked");
+				CustomisedAssert.assertEquals(value, checkboxSelection);
+			} else {
+				foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+
+			}
+		}
 	}
 
 	public By selectDateRange(String text) {
@@ -620,7 +657,24 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(BTN_MANAGE_CANCEL, 3);
 
 	}
-
+	
+	/**
+	 * Select location from location filter,apply and click on plan picklist
+	 * 
+	 * @param location
+	 */
+	public void selectLocationAndPicklistBtn(String location) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
+		foundation.click(selectLocationFromList(location));
+		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+		foundation.click(PickList.BTN_APPLY);
+		foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
+		foundation.click(objPickList(location));
+		foundation.click(PickList.BTN_PICKLIST_PLAN);
+		foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
+		String data = foundation.getText(PickList.TBL_ROW_DATA);
+		CustomisedAssert.assertTrue(data.contains(location));
+	}
 	public void deleteColumn(List<String> columnNames) {
 		try {
 			for (int iter = 0; iter < columnNames.size(); iter++) {
@@ -656,23 +710,7 @@ public class PickList extends Factory {
 		}
 		return tableHeaders;
 	}
-	/**
-	 * Select location from location filter,apply and click on plan picklist
-	 * 
-	 * @param location
-	 */
-	public void selectLocationAndPicklistBtn(String location) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LOCATION_FILTER));
-		foundation.click(selectLocationFromList(location));
-		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
-		foundation.click(PickList.BTN_APPLY);
-		foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
-		foundation.click(objPickList(location));
-		foundation.click(PickList.BTN_PICKLIST_PLAN);
-		foundation.waitforElementToBeVisible(PickList.FILTER_GRID, 5);
-		String data = foundation.getText(PickList.TBL_ROW_DATA);
-		CustomisedAssert.assertTrue(data.contains(location));
-	}
+
 	/**
 	 * Get the Column Values
 	 * 
