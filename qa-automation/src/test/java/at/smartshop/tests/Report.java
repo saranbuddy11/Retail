@@ -5663,7 +5663,6 @@ public class Report extends TestInfra {
 			soldItemCOGS.getIntialData().putAll(soldItemCOGS.getReportsData());
 			soldItemCOGS.getUpdatedTableFooters().putAll(soldItemCOGS.getTableFooters());
 
-			System.out.println("init" + soldItemCOGS.getIntialData());
 			// process sales API to generate data
 			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
