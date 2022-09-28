@@ -19,6 +19,8 @@ import com.google.gson.JsonObject;
 
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
+import at.framework.generic.CustomisedAssert;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
@@ -34,6 +36,7 @@ public class TransactionSearchPage extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
 	private WebService webService = new WebService();
+	private Dropdown dropdown = new Dropdown();
 
 	public static final By TXT_SEARCH = By.cssSelector("input#transid");
 	public static final By DPD_DATE_RANGE = By.cssSelector("div#daterange");
@@ -42,6 +45,7 @@ public class TransactionSearchPage extends Factory {
 	public static final By BTN_FIND = By.id("findBtn");
 	public static final By LBL_TRANSACTION_SEARCH = By.xpath("//li[@id='Transaction Search']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
+	public static final By LNK_FIRST_ROW=By.xpath("//span[@id='Row_0']");
 	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
 	public static final By TXT_LOCATION_NAME = By.xpath("//input[@placeholder='Select Locations']");
 	public static final By TABLE_TRANSACTION_GRID = By.cssSelector("table#transdt > thead > tr");
@@ -57,7 +61,7 @@ public class TransactionSearchPage extends Factory {
 	public static final By LINK_TRANSACTION_ID = By.cssSelector("th#transactionId");
 	public static final By BTN_PRINT = By.id("printBtn");
 	public static final By TXT_TRANSACTION_SEARCH = By.xpath("//*[@id='transdt_filter']/label/input");
-
+    public static final By TRANSACTION_ID=By.id("transactionId");
 	public static final By LBL_LOCATION = By.xpath("//*[@id='location']/following-sibling::dd[1]");
 	public static final By LBL_DEVICE = By.xpath("//*[@id='device']/following-sibling::dd[1]");
 	public static final By LBL_SUBTOTAL = By.xpath("//*[@id='subtotal']/following-sibling::dd[1]");
@@ -125,7 +129,27 @@ public class TransactionSearchPage extends Factory {
 		foundation.waitforElement(BTN_PRINT, Constants.SHORT_TIME);
 		assertTrue(foundation.isDisplayed(BTN_PRINT));
 	}
-
+	
+	public void verifyTransactionSearch(String search,String range,String location) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_TRANSACTION_SEARCH));
+		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
+		textBox.enterText(TXT_SEARCH, search);
+		foundation.waitforElementToBeVisible(DPD_DATE_RANGE, Constants.THREE_SECOND);
+		dropdown.selectItem(DPD_DATE_RANGE, range, Constants.TEXT);
+		foundation.waitforElementToBeVisible(DPD_LOCATION, Constants.THREE_SECOND);
+		foundation.click(TXT_CLEAR_ALL);
+		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		foundation.click(BTN_FIND);
+		foundation.waitforElementToBeVisible(LNK_FIRST_ROW, Constants.THREE_SECOND);
+		foundation.objectClick(LNK_FIRST_ROW);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TRANSACTION_ID));
+		String text = foundation.getText(TRANSACTION_ID);
+		System.out.println(text);
+		
+		
+		
+		
+	}
 	/**
 	 * This method is to verify Transaction Details
 	 * 
