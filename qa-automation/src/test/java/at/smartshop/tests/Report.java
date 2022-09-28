@@ -47,6 +47,7 @@ import at.smartshop.pages.ConsumerFeedbackSurvey;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.CreditTransaction;
 import at.smartshop.pages.CrossOrgLoyaltyReport;
 import at.smartshop.pages.CrossOrgRateReport;
 import at.smartshop.pages.DailySalesSummary;
@@ -194,6 +195,7 @@ public class Report extends TestInfra {
 	private EntrySummaryReport entrySummaryReport = new EntrySummaryReport();
 	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
 	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
+	private CreditTransaction creditTransaction = new CreditTransaction();
 	private CashoutLog cashOutLog = new CashoutLog();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -325,8 +327,8 @@ public class Report extends TestInfra {
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
-			System.out.println("uiData :" +uiData);
-			System.out.println("dbData :" +dbData);
+			System.out.println("uiData :" + uiData);
+			System.out.println("dbData :" + dbData);
 			// Validate account adjustment adjusted report data
 			CustomisedAssert.assertEquals(uiData, dbData);
 
@@ -5666,7 +5668,6 @@ public class Report extends TestInfra {
 			soldItemCOGS.getIntialData().putAll(soldItemCOGS.getReportsData());
 			soldItemCOGS.getUpdatedTableFooters().putAll(soldItemCOGS.getTableFooters());
 
-			System.out.println("init" + soldItemCOGS.getIntialData());
 			// process sales API to generate data
 			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
@@ -5856,6 +5857,88 @@ public class Report extends TestInfra {
 	}
 
 	/**
+	 * Credit Transaction Spend Report Data Validation
+	 * 
+	 * @author ravindhara Date: 22-09-2022
+	 * @date: 24-08-2022
+	 */
+	@Test(description = "204887-This test validates Credit Transaction Report Data Calculation")
+	public void creditTransactionReportData() {
+		try {
+
+			final String CASE_NUM = "204887";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			creditTransaction.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			creditTransaction.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
+					(String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
+			creditTransaction.getTblRecordsUI();
+			creditTransaction.getIntialData().putAll(creditTransaction.getReportsData());
+			creditTransaction.getRequiredRecord((String) creditTransaction.getJsonData().get(Reports.TRANS_DATE_TIME));
+
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+			// apply calculation and update data
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(0),
+					(String) creditTransaction.getJsonData().get(Reports.TRANS_DATE_TIME));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(2),
+					(String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(3),
+					creditTransaction.getRequiredJsonData().get(0));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(4), requiredData.get(0));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(5),
+					creditTransaction.getRequiredJsonData().get(1));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(6),
+					creditTransaction.getRequiredJsonData().get(2));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(7),
+					creditTransaction.getRequiredJsonData().get(3));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(9), requiredData.get(1));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(10), requiredData.get(2));
+
+			// verify report headers
+			creditTransaction.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			creditTransaction.verifyReportData();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
 	 * Cashout Log Report data validation
 	 * 
 	 * @author KarthikR Date: 22-09-2022
@@ -5865,6 +5948,7 @@ public class Report extends TestInfra {
 		try {
 			final String CASE_NUM = "120168";
 
+			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
@@ -5896,6 +5980,7 @@ public class Report extends TestInfra {
 
 			// verify Report Data
 			cashOutLog.verifyKCORecord();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
