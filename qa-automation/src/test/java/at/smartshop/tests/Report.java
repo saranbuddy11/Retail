@@ -5995,10 +5995,10 @@ public class Report extends TestInfra {
 	 * 
 	 * @author KarthikR Date: 26-09-2022
 	 */
-	@Test(description = "119170 - Cancel Report data validation")
+	@Test(description = "204991 - Cancel Report data validation")
 	public void cancelReportDataValidation() {
 		try {
-			final String CASE_NUM = "119170";
+			final String CASE_NUM = "204991";
 
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
@@ -6029,8 +6029,6 @@ public class Report extends TestInfra {
 					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
 
 			// Read Report Data from UI
-			// textBox.enterText(CashoutLog.TXT_SEARCH_FILTER,
-			// cashOutLog.getRequiredCashOutJsonData().get(0));
 			cancelReport.readAllRecordsFromCancelReportTable();
 			cancelReport.getRequiredRecord(columnName.get(0),
 					String.valueOf(CancelReport.REQUIRED_JSON_DATA_LIST.get(0)));
