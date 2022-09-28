@@ -207,6 +207,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Remove selected location
 			foundation.threadWait(Constants.EXTRA_LONG_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.waitforElementToBeVisible(ProductSummary.TXT_SEARCH, 5);
 			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(ProductSummary.LOATION_NAME);
