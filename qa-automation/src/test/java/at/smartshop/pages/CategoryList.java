@@ -14,6 +14,7 @@ public class CategoryList {
 	public static final By BTN_CREATE_NEW_CATEGORY = By.id("newBtn");
 
 	public void selectCategory(String categoryName) {
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(TXT_SEARCH_CATEGORY, categoryName);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(By.xpath("//td//span[text()='" + categoryName + "']"));
