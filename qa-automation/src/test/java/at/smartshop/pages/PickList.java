@@ -143,6 +143,7 @@ public class PickList extends Factory {
 	public static final By DPD_PICKLIST_ACTIONS = By.id("pick-list-action");
 	public static final By FILTER_PICKLIST = By.id("filter-prd-title");
 	public static final By DPD_CATEGORY = By.id("cate-select");
+	public static final By DPD_DRIVERS=By.xpath("//li[@class='ui-igcombo-listitem ui-state-default ui-unselectable ui-state-hover' and text()='Select']");
 	public static final By PRODUCT_NAME_GRID = By.id("filter-prd-grid_name");
 	public static final By BTN_SCHEDULING = By.xpath("//button[@onclick='toScheduling()']");
 	public static final By TXT_ROUTE_SCHEDULING = By.id("Route Scheduling");
@@ -188,8 +189,7 @@ public class PickList extends Factory {
 	}
 
 	public By objDriverText(String driver) {
-		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"
-				+ driver + "']");
+		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"+ driver + "']");
 	}
 
 	public By objDayCheckbox(String day) {
@@ -394,8 +394,8 @@ public class PickList extends Factory {
 		foundation.click(DATA_GRID_DRIVER);
 		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
 		foundation.click(DPD_DRIVER);
-		foundation.threadWait(5);
-		foundation.click(objDriverText(option2));
+		//foundation.threadWait(3);
+		foundation.click(objRouteText(option2));
 		foundation.threadWait(5);
 		for (int i = 0; i <= list.size() - 1; i++) {
 			if (checkboxSelection.equals("true")) {
@@ -411,6 +411,41 @@ public class PickList extends Factory {
 			}
 		}
 
+	}
+	/**
+	 * Enter driver , route and select service day
+	 * 
+	 * @param option1
+	 * @param option2
+	 * @param checkboxSelection
+	 */
+	public void checkBoxsServiceDay(String option1, String option2, String checkboxSelection) {
+		List<WebElement> list = getDriver().findElements(CHECKBOX);
+		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
+		foundation.click(DATA_GRID_ROUTE);
+		foundation.waitforElementToBeVisible(DPD_ROUTE, 3);
+		foundation.click(DPD_ROUTE);
+		foundation.click(objRouteText(option1));
+		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
+		foundation.click(DATA_GRID_DRIVER);
+		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
+		foundation.click(DPD_DRIVER);
+		foundation.threadWait(3);
+		foundation.click(DPD_DRIVERS);
+		foundation.threadWait(5);
+		for (int i = 0; i <= list.size() - 1; i++) {
+			if (checkboxSelection.equals("true")) {
+				if (!checkBox.isChecked(objDayCheckbox(String.valueOf(i + 1)))) {
+					foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+					foundation.threadWait(Constants.SHORT_TIME);
+				}
+				String value = getDriver().findElement(objDay(String.valueOf(i + 1))).getAttribute("aria-checked");
+				CustomisedAssert.assertEquals(value, checkboxSelection);
+			} else {
+				foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+
+			}
+		}
 	}
 
 	public By selectDateRange(String text) {

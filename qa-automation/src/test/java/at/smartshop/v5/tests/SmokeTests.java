@@ -1003,7 +1003,9 @@ public class SmokeTests extends TestInfra {
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_REMOVE);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.threadWait(Constants.THREE_SECOND);
 		}
 	}
 

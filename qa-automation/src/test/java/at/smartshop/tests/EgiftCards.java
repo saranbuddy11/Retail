@@ -1192,8 +1192,7 @@ public class EgiftCards extends TestInfra {
 
 
 	/**
-	 * @author afrosean
-	 * Date:29:08:2022
+	 * @author afrosean Date:29:08:2022
 	 */
 	@Test(description = "203696- ADM< Egift card< Create Gift card when selected the location as 'All'")
 
@@ -1234,10 +1233,9 @@ public class EgiftCards extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-	 * @author afrosean
-	 * Date:29-08-2022
+	 * @author afrosean Date:29-08-2022
 	 */
 	@Test(description = "203697-ADM< Egift card< Search Create Gift card in search box")
 
@@ -1246,7 +1244,7 @@ public class EgiftCards extends TestInfra {
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		
+
 		List<String> Datas = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		String expireDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, Datas.get(1));
@@ -1263,21 +1261,19 @@ public class EgiftCards extends TestInfra {
 			// Click on create gift card
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.BTN_ADD_GIFT_CARD));
 			consumerEngagement.createGiftCard(Datas.get(2), Datas.get(0), expireDate);
-			
-			//search with created gift card and verify
+
+			// search with created gift card and verify
 			foundation.waitforElementToBeVisible(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, 3);
 			textBox.enterText(ConsumerEngagement.CONSUMER_ENGAGE_GRID_FILTER, Datas.get(2));
 //			String title = foundation.getText(ConsumerEngagement.GIFTCARD_TITLE);
 //			CustomisedAssert.assertEquals(title, Datas.get(2));
-		}
-		catch (Exception exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:01-09-2022
+	 * @author afrosean Date:01-09-2022
 	 */
 	@Test(description = "203719-ADM > Consumer Engagement > Verify Consumer Account Dropdown")
 	public void VerifyConsumerAccountDropdownDefaultValueIsLocked() {
