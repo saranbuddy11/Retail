@@ -52,13 +52,14 @@ public class V5TestAdmin extends TestInfra {
 					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN), requiredData.get(0),
 					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 
-			// Launch ADM as super user
+			 // Launch ADM as super user
+			browser.launch(Constants.LOCAL, Constants.CHROME);
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			// Navigate Admin > Transaction
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			transactionSearchPage.verifyTransactionSearch(Datas.get(2), Datas.get(0), Datas.get(1));
+			transactionSearchPage.verifyTransactionSearch(Datas.get(2), Datas.get(0), Datas.get(1), Datas.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

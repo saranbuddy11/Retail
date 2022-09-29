@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import com.google.gson.JsonArray;
@@ -23,6 +24,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -50,12 +52,14 @@ public class TransactionSearchPage extends Factory {
 	public static final By TXT_LOCATION_NAME = By.xpath("//input[@placeholder='Select Locations']");
 	public static final By TABLE_TRANSACTION_GRID = By.cssSelector("table#transdt > thead > tr");
 	public static final By TABLE_TRANSACTION_ROW = By.cssSelector("tr.odd");
+	public static final By LOCATION_DPD=By.xpath("//li[contains(@class,'results__option--highlighted')]");
 	public static final By TABLE_SALES_ITEM_GRID = By.cssSelector("table#rptdt > thead > tr");
 	public static final By TXT_REPORT_SEARCH = By.xpath("//input[@aria-controls='rptdt']");
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > script + div > div.col-12.comment-table-heading");
 	private static final By DPD_LOCATIONS = By
 			.xpath("//select[@id='loc-dropdown']//..//span[contains(@class,'multiple')]");
+	public static final By TRANSACTION_DETAILS=By.cssSelector(".trans > dl.dl-horizontal ");
 	private static final By TXT_LOCATION_SEARCH = By.cssSelector("span.selection > span > ul > li > input");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public static final By LINK_TRANSACTION_ID = By.cssSelector("th#transactionId");
@@ -130,26 +134,42 @@ public class TransactionSearchPage extends Factory {
 		assertTrue(foundation.isDisplayed(BTN_PRINT));
 	}
 	
-	public void verifyTransactionSearch(String search,String range,String location) {
+	/**
+	 * verify transaction details
+	 * @param search
+	 * @param range
+	 * @param location
+	 * @param price
+	 */
+	public void verifyTransactionSearch(String search,String range,String location,String price) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_TRANSACTION_SEARCH));
 		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
 		textBox.enterText(TXT_SEARCH, search);
 		foundation.waitforElementToBeVisible(DPD_DATE_RANGE, Constants.THREE_SECOND);
-		dropdown.selectItem(DPD_DATE_RANGE, range, Constants.TEXT);
+		foundation.click(DPD_DATE_RANGE);
+		foundation.click(DPD_DATE_OPTIONS);
 		foundation.waitforElementToBeVisible(DPD_LOCATION, Constants.THREE_SECOND);
 		foundation.click(TXT_CLEAR_ALL);
-		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterText(TXT_LOCATION_SEARCH, location);
+		foundation.waitforElementToBeVisible(LOCATION_DPD, Constants.ONE_SECOND);
+		foundation.click(LOCATION_DPD);
 		foundation.click(BTN_FIND);
 		foundation.waitforElementToBeVisible(LNK_FIRST_ROW, Constants.THREE_SECOND);
 		foundation.objectClick(LNK_FIRST_ROW);
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TRANSACTION_ID));
-		String text = foundation.getText(TRANSACTION_ID);
-		System.out.println(text);
+		JavascriptExecutor js = (JavascriptExecutor) getDriver();
+		WebElement tesxt = getDriver().findElement(TRANSACTION_DETAILS);
+		Object script = js.executeScript("return arguments[0].innerHTML", tesxt);
+		CustomisedAssert.assertTrue(script.toString().contains(search));
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(script.toString().contains(location));
+		CustomisedAssert.assertTrue(script.toString().contains(price));
+		foundation.waitforElementToBeVisible(BTN_PRINT, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_PRINT));
+		}
 		
-		
-		
-		
-	}
 	/**
 	 * This method is to verify Transaction Details
 	 * 
