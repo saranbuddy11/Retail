@@ -25,6 +25,8 @@ import at.smartshop.tests.TestInfra;
 public class BalanceReport extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
+	private NavigationBar navigationBar = new NavigationBar();
+	private ReportList reportList = new ReportList();
 
 	public static List<String> tableHeaders = new ArrayList<>();
 	private List<String> admData = new LinkedList<>();
@@ -36,7 +38,7 @@ public class BalanceReport extends Factory {
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#balanceReportGrid > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public static final By TABLE_BALANCE_REPORT = By.id("balanceReportGrid");
-	public static final By PAGINATION_GRID = By.cssSelector("#balanceReportGrid_pager > div > ul");
+	public static final By TABLE_BALANCE = By.id("balanceReportGrid_scroll");
 	public static final By TABLE_BALANCE_REPORT_GRID = By.cssSelector("#balanceReportGrid > tbody");
 	public static final By TXT_SEARCH = By.id("filterType");
 
@@ -78,6 +80,26 @@ public class BalanceReport extends Factory {
 	}
 
 	/**
+	 * Select the report with Date range and Location to run the report
+	 * 
+	 * @param reportName
+	 * @param location
+	 */
+	public void selectAndRunReport(String menu, String reportName, String location) {
+		navigationBar.navigateToMenuItem(menu);
+		reportList.selectReport(reportName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		reportList.selectLocation(location);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
+		foundation.click(ReportList.BTN_RUN_REPORT);
+		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+		verifyReportName(reportName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		checkForDataAvailabilyInResultTable();
+	}
+
+	/**
 	 * Read Balance Report Table Headers
 	 */
 	public void readBalanceReportTableHeaders() {
@@ -96,29 +118,24 @@ public class BalanceReport extends Factory {
 	 * @throws Exception
 	 */
 	public void readAllRecordsFromBalanceReportTable(String columnName) throws Exception {
-		int count = 0;
+		tableHeaders.clear();
+		WebElement tableReports = getDriver().findElement(TABLE_BALANCE);
+		List<WebElement> headers = tableReports.findElements(By.tagName("th"));
+		for (WebElement header : headers) {
+			tableHeaders.add(header.getText());
+		}
+		WebElement tableReportsList = getDriver().findElement(TABLE_BALANCE_REPORT_GRID);
+		List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
 		reportsData.clear();
-		WebElement pagination = getDriver().findElement(PAGINATION_GRID);
-		List<WebElement> pages = pagination.findElements(By.tagName("li"));
-		for (int iterator = 1; iterator < pages.size() + 1; iterator++) {
-			foundation.waitforClikableElement(
-					By.cssSelector("#balanceReportGrid_pager > div > ul > li:nth-child(" + iterator + ")"), 1000);
-			WebElement tableReportsList = getDriver().findElement(TABLE_BALANCE_REPORT_GRID);
-			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-			for (WebElement row : rows) {
-				Map<String, String> reportsdata = new LinkedHashMap<>();
-				for (int iter = 1; iter < tableHeaders.size() + 1; iter++) {
-					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + iter + ")"));
-					if (tableHeaders.get(iter - 1).equals(columnName)) {
-						reportsdata.put(tableHeaders.get(iter - 1),
-								column.getText().replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
-					} else {
-						reportsdata.put(tableHeaders.get(iter - 1), column.getText());
-					}
-				}
-				reportsData.put(count, reportsdata);
-				count++;
+		int count = 0;
+		for (WebElement row : rows) {
+			Map<String, String> reportsdata = new LinkedHashMap<>();
+			for (int iter = 1; iter < tableHeaders.size() + 1; iter++) {
+				WebElement column = row.findElement(By.cssSelector("td:nth-child(" + iter + ")"));
+				reportsdata.put(tableHeaders.get(iter - 1), column.getText());
 			}
+			reportsData.put(count, reportsdata);
+			count++;
 		}
 	}
 

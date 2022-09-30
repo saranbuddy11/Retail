@@ -38,6 +38,7 @@ import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
+import at.smartshop.pages.BalanceReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
 import at.smartshop.pages.CancelReport;
@@ -202,6 +203,7 @@ public class Report extends TestInfra {
 	private CreditTransaction creditTransaction = new CreditTransaction();
 	private CashoutLog cashOutLog = new CashoutLog();
 	private CancelReport cancelReport = new CancelReport();
+	private BalanceReport balanceReport = new BalanceReport();
 	private WebService webService = new WebService();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -6140,7 +6142,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			List<String> columnName = Arrays
-					.asList(rstProductSummaryData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 
 			// Login to ADM with Super Credentials
 			browser.navigateURL(
@@ -6192,6 +6194,100 @@ public class Report extends TestInfra {
 
 			// verify Last 4 Of CC column of UI Table Record
 			cancelReport.verifyLast4OfCC(columnName.get(8));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Balance Report data validation
+	 * 
+	 * @author KarthikR Date: 29-09-2022
+	 */
+	@Test(description = "204999 - Balance Report data validation")
+	public void balanceReportDataValidation() {
+		try {
+			final String CASE_NUM = "204999";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			balanceReport.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Report Data from UI
+			balanceReport.readBalanceReportTableHeaders();
+
+			// verify Report Headers
+			textBox.enterText(BalanceReport.TXT_SEARCH, requiredData.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			balanceReport.readAllRecordsFromBalanceReportTable(columnName.get(2));
+			balanceReport.getInitialReportsData().putAll(BalanceReport.reportsData);
+
+			// Navigate to Admin > Consumer
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+
+			// Search for Consumer
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objFirstNameCell(requiredData.get(0)));
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Read Balance from Consumer Summary page and do Adjust on Report
+			balanceReport.getADMData().add(String.valueOf(consumerSummary.getBalance()));
+			foundation.click(ConsumerSummary.BTN_ADJUST);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE));
+			balanceReport.getADMData().add(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+			double updatedbalance = Double.parseDouble(balanceReport.getADMData().get(0))
+					- Double.parseDouble(balanceReport.getADMData().get(1));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
+					Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			balanceReport.getADMData().add(String.valueOf(updatedbalance));
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			balanceReport.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Updated Report Data
+			balanceReport.readAllRecordsFromBalanceReportTable(columnName.get(2));
+
+			// Update Balance
+			balanceReport.updateBalance(requiredData.get(1));
+
+			// Verify Report Headers
+			balanceReport.verifyReportHeaders(columnName.get(1));
+
+			// Verify Report Data
+			balanceReport.verifyReportRecords(requiredData.get(1));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
