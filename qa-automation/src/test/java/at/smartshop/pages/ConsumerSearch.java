@@ -319,6 +319,21 @@ public class ConsumerSearch extends Factory {
 	}
 	
 	/**
+	 * verify edit consumer and click on payout and close
+	 * @param lname
+	 */
+	public void verifyEditConsumerAndClickOnPayoutAndClose(String lname) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+		foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.THREE_SECOND);
+		textBox.enterText(ConsumerSummary.TXT_LASTNAME, lname);
+		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+		foundation.alertAccept();
+		foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+		
+	}
+	
+	/**
 	 * get table records on UI
 	 * @return
 	 */

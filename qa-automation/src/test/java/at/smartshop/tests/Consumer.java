@@ -2856,4 +2856,42 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * @author afrosean
+	 * Date:30-09-2022
+	 */
+
+	@Test(description = "178413-ADM - Admin - Consumer Summary - EDIT/Payout and close")
+	public void verifyConsumerEditAndPayoutClose() {
+		final String CASE_NUM = "178413";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		List<String> inputs = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Launch Browser and Login to ADM with Super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select menu & menu item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+
+			// create new consumer
+			foundation.waitforElementToBeVisible(ConsumerSearch.BTN_CREATE, Constants.THREE_SECOND);
+			foundation.click(ConsumerSearch.BTN_CREATE);
+			consumerSearch.createConsumerInConsumerSearch(inputs.get(0), inputs.get(1), inputs.get(2), inputs.get(3),
+					inputs.get(4), inputs.get(5));
+
+			// edit created consumer
+			consumerSearch.verifyEditConsumerAndClickOnPayoutAndClose(inputs.get(6));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
