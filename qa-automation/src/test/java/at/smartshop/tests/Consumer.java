@@ -1707,7 +1707,7 @@ public class Consumer extends TestInfra {
 			// search for consumer and verify the pay-cycle group display
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			consumerSearch.enterSearchField(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), 
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -1725,7 +1725,8 @@ public class Consumer extends TestInfra {
 			// reset pay-cycle
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			consumerSearch.enterSearchField(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),rstConsumerSearchData.get(CNConsumerSearch.STATUS) );
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
 			dropDown.selectItem(ConsumerSummary.DPD_PAY_CYCLE, paycycle.get(1), Constants.TEXT);
 			foundation.click(ConsumerSummary.BTN_SAVE);
@@ -1982,7 +1983,7 @@ public class Consumer extends TestInfra {
 			// search for consumer and verify the pay-cycle group display
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			consumerSearch.enterSearchField(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), 
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
 		} catch (Exception exc) {
@@ -1998,7 +1999,7 @@ public class Consumer extends TestInfra {
 			locationSummary.editPaycyle(location, paycycle.get(1), paycycle.get(0));
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			consumerSearch.enterSearchField(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID), 
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
 
@@ -2587,7 +2588,7 @@ public class Consumer extends TestInfra {
 			boolean isConsumerMoved = consumerSummary.moveConsumer(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			//CustomisedAssert.assertTrue(isConsumerMoved);
+			// CustomisedAssert.assertTrue(isConsumerMoved);
 
 			// reset- payout and close
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
@@ -2774,10 +2775,8 @@ public class Consumer extends TestInfra {
 //			TestInfra.failWithScreenShot(exc.toString());
 //		} 
 
-
 	/**
-	 * @author afrosean
-	 * Date:18-08-2022
+	 * @author afrosean Date:18-08-2022
 	 */
 	@Test(description = "203230-ADM > Consumer Summary > Adjust > Cancel Button")
 	public void verifyCorrectBalanceValueInPopupOnClickingAdjust() {
@@ -2803,10 +2802,55 @@ public class Consumer extends TestInfra {
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 
 			// Navigate to consumer summary page and verify existing amount
-			consumerSummary.verifyAmountInConsumerSummaryAndAdjustBalancePopup(ConsumerSummary.BTN_ADJUST, inputs.get(4));
+			consumerSummary.verifyAmountInConsumerSummaryAndAdjustBalancePopup(ConsumerSummary.BTN_ADJUST,
+					inputs.get(4));
 
 			// Navigate to consumer summary page and verify existing amount
-			consumerSummary.verifyAmountInConsumerSummaryAndAdjustBalancePopup(ConsumerSummary.PAYROLL_DEDUCT, inputs.get(5));
+			consumerSummary.verifyAmountInConsumerSummaryAndAdjustBalancePopup(ConsumerSummary.PAYROLL_DEDUCT,
+					inputs.get(5));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean Date:30-09-2022
+	 */
+	@Test(description = "178412-ADM - Admin - Consumer - Consumer Search")
+	public void verifyConsumerSearch() {
+		final String CASE_NUM = "178412";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		List<String> inputs = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Launch Browser and Login to ADM with Super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select menu & menu item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+
+			// Search with consumer by using 'Name'
+			consumerSearch.enterSearchFields(inputs.get(0), inputs.get(1), inputs.get(2), inputs.get(3));
+			consumerSearch.verifyUIRecordDataAndValue(inputs.get(4), inputs.get(1));
+
+			// Search with consumer by using 'Email'
+			consumerSearch.enterSearchFields(inputs.get(5), inputs.get(6), inputs.get(2), inputs.get(3));
+			consumerSearch.verifyUIRecordDataAndValue(inputs.get(10), inputs.get(6));
+
+			// Search with consumer by using 'ScanCode'
+			consumerSearch.enterSearchFields(inputs.get(7), inputs.get(8), inputs.get(2), inputs.get(3));
+			consumerSearch.verifyUIRecordDataAndValue(inputs.get(7), inputs.get(8));
+
+			// Search with consumer by using 'Any'
+			consumerSearch.enterSearchFields(inputs.get(9), inputs.get(1), inputs.get(2), inputs.get(3));
+			consumerSearch.verifyUIRecordDataAndValue(inputs.get(4), inputs.get(1));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

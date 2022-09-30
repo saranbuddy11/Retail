@@ -1,6 +1,7 @@
 package at.smartshop.pages;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ public class ConsumerSearch extends Factory {
 	public final static By BAL_HISTORY_SEARCH = By.id("balanceHistorySearch");
 	public final static By TXT_PIN = By.id("pin");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
+	public static final By TBL_GRID=By.xpath("//tr[@class='odd']");
 	public static final By LNK_FIRST_ROW = By.xpath("//table[@id='consumerdt']//td//a");
 	public static final By LNK_RECORD = By.xpath("//table[@id='consumerdt']//td");
 	public static final By BTN_CREATE_CONSUMER = By.id("submitBtn");
@@ -74,6 +76,9 @@ public class ConsumerSearch extends Factory {
 	public static final By BTN_EXPORT = By.id("exportBtn");
 	public static final By SCANCODE = By.cssSelector("#consumerdt>tbody>tr>td");
 	public static final By TRANSACTION_ID = By.cssSelector("[aria-describedby='balance-history_transactionId']");
+	
+	private List<String> tableHeaders = new ArrayList<>();
+	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
 
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
@@ -83,6 +88,7 @@ public class ConsumerSearch extends Factory {
 			dropdown.selectItem(DPD_LOCATION, locationName, Constants.TEXT);
 			dropdown.selectItem(DPD_STATUS, status, Constants.TEXT);
 			foundation.click(BTN_GO);
+			foundation.threadWait(Constants.THREE_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -294,6 +300,53 @@ public class ConsumerSearch extends Factory {
 		foundation.waitforElementToBeVisible(ACTION_BTN, 3);
 		String data = foundation.getText(TBL_ROW_GRID);
 		CustomisedAssert.assertTrue(data.contains(locationName));
-
+	}
+	/**
+	 * verify UI records data and values
+	 * @param colname
+	 * @param colvalue
+	 */
+	public void verifyUIRecordDataAndValue(String colname,String colvalue) {
+		Map<Integer, Map<String, String>> uiTableData = getTblRecordsUI();
+		Map<String, String> innerMap = new HashMap<>();
+		String innerValue = "";
+		for (int i = 0; i < uiTableData.size(); i++) {
+			innerMap = uiTableData.get(i);
+			innerValue = innerMap.get(colname);
+			CustomisedAssert.assertEquals(innerValue, colvalue);
+		}
+		uiTableData.clear();
+	}
+	
+	/**
+	 * get table records on UI
+	 * @return
+	 */
+	public Map<Integer, Map<String, String>> getTblRecordsUI() {
+		try {
+			int recordCount = 0;
+			tableHeaders.clear();
+			WebElement tableList = getDriver().findElement(TBL_ROW_GRID);
+			WebElement table = getDriver().findElement(TBL_CONSUMERS);
+			List<WebElement> columnHeaders = table.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> rows = tableList.findElements(By.tagName("tr"));
+			for (WebElement columnHeader : columnHeaders) {
+				tableHeaders.add(columnHeader.getText());
+			}
+			int col = tableHeaders.size();
+			for (WebElement row : rows) {
+				Map<String, String> uiTblRowValues = new LinkedHashMap<>();
+				for (int columnCount = 1; columnCount < col + 1; columnCount++) {
+					foundation.scrollIntoViewElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + columnCount + ")"));
+					uiTblRowValues.put(tableHeaders.get(columnCount - 1), column.getText());
+				}
+				tableData.put(recordCount, uiTblRowValues);
+				recordCount++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return tableData;
 	}
 }
