@@ -137,6 +137,7 @@ public class BalanceReport extends Factory {
 			reportsData.put(count, reportsdata);
 			count++;
 		}
+		System.out.println(reportsData);
 	}
 
 	/**
@@ -161,6 +162,8 @@ public class BalanceReport extends Factory {
 		int rowCount = getRowCount(scancode);
 		int coulumnCount = tableHeaders.size();
 		for (int val = 0; val < coulumnCount; val++) {
+			System.out.println(reportsData.get(rowCount).get(tableHeaders.get(val)) + "-"
+					+ initialReportsData.get(rowCount).get(tableHeaders.get(val)));
 			CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(val))
 					.contains(initialReportsData.get(rowCount).get(tableHeaders.get(val))));
 		}
@@ -202,7 +205,7 @@ public class BalanceReport extends Factory {
 	public int getRequiredRowCount(String requiredData) {
 		int count = 0;
 		for (int iter = 0; iter < initialReportsData.size(); iter++) {
-			String scancode = initialReportsData.get(iter).get(tableHeaders.get(5));
+			String scancode = initialReportsData.get(iter).get(tableHeaders.get(7));
 			if (scancode.equals(requiredData)) {
 				count = iter;
 				break;
@@ -219,9 +222,9 @@ public class BalanceReport extends Factory {
 	public void updateBalance(String requiredData) {
 		int count = getRequiredRowCount(requiredData);
 		double updatedBalance = Double
-				.parseDouble(initialReportsData.get(count).put(tableHeaders.get(3), admData.get(2)));
+				.parseDouble(initialReportsData.get(count).put(tableHeaders.get(4), admData.get(2)));
 		updatedBalance = Math.round(updatedBalance * 100.0) / 100.0;
-		initialReportsData.get(count).put(tableHeaders.get(3), String.valueOf(updatedBalance));
+		initialReportsData.get(count).put(tableHeaders.get(4), String.valueOf(updatedBalance));
 	}
 
 	public Map<String, Object> getData() {

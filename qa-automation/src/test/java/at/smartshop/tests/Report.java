@@ -6278,6 +6278,8 @@ public class Report extends TestInfra {
 					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
 
 			// Read Updated Report Data
+			textBox.enterText(BalanceReport.TXT_SEARCH, requiredData.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
 			balanceReport.readAllRecordsFromBalanceReportTable(columnName.get(2));
 
 			// Update Balance
