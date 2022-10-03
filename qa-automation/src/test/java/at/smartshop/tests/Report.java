@@ -92,6 +92,7 @@ import at.smartshop.pages.QueuedCreditTransactionsReport;
 import at.smartshop.pages.RemainingGuestPassLiability;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.SalesAnalysisReport;
+import at.smartshop.pages.SalesBy15Minutes;
 import at.smartshop.pages.SalesItemDetailsReport;
 import at.smartshop.pages.SalesSummaryAndCost;
 import at.smartshop.pages.SalesTimeDetailsByDevice;
@@ -199,6 +200,7 @@ public class Report extends TestInfra {
 	private ProductCannedReport ProductCannedReport = new ProductCannedReport();
 	private CreditTransaction creditTransaction = new CreditTransaction();
 	private CashoutLog cashOutLog = new CashoutLog();
+	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -6120,4 +6122,97 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/*
+	 * This Method is for Sales By 15 mins Report data validation 203347
+	 * 
+	 * @author ravindhara Date: -10-2022
+	 * 
+	 */
+	@Test(description = "205070-Verify the Data Validation of Sales By 15 mins Report")
+	public void salesBy15MinsReportDataValidation() {
+		try {
+			final String CASE_NUM = "205070";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			// process sales API to generate data
+			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			salesBy15Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			salesBy15Minutes.getTblRecordsUI();
+			salesBy15Minutes.getIntialData().putAll(salesBy15Minutes.getReportsData());
+			salesBy15Minutes.getUpdatedTableFooters().putAll(salesBy15Minutes.getTableFooters());
+
+			// process sales API to generate data
+			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+
+			salesBy15Minutes.getTblRecordsUI();
+
+			salesBy15Minutes.getRowCount(15);
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
+
+			// Updating Table data
+//			salesBy15Minutes.TrasactionCount(salesBy15Minutes.getTableHeaders().get(1));
+//			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(2), productPrice);
+//			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(3), discount);
+//			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(4), tax);
+//			salesBy15Minutes.saleIncludingTaxes(salesBy15Minutes.getTableHeaders().get(5), productPrice,
+//					tax, discount);
+
+//			// Updating Footer data
+//			salesBy15Minutes.TrasactionCountOfFooter(salesBy15Minutes.getTableHeaders().get(1));
+//			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(2),
+//					productPrice);
+//			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(3),
+//					discount);
+//			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(4), tax);
+//			salesBy15Minutes.saleIncludingTaxesOfFooter(salesBy15Minutes.getTableHeaders().get(5),
+//					productPrice, tax, discount);
+
+			// verify report headers
+			salesBy15Minutes.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			salesBy15Minutes.verifyReportData();
+
+			// verify report total data
+			salesBy15Minutes.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
+
