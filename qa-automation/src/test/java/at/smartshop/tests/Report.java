@@ -6257,7 +6257,7 @@ public class Report extends TestInfra {
 			foundation.click(consumerSearch.objFirstNameCell(requiredData.get(0)));
 			foundation.threadWait(Constants.SHORT_TIME);
 
-			// Read Balance from Consumer Summary page and do Adjust on Report
+			// Read Balance from Consumer Summary page and do Adjust on Consumer Balance
 			balanceReport.getADMData().add(String.valueOf(consumerSummary.getBalance()));
 			foundation.click(ConsumerSummary.BTN_ADJUST);
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -6272,6 +6272,22 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			balanceReport.getADMData().add(String.valueOf(updatedbalance));
 
+			// Read Balance of Subsidy from Consumer Summary page and do Adjust on Subsidy
+			// Balance
+			foundation.click(ConsumerSummary.BTN_SUBSIDY_ADJUST);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE));
+			balanceReport.getADMData()
+					.add(String.valueOf(foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE).replace("$", "")));
+			double updatedSubisdybalance = Double.parseDouble(balanceReport.getADMData().get(3))
+					+ Double.parseDouble(balanceReport.getADMData().get(1));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedSubisdybalance));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
+					Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			balanceReport.getADMData().add(String.valueOf(updatedSubisdybalance));
+
 			// Navigate To Report Tab and Select the Report Date range & Location, run
 			// report
 			balanceReport.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
@@ -6282,8 +6298,11 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			balanceReport.readAllRecordsFromBalanceReportTable(columnName.get(2));
 
-			// Update Balance
-			balanceReport.updateBalance(requiredData.get(1));
+			// Update Consumer Balance
+			balanceReport.updateConsumerBalance();
+
+			// Update Subsidy Balance
+			balanceReport.updateSubsidyBalance();
 
 			// Verify Report Headers
 			balanceReport.verifyReportHeaders(columnName.get(1));

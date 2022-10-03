@@ -87,6 +87,7 @@ public class BalanceReport extends Factory {
 	 */
 	public void selectAndRunReport(String menu, String reportName, String location) {
 		navigationBar.navigateToMenuItem(menu);
+		foundation.threadWait(Constants.SHORT_TIME);
 		reportList.selectReport(reportName);
 		foundation.threadWait(Constants.SHORT_TIME);
 		reportList.selectLocation(location);
@@ -137,7 +138,6 @@ public class BalanceReport extends Factory {
 			reportsData.put(count, reportsdata);
 			count++;
 		}
-		System.out.println(reportsData);
 	}
 
 	/**
@@ -162,8 +162,6 @@ public class BalanceReport extends Factory {
 		int rowCount = getRowCount(scancode);
 		int coulumnCount = tableHeaders.size();
 		for (int val = 0; val < coulumnCount; val++) {
-			System.out.println(reportsData.get(rowCount).get(tableHeaders.get(val)) + "-"
-					+ initialReportsData.get(rowCount).get(tableHeaders.get(val)));
 			CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(val))
 					.contains(initialReportsData.get(rowCount).get(tableHeaders.get(val))));
 		}
@@ -197,34 +195,29 @@ public class BalanceReport extends Factory {
 	}
 
 	/**
-	 * Get Required Row Count
-	 * 
-	 * @param requiredData
-	 * @return
+	 * Update Consumer Balance
 	 */
-	public int getRequiredRowCount(String requiredData) {
-		int count = 0;
-		for (int iter = 0; iter < initialReportsData.size(); iter++) {
-			String scancode = initialReportsData.get(iter).get(tableHeaders.get(7));
-			if (scancode.equals(requiredData)) {
-				count = iter;
-				break;
-			}
-		}
-		return count;
+	public void updateConsumerBalance() {
+		String consumerBalance = initialReportsData.get(0).get(tableHeaders.get(4));
+		consumerBalance = consumerBalance.replace("$", "").replace(",", "");
+		double balance = Double.parseDouble(consumerBalance) - Double.parseDouble(getADMData().get(1));
+		balance = Math.round(balance * 100.0) / 100.0;
+		String updatedBalance = String.valueOf(balance);
+		updatedBalance = "$" + updatedBalance.substring(0, 1) + "," + updatedBalance.substring(1, 5) + "0";
+		initialReportsData.get(0).put(tableHeaders.get(4), updatedBalance);
 	}
 
 	/**
-	 * Update Balance
-	 * 
-	 * @param requiredData
+	 * Update Subsidy Balance
 	 */
-	public void updateBalance(String requiredData) {
-		int count = getRequiredRowCount(requiredData);
-		double updatedBalance = Double
-				.parseDouble(initialReportsData.get(count).put(tableHeaders.get(4), admData.get(2)));
-		updatedBalance = Math.round(updatedBalance * 100.0) / 100.0;
-		initialReportsData.get(count).put(tableHeaders.get(4), String.valueOf(updatedBalance));
+	public void updateSubsidyBalance() {
+		String subsidyBalance = initialReportsData.get(0).get(tableHeaders.get(5));
+		subsidyBalance = subsidyBalance.replace("$", "");
+		double balance = Double.parseDouble(subsidyBalance) + Double.parseDouble(getADMData().get(1));
+		balance = Math.round(balance * 100.0) / 100.0;
+		String updatedBalance = String.valueOf(balance);
+		updatedBalance = "$" + updatedBalance + "0";
+		initialReportsData.get(0).put(tableHeaders.get(5), updatedBalance);
 	}
 
 	public Map<String, Object> getData() {
