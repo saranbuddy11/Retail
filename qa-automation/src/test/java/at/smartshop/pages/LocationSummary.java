@@ -395,6 +395,13 @@ public class LocationSummary extends Factory {
 		return By.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[" + index + "]");
 	}
 
+	public By updateMaxValueInGrid(String scancode) {
+		return By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']");
+	}
+	public By updateMinValueInGrid(String scancode) {
+		return By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_minstock']");
+	}
+	
 	public By objDeleteTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy'])[" + index + "]");
 	}
@@ -1933,6 +1940,27 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+    /**
+     * update min & max value in product grid	
+     * @param scancode
+     * @param productname
+     * @param min
+     * @param max
+     */
+	public void updateMinAndMaxValueInProductGrid(String productname,String scancode,String min) {
+		foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
+		textBox.enterText(TXT_SEARCH, productname);
+		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.THREE_SECOND);
+		textBox.enterText(updateMinValueInGrid(scancode), min);
+		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.TWO_SECOND);
+		textBox.enterText(updateMaxValueInGrid(scancode), min);
+		foundation.waitforElementToBeVisible(BTN_FULL_SYNC, Constants.THREE_SECOND);
+		foundation.click(BTN_FULL_SYNC);
+		foundation.threadWait(Constants.SHORT_TIME);
+		
+	}
 	/**
 	 * Enter the Subsidy Amount for both Subsidies
 	 * 
