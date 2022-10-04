@@ -478,6 +478,7 @@ public class GlobalProductChange extends Factory {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			foundation.click(objLocation(location));
 			foundation.waitforElementToBeVisible(GlobalProductChange.TAB_PRODUCT, 3);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.click(GlobalProductChange.TAB_PRODUCT);
 			foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2_PRODUCT, 3);
 			foundation.click(GlobalProductChange.TXT_TAX2_PRODUCT);
