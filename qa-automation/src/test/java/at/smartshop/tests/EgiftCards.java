@@ -1048,6 +1048,7 @@ public class EgiftCards extends TestInfra {
 			// Navigate to Menu Item and click Create Gift Card
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_LOCATION));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_BY_EMAIL));
 			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ADD_GIFT_CARD);
