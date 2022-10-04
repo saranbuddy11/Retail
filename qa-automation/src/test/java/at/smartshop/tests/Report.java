@@ -6164,6 +6164,8 @@ public class Report extends TestInfra {
 			salesBy15Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
+			String timePeriod = salesBy15Minutes.getTimePeroid(15);
+			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy15Minutes.getTblRecordsUI();
 			salesBy15Minutes.getIntialData().putAll(salesBy15Minutes.getReportsData());
 			salesBy15Minutes.getUpdatedTableFooters().putAll(salesBy15Minutes.getTableFooters());
@@ -6175,9 +6177,11 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 
+			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy15Minutes.getTblRecordsUI();
-
-			salesBy15Minutes.getRowCount(15);
+			
+//			salesBy15Minutes.getRowCount(15);
+			
 
 			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);

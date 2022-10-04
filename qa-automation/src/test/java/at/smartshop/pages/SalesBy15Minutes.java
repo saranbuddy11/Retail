@@ -47,6 +47,7 @@ public class SalesBy15Minutes extends Factory {
 
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE = By.cssSelector("#rptdt");
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE_GRID = By.cssSelector("#rptdt > tbody");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, String> tableFooterData = new LinkedHashMap<>();
@@ -59,6 +60,7 @@ public class SalesBy15Minutes extends Factory {
 	private int rowCount;
 	private Double totalSales;
 	private String cost;
+	private String TimeFrame;
 
 	public void verifyReportName(String reportName) {
 		try {
@@ -312,9 +314,10 @@ public class SalesBy15Minutes extends Factory {
 			}
 		}
 
-		public void getRowCount(int time) {
+		public String getTimePeroid(int time) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.REGEX_YYYY_MM_DD_HH_MM_SS);
 			LocalDateTime dateTimeFrame = LocalDateTime.parse((String) jsonData.get(Reports.TRANS_DATE), formatter);
+			System.out.println("dateTimeFrame :"+ dateTimeFrame);
 			
 //			LocalDateTime dateTimeFrame = ((LocalDateTime) );
 			LocalTime timeFrame = (dateTimeFrame.toLocalTime()).with(temp -> {
@@ -324,26 +327,33 @@ public class SalesBy15Minutes extends Factory {
 				temp = temp.with(ChronoField.MILLI_OF_SECOND, 0);
 				return temp.with(ChronoField.MINUTE_OF_DAY, interval);
 			});
-			for (int iter = 0; iter < intialData.size(); iter++) {
-				String period = intialData.get(iter).get(tableHeaders.get(0));
-				if (period.contains(String.valueOf(timeFrame))) {
-					System.out.println("rowCount : "+ rowCount);
-					break;
-				}
-				rowCount++;
-			}
+			TimeFrame = String.valueOf(timeFrame);
+			return TimeFrame;
 		}
 		
+//		public void getRowCount1(int time) {
+//			
+//			for (int iter = 0; iter < intialData.size(); iter++) {
+//				String period = intialData.get(iter).get(tableHeaders.get(0))
+//				System.out.println("period :"+ period);
+//				if (period.contains(TimeFrame)) {
+//					System.out.println("rowCount : "+ rowCount);
+//					break;
+//				}
+//				rowCount++;
+//			}
+//		}
+		
 		public void updateTransactions() {
-			int initialTransCount = Integer.parseInt(intialData.get(rowCount).get(tableHeaders.get(4)));
+			int initialTransCount = Integer.parseInt(intialData.get(0).get(tableHeaders.get(4)));
 			int updatedTransCount = initialTransCount + 1;
-			intialData.get(rowCount).put(tableHeaders.get(4), String.valueOf(updatedTransCount));
+			intialData.get(0).put(tableHeaders.get(4), String.valueOf(updatedTransCount));
 		}
 
 		public void updateData(String columnName, String value) {
-			double initialValue = Double.parseDouble(intialData.get(rowCount).get(columnName));
+			double initialValue = Double.parseDouble(intialData.get(0).get(columnName));
 			double updatedValue = initialValue + Double.parseDouble(value);
-			intialData.get(rowCount).put(columnName, String.valueOf(updatedValue));
+			intialData.get(0).put(columnName, String.valueOf(updatedValue));
 		}
 
 		/**
@@ -352,13 +362,13 @@ public class SalesBy15Minutes extends Factory {
 		public void verifyReportData() {
 			try {
 				int count = intialData.size();
-				System.out.println("reportsData : "+ reportsData.get(rowCount));
-				System.out.println("intialData : "+ intialData.get(rowCount));
+				System.out.println("reportsData : "+ reportsData);
+				System.out.println("intialData : "+ intialData);
 				foundation.threadWait(Constants.TWO_SECOND);
 //				for (int counter = 0; counter < count; counter++) {
 					for (int iter = 0; iter < tableHeaders.size(); iter++) {
-						CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
-								.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));
+						CustomisedAssert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
+								.contains(intialData.get(0).get(tableHeaders.get(iter))));
 					}
 //				}
 			} catch (Exception exc) {
