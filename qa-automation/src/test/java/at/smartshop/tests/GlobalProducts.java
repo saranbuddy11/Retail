@@ -1405,10 +1405,10 @@ public class GlobalProducts extends TestInfra {
 			// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
 			foundation.waitforElementToBeVisible(GlobalProductChange.HISTORY_BTN, 5);
 			Point coordinates = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
-			foundation.threadWait(3);
+			foundation.threadWait(5);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
-			foundation.threadWait(3);
+			foundation.threadWait(5);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getY()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1665,7 +1665,7 @@ public class GlobalProducts extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting the data
-			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
+			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 5);
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			globalProductChange.updateDepositeAndTaxField(dropdown.get(7), dropdown.get(8), dropdown.get(9));
 			navigationBar.navigateToMenuItem(menu.get(0));

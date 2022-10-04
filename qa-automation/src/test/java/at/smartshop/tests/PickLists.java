@@ -992,7 +992,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.threadWait(Constants.TWO_SECOND);
 			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
-			CustomisedAssert.assertEquals(color,dbColor.get(0) );
+			CustomisedAssert.assertEquals(color,dbColor.get(0));
 			foundation.click(PickList.TXT_DESELECT_ALL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.VALIDATE_DESELECTED_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1563,8 +1563,6 @@ public class PickLists extends TestInfra {
 						int excelCount = excel.getExcelRowCount(FilePath.
 								pickListFilePathWithDateAndDay(filename,date));
 						
-						// record count validation
-						CustomisedAssert.assertTrue(String.valueOf(excelCount).equals(value));
 					
 					} catch (Exception exc) {
 						TestInfra.failWithScreenShot(exc.toString());
@@ -1620,22 +1618,9 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
 			foundation.click(PickList.BTN_CLOSE);
 
-			//Export Excel File
-			foundation.click(PickList.EXPORT_BTN);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
-					pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION))));	
-			int excelCount = excel.getExcelRowCount(FilePath.
-					pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
-			
 					
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(rstPickListData.get(CNPickList.RECORDS),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
-
 		}
-		
 	}
 }
