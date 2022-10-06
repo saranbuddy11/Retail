@@ -82,7 +82,7 @@ public class V5TestAdmin extends TestInfra {
 		final String CASE_NUM = "205036";
 
 		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		//rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 		
 		List<String> values = Arrays
@@ -107,6 +107,8 @@ public class V5TestAdmin extends TestInfra {
 			//resetting data
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(rstLocationSummaryData.get(CNLocationSummary.COUNTRY));
 			locationSummary.updateMinAndMaxValueInProductGrid(values.get(0), values.get(3), values.get(2));
 			browser.close();		
 		}

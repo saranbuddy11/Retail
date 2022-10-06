@@ -1953,9 +1953,9 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
 		textBox.enterText(TXT_SEARCH, productname);
 		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.THREE_SECOND);
-		textBox.enterText(updateMinValueInGrid(scancode), min);
+		enterMinStock(scancode, min);
 		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.TWO_SECOND);
-		textBox.enterText(updateMaxValueInGrid(scancode), min);
+		enterMaxStock(scancode, min);
 		foundation.waitforElementToBeVisible(BTN_FULL_SYNC, Constants.THREE_SECOND);
 		foundation.click(BTN_FULL_SYNC);
 		foundation.threadWait(Constants.SHORT_TIME);
