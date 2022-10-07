@@ -6181,21 +6181,22 @@ public class Report extends TestInfra {
 			salesBy15Minutes.getTblRecordsUI();
 			
 			salesBy15Minutes.getRowCount(15);
+			salesBy15Minutes.getJsonSalesData();
 			
-
 			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
-			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
 
 			// Updating Table data
 			salesBy15Minutes.grossSales(salesBy15Minutes.getTableHeaders().get(1), productPrice, tax);
-			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(3), "0.5");
+			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(2), salesBy15Minutes.getRequiredJsonData().get(2));
+			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(3), salesBy15Minutes.getRequiredJsonData().get(0));
 			salesBy15Minutes.TrasactionCount(salesBy15Minutes.getTableHeaders().get(4));
 
 			// Updating Footer data  
 			salesBy15Minutes.grossSalesOfFooter(salesBy15Minutes.getTableHeaders().get(1), productPrice, tax);
-			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(3), "0.5");
+			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(2), salesBy15Minutes.getRequiredJsonData().get(2));
+			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(3), salesBy15Minutes.getRequiredJsonData().get(0));
 			salesBy15Minutes.TrasactionCountOfFooter(salesBy15Minutes.getTableHeaders().get(4));
 
 			// verify report headers

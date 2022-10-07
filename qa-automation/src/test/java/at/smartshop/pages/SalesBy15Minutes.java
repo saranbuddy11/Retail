@@ -213,7 +213,7 @@ public class SalesBy15Minutes extends Factory {
 				String initialAmount = intialData.get(rowCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 						Constants.EMPTY_STRING);
 				double updatedAmount = Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						* 2 + Double.parseDouble(initialAmount);
+						 + Double.parseDouble(initialAmount);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 				intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 			} catch (Exception exc) {
@@ -231,7 +231,7 @@ public class SalesBy15Minutes extends Factory {
 				String initialAmount = updatedTableFooters.get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 						Constants.EMPTY_STRING);
 				double updatedAmount = Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						* 2 + Double.parseDouble(initialAmount);
+						 + Double.parseDouble(initialAmount);
 				updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 				updatedTableFooters.put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
 			} catch (Exception exc) {
@@ -353,6 +353,16 @@ public class SalesBy15Minutes extends Factory {
 			double initialValue = Double.parseDouble(intialData.get(rowCount).get(columnName));
 			double updatedValue = initialValue + Double.parseDouble(value);
 			intialData.get(rowCount).put(columnName, String.valueOf(updatedValue));
+		}
+		
+		public void getJsonSalesData() {
+			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
+			String discount = sales.get(Reports.DISCOUNT).getAsString();
+			requiredJsonData.add(discount);
+			String total = sales.get(Reports.TOTAL).getAsString();
+			requiredJsonData.add(total);
+			String redeemed = sales.get(Reports.REDEEMED).getAsString();
+			requiredJsonData.add(redeemed);
 		}
 
 		/**
