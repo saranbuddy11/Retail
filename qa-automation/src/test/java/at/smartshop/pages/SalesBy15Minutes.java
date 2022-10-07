@@ -56,10 +56,8 @@ public class SalesBy15Minutes extends Factory {
 	private List<String> requiredJsonData = new LinkedList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
-	private Map<String, Object> data = new HashMap<>();
 	private int rowCount;
 	private Double totalSales;
-	private String cost;
 	private String TimeFrame;
 
 	public void verifyReportName(String reportName) {
@@ -194,7 +192,6 @@ public class SalesBy15Minutes extends Factory {
 						tableFooterData.put(tableHeaders.get(columnCount - 1), column.getText());
 					}
 				}
-				
 				System.out.println("tableHeaders : "+tableHeaders);
 				System.out.println("tableFooterData : "+tableFooterData);
 				System.out.println("reportsData : "+reportsData);
@@ -286,7 +283,7 @@ public class SalesBy15Minutes extends Factory {
 		}
 
 		/**
-		 * This Method is for Tansaction count
+		 * This Method is for Transaction count
 		 * @param columnName
 		 */
 		public void TrasactionCount(String columnName) {
@@ -300,7 +297,7 @@ public class SalesBy15Minutes extends Factory {
 		}
 
 		/**
-		 * This Method is for Total Tansaction count
+		 * This Method is for Total Transaction count
 		 * @param columnName
 		 */
 		public void TrasactionCountOfFooter(String columnName) {
@@ -313,12 +310,16 @@ public class SalesBy15Minutes extends Factory {
 			}
 		}
 
+		/**
+		 *  This Method is to get the Time Period
+		 * @param time
+		 * @return
+		 */
 		public String getTimePeroid(int time) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.REGEX_YYYY_MM_DD_HH_MM_SS);
 			LocalDateTime dateTimeFrame = LocalDateTime.parse((String) jsonData.get(Reports.TRANS_DATE), formatter);
 			System.out.println("dateTimeFrame :"+ dateTimeFrame);
 			
-//			LocalDateTime dateTimeFrame = ((LocalDateTime) );
 			LocalTime timeFrame = (dateTimeFrame.toLocalTime()).with(temp -> {
 				int currentMinute = temp.get(ChronoField.MINUTE_OF_DAY);
 				int interval = (currentMinute / time) * time;
@@ -330,6 +331,10 @@ public class SalesBy15Minutes extends Factory {
 			return TimeFrame;
 		}
 		
+		/**
+		 *  This Method is to get the row count
+		 * @param time
+		 */
 		public void getRowCount(int time) {
 			
 			for (int iter = 0; iter < intialData.size(); iter++) {
@@ -343,18 +348,9 @@ public class SalesBy15Minutes extends Factory {
 			}
 		}
 		
-		public void updateTransactions() {
-			int initialTransCount = Integer.parseInt(intialData.get(rowCount).get(tableHeaders.get(4)));
-			int updatedTransCount = initialTransCount + 1;
-			intialData.get(rowCount).put(tableHeaders.get(4), String.valueOf(updatedTransCount));
-		}
-
-		public void updateData(String columnName, String value) {
-			double initialValue = Double.parseDouble(intialData.get(rowCount).get(columnName));
-			double updatedValue = initialValue + Double.parseDouble(value);
-			intialData.get(rowCount).put(columnName, String.valueOf(updatedValue));
-		}
-		
+		/**
+		 *  This Method is to get the Json Sales Data
+		 */
 		public void getJsonSalesData() {
 			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
 			String discount = sales.get(Reports.DISCOUNT).getAsString();
@@ -370,16 +366,13 @@ public class SalesBy15Minutes extends Factory {
 		 */
 		public void verifyReportData() {
 			try {
-				int count = intialData.size();
 				System.out.println("reportsData : "+ reportsData);
 				System.out.println("intialData : "+ intialData);
 				foundation.threadWait(Constants.TWO_SECOND);
-//				for (int counter = 0; counter < count; counter++) {
 					for (int iter = 0; iter < tableHeaders.size(); iter++) {
 						CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
 								.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));
 					}
-//				}
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
