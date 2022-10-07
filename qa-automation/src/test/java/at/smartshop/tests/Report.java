@@ -6180,7 +6180,7 @@ public class Report extends TestInfra {
 			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy15Minutes.getTblRecordsUI();
 			
-//			salesBy15Minutes.getRowCount(15);
+			salesBy15Minutes.getRowCount(15);
 			
 
 			// update the report date based on calculation
@@ -6189,22 +6189,14 @@ public class Report extends TestInfra {
 			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
 
 			// Updating Table data
-//			salesBy15Minutes.TrasactionCount(salesBy15Minutes.getTableHeaders().get(1));
-//			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(2), productPrice);
-//			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(3), discount);
-//			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(4), tax);
-//			salesBy15Minutes.saleIncludingTaxes(salesBy15Minutes.getTableHeaders().get(5), productPrice,
-//					tax, discount);
+			salesBy15Minutes.grossSales(salesBy15Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(3), "0.5");
+			salesBy15Minutes.TrasactionCount(salesBy15Minutes.getTableHeaders().get(4));
 
-//			// Updating Footer data
-//			salesBy15Minutes.TrasactionCountOfFooter(salesBy15Minutes.getTableHeaders().get(1));
-//			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(2),
-//					productPrice);
-//			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(3),
-//					discount);
-//			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(4), tax);
-//			salesBy15Minutes.saleIncludingTaxesOfFooter(salesBy15Minutes.getTableHeaders().get(5),
-//					productPrice, tax, discount);
+			// Updating Footer data  
+			salesBy15Minutes.grossSalesOfFooter(salesBy15Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(3), "0.5");
+			salesBy15Minutes.TrasactionCountOfFooter(salesBy15Minutes.getTableHeaders().get(4));
 
 			// verify report headers
 			salesBy15Minutes.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));

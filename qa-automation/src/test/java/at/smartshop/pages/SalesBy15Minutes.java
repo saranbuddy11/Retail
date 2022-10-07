@@ -247,13 +247,12 @@ public class SalesBy15Minutes extends Factory {
 		 * @param discount
 		 * @return
 		 */
-		public double saleIncludingTaxes(String columnName, String price, String tax, String discount) {
+		public double grossSales(String columnName, String price, String tax) {
 			try {
 				String initialAmount = intialData.get(rowCount).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 						Constants.EMPTY_STRING);
 				double updatedAmount = Double.parseDouble(price.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 						* 2 + Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
-//						- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
 						+ Double.parseDouble(initialAmount);
 				totalSales = Math.round(updatedAmount * 100.0) / 100.0;
 				intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
@@ -271,7 +270,7 @@ public class SalesBy15Minutes extends Factory {
 		 * @param discount
 		 * @return
 		 */
-		public double saleIncludingTaxesOfFooter(String columnName, String price, String tax, String discount) {
+		public double grossSalesOfFooter(String columnName, String price, String tax) {
 			try {
 				String initialAmount = updatedTableFooters.get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 						Constants.EMPTY_STRING);
@@ -331,29 +330,29 @@ public class SalesBy15Minutes extends Factory {
 			return TimeFrame;
 		}
 		
-//		public void getRowCount1(int time) {
-//			
-//			for (int iter = 0; iter < intialData.size(); iter++) {
-//				String period = intialData.get(iter).get(tableHeaders.get(0))
-//				System.out.println("period :"+ period);
-//				if (period.contains(TimeFrame)) {
-//					System.out.println("rowCount : "+ rowCount);
-//					break;
-//				}
-//				rowCount++;
-//			}
-//		}
+		public void getRowCount(int time) {
+			
+			for (int iter = 0; iter < intialData.size(); iter++) {
+				String period = intialData.get(iter).get(tableHeaders.get(0));
+				System.out.println("period :"+ period);
+				if (period.contains(TimeFrame)) {
+					System.out.println("rowCount : "+ rowCount);
+					break;
+				}
+				rowCount++;
+			}
+		}
 		
 		public void updateTransactions() {
-			int initialTransCount = Integer.parseInt(intialData.get(0).get(tableHeaders.get(4)));
+			int initialTransCount = Integer.parseInt(intialData.get(rowCount).get(tableHeaders.get(4)));
 			int updatedTransCount = initialTransCount + 1;
-			intialData.get(0).put(tableHeaders.get(4), String.valueOf(updatedTransCount));
+			intialData.get(rowCount).put(tableHeaders.get(4), String.valueOf(updatedTransCount));
 		}
 
 		public void updateData(String columnName, String value) {
-			double initialValue = Double.parseDouble(intialData.get(0).get(columnName));
+			double initialValue = Double.parseDouble(intialData.get(rowCount).get(columnName));
 			double updatedValue = initialValue + Double.parseDouble(value);
-			intialData.get(0).put(columnName, String.valueOf(updatedValue));
+			intialData.get(rowCount).put(columnName, String.valueOf(updatedValue));
 		}
 
 		/**
@@ -367,8 +366,8 @@ public class SalesBy15Minutes extends Factory {
 				foundation.threadWait(Constants.TWO_SECOND);
 //				for (int counter = 0; counter < count; counter++) {
 					for (int iter = 0; iter < tableHeaders.size(); iter++) {
-						CustomisedAssert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
-								.contains(intialData.get(0).get(tableHeaders.get(iter))));
+						CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
+								.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));
 					}
 //				}
 			} catch (Exception exc) {
