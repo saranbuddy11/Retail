@@ -47,7 +47,7 @@ public class SalesBy15Minutes extends Factory {
 
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE = By.cssSelector("#rptdt");
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE_GRID = By.cssSelector("#rptdt > tbody");
-	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
+	public static final By TXT_SEARCH = By.xpath("//input[@aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, String> tableFooterData = new LinkedHashMap<>();
@@ -312,9 +312,10 @@ public class SalesBy15Minutes extends Factory {
 		 * @param time
 		 * @return
 		 */
-		public String getTimePeroid(int time) {
+		public String getTimePeroid(String timePeriod) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.REGEX_YYYY_MM_DD_HH_MM_SS);
 			LocalDateTime dateTimeFrame = LocalDateTime.parse((String) jsonData.get(Reports.TRANS_DATE), formatter);
+			int time = Integer.parseInt(timePeriod);
 			
 			LocalTime timeFrame = (dateTimeFrame.toLocalTime()).with(temp -> {
 				int currentMinute = temp.get(ChronoField.MINUTE_OF_DAY);

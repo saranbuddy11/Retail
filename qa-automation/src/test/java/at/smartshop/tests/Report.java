@@ -6369,7 +6369,7 @@ public class Report extends TestInfra {
 			salesBy15Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
-			String timePeriod = salesBy15Minutes.getTimePeroid(15);
+			String timePeriod = salesBy15Minutes.getTimePeroid(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy15Minutes.getTblRecordsUI();
 			salesBy15Minutes.getIntialData().putAll(salesBy15Minutes.getReportsData());
