@@ -329,10 +329,9 @@ public class SalesBy15Minutes extends Factory {
 		}
 		
 		/**
-		 *  This Method is to get the row count
-		 * @param time
+		 *  This Method is to get the row count\
 		 */
-		public void getRowCount(String time) {
+		public void getRowCount() {
 			
 			for (int iter = 0; iter < intialData.size(); iter++) {
 				String period = intialData.get(iter).get(tableHeaders.get(0));

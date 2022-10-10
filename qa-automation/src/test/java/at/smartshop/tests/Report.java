@@ -95,6 +95,7 @@ import at.smartshop.pages.RemainingGuestPassLiability;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.SalesAnalysisReport;
 import at.smartshop.pages.SalesBy15Minutes;
+import at.smartshop.pages.SalesBy30Minutes;
 import at.smartshop.pages.SalesItemDetailsReport;
 import at.smartshop.pages.SalesSummaryAndCost;
 import at.smartshop.pages.SalesTimeDetailsByDevice;
@@ -202,9 +203,10 @@ public class Report extends TestInfra {
 	private ProductCannedReport ProductCannedReport = new ProductCannedReport();
 	private CreditTransaction creditTransaction = new CreditTransaction();
 	private CashoutLog cashOutLog = new CashoutLog();
-	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
 	private AccountProfitability accountProfitability = new AccountProfitability();
 	private FinancialCanned financialCanned = new FinancialCanned();
+	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
+	private SalesBy30Minutes salesBy30Minutes = new SalesBy30Minutes();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -6385,7 +6387,7 @@ public class Report extends TestInfra {
 			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy15Minutes.getTblRecordsUI();
 			
-			salesBy15Minutes.getRowCount(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			salesBy15Minutes.getRowCount();
 			salesBy15Minutes.getJsonSalesData();
 			
 			// update the report date based on calculation
@@ -6412,6 +6414,96 @@ public class Report extends TestInfra {
 
 			// verify report total data
 			salesBy15Minutes.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/*
+	 * This Method is for Sales By 30 mins Report data validation 
+	 * 
+	 * @author ravindhara Date: 10-10-2022
+	 * 
+	 */
+	@Test(description = "206144-Verify the Data Validation of Sales By 30 mins Report")
+	public void salesBy30MinsReportDataValidation() {
+		try {
+			final String CASE_NUM = "206144";
+			
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			// process sales API to generate data
+			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			salesBy30Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			String timePeriod = salesBy30Minutes.getTimePeroid(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
+			salesBy30Minutes.getTblRecordsUI();
+			salesBy30Minutes.getIntialData().putAll(salesBy30Minutes.getReportsData());
+			salesBy30Minutes.getUpdatedTableFooters().putAll(salesBy30Minutes.getTableFooters());
+
+			// process sales API to generate data
+			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+
+			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
+			salesBy30Minutes.getTblRecordsUI();
+			
+			salesBy30Minutes.getRowCount();
+			salesBy30Minutes.getJsonSalesData();
+			
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+
+			// Updating Table data
+			salesBy30Minutes.grossSales(salesBy30Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(2), salesBy30Minutes.getRequiredJsonData().get(2));
+			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(3), salesBy30Minutes.getRequiredJsonData().get(0));
+			salesBy30Minutes.TrasactionCount(salesBy30Minutes.getTableHeaders().get(4));
+
+			// Updating Footer data  
+			salesBy30Minutes.grossSalesOfFooter(salesBy30Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(2), salesBy30Minutes.getRequiredJsonData().get(2));
+			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(3), salesBy30Minutes.getRequiredJsonData().get(0));
+			salesBy30Minutes.TrasactionCountOfFooter(salesBy30Minutes.getTableHeaders().get(4));
+
+			// verify report headers
+			salesBy30Minutes.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			salesBy30Minutes.verifyReportData();
+
+			// verify report total data
+			salesBy30Minutes.verifyReportFootertData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
