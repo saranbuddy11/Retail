@@ -2254,7 +2254,7 @@ public class LocationSummary extends Factory {
 		textBox.enterText(ProductSummary.PRICE_FIELD, price);
 		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
 		foundation.click(ProductSummary.BTN_SAVE);
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.EXTRA_LONG_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 
 	}
