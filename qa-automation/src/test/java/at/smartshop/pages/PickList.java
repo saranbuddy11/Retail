@@ -624,7 +624,7 @@ public class PickList extends Factory {
 	}
 
 	/**
-	 * Select location from location filter,apply and click on plan picklist
+	 * Select location from location filter,apply and click on plan pickList
 	 * 
 	 * @param location
 	 */
@@ -659,7 +659,7 @@ public class PickList extends Factory {
 	}
 	
 	/**
-	 * Select location from location filter,apply and click on plan picklist
+	 * Select location from location filter,apply and click on plan pickList
 	 * 
 	 * @param location
 	 */
