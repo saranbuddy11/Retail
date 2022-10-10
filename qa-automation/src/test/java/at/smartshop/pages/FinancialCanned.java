@@ -181,7 +181,6 @@ public class FinancialCanned extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : " + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -193,7 +192,6 @@ public class FinancialCanned extends Factory {
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(0)).equals(productName)) {
 					recordCount = rowCount;
-					System.out.println(rowCount);
 					break;
 				}
 			}
@@ -284,10 +282,8 @@ public class FinancialCanned extends Factory {
 	public void updateLastYearAmount(String columnName) {
 		String lastYearofYearAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		System.out.println(" oldSalesAmount :" +lastYearofYearAmount);
 		String salesAmount = intialData.get(0).get(getTableHeaders().get(1)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		System.out.println(" salesAmount :" +salesAmount);
 		double lastYearAmount = (Double.parseDouble(salesAmount)
 				- (Double.parseDouble(lastYearofYearAmount)+Double.parseDouble(salesAmount))-(3.66));
 		lastYearAmount = Math.round(lastYearAmount * 100.0) / 100.0;
@@ -297,7 +293,6 @@ public class FinancialCanned extends Factory {
 	public void updateLastYearPercent(String columnName) {
 		String lastYearofYearAmount = intialData.get(0).get(getTableHeaders().get(11)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		System.out.println(" LastYearofYearAmount :" +lastYearofYearAmount);
 		String salesAmount = intialData.get(0).get(getTableHeaders().get(1)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 			double lastYearPercent = (Double.parseDouble(salesAmount)
@@ -378,13 +373,6 @@ public class FinancialCanned extends Factory {
 		double amountPercent = Math.round(percent * 100.0) / 100.0;
 		String percentValue = String.valueOf(amountPercent);
 		intialData.get(recordCount).put(columnName, percentValue);
-		
-//		DecimalFormat df = new DecimalFormat("#,###");
-//		df.setRoundingMode(RoundingMode.FLOOR);
-//		String result = df.format(percent);
-//		intialData.get(recordCount).put(columnName, String.valueOf(result));
-//		System.out.println("result : " + result);
-		System.out.println("percentValue : " + percentValue);
 		return percentValue;
 	}
 
@@ -405,13 +393,10 @@ public class FinancialCanned extends Factory {
 	 */
 	public void verifyReportData() {
 		try {
-			System.out.println("reportsData :" + reportsData);
-			System.out.println("intialData :" + intialData);
 			foundation.threadWait(Constants.TWO_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
 						.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
-				System.out.println("iter : " + iter);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -426,8 +411,6 @@ public class FinancialCanned extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("columnName :" + columnName);
-			System.out.println("tableHeaders :" + tableHeaders);
 			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));

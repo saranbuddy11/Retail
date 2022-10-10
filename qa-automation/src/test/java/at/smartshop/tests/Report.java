@@ -6144,7 +6144,6 @@ public class Report extends TestInfra {
 
 			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
 			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
-			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
 			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
 
 			List<String> menu = Arrays
@@ -6166,7 +6165,6 @@ public class Report extends TestInfra {
 			// Read the Report the Data
 			financialCanned.getTblRecordsUI();
 			financialCanned.getIntialData().putAll(financialCanned.getReportsData());
-			System.out.println(financialCanned.getIntialData());
 
 			List<String> reason = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
