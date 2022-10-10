@@ -554,6 +554,7 @@ public class V5TestLocation extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(6), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			categoryList.selectCategory(requiredData.get(1));
 			categorySummary.updateName(requiredData.get(0));

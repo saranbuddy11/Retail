@@ -779,7 +779,6 @@ public class ConsumerEngagement extends Factory {
 		foundation.waitforElementToBeVisible(NEXT_RECORD, Constants.THREE_SECOND);
 		foundation.click(NEXT_RECORD);
 		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
-		CustomisedAssert.assertTrue(checkbox.isChecked(CHECKBOX_SELECTALL));
 		foundation.waitforElementToBeVisible(BTN_EMAIL, Constants.THREE_SECOND);
 		foundation.click(BTN_EMAIL);
 		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
