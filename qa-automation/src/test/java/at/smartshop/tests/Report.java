@@ -201,8 +201,6 @@ public class Report extends TestInfra {
 	private CreditTransaction creditTransaction = new CreditTransaction();
 	private CashoutLog cashOutLog = new CashoutLog();
 	private AccountProfitability accountProfitability = new AccountProfitability();
-	
-	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -6124,7 +6122,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * This Method is for Account Profitability Report Data Validation
 	 * 
@@ -6145,9 +6143,6 @@ public class Report extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-//			// process sales API to generate data
-//			accountProfitability.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
@@ -6183,12 +6178,6 @@ public class Report extends TestInfra {
 			accountProfitability.calculateTax(accountProfitability.getTableHeaders().get(2), tax);
 			accountProfitability.calculateDeposit(accountProfitability.getTableHeaders().get(3), deposit);
 			accountProfitability.calculateNetSales(accountProfitability.getTableHeaders().get(4));
-			
-			
-//			accountProfitability.updateData(accountProfitability.getTableHeaders().get(1), scanCode);
-//			accountProfitability.updateData(accountProfitability.getTableHeaders().get(2), userKey);
-//			accountProfitability.saleCount(accountProfitability.getTableHeaders().get(6));
-//			accountProfitability.calculateAmount(accountProfitability.getTableHeaders().get(7), productPrice, tax);
 
 			// verify report headers
 			accountProfitability.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
