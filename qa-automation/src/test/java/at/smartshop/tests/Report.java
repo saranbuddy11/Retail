@@ -36,6 +36,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
 import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
+import at.smartshop.pages.AccountProfitability;
 import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BillingInformationReport;
@@ -200,6 +201,7 @@ public class Report extends TestInfra {
 	private ProductCannedReport ProductCannedReport = new ProductCannedReport();
 	private CreditTransaction creditTransaction = new CreditTransaction();
 	private CashoutLog cashOutLog = new CashoutLog();
+	private AccountProfitability accountProfitability = new AccountProfitability();
 	private FinancialCanned financialCanned = new FinancialCanned();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -6124,14 +6126,15 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * This Method is for Financial Canned Report Data Validation 204450
+	 * This Method is for Account Profitability Report Data Validation
 	 * 
-	 * @author ravindhara Date: 29-09-2022
+	 * @author ravindhara Date: 22-07-2022
 	 */
-	@Test(description = "203570-Verify the Data Validation of Financial Canned Report")
-	public void financialCannedReportDataValidation() {
+	@Test(description = "205004-Verify the Data Validation of Account Profitability Report 198531")
+	public void AccountProfitabilityReportDataValidation() {
 		try {
-			final String CASE_NUM = "203570";
+			final String CASE_NUM = "205004";
+			
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -6140,6 +6143,74 @@ public class Report extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			
+			accountProfitability.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			accountProfitability.getTblRecordsUI();
+			accountProfitability.getIntialData().putAll(accountProfitability.getReportsData());
+
+			// process sales API to generate data
+			accountProfitability.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			accountProfitability.getTblRecordsUI();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
+
+			accountProfitability.updateData(accountProfitability.getTableHeaders().get(0), location);
+			accountProfitability.calculateAmount(accountProfitability.getTableHeaders().get(1), productPrice, tax);
+			accountProfitability.calculateTax(accountProfitability.getTableHeaders().get(2), tax);
+			accountProfitability.calculateDeposit(accountProfitability.getTableHeaders().get(3), deposit);
+			accountProfitability.calculateNetSales(accountProfitability.getTableHeaders().get(4));
+
+			// verify report headers
+			accountProfitability.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			accountProfitability.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Financial Canned Report Data Validation 204450
+	 * 
+	 * @author ravindhara Date: 29-09-2022
+	 */
+	@Test(description = "203570-Verify the Data Validation of Financial Canned Report")
+	public void financialCannedReportDataValidation() {
+		try {
+			final String CASE_NUM = "203570";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
 			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
@@ -6149,17 +6220,20 @@ public class Report extends TestInfra {
 			List<String> menu = Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 
+
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select the Report Date range and Location and run report
 			navigationBar.navigateToMenuItem(menu.get(1));
 			reportList.selectReport(reportName);
+
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(location);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
 			financialCanned.verifyReportName(reportName);
 
 			// Read the Report the Data
