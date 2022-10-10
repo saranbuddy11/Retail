@@ -6126,7 +6126,7 @@ public class Report extends TestInfra {
 	/*
 	 * This Method is for Sales By 15 mins Report data validation 203347
 	 * 
-	 * @author ravindhara Date: -10-2022
+	 * @author ravindhara Date: 06-10-2022
 	 * 
 	 */
 	@Test(description = "205070-Verify the Data Validation of Sales By 15 mins Report")
@@ -6180,7 +6180,7 @@ public class Report extends TestInfra {
 			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy15Minutes.getTblRecordsUI();
 			
-			salesBy15Minutes.getRowCount(15);
+			salesBy15Minutes.getRowCount(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			salesBy15Minutes.getJsonSalesData();
 			
 			// update the report date based on calculation

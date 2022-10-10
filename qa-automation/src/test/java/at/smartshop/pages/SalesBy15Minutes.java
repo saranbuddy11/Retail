@@ -192,9 +192,6 @@ public class SalesBy15Minutes extends Factory {
 						tableFooterData.put(tableHeaders.get(columnCount - 1), column.getText());
 					}
 				}
-				System.out.println("tableHeaders : "+tableHeaders);
-				System.out.println("tableFooterData : "+tableFooterData);
-				System.out.println("reportsData : "+reportsData);
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
@@ -318,7 +315,6 @@ public class SalesBy15Minutes extends Factory {
 		public String getTimePeroid(int time) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.REGEX_YYYY_MM_DD_HH_MM_SS);
 			LocalDateTime dateTimeFrame = LocalDateTime.parse((String) jsonData.get(Reports.TRANS_DATE), formatter);
-			System.out.println("dateTimeFrame :"+ dateTimeFrame);
 			
 			LocalTime timeFrame = (dateTimeFrame.toLocalTime()).with(temp -> {
 				int currentMinute = temp.get(ChronoField.MINUTE_OF_DAY);
@@ -335,13 +331,11 @@ public class SalesBy15Minutes extends Factory {
 		 *  This Method is to get the row count
 		 * @param time
 		 */
-		public void getRowCount(int time) {
+		public void getRowCount(String time) {
 			
 			for (int iter = 0; iter < intialData.size(); iter++) {
 				String period = intialData.get(iter).get(tableHeaders.get(0));
-				System.out.println("period :"+ period);
 				if (period.contains(TimeFrame)) {
-					System.out.println("rowCount : "+ rowCount);
 					break;
 				}
 				rowCount++;
@@ -366,8 +360,6 @@ public class SalesBy15Minutes extends Factory {
 		 */
 		public void verifyReportData() {
 			try {
-				System.out.println("reportsData : "+ reportsData);
-				System.out.println("intialData : "+ intialData);
 				foundation.threadWait(Constants.TWO_SECOND);
 					for (int iter = 0; iter < tableHeaders.size(); iter++) {
 						CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
@@ -384,8 +376,6 @@ public class SalesBy15Minutes extends Factory {
 		public void verifyReportHeaders(String columnNames) {
 			try {
 				List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-				System.out.println("columnName : "+ columnName);
-				System.out.println("tableHeaders : "+ tableHeaders);
 				foundation.threadWait(Constants.ONE_SECOND);
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
@@ -401,8 +391,6 @@ public class SalesBy15Minutes extends Factory {
 		public void verifyReportFootertData() {
 			try {
 				foundation.threadWait(Constants.TWO_SECOND);
-				System.out.println("tableFooterData : "+ tableFooterData);
-				System.out.println("updatedTableFooters : "+ updatedTableFooters);
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(tableFooterData.get(tableHeaders.get(iter))
 							.contains(updatedTableFooters.get(tableHeaders.get(iter))));
