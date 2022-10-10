@@ -52,6 +52,8 @@ public class LocationSummary extends Factory {
 	public static final By DLG_COLUMN_CHOOSER = By.id("productDataGrid_hiding_modalDialog_content");
 	public static final By DLG_PRODUCT_COLUMN_CHOOSER_FOOTER = By.id("productDataGrid_hiding_modalDialog_footer");
 	public static final By BTN_CLOSE_PRODUCT = By.id("previewcancel");
+	public static final By DPD_THEME = By.id("cssfile");
+	public static final By TXT_MARKET_LENGTH = By.id("mkcidlength");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
@@ -398,10 +400,11 @@ public class LocationSummary extends Factory {
 	public By updateMaxValueInGrid(String scancode) {
 		return By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_maxstock']");
 	}
+
 	public By updateMinValueInGrid(String scancode) {
 		return By.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='productDataGrid_minstock']");
 	}
-	
+
 	public By objDeleteTopOffSubsidy(int index) {
 		return By.xpath("(//i[@class='fa fa-minus-circle fa-2x danger-color delBtnSubsidy'])[" + index + "]");
 	}
@@ -1496,7 +1499,7 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.EXTRA_LONG_TIME);
 		textBox.enterText(TXT_PRODUCT_FILTER, productName);
 		foundation.threadWait(5);
-		//CustomisedAssert.assertTrue(foundation.getText(PRODUCT_NAME).equals(productName));
+		// CustomisedAssert.assertTrue(foundation.getText(PRODUCT_NAME).equals(productName));
 		foundation.WaitForAjax(10000);
 		// CustomisedAssert.assertTrue(foundation.getText(PRODUCT_NAME).equals(productName));
 		foundation.click(PRODUCT_NAME);
@@ -1940,14 +1943,15 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
-    /**
-     * update min & max value in product grid	
-     * @param scancode
-     * @param productname
-     * @param min
-     * @param max
-     */
-	public void updateMinAndMaxValueInProductGrid(String productname,String scancode,String min) {
+	/**
+	 * update min & max value in product grid
+	 * 
+	 * @param scancode
+	 * @param productname
+	 * @param min
+	 * @param max
+	 */
+	public void updateMinAndMaxValueInProductGrid(String productname, String scancode, String min) {
 		foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.TAB_PRODUCTS);
 		foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
@@ -1959,8 +1963,9 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(BTN_FULL_SYNC, Constants.THREE_SECOND);
 		foundation.click(BTN_FULL_SYNC);
 		foundation.threadWait(Constants.SHORT_TIME);
-		
+
 	}
+
 	/**
 	 * Enter the Subsidy Amount for both Subsidies
 	 * 
@@ -2001,6 +2006,25 @@ public class LocationSummary extends Factory {
 		dropDown.selectItem(DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
 		textBox.enterText(TXT_TOP_OFF_AMOUNT, amount);
 		foundation.click(BTN_SAVE);
+	}
+
+	/**
+	 * change special type, theme and market card edit 
+	 * @param dropdown
+	 * @param market
+	 * @param marketlenght
+	 */
+	public void changeSpecialTypeThemeMarketCardEdit(String dropdown, String dpd,String market, String marketlenght) {
+		foundation.waitforElementToBeVisible(DPD_SPECIAL_TYPE, Constants.THREE_SECOND);
+		dropDown.selectItem(DPD_SPECIAL_TYPE, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(DPD_THEME, Constants.THREE_SECOND);
+		dropDown.selectItem(DPD_THEME, dpd, Constants.TEXT);
+		foundation.waitforElementToBeVisible(DPP_MARKET_CARD, Constants.THREE_SECOND);
+		dropDown.selectItem(DPP_MARKET_CARD, market, Constants.TEXT);
+		textBox.enterText(TXT_MARKET_LENGTH, marketlenght);
+		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -2337,12 +2361,12 @@ public class LocationSummary extends Factory {
 		foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 		foundation.waitforElementToBeVisible(LocationSummary.TAB_PRODUCTS, 3);
 		foundation.click(LocationSummary.TAB_PRODUCTS);
-		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER,Constants.SHORT_TIME);
-		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER,3);
-	    textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
-	    foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE,5);
-	    foundation.getText(LocationSummary.COL_PRICE);
-	    		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER, Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER, 3);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+		foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE, 5);
+		foundation.getText(LocationSummary.COL_PRICE);
+		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER, Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(LocationSummary.TXT_PRODUCT_FILTER, 3);
 		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);

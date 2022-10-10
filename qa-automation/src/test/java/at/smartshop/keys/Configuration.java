@@ -20,6 +20,7 @@ public class Configuration {
 	public static final String CURRENT_ROLE = "current_role";
 	public static final String CURRENT_PASS = "current_pass";
 	public static final String DEVICE_ID = "device_id";
+	public static final String USCONNECT= "usconnect";
 	public static final String NATIONAL_ACCOUNT_USER = "NationalAccountUser";
 	public static final String MASTER_NATIONAL_ACCOUNT_USER = "MasterNAUser";
 	public static final String DRIVER = "driver";

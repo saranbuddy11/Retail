@@ -47,6 +47,7 @@ public class ConsumerSearch extends Factory {
 	public static final By TBL_ROW_GRID = By.cssSelector("#consumerdt > tbody");
 	public static final By BTN_OK = By.xpath("//button[text()='Ok']");
 	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
+	public static final By TXT_NO_CONSUMER_FOUND=By.xpath("//td[@class='dataTables_empty']");
 	public static final By TBL_ROW = By.xpath("//*[@id='consumerdt']/tbody/tr[@class='odd']");
 	public static final By BTN_CONFIRM = By.xpath("//button[text()='Confirm']");
 	public static final By BTN_CREATE_OR_INVITE = By.id("submitBtn");
@@ -244,6 +245,7 @@ public class ConsumerSearch extends Factory {
 	 */
 	public void createConsumerInConsumerSearch(String location, String firstname, String lastname, String emailID,
 			String scanID, String pin) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 		textBox.enterText(TXT_FIRST_NAME, firstname);
 		textBox.enterText(TXT_LAST_NAME, lastname);
@@ -253,6 +255,20 @@ public class ConsumerSearch extends Factory {
 		foundation.click(BTN_CREATE_OR_INVITE);
 		foundation.WaitForAjax(Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.SHORT_TIME);
+	}
+	
+	/**
+	 * verify Adjust Button in consumer Summary
+	 */
+	public void verifyAdjustButtonInConsumerSummary() {
+		foundation.waitforElementToBeVisible(BTN_ADJUST, Constants.THREE_SECOND);
+		CustomisedAssert.assertFalse(foundation.isDisplayed(BTN_ADJUST));
+		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_PAYOUT_CLOSE, Constants.THREE_SECOND);
+		foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
+		foundation.alertAccept();
+        foundation.threadWait(Constants.SHORT_TIME);
+		
+		
 	}
 
 	/**

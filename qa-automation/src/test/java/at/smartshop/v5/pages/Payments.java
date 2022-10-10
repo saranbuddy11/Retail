@@ -29,6 +29,7 @@ public class Payments {
 	public static final By EMAIL_LOGIN_TXT = By.id("emailLoginInput");
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
+	public static final By BTN_TAB=By.xpath("//div[@data-reactid='.0.0.0.0.0']");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
@@ -54,7 +55,7 @@ public class Payments {
 	 * @param orderpage
 	 * @param payment
 	 */
-	public void launchV5DeviceAndDoransaction(String product,String email,String pin,String orderpage,String payment) {
+	public void launchV5DeviceAndDoTransaction(String product,String email,String pin,String orderpage,String payment) {
 		foundation.threadWait(Constants.THREE_SECOND);
 		browser.launch(Constants.REMOTE, Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -82,4 +83,15 @@ public class Payments {
 		browser.close();
 	}
 
+//	public void launchV5DeviceAnd(String product,String email,String pin,String orderpage,String payment) {
+//		foundation.threadWait(Constants.THREE_SECOND);
+//		browser.launch(Constants.REMOTE, Constants.CHROME);
+//		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+//		foundation.doubleClick(BTN_TAB);
+//		foundation.doubleClick(BTN_TAB);
+//		foundation.click(BTN_TAB);
+//		
+//	}
+	
 }

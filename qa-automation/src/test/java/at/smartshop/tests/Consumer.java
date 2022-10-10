@@ -57,6 +57,7 @@ public class Consumer extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private LocationSummary locationSummary = new LocationSummary();
 	private DataSourceManager datasourcemanager = new DataSourceManager();
+	private OrgSummary orgSummary=new OrgSummary();
 	// private Excel excel = new Excel();
 	private ConsumerMove consumerMove = new ConsumerMove();
 	private CreateLocation createLocation = new CreateLocation();
@@ -2818,7 +2819,7 @@ public class Consumer extends TestInfra {
 	 * @author afrosean Date:30-09-2022
 	 */
 	@Test(description = "178412-ADM - Admin - Consumer - Consumer Search")
-	public void verifyConsumerSearch() {
+	public void verifyConsumerSearchUsingNameEmailScanCodeAndAny() {
 		final String CASE_NUM = "178412";
 
 		// Reading test data from DataBase
@@ -2856,10 +2857,9 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-	 * @author afrosean
-	 * Date:30-09-2022
+	 * @author afrosean Date:30-09-2022
 	 */
 
 	@Test(description = "178413-ADM - Admin - Consumer Summary - EDIT/Payout and close")
@@ -2890,8 +2890,70 @@ public class Consumer extends TestInfra {
 			// edit created consumer
 			consumerSearch.verifyEditConsumerAndClickOnPayoutAndClose(inputs.get(6));
 
+			// Search with same user
+			consumerSearch.enterSearchField(inputs.get(7), inputs.get(1), inputs.get(8));
+
+			// verify consumer not there
+			String text = foundation.getText(ConsumerSearch.TXT_NO_CONSUMER_FOUND);
+			CustomisedAssert.assertEquals(text, inputs.get(9));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean
+	 * Date:10-10-2022
+	 */
+	@Test(description = "206162-ADM > Consumer > Verify hiding the adjust button for balances of USC consumer account")
+	public void verifyAdjustLinkHiddenInConsumerSummaryWhenUSConnectSelected() {
+		final String CASE_NUM = "206162";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> inputs = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.NAME).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Launch Browser and Login to ADM with Super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.USCONNECT, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select menu & menu item
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+			
+			//Change Special type "US Connect"
+			orgSummary.changeSpecialType(inputs.get(0));
+			
+			//Location summary Change in Special type , Theme And Market card edit
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(inputs.get(3));
+			locationSummary.changeSpecialTypeThemeMarketCardEdit(inputs.get(0),inputs.get(0), inputs.get(1), inputs.get(2));
+			
+			//Navigate to Admin > Consumer and create consumer
+			navigationBar.navigateToMenuItem(menu.get(2));
+			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
+			consumerSearch.createConsumerInConsumerSearch(inputs.get(3), inputs.get(4), inputs.get(5), inputs.get(6), inputs.get(7), inputs.get(8));
+			consumerSearch.verifyAdjustButtonInConsumerSummary();		
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//Resetting the data in location summary
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationList.selectLocationName(inputs.get(3));
+			locationSummary.changeSpecialTypeThemeMarketCardEdit(inputs.get(9),inputs.get(10), inputs.get(11), inputs.get(12));
+			
+			//change special type in orgsummary
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+			orgSummary.changeSpecialType(inputs.get(9));
+			
+			
 		}
 	}
 }
