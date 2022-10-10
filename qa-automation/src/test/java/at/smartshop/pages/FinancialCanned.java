@@ -393,6 +393,8 @@ public class FinancialCanned extends Factory {
 	 */
 	public void verifyReportData() {
 		try {
+			System.out.println("intialData :" + intialData);
+			System.out.println("reportsData :" + reportsData);
 			foundation.threadWait(Constants.TWO_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
