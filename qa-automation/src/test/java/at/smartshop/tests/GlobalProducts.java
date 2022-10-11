@@ -842,12 +842,13 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertEquals(value, pickList.get(0));
 			value = foundation.getText(globalProduct.selectProductLoyaltyMultiplier(location.get(0)));
 			CustomisedAssert.assertEquals(value, price.get(0));
-			foundation.threadWait(5);
+			foundation.threadWait(3);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting Product data
 			navigationBar.navigateToMenuItem(menus.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			foundation.click(globalProductChange.objLocation(location.get(0)));
 			foundation.click(globalProductChange.objLocation(location.get(1)));
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_LOCATION_APPLY);
@@ -1660,6 +1661,7 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.verifyRecordData(dropdown.get(10), dropdown.get(11));
 			globalProductChange.verifyRecordData(dropdown.get(14), dropdown.get(12));
 			globalProductChange.verifyRecordData(dropdown.get(15), dropdown.get(13));
+			foundation.threadWait(5);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
