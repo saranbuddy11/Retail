@@ -672,7 +672,7 @@ public class ReportsSmokeTest extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOFUND_LOC,
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			List<String> dateRange_Data = Arrays
