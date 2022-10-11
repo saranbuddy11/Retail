@@ -430,7 +430,8 @@ public class PickList extends Factory {
 		foundation.click(DATA_GRID_DRIVER);
 		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
 		foundation.click(DPD_DRIVER);
-		foundation.threadWait(3);
+		foundation.threadWait(5);
+		foundation.waitforElementToBeVisible(DPD_DRIVERS, 5);
 		foundation.click(DPD_DRIVERS);
 		foundation.threadWait(5);
 		for (int i = 0; i <= list.size() - 1; i++) {
