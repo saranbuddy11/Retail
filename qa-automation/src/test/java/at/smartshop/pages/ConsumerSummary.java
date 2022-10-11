@@ -330,6 +330,7 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSearch.CLEAR_SEARCH);
 		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(ConsumerSearch.TXT_SEARCH, Search);
+		foundation.threadWait(Constants.THREE_SECOND);
 		dropdown.selectItem(ConsumerSearch.DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
