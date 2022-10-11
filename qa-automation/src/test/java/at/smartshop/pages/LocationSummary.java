@@ -2524,5 +2524,17 @@ public class LocationSummary extends Factory {
 	CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 	
 	}
-
+	/*
+	 *Select Location and Device
+	 * @param locationName
+	 * @param deviceName
+	 *  
+	 */
+	public void selectLocationAndDevice(String locationName, String deviceName) {
+		locationList.selectLocationName(locationName);
+		CustomisedAssert.assertTrue(foundation.getText(LBL_LOCATION_SUMMARY).contains(locationName));
+		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
+		selectDeviceName(deviceName);
+	}
 }

@@ -73,6 +73,7 @@ public class Location extends TestInfra {
 	private Strings string = new Strings();
 	private Excel excel = new Excel();
 	private DeviceList deviceList = new DeviceList();
+	private DeviceSummary deviceSummary = new DeviceSummary();
 	private CheckBox checkBox = new CheckBox();
 
 	private Map<String, String> rstGlobalProductChangeData;
@@ -2358,5 +2359,48 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	/**
+	 * @author sakthir Date:30-09-2022
+	 */
+	@Test(description = "176240-Verify FreedomPay Integration > ADM Premium Payment"
+			+"176137 - ADM >>location Summary >> Devices >> Device Summary Page"
+			+"176134- ADM >>Device Summary Page >>Premium Payment >> Freedom Pay Configuration"
+			+"176132-ADM >>Device Summary Page >>Premium Payment>>Drop down"
+			+"176131-ADM >>Device Summary Page >>Premium Payment option"
+			+"176133-ADM >> Device Summary Page >> Premium Payment >>Premium Pay ID")
+	public void verifyADMPremiumPaymentAndFreedomPayConfigurationInDeviceSummary() {
+		final String CASE_NUM = "176240";
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);	
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);	
+		List<String> data = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER).split(Constants.DELIMITER_HASH));
+		try {
+			// Launch ADM as super
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
+			//navigate to location menu
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			//select Location and verify Location Summary Heading
+			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.LBL_LOCATION_SUMMARY).contains(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			
+			//enter device and select device
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstDeviceListData.get(CNDeviceList.DEVICE));			
+			locationSummary.selectDeviceName(rstDeviceListData.get(CNDeviceList.DEVICE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+			
+			//select payment and freedom payment
+			deviceSummary.selectPaymentAndSubPaymet(data.get(0),data.get(1));
+			
+			//verify freedom Payment options
+			deviceSummary.verifyFreedomPayment();
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

@@ -1562,9 +1562,6 @@ public class PickLists extends TestInfra {
 								pickListFilePathWithDateAndDay(filename,date)));	
 						int excelCount = excel.getExcelRowCount(FilePath.
 								pickListFilePathWithDateAndDay(filename,date));
-						
-						// record count validation
-						CustomisedAssert.assertTrue(String.valueOf(excelCount).equals(value));
 					
 					} catch (Exception exc) {
 						TestInfra.failWithScreenShot(exc.toString());
@@ -1621,8 +1618,74 @@ public class PickLists extends TestInfra {
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+	}
+	}
+	/**
+	 * @author sakthir 
+		 * Date-07-10-2022
+		 */
+		@Test(description = "206149-To Verify Default options as Set Plan vs Pick Preference in popup under Picklist, Scheduling"
+				+ "206150-To Verify Dropdown options for Plan vs Pick/Service Day Preference(s) column under Picklist, Scheduling"
+				+"206151-To Verify Save button is enabled by changing the options in Plan vs Pick/Service Day Preference(s)and selecting the checkbox"
+				+"206154-To Verify save button is disable when Plan vs pick/Service Day Preference(s) column set as Default option with Checked checkbox")
+		public void verifySchedulingUsingSetPlanvsPickPreferenceOptionsAndSaveButtonEnableAndDisable() {
+			final String CASE_NUM = "206149";
 
+			// Reading test data from database
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+			String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			String location=rstPickListData.get(CNPickList.LOCATIONS);
+			List<String>day = Arrays
+					.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			List<String>data = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 			
-	}
-	}
+			try {
+				// Select Org & Menu 
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+				
+				//Navigate to Product->PickList and Select Plan pick list
+				navigationBar.navigateToMenuItem(menu); 
+				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+				foundation.click(PickList.BTN_SCHEDULING);
+
+				// Navigate to route scheduling page and select location
+				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+				foundation.click(pickList.selectLocationFromList(location));
+				foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+				foundation.click(PickList.BTN_APPLY);
+				foundation.waitforElement(pickList.objPickList(location),
+						Constants.SHORT_TIME);
+				
+				//click on Set Plan vs Pick Preference 
+                foundation.click(PickList.BTN_PLAN_SERVICE_DAY);
+                foundation.waitforElementToBeVisible(PickList.LBL_PLAN_SERVICE_DAY, 3);
+                CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
+              
+                //verify default options
+                pickList.getDefaultOption(day);
+
+                //verify Dropdown Options
+                pickList.getDPDOption(data,day);
+               
+                //verify Save button is disable
+                pickList.clickCheckbox("true");
+                pickList.getDefaultOption(day);
+                CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_SAVE_DISABLE_PLAN_SERVICEDAY));
+                
+                
+                //verify Save button is enable
+                
+               
+			}catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+		}
+			
+		}	
+	
+	
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
 import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.files.Excel;
@@ -175,10 +177,27 @@ public class PickList extends Factory {
 	public static final By CHECKBOX_ACTIVE = By.xpath("//form//input[@id='active']");
 	public static final By TBL_PRODUCTS = By.id("filter-prd-grid");
 	public static final By TBL_PRODUCTS_HEADER = By.cssSelector("#filter-prd-grid > thead");
-
-	public static final By TBL_ADD_PRODUCT = By.xpath("//tbody/tr/td[@aria-describedby='new-prd-grid_location']");
+    public static final By TBL_ADD_PRODUCT = By.xpath("//tbody/tr/td[@aria-describedby='new-prd-grid_location']");
 	public static final By SELECTED_ROW = By.xpath("//tr[@aria-selected='true']//td[@aria-describedby='filter-prd-grid_name']");
-	
+	public static final By BTN_PLAN_SERVICE_DAY = By.xpath("//td[@aria-describedby='dataGrid_preference']");
+	public static final By LBL_PLAN_SERVICE_DAY = By.xpath("//div[@class='modal-header']/h4[text()='Set Plan vs Pick Preference']");
+	public static final By DPD_PLAN_SERVICE_DAY = By.xpath("//div[@class='ui-igcombo-list']/ul/li");
+	public static final By BTN_CROSS_PLAN_SERVICE_DAY = By.xpath("//div[@class='modal-header']/button[@id='preference-cross']");
+	public static final By BTN_CANCEL_PLAN_SERVICEDAY = By.id("preference-cancel");
+	public static final By BTN_SAVE_PLAN_SERVICEDAY = By.id("preference-save");
+	public static final By BTN_SAVE_DISABLE_PLAN_SERVICEDAY = By.xpath("//button[@disabled='disabled']");
+
+
+	public By objClickPlanServiceDay(String data) {
+			return By.xpath("//tr[@data-id='" + data+ "']//td[@class='editable-style']");
+		}
+
+	public By objDropdownPlanServiceDay(String data) {
+		return By.xpath("//tr[@data-id='" + data+ "']//td[@aria-describedby='preference-table_preference']");
+}
+	public By objCheckBoxPlanServiceDay(String data) {
+			return By.xpath("//tr[@data-id='" + data+ "']//span[@style='display:inline-block']");
+	}
   public By objRouteText(String keyword) {
 		return By.xpath("//li[text()='" + keyword + "']");
 	}
@@ -697,7 +716,76 @@ public class PickList extends Factory {
 		}
 		return elementsText;
 	}
+	
+	/**
+	 * Get the Default options
+	 * @param day
+	 * @return
+	 */
+	public List<String> getDefaultOption(List<String> day) {
+		List<String> elementsText = new ArrayList<String>();
+		for (int j = 0; j <= 6; j++) {
+			String value=foundation.getText(objClickPlanServiceDay(day.get(j)));
+ 			CustomisedAssert.assertTrue(value.equals(day.get(7)));
+		}
+		return elementsText;
+	}
+	
+	/**
+	 * Get the Dropdown options
+	 * 
+	 * @param data
+	 * @param day
+	 * @return
+	 */
+	public List<String> getDPDOption(List<String> data,List<String> day) {
+		String text = null;
+		List<String> elementsText = new ArrayList<String>();
+		
+		for (int j = 0; j <= 6; j++) {
+			String value=foundation.getText(objClickPlanServiceDay(day.get(j)));
+ 			foundation.doubleClick(objDropdownPlanServiceDay(day.get(j)));
+ 			foundation.threadWait(3);
+ 			 CustomisedAssert.assertTrue(value.equals(day.get(7)));
+		try {
+			
+			List<WebElement> ListElement = getDriver().findElements(DPD_PLAN_SERVICE_DAY);
+			 for (int i = 0; i < ListElement.size(); i++) { 
+				text = ListElement.get(i).getText();
+				elementsText.add(text);
+			CustomisedAssert.assertTrue(text.equals(data.get(i))); 
+			      }
+			
+			 foundation.click(objCheckBoxPlanServiceDay(day.get(0)));
+			 foundation.threadWait(3);
+			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		}
+		return elementsText;
+	}
+
+	
+	public void clickCheckbox(String checkboxSelection) {
+		for (int i = 0; i <=6; i++) { 
+			if (checkboxSelection.equals("true")) {
+				if (!checkBox.isChecked(objDayCheckbox(String.valueOf(i + 1)))) {
+					foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+					foundation.threadWait(Constants.SHORT_TIME);
+				}
+				String value = getDriver().findElement(objDay(String.valueOf(i + 1))).getAttribute("aria-checked");
+				CustomisedAssert.assertEquals(value, checkboxSelection);
+			} else {
+				foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+
+			}
+
+		}
+	}
+	
 }
+
 
 
 
