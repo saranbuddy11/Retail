@@ -90,6 +90,7 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
 			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			CustomisedAssert.assertEquals(expectedData, actualData);
 
