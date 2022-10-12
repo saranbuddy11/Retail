@@ -6892,6 +6892,9 @@ public class Report extends TestInfra {
 					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
+			String dateArray[] = currentDate.split("/");
+			String date = dateArray[0].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/"
+					+ dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/" + dateArray[2];
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
 			price = price.replace("$", "");
 			price = price.replace(".", "");
