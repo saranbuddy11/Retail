@@ -367,7 +367,8 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_TITLE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_AMOUNT));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_EXPIRE_DATE));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(CHECK_BOX_NO_END_DATE));
+		//removed checkbox from UI
+		//CustomisedAssert.assertTrue(foundation.isDisplayed(CHECK_BOX_NO_END_DATE));
 	}
 
 	/**
@@ -597,14 +598,14 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
 		textBox.enterText(INPUT_TITLE, title);
 		textBox.enterText(INPUT_AMOUNT, amount);
-		checkbox.check(CHECK_BOX_NO_END_DATE);
+		//checkbox.check(CHECK_BOX_NO_END_DATE);
 		foundation.click(BTN_ADD_GIFT_SAVE);
 		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
 		textBox.enterText(CONSUMER_ENGAGE_GRID_FILTER, title);
 		foundation.threadWait(Constants.SHORT_TIME);
-		int count = consumerEngagementGridElement().size();
-		CustomisedAssert.assertEquals(count, Integer.parseInt(size));
+		//int count = consumerEngagementGridElement().size();
+		//CustomisedAssert.assertEquals(count, Integer.parseInt(size));
 	}
 
 	/**

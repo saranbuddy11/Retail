@@ -294,7 +294,10 @@ public class Report extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
-			foundation.threadWait(Constants.ONE_SECOND);
+
+			dropdown.selectItemByIndex(ConsumerSummary.REF_EFT, 0);
+
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
@@ -1125,12 +1128,15 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforElementToBeVisible(LocationSummary.INVENTORY_GRID_FIRST_CELL, Constants.MEDIUM_TIME);
+
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
 					reason.get(0));
+
+			foundation.waitforElementToBeVisible(LocationSummary.INVENTORY_GRID_FIRST_CELL, Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
@@ -4731,7 +4737,7 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date:29-07-2022
 	 */
 
-	@Test(description = "198562-Verify the Data Validation of Sales Item Details Report Report")
+	@Test(description = "198562-Verify the Data Validation of Sales Item Details Report")
 	public void salesItemDetailsReportDataValidation() {
 		try {
 			final String CASE_NUM = "198562";
@@ -5363,7 +5369,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 25-08-2022
 	 */
-	@Test(description = "203621-This test validates Unpaid Order Report Data Validation")
+	@Test(description = "203621-This test validates Unpaid Order Report Data")
 	public void UnpaidOrderReportDataValidation() {
 		try {
 			final String CASE_NUM = "203621";
@@ -5495,7 +5501,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 02-09-2022
 	 */
-	@Test(description = "203698-This test validates Entry Summary Report Data Calculation 186633")
+	@Test(description = "203698-This test validates Entry Summary Report Data Calculation")
 	public void entrySummaryReportDataValidation() {
 		try {
 			final String CASE_NUM = "203698";
@@ -5873,13 +5879,13 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 	/*
 	 * This Method is for Product Canned Report Data Validation
 	 * 
 	 * @author ravindhara Date: 20-09-2022
 	 */
-
-	@Test(description = "204450-Verify the Data Validation of Product Canned Report 198531")
+	@Test(description = "204450-Verify the Data Validation of Product Canned Report")
 	public void productCannedReportDataValidation() {
 		try {
 			final String CASE_NUM = "204450";
@@ -6143,7 +6149,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 22-07-2022
 	 */
-	@Test(description = "205004-Verify the Data Validation of Account Profitability Report 198531")
+	@Test(description = "205004-Verify the Data Validation of Account Profitability Report ")
 	public void AccountProfitabilityReportDataValidation() {
 		try {
 			final String CASE_NUM = "205004";

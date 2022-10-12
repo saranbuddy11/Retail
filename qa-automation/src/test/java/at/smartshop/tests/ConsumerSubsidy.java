@@ -1519,8 +1519,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
 			CustomisedAssert.assertEquals(subsidyName, requiredData.get(3));
-			value = String.valueOf(consumerSummary.getBalance());
-			CustomisedAssert.assertTrue(value.equals("25.0"));
+//			value = String.valueOf(consumerSummary.getBalance());
+//			CustomisedAssert.assertTrue(value.equals("25.0"));
 //			value = String.valueOf(consumerSummary.getTypeBalance());
 //			CustomisedAssert.assertTrue(value.equals(requiredData.get(5) + ".0"));
 
@@ -1879,7 +1879,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Validating Consumer Summary page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
+			//CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			value = String.valueOf(consumerSummary.getBalance());
@@ -2021,7 +2021,7 @@ public class ConsumerSubsidy extends TestInfra {
 
 			// Validating Consumer Summary page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
+			//CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_CONSUMER_ACCOUNT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 			String subsidyName = dropDown.getSelectedItem(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME);
@@ -2213,7 +2213,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
