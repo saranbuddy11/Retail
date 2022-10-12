@@ -137,6 +137,7 @@ public class DNA extends TestInfra {
 			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(DNADetails.TOOL_TIP_TEXT));
 			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
+			dropDown.selectItem(DNADetails.DD_ISDISABLED,requiredData.get(1),Constants.TEXT);
 			text = dropDown.getSelectedItem(DNADetails.DD_ISDISABLED);
 			CustomisedAssert.assertEquals(text, requiredData.get(1));
 
@@ -261,10 +262,17 @@ public class DNA extends TestInfra {
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.LOCATION_NAME));
 			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
+			dropDown.selectItem(DNADetails.DD_ISDISABLED,requiredData.get(0),Constants.TEXT);
 			CustomisedAssert.assertTrue(dropDown.getSelectedItem(DNADetails.DD_ISDISABLED).equals(requiredData.get(0)));
+			foundation.click(DNADetails.GREEN_MAX_FIELD);
+			textBox.enterText(DNADetails.GREEN_MAX_FIELD,requiredData.get(1));
 			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.GREEN_MAX_FIELD), requiredData.get(1));
+			foundation.click(DNADetails.YELLOW_MIN_FIELD);
 			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.YELLOW_MIN_FIELD), requiredData.get(2));
+			foundation.click(DNADetails.YELLOW_MAX_FIELD);
+			textBox.enterText(DNADetails.YELLOW_MAX_FIELD,requiredData.get(3));
 			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.YELLOW_MAX_FIELD), requiredData.get(3));
+			foundation.click(DNADetails.RED_MIN_FIELD);
 			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.RED_MIN_FIELD), requiredData.get(4));
 			foundation.click(DNADetails.YELLOW_MAX_FIELD);
 			textBox.enterText(DNADetails.YELLOW_MAX_FIELD,requiredData.get(1));

@@ -124,7 +124,9 @@ public class OrgSummary extends Factory {
 	public static final By LBL_ORG_SUMMARY = By.id("Org Summary");
 	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
 	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
-
+	
+	
+	
 	public By objVDI(String text) {
 
 		return By.xpath("//input[@value='" + text + "']");
@@ -170,6 +172,20 @@ public class OrgSummary extends Factory {
 		foundation.click(OrgSummary.BTN_SAVE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 
+	}
+	
+	/**
+	 * navigate to org summary and change pageset
+	 * @param menu
+	 * @param old
+	 */
+	public void navigateToOrgSummaryAndChangePageset(String menu,String old) {
+		navigationBar.navigateToMenuItem(menu);
+		foundation.waitforElementToBeVisible(LBL_ORG_SUMMARY, Constants.THREE_SECOND);
+		dropDown.selectItem(OrgSummary.DPD_PAGESET, old, Constants.TEXT);
+		foundation.waitforElementToBeVisible(OrgSummary.BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	/**

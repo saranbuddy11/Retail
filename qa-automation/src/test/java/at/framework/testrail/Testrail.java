@@ -33,10 +33,20 @@ public class Testrail {
 		Map<String, Object> data = new HashMap<>();		
 		data.put("status_id", Integer.valueOf(testRailStatusId));
 		data.put("comment", message);
-		JSONObject createRequest = (JSONObject) client
-				.sendPost(propertyFile.readPropertyFile(Configuration.TEST_RAIL_BASE_URI, FilePath.PROPERTY_CONFIG_FILE)
-						+ propertyFile.readPropertyFile(Configuration.TEST_RAIL_RUNID, FilePath.PROPERTY_CONFIG_FILE)
-						+ "/" + caseNum, data);
+		
+//		JSONObject createRequest = (JSONObject) client
+//		.sendPost(propertyFile.readPropertyFile(Configuration.TEST_RAIL_BASE_URI, FilePath.PROPERTY_CONFIG_FILE)
+//				+ propertyFile.readPropertyFile(Configuration.TEST_RAIL_RUNID, FilePath.PROPERTY_CONFIG_FILE)
+//				+ "/" + caseNum, data);
+		
+		try {
+			JSONObject createRequest = (JSONObject) client
+					.sendPost(propertyFile.readPropertyFile(Configuration.TEST_RAIL_BASE_URI, FilePath.PROPERTY_CONFIG_FILE)
+							+ propertyFile.readPropertyFile(Configuration.TEST_RAIL_RUNID, FilePath.PROPERTY_CONFIG_FILE)
+							+ "/" + caseNum, data);
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 		catch (Exception exc) {
 			//Assert.fail(exc.toString());

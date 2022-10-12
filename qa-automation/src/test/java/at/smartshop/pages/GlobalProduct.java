@@ -83,6 +83,7 @@ public class GlobalProduct extends Factory {
     public static final By SEARCH_EXTEND=By.xpath("//input[@aria-controls='locdt']");
     public static final By POPUP_SEARCH=By.id("productFilterType");
     public static final By POPUP_SAVE=By.id("modalsave");
+    public static final By SAVE_MSG=By.xpath("//li[text()='DummyAutoTest added to : ']");
     public static final By LBL_PRODUCT_SUMMARY = By.xpath("//li[text()='Product Summary']");
 
 	 
@@ -225,7 +226,7 @@ public class GlobalProduct extends Factory {
 	 */
 	public void searchProductAndUpdateProductNameInGlobalProducts(String product,String editproduct) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
-		foundation.waitforElementToBeVisible(TXT_FILTER, 5);
+		foundation.waitforElementToBeVisible(GBL_PRODUCT_DATA, 5);
 		textBox.enterText(LocationList.TXT_FILTER, product);
 		foundation.threadWait(3);
 		foundation.waitforElementToBeVisible(GlobalProduct.MATCHING_RECORD, Constants.SHORT_TIME);
@@ -234,7 +235,9 @@ public class GlobalProduct extends Factory {
 		textBox.enterText(ProductSummary.TXT_PRODUCT_NAME, editproduct);
 		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, Constants.SHORT_TIME);
 		foundation.click(ProductSummary.BTN_SAVE);
-		foundation.threadWait(Constants.TWO_SECOND);
+		//foundation.threadWait(Constants.SHORT_TIME);
+		
+
 	}
 	/**
 	 * Disable created product in GlobalProduct
@@ -311,8 +314,10 @@ public class GlobalProduct extends Factory {
 	foundation.click(selectLocationInExtend(location));
 	foundation.waitforElementToBeVisible(GlobalProduct.POPUP_SAVE,3);
 	foundation.click(GlobalProduct.POPUP_SAVE);
+	//foundation.threadWait(5);
+	foundation.waitforElementToBeVisible(GlobalProduct.SAVE_MSG,15);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.SAVE_MSG));
 	foundation.scrollIntoViewElement(GlobalProduct.SEARCH_EXTEND);
-	foundation.waitforElementToBeVisible(GlobalProduct.SEARCH_EXTEND,5);
 	foundation.click(GlobalProduct.SEARCH_EXTEND);
 	textBox.enterText(GlobalProduct.SEARCH_EXTEND, location);
 	

@@ -67,7 +67,8 @@ public class AdminNationalAccounts extends Factory {
 	public static final By BTN_NATIONAL_ACCOUNT_CATEGORY = By.id("mng-category");
 	public static final By LBL_LOCATION_TITLE = By.id("corporatetitle");
 	public static final By DPD_ORG_MODAL = By.id("org");
-	public static final By DPD_LOCATION_MODAL = By.id("locs");
+	public static final By DPD_LOCATION_MODAL = By.id("loc");
+	public static final By DPD_LOCATION_MODAL_1 = By.id("locs");
 	public static final By CHK_AUTOADD = By.id("autoadd-act");
 	public static final By BTN_SAVE_MODAL = By.id("btn-save");
 	public static final By BTN_ORG_CLEAR = By.cssSelector("span.select2-selection__clear");

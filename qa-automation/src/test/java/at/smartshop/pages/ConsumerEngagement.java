@@ -687,6 +687,8 @@ public class ConsumerEngagement extends Factory {
 	public void verifyIssueCount(String value) {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.refreshPage();
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PAGE_TITLE));
@@ -754,7 +756,7 @@ public class ConsumerEngagement extends Factory {
 	/**
 	 * verify checkBox in consumer engagement grid
 	 */
-	public void verifyCheckboxInConsumerEngagement() {
+	public void verifyCheckboxInConsumerEngagementGrid() {
 		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
 		foundation.click(CHECKBOX_SELECTALL);
 		foundation.waitforElementToBeVisible(NEXT_RECORD, Constants.THREE_SECOND);
@@ -774,6 +776,9 @@ public class ConsumerEngagement extends Factory {
 		foundation.click(CHECKBOX_SELECTALL);
 		foundation.waitforElementToBeVisible(SELECT_RECORDS, Constants.THREE_SECOND);
 		foundation.click(SELECT_RECORDS);
+		foundation.waitforElementToBeVisible(NEXT_RECORD, Constants.THREE_SECOND);
+		foundation.click(NEXT_RECORD);
+		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_EMAIL, Constants.THREE_SECOND);
 		foundation.click(BTN_EMAIL);
 		foundation.waitforElementToDisappear(SUCCESS_MSG, Constants.SHORT_TIME);
