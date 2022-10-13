@@ -6462,7 +6462,7 @@ public class Report extends TestInfra {
 
 			// Read the Report the Data
 			String timePeriod = salesBy30Minutes.getTimePeroid(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
-			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
+			textBox.enterText(salesBy30Minutes.TXT_SEARCH, timePeriod);
 			salesBy30Minutes.getTblRecordsUI();
 			salesBy30Minutes.getIntialData().putAll(salesBy30Minutes.getReportsData());
 			salesBy30Minutes.getUpdatedTableFooters().putAll(salesBy30Minutes.getTableFooters());
