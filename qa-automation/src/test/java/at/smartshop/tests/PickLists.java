@@ -1357,20 +1357,24 @@ public class PickLists extends TestInfra {
 	@Test(description = "196848-SOS-27313-ADM>Pick List Manager>Select  Location>Verify picklist manage columns with show or hide options")
 
 	public void verifyManageColumnsOnFilteredPickList() {
+		final String CASE_NUM = "196848";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		List<String> data =Arrays
+					.asList( rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> manageColumn =Arrays
+					.asList( rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+		 
 		try {
-			final String CASE_NUM = "196848";
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+//			browser.navigateURL(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 
@@ -1386,24 +1390,28 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
 
 			// Taking list of UI headers of Filetered location page
-			List<String> uiListHeaders = pickList.getTableHeadersForFilteredLocations();
+			Map<String, String> uiTableHeaders = table.getTblHeadersPickListHistory(PickList.FILTERED_PICKLIST_TBL_ROW);
+			List<String> uiListHeaders = new ArrayList<String>(uiTableHeaders.keySet());
+			Collections.sort(uiListHeaders);
+			System.out.println(uiListHeaders);
+			System.out.println(data);
+			CustomisedAssert.assertTrue(uiListHeaders.equals(data));
 
 			// Click on Manage Column button and verifying the headers present
 			foundation.click(PickList.BTN_MANAGE_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LIST_COLUMN_CHOOSER));
 			List<String> columnChooser = foundation.getTextofListElement(PickList.LIST_COLUMN_CHOOSER);
-			System.out.println(columnChooser);
-			// its failing because of bug -
-			// https://365retailmarkets.atlassian.net/browse/SOS-32363
-			CustomisedAssert.assertTrue(columnChooser.contains(uiListHeaders));
+		    CustomisedAssert.assertTrue(columnChooser.equals(manageColumn));
+			foundation.scrollIntoViewElement(PickList.BTN_CANCEL_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_COLUMN_CHOOSER));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_COLUMN));
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(PickList.BTN_CANCEL_COLUMN);
-
-			// Click on Remove button
-			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
-			foundation.click(PickList.BTN_REMOVE_PRODUCT);
+			foundation.scrollIntoViewElement(PickList.BTN_CANCEL_COLUMN);
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.click(PickList.BTN_CANCEL_COLUMN);
+//			
+//			// Click on Remove button
+//			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
+//			foundation.click(PickList.BTN_REMOVE_PRODUCT);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
