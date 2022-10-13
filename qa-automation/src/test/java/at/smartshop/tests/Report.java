@@ -6527,7 +6527,6 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-}
 
 	/**
 	 * Cancel Report data validation
