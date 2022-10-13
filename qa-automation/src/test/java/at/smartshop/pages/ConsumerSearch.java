@@ -75,6 +75,14 @@ public class ConsumerSearch extends Factory {
 	public static final By SCANCODE = By.cssSelector("#consumerdt>tbody>tr>td");
 	public static final By TRANSACTION_ID = By.cssSelector("[aria-describedby='balance-history_transactionId']");
 
+	/**
+	 * Enter the details to search for Consumer
+	 * 
+	 * @param searchBy
+	 * @param search
+	 * @param locationName
+	 * @param status
+	 */
 	public void enterSearchFields(String searchBy, String search, String locationName, String status) {
 		try {
 			dropdown.selectItem(DPD_SEARCH_BY, searchBy, Constants.TEXT);

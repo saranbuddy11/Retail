@@ -387,6 +387,9 @@ public class LocationSummary extends Factory {
 	public static final By GMR_ERROR = By.id("gmaratepercent-error");
 	public static final By CREDIT_ERROR = By.id("creditratepercent-error");
 	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
+	public static final By INVENTORY_GRID_FIRST_CELL = By.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
+	
+	
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
