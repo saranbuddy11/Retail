@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-
 import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.files.Excel;
@@ -16,7 +14,6 @@ import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
-import at.framework.ui.Table;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -28,7 +25,6 @@ public class PickList extends Factory {
 	private CheckBox checkBox = new CheckBox();
 	private TextBox textBox = new TextBox();
 	private Excel excel = new Excel();
-	private Table table = new Table();
 
 	public static final By SEARCH_FILTER = By.xpath("//input[@placeholder='Search to filter...']");
 	public static final By LBL_LOCATION = By.xpath("//ul[@id='location-list']//li");
@@ -198,6 +194,9 @@ public class PickList extends Factory {
 	public By objCheckBoxPlanServiceDay(String data) {
 			return By.xpath("//tr[@data-id='" + data+ "']//span[@style='display:inline-block']");
 	}
+	public By objOption(String data) {
+		return By.xpath("//div[@class='ui-igcombo-list']/ul/li[text()='" + data+ "']");
+	}
   public By objRouteText(String keyword) {
 		return By.xpath("//li[text()='" + keyword + "']");
 	}
@@ -207,8 +206,7 @@ public class PickList extends Factory {
 	}
 
 	public By objDriverText(String driver) {
-		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"
-				+ driver + "']");
+		return By.xpath("//li[contains(@class,'ui-state-default') and text()='" + driver + "']");
 	}
 
 	public By objDayCheckbox(String day) {
@@ -748,14 +746,12 @@ public class PickList extends Factory {
  			foundation.threadWait(3);
  			 CustomisedAssert.assertTrue(value.equals(day.get(7)));
 		try {
-			
 			List<WebElement> ListElement = getDriver().findElements(DPD_PLAN_SERVICE_DAY);
 			 for (int i = 0; i < ListElement.size(); i++) { 
 				text = ListElement.get(i).getText();
 				elementsText.add(text);
 			CustomisedAssert.assertTrue(text.equals(data.get(i))); 
 			      }
-			
 			 foundation.click(objCheckBoxPlanServiceDay(day.get(0)));
 			 foundation.threadWait(3);
 			
@@ -765,7 +761,12 @@ public class PickList extends Factory {
 		}
 		return elementsText;
 	}
-
+	
+	/**
+	 * Click Checkbox
+	 * @param checkboxSelection
+	 * @return
+	 */
 	
 	public void clickCheckbox(String checkboxSelection) {
 		for (int i = 0; i <=6; i++) { 
@@ -782,6 +783,33 @@ public class PickList extends Factory {
 			}
 
 		}
+	}
+	
+	/**
+	 * Select the Dropdown options
+	 * 
+	 * @param data
+	 * @param day
+	 */
+	public void selectDPDOption(String data,List<String> day,String checkboxSelection) {
+		List<WebElement> list = getDriver().findElements(CHECKBOX);
+	
+		for (int j = 0; j <= 6; j++) {
+			String value=foundation.getText(objClickPlanServiceDay(day.get(j)));
+ 			foundation.doubleClick(objDropdownPlanServiceDay(day.get(j)));
+ 			foundation.click(objOption(data));
+ 			foundation.threadWait(3);
+ 			 CustomisedAssert.assertTrue(value.equals(day.get(7)));
+		}
+		 foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY);
+		 foundation.threadWait(3);
+         CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));  
+         for (int i = 0; i <= list.size() - 1; i++) {
+ 			if (checkboxSelection.equals("true")) {
+ 				String value = getDriver().findElement(objDay(String.valueOf(i + 1))).getAttribute("aria-checked");
+ 				CustomisedAssert.assertEquals(value, checkboxSelection);
+ 			}
+         }
 	}
 	
 }

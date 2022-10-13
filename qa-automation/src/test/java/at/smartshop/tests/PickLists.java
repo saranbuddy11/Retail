@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
@@ -14,6 +16,7 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Table;
@@ -44,7 +47,8 @@ public class PickLists extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private UserRoles userRoles = new UserRoles();
-
+	private CheckBox checkBox = new CheckBox();
+	
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstPickListData;
 
@@ -657,7 +661,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),
 					Constants.SHORT_TIME);
-			pickList.checkboxsServiceDay(requiredData.get(2), requiredData.get(2), "false");
+			pickList.checkboxsServiceDay(requiredData.get(2), requiredData.get(3), "false");
 			foundation.click(PickList.BTN_SAVE);
 			//foundation.waitforElement(PickList.SUCCESS_MSG, 5);
 		}
@@ -1393,12 +1397,13 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LIST_COLUMN_CHOOSER));
 			List<String> columnChooser = foundation.getTextofListElement(PickList.LIST_COLUMN_CHOOSER);
 			System.out.println(columnChooser);
+			
 			// its failing because of bug -
 			// https://365retailmarkets.atlassian.net/browse/SOS-32363
 			CustomisedAssert.assertTrue(columnChooser.contains(uiListHeaders));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_COLUMN_CHOOSER));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_COLUMN));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(PickList.BTN_CANCEL_COLUMN);
 
 			// Click on Remove button
@@ -1572,7 +1577,6 @@ public class PickLists extends TestInfra {
 					}
 	}
 
-	
 	/**
 	 * @author sakthir Date-15-09-2022
 	 */
@@ -1618,12 +1622,13 @@ public class PickLists extends TestInfra {
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+	}	
 	}
-	}
+	
 	/**
 	 * @author sakthir 
-		 * Date-07-10-2022
-		 */
+	 * Date-10-10-2022
+	 */
 		@Test(description = "206149-To Verify Default options as Set Plan vs Pick Preference in popup under Picklist, Scheduling"
 				+ "206150-To Verify Dropdown options for Plan vs Pick/Service Day Preference(s) column under Picklist, Scheduling"
 				+"206151-To Verify Save button is enabled by changing the options in Plan vs Pick/Service Day Preference(s)and selecting the checkbox"
@@ -1677,15 +1682,144 @@ public class PickLists extends TestInfra {
                 pickList.getDefaultOption(day);
                 CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_SAVE_DISABLE_PLAN_SERVICEDAY));
                 
-                
                 //verify Save button is enable
-                
+                pickList.selectDPDOption(data.get(1),day, "true");     
                
 			}catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 		}
+			finally {
+				//resetting
+			    foundation.refreshPage();
+				foundation.click(pickList.selectLocationFromList(location));
+				foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+				foundation.click(PickList.BTN_APPLY);
+				foundation.waitforElement(pickList.objPickList(location),Constants.SHORT_TIME);				
+                foundation.click(PickList.BTN_PLAN_SERVICE_DAY);
+                foundation.waitforElementToBeVisible(PickList.LBL_PLAN_SERVICE_DAY, 3);
+                CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
+                pickList.clickCheckbox("false");
+                pickList.getDefaultOption(day);
+	            CustomisedAssert.assertFalse(foundation.isDisplayed(PickList.BTN_SAVE_DISABLE_PLAN_SERVICEDAY));
+	            foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY); 
+			    }
+			}
 			
-		}	
-	
+		/**
+		 * @author sakthir 
+		 * Date-12-10-2022
+		 */
+			@Test(description = "206152-To Verify that the user is able to uncheck the scheduled plan and able to save it"
+					+ "")
+			public void verifySchedulingEditingCheckAndUncheckUsingSetPlanvsPickPreferencePopup() {
+				final String CASE_NUM = "206152";
+
+				// Reading test data from database
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+				String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				String location=rstPickListData.get(CNPickList.LOCATIONS);
+				List<String>day = Arrays
+						.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+				List<String>data = Arrays
+						.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+				
+				try {
+					// Select Org & Menu 
+					navigationBar.launchBrowserAsSuperAndSelectOrg(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+					
+					//Navigate to Product->PickList and Select Plan pick list
+					navigationBar.navigateToMenuItem(menu); 
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+					foundation.click(PickList.BTN_SCHEDULING);
+
+					// Navigate to route scheduling page and select location
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+					foundation.click(pickList.selectLocationFromList(location));
+					foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+					foundation.click(PickList.BTN_APPLY);
+					foundation.waitforElement(pickList.objPickList(location),Constants.SHORT_TIME);
+					
+					// Enter all the data in route driver and date
+					pickList.checkboxsServiceDay(day.get(8), day.get(9), "true");
+					foundation.click(PickList.BTN_SAVE);
+					
+					//Click on Set Plan vs Pick Preference and verify all checkbox are checked with default option
+					 foundation.click(PickList.BTN_PLAN_SERVICE_DAY);
+		             foundation.waitforElementToBeVisible(PickList.LBL_PLAN_SERVICE_DAY, 3);
+		             CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
+		             for (int i = 0; i <=6; i++) {
+		      				String value = foundation.getAttribute(pickList.objDay(String.valueOf(i + 1)),"aria-checked");
+		      				CustomisedAssert.assertEquals(value,"true");
+		      			}
+		             
+		             //Verify that the user is able to uncheck the scheduled plan and able to save it
+		             foundation.click(pickList.objCheckBoxPlanServiceDay(day.get(3)));
+		             foundation.click(pickList.objCheckBoxPlanServiceDay(day.get(6)));
+		             CustomisedAssert.assertTrue(foundation.getText(pickList.objDropdownPlanServiceDay(day.get(3))).equals(day.get(7)));
+		             CustomisedAssert.assertTrue(foundation.getText(pickList.objDropdownPlanServiceDay(day.get(6))).equals(day.get(7)));
+		             System.out.println(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(3))));
+		             //CustomisedAssert.assertFalse(checkBox.isChecked(pickList.objCheckBoxPlanServiceDay(day.get(3))));
+		             System.out.println(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(6))));
+		            // CustomisedAssert.assertTrue(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(6))));
+		             foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY);
+		             
+		             //verify unchecked checkbox in Route Scheduling grid
+		             CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+		             System.out.println(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(3))));
+		            // CustomisedAssert.assertTrue(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(3))));
+		             System.out.println(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(6))));
+		            // CustomisedAssert.assertTrue(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(6))));
+		             foundation.refreshPage();
+		             
+					 //select location and click on Set Plan vs Pick Preference
+		             CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+		             foundation.click(pickList.selectLocationFromList(location));
+				     foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+					 foundation.click(PickList.BTN_APPLY);
+					 foundation.waitforElement(pickList.objPickList(location),Constants.SHORT_TIME);
+					 foundation.click(PickList.BTN_PLAN_SERVICE_DAY);
+		             foundation.waitforElementToBeVisible(PickList.LBL_PLAN_SERVICE_DAY, 3);
+		             CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
+		             
+		             //Verify that the user is able to check the scheduled plan and able to save it
+		             foundation.waitforElementToBeVisible(pickList.objDropdownPlanServiceDay(data.get(3)), 3);
+		             foundation.doubleClick(pickList.objDropdownPlanServiceDay(day.get(3)));
+		             foundation.waitforElementToBeVisible(pickList.objOption(data.get(3)), 3);
+		  			 foundation.click(pickList.objOption(data.get(3)));
+		  			 foundation.click(pickList.objCheckBoxPlanServiceDay(day.get(3)));
+		  			 //CustomisedAssert.assertTrue(checkBox.isChecked(pickList.objCheckBoxPlanServiceDay(day.get(3))));
+		  			 foundation.doubleClick(pickList.objDropdownPlanServiceDay(day.get(6)));
+		  			 foundation.waitforElementToBeVisible(pickList.objOption(data.get(4)), 3);
+			  	     foundation.click(pickList.objOption(data.get(4)));
+			  		 foundation.click(pickList.objCheckBoxPlanServiceDay(day.get(6)));
+			  		// CustomisedAssert.assertTrue(checkBox.isChecked(pickList.objCheckBoxPlanServiceDay(day.get(6))));
+		  			 foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY);
+		  			 
+		  			 //verify checked checkbox in Route Scheduling grid 
+		  			 CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+		  			 System.out.println(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(3))));
+		            // CustomisedAssert.assertTrue(checkBox.isChecked(pickList.objCheckBoxPlanServiceDay(day.get(3))));
+		  			 System.out.println(checkBox.isUnChecked(pickList.objCheckBoxPlanServiceDay(day.get(6))));
+		            // CustomisedAssert.assertTrue(checkBox.isChecked(pickList.objCheckBoxPlanServiceDay(day.get(6))));
+		             
+				}catch (Exception exc) {
+					TestInfra.failWithScreenShot(exc.toString());
+				}
+				finally {
+					//resetting
+					foundation.refreshPage();
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+		            foundation.click(pickList.selectLocationFromList(location));
+				    foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+					foundation.click(PickList.BTN_APPLY);
+					foundation.waitforElement(pickList.objPickList(location),Constants.SHORT_TIME);
+					pickList.checkboxsServiceDay(day.get(10), day.get(11), "false");
+					foundation.click(PickList.BTN_SAVE);
+				}
+			}
 	
 }

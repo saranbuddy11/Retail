@@ -573,6 +573,7 @@ public class Menu extends TestInfra {
 		finally
 		{
 			//resetting
+			foundation.refreshPage();
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
 			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
