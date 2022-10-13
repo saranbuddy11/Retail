@@ -4188,12 +4188,12 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * This Method is for Consumer Feedback Survey Report Data Validation
+	 * This Method is for Consumer Feedback Survey Report Data Validation For Happy Feedback
 	 * 
 	 * @author ravindhara Date: 11-07-2022
 	 */
-	@Test(priority = 1, description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
-	public void consumerFeedbackSurveyReportDataValidation() {
+	@Test(priority = 1, description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data For Happy Feedback")
+	public void consumerFeedbackSurveyReportDataValidationForHappyFeedback() {
 		final String CASE_NUM = "197794";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -4278,8 +4278,6 @@ public class Report extends TestInfra {
 			consumerFeedbackSurvey.updateData(consumerFeedbackSurvey.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			consumerFeedbackSurvey.updateTotalFeedbackCount(consumerFeedbackSurvey.getTableHeaders().get(3));
-			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(4));
-			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(5));
 			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(6));
 
 			login.logout();
@@ -4291,24 +4289,6 @@ public class Report extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
 					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
-					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-			browser.close();
-
-			// Launch V5 Device and purchasing a product with Sad Feedback
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.SAD_EMOJI_BTN,
-					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-			browser.close();
-
-			// Launch V5 Device and purchasing a product with Neutral Feedback
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.NORMAL_EMOJI_BTN,
 					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
 			browser.close();
 
@@ -4345,17 +4325,17 @@ public class Report extends TestInfra {
 			consumerFeedbackSurvey.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// navigate to location and disabling of Consumer Feedback Survey
-			navigationBar.navigateToMenuItem(menuItems.get(0));
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
-			foundation.threadWait(Constants.ONE_SECOND);
-			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(1),
-					Constants.TEXT);
-			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
-			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//		} finally {
+//			// navigate to location and disabling of Consumer Feedback Survey
+//			navigationBar.navigateToMenuItem(menuItems.get(0));
+//			locationList.selectLocationName(
+//					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(1),
+//					Constants.TEXT);
+//			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
+//			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
 
@@ -6905,20 +6885,9 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			consumerFeedbackSurvey.updateTotalFeedbackCount(consumerFeedbackSurvey.getTableHeaders().get(3));
 			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(4));
-//			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(5));
-//			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(6));
 
 			login.logout();
 			browser.close();
-
-//			// Launch V5 Device and purchasing a product with Happy Feedback
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			browser.launch(Constants.REMOTE, Constants.CHROME);
-//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-//			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-//					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
-//					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-//			browser.close();
 
 			// Launch V5 Device and purchasing a product with Sad Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -6928,15 +6897,6 @@ public class Report extends TestInfra {
 					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.SAD_EMOJI_BTN,
 					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
 			browser.close();
-
-//			// Launch V5 Device and purchasing a product with Neutral Feedback
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			browser.launch(Constants.REMOTE, Constants.CHROME);
-//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-//			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-//					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.NORMAL_EMOJI_BTN,
-//					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-//			browser.close();
 
 			// Navigate to Reports
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -6971,17 +6931,6 @@ public class Report extends TestInfra {
 			consumerFeedbackSurvey.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-//		} finally {
-//			// navigate to location and disabling of Consumer Feedback Survey
-//			navigationBar.navigateToMenuItem(menuItems.get(0));
-//			locationList.selectLocationName(
-//					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-//			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
-//			foundation.threadWait(Constants.ONE_SECOND);
-//			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(1),
-//					Constants.TEXT);
-//			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
-//			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
 
@@ -7076,30 +7025,10 @@ public class Report extends TestInfra {
 			consumerFeedbackSurvey.updateData(consumerFeedbackSurvey.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			consumerFeedbackSurvey.updateTotalFeedbackCount(consumerFeedbackSurvey.getTableHeaders().get(3));
-//			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(4));
 			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(5));
-//			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(6));
 
 			login.logout();
 			browser.close();
-
-//			// Launch V5 Device and purchasing a product with Happy Feedback
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			browser.launch(Constants.REMOTE, Constants.CHROME);
-//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-//			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-//					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
-//					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-//			browser.close();
-
-//			// Launch V5 Device and purchasing a product with Sad Feedback
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			browser.launch(Constants.REMOTE, Constants.CHROME);
-//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-//			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-//					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.SAD_EMOJI_BTN,
-//					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-//			browser.close();
 
 			// Launch V5 Device and purchasing a product with Neutral Feedback
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -7143,17 +7072,6 @@ public class Report extends TestInfra {
 			consumerFeedbackSurvey.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-//		} finally {
-//			// navigate to location and disabling of Consumer Feedback Survey
-//			navigationBar.navigateToMenuItem(menuItems.get(0));
-//			locationList.selectLocationName(
-//					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-//			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
-//			foundation.threadWait(Constants.ONE_SECOND);
-//			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(1),
-//					Constants.TEXT);
-//			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
-//			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
 }
