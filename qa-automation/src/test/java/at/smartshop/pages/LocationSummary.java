@@ -389,6 +389,9 @@ public class LocationSummary extends Factory {
 	public static final By GMR_ERROR = By.id("gmaratepercent-error");
 	public static final By CREDIT_ERROR = By.id("creditratepercent-error");
 	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
+	public static final By INVENTORY_GRID_FIRST_CELL = By.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
+	
+	
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -905,6 +908,11 @@ public class LocationSummary extends Factory {
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='" + "DataGrid_qtyonhand']/div/div/span/input"),
 				Constants.TWO_SECOND);
+		
+		textBox.clearText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"));
+		
 		textBox.enterText(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
@@ -2301,7 +2309,7 @@ public class LocationSummary extends Factory {
 		textBox.enterText(ProductSummary.PRICE_FIELD, price);
 		foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
 		foundation.click(ProductSummary.BTN_SAVE);
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.EXTRA_LONG_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 
 	}

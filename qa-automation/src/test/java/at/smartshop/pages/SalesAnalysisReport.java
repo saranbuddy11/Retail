@@ -275,7 +275,7 @@ public class SalesAnalysisReport extends Factory {
 					- Double.parseDouble(costValue.trim())) * 100
 					/ (totalProductPrice - Double.parseDouble(discountValue.trim()));
 			finalValue = Math.round(finalValue * 100.0) / 100.0;
-			String gmValue = String.valueOf(finalValue) + Constants.DELIMITER_PERCENTAGE;
+			String gmValue = String.valueOf(finalValue);
 			intialData.get(iter).put(columnName, gmValue);
 		}
 	}

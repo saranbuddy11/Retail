@@ -284,8 +284,9 @@ public class NationalAccounts extends Factory {
 		foundation.waitforElement(AdminNationalAccounts.DPD_ORG_MODAL, Constants.SHORT_TIME);
 		dropDown.selectItem(AdminNationalAccounts.DPD_ORG_MODAL, org, Constants.TEXT);
 		foundation.threadWait(Constants.SHORT_TIME);
-		dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL, loc, Constants.TEXT);
+		dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_MODAL_1, loc, Constants.TEXT);
 		foundation.click(AdminNationalAccounts.ADD_NA_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_GRID));
 		foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);

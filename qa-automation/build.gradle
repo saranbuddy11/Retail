@@ -17,6 +17,19 @@ repositories {
     jcenter()
 }
 
+def suiteADM = project.hasProperty("suiteADM")
+
+test {
+    useTestNG() {
+        dependsOn cleanTest
+        useDefaultListeners = true
+        
+        if(suiteADM) {
+            suites "testng_Sample.xml"
+        }
+    }
+}
+
 dependencies {
 	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
 	

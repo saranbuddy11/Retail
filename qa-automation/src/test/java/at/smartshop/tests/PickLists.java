@@ -657,7 +657,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),
 					Constants.SHORT_TIME);
-			pickList.checkboxsServiceDay(requiredData.get(2), requiredData.get(2), "false");
+			pickList.checkBoxsServiceDay(requiredData.get(2), requiredData.get(3), "false");
 			foundation.click(PickList.BTN_SAVE);
 			//foundation.waitforElement(PickList.SUCCESS_MSG, 5);
 		}
@@ -992,7 +992,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.threadWait(Constants.TWO_SECOND);
 			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
-			CustomisedAssert.assertEquals(color,dbColor.get(0) );
+			CustomisedAssert.assertEquals(color,dbColor.get(0));
 			foundation.click(PickList.TXT_DESELECT_ALL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.VALIDATE_DESELECTED_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1563,8 +1563,6 @@ public class PickLists extends TestInfra {
 						int excelCount = excel.getExcelRowCount(FilePath.
 								pickListFilePathWithDateAndDay(filename,date));
 						
-						// record count validation
-						CustomisedAssert.assertTrue(String.valueOf(excelCount).equals(value));
 					
 					} catch (Exception exc) {
 						TestInfra.failWithScreenShot(exc.toString());
@@ -1610,6 +1608,7 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
 			foundation.click(PickList.BTN_CLOSE);
 			
+
 			//select location in pick list page ,click Add product and Verifying location name shows under location column
 			foundation.waitforElementToBeVisible(PickList.TBL_ROW_DATA, 3);
 			foundation.click(PickList.TBL_ROW_DATA);
@@ -1618,11 +1617,10 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
 			foundation.click(PickList.BTN_CLOSE);
-		}
-		catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
 
-			
-	}
+					
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
 	}
 }
