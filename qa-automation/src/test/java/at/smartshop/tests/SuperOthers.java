@@ -54,6 +54,7 @@ import at.smartshop.pages.PageSet;
 import at.smartshop.pages.PrintGroupLists;
 import at.smartshop.pages.Report;
 import at.smartshop.pages.SpecialService;
+import lombok.val;
 
 public class SuperOthers extends TestInfra {
 
@@ -69,7 +70,7 @@ public class SuperOthers extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private Dropdown dropDown = new Dropdown();
 	private OrgstrList orgstr = new OrgstrList();
-	private OrgSummary orgsummary= new OrgSummary();
+	private OrgSummary orgsummary = new OrgSummary();
 	private ConsumerRolesList consumerRolesList = new ConsumerRolesList();
 	private SpecialService specialService = new SpecialService();
 	private Strings strings = new Strings();
@@ -2908,8 +2909,7 @@ public class SuperOthers extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:16-09-2022
+	 * @author afrosean Date:16-09-2022
 	 */
 	@Test(description = "198489-Pageset - > Add column to show the Pageset status in list page"
 			+ "198449-ADM -> Pageset List -> Add Filters"
@@ -2951,8 +2951,7 @@ public class SuperOthers extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:19-09-2022
+	 * @author afrosean Date:19-09-2022
 	 */
 	@Test(description = "198500- PageSet -> Fetch only active PageSets when Org is added or edited")
 	public void verifyActivePageSetWhenOrgIsAdded() {
@@ -2976,23 +2975,62 @@ public class SuperOthers extends TestInfra {
 
 			// Create pageSet and verify "status" column in grid
 			pageset.verifyCreatePageset(pageTitle);
-			
-			//Capture pageSet name and select dropDown in Org summary page
-			pageset.capturePagesetName(values.get(0), menu.get(1));	
-			
-			//verify org which is mapped with pageSet created
-			pageset.searchPagesetAndverifyOrgIsMapped(menu.get(0) ,values.get(0), values.get(4));
-			
-			//navigate to org summary and change pageset
+
+			// Capture pageSet name and select dropDown in Org summary page
+			pageset.capturePagesetName(values.get(0), menu.get(1));
+
+			// verify org which is mapped with pageSet created
+			pageset.searchPagesetAndverifyOrgIsMapped(menu.get(0), values.get(0), values.get(4));
+
+			// navigate to org summary and change pageset
 			orgsummary.navigateToOrgSummaryAndChangePageset(menu.get(1), values.get(5));
-			
-			//Disable the created pageset
-			pageset.disablePageset(menu.get(0),values.get(0), values.get(1));
-			
+
+			// Disable the created pageset
+			pageset.disablePageset(menu.get(0), values.get(0), values.get(1));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
+	@Test(description = "202850-ADM > Add new Page Set intent for Freedom Pay cards")
+	public void verifyAddPageSetIntentForFreedomPayCards() {
+		final String CASE_NUM = "202850";
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstSuperListData = dataBase.getSuperListData(Queries.SUPER, CASE_NUM);
+
+		List<String> values = Arrays
+				.asList(rstSuperListData.get(CNSuperList.UPDATED_DATA).split(Constants.DELIMITER_TILD));
+		String pageTitle = values.get(0) + strings.getRandomCharacter();
+
+		try {
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Create pageSet and verify "status" column in grid
+			pageset.verifyCreatePageset(pageTitle);
+
+			// Select service as "SS" and verify all fields in pagedef
+			pageset.navigateToPagesetSummaryAndVerifyFieldsInAddPageDef(values.get(0), values.get(2), values.get(5),
+					values.get(6));
+			pageset.verifyAddPageDefValidation(values.get(2), values.get(5), values.get(6));
+			
+
+			// Select service as "CS" and verify all fields in pagedef
+			pageset.navigateToPagesetSummaryAndVerifyFieldsInAddPageDef(values.get(0), values.get(3), values.get(5),
+					values.get(6));
+			pageset.verifyAddPageDefValidation(values.get(3), values.get(5), values.get(6));
+
+			// Select service as "MM" and verify all fields in pagedef
+			pageset.navigateToPagesetSummaryAndVerifyFieldsInAddPageDef(values.get(0), values.get(4), values.get(5),
+					values.get(6));
+			pageset.verifyAddPageDefValidation(values.get(4), values.get(5), values.get(6));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
