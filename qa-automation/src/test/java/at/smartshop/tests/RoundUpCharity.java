@@ -21,6 +21,7 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.AdminRoundUpCharity;
 import at.smartshop.pages.AgeVerificationDetails;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -32,14 +33,13 @@ public class RoundUpCharity extends TestInfra {
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
 	private AdminRoundUpCharity adminRoundUpCharity = new AdminRoundUpCharity();
+	private OrgList orgList = new OrgList();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstRoundUpCharityData;
 
-	
 	/**
-	 * @author afrosean
-	 * Date:14-10-2022
+	 * @author afrosean Date:14-10-2022
 	 */
 	@Test(description = "204839-To Verify 'Charity Round-Up' Dropdown"
 			+ "204842-To Verify Admin menu when 'Disabled' Option is selected under Charity Round-Up"
@@ -95,30 +95,37 @@ public class RoundUpCharity extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:17-10-2022
+	 * @author afrosean Date:17-10-2022
 	 */
-	@Test(description="")
-	public void verify() {
+	@Test(description = "204860-To Verify 'Round Up Charity' Option is displayed by creating new Org with Country as 'United States'"
+			+ "204861-To Verify 'Round Up Charity' Option is not displayed by creating new Org with Country other than 'United States'")
+	public void verifyRoundUpCharityOptionByCreatingNewOrgWithCountryUS() {
 		try {
-			final String CASE_NUM = "204839";
+			final String CASE_NUM = "204860";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstRoundUpCharityData = dataBase.getRoundUpCharity(Queries.ROUNDUP_CHARITY, CASE_NUM);
 
-			List<String> menu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> dropDownData = Arrays
-					.asList(rstRoundUpCharityData.get(CNRoundUpCharity.NAME).split(Constants.DELIMITER_TILD));
+			List<String> datas = Arrays.asList(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// navigate to super>automation Org
-			navigationBar.navigateToMenuItem(menu.get(0));
-		}
-		catch (Exception exc) {
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
+
+			// verify disable roundup charity dropDown
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.ROUND_UP_CHARITY));
+
+			// verify round up charity dropDown and default value
+			orgList.verifyRoundupCharityAndDefaultCharityDropdown(datas.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.ROUND_UP_CHARITY));
+			String item = dropDown.getSelectedItem(AdminRoundUpCharity.DPD_CHARITY_ROUNDUP);
+			CustomisedAssert.assertEquals(item, datas.get(0));
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
