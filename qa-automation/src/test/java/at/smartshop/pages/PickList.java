@@ -87,6 +87,7 @@ public class PickList extends Factory {
 	public static final By SELECT_ORDER_TAB = By.xpath("//td[@aria-describedby='cancelorder-table_location']");
 	public static final By BTN_CONFIRM_CANCEL_ORDER = By.id("cancelorder-yes");
 	public static final By LBL_HISTORY_TITLE = By.id("Pick List History");
+	public static final By LBL_PICK_LIST_TITLE = By.xpath("//li[@id='Pick List']");
 	public static final By TBL_ROW_HEADERS = By.xpath("//table[@id='picklisthistory']//thead");
 	public static final By BTN_HISTORY = By.id("btn-history");
 	public static final By VALIDATE_HIGHLIGHTED_LOCATIONS = By.xpath("//ul[@id='location-list']//li");
@@ -160,9 +161,10 @@ public class PickList extends Factory {
 			.xpath("//td[@aria-describedby='dataGridPickListManager_location']");
 	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMN = By.xpath("//input[@id='mng-grid']");
-	public static final By FILTERED_PICKLIST_TBL_ROW = By.xpath("//table[@id='filter-prd-grid']/thead//tr");
+	public static final By FILTERED_PICKLIST_TBL_ROW = By.xpath("//table[@id='filter-prd-grid']/thead");
 	public static final By TXT_COLUMN_CHOOSER = By.xpath("//span[@class='ui-dialog-title']");
-	public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
+	//public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
+	public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']/li/span[@class='ui-iggrid-dialog-text']");
 	public static final By BTN_APPLY_COLUMN = By
 			.xpath("//span[@id='filter-prd-grid_hiding_modalDialog_footer_buttonok_lbl']");
 	public static final By BTN_CANCEL_COLUMN = By.xpath(
