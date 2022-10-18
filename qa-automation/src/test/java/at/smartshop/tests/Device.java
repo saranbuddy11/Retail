@@ -395,9 +395,12 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER));
 			foundation.click(DeviceList.BTN_SUBMIT);
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.adjustBrowerSize("0.8");
+			foundation.threadWait(Constants.THREE_SECOND);
+			//CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
+			foundation.objectClick(deviceList.DeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
 
 		} catch (Exception exc) {
@@ -496,8 +499,9 @@ public class Device extends TestInfra {
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(DeviceList.BTN_SUBMIT);
+			foundation.adjustBrowerSize("0.8");
 			CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), " ");
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
+			foundation.objectClick(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
 
 		} catch (Exception exc) {
@@ -1347,7 +1351,7 @@ public class Device extends TestInfra {
 			foundation.click(DeviceList.BTN_SEARCH);
 			foundation.threadWait(Constants.ONE_SECOND);
 			//Bug is present as Data is not visible on 100% resolution - https://365retailmarkets.atlassian.net/browse/SOS-29342
-			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA).equals(rstDeviceListData.get(CNDeviceList.ERROR_MESSAGE)));
+			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA).equals(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
