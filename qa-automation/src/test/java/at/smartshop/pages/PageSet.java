@@ -34,6 +34,7 @@ public class PageSet {
 	public static final By TXT_ORG = By.id("pageset-org");
 	public static final By BTN_DELETE_PAGEDEF = By
 			.xpath("//div[@class='delete-item delete-pagedef']//span[text()=' Delete']");
+	public static final By BTN_DELETE=By.xpath("//div[@class='delete-item delete-pagedef']");
 	public static final By DRP_EXISTING_PAGESET = By.xpath("//div[@class='pageset-selectlist']//select");
 	public static final By TXTBX_SEARCHBOX = By.xpath("//input[@aria-controls='dt']");
 	public static final By SELECT_GRID = By.xpath("//td[@class=' sorting_1']");
@@ -130,7 +131,7 @@ public class PageSet {
 	 * @param dropdown
 	 * @param org
 	 */
-	public void searchPagesetAndverifyOrgIsMapped(String menu,String pageset, String org) {
+	public void searchPagesetAndverifyOrgIsMapped(String menu, String pageset, String org) {
 		navigationBar.navigateToMenuItem(menu);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(PageSet.TXTBX_SEARCHBOX, pageset);
@@ -139,14 +140,15 @@ public class PageSet {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PageSet.LBL_PAGESET_SUMMARY));
 		foundation.waitforElementToBeVisible(TXT_ORG, Constants.THREE_SECOND);
 		String text = foundation.getText(TBL_GRID);
-		CustomisedAssert.assertTrue(text.contains(org));		
+		CustomisedAssert.assertTrue(text.contains(org));
 	}
-	
+
 	/**
 	 * disable pageset
+	 * 
 	 * @param dropdown
 	 */
-	public void disablePageset(String menu,String pageset,String dropdown) {
+	public void disablePageset(String menu, String pageset, String dropdown) {
 		navigationBar.navigateToMenuItem(menu);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(PageSet.TXTBX_SEARCHBOX, pageset);
@@ -172,4 +174,61 @@ public class PageSet {
 		foundation.click(PageSet.BTN_SAVE);
 		foundation.waitforElementToBeVisible(PageSet.LBL_PAGESET_LIST, Constants.THREE_SECOND);
 	}
+	
+	/**
+	 * verify AddPageDef Validation 
+	 * @param name
+	 * @param service_Name
+	 * @param pageSet_Def
+	 */
+	public void verifyAddPageDefValidation(String service_Name,String pageSet_Def,String intent) {
+//		foundation.waitforElementToBeVisible(PageSet.TXTBX_SEARCHBOX, Constants.THREE_SECOND);
+//		textBox.enterText(TXTBX_SEARCHBOX, name);
+		foundation.waitforElementToBeVisible(TXT_NAME, Constants.THREE_SECOND);
+		foundation.objectClick(PageSet.SELECT_GRID);
+		foundation.waitforElementToBeVisible(LBL_PAGESET_SUMMARY, Constants.THREE_SECOND);
+		String item = dropDown.getSelectedItem(DRP_SERVICE);
+		CustomisedAssert.assertEquals(item, service_Name);
+	    item = dropDown.getSelectedItem(DRP_PAGEDEF);
+		CustomisedAssert.assertEquals(item, pageSet_Def);
+		foundation.waitforElementToBeVisible(DRP_PAGEINTENT, Constants.THREE_SECOND);
+		item = dropDown.getSelectedItem(DRP_PAGEINTENT);
+		CustomisedAssert.assertEquals(item, intent);
+		foundation.waitforElementToBeVisible(BTN_DELETE_PAGEDEF, Constants.SHORT_TIME);
+		foundation.objectClick(BTN_DELETE);
+		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToBeVisible(LBL_PAGESET_LIST, Constants.THREE_SECOND);
+		
+	}
+
+	/**
+	 * search with created pageset and
+	 * @param name
+	 * @param service_Name
+	 * @param pageSet_Def
+	 * @param pageSet_Intent
+	 */
+	public void navigateToPagesetSummaryAndVerifyFieldsInAddPageDef(String name, String service_Name, String pageSet_Def,
+			String pageSet_Intent) {
+		foundation.waitforElementToBeVisible(PageSet.TXTBX_SEARCHBOX, Constants.THREE_SECOND);
+		textBox.enterText(TXTBX_SEARCHBOX, name);
+		foundation.waitforElementToBeVisible(TXT_NAME, Constants.THREE_SECOND);
+		foundation.objectClick(PageSet.SELECT_GRID);
+		foundation.waitforElementToBeVisible(LBL_PAGESET_SUMMARY, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PageSet.LBL_PAGESET_SUMMARY));
+		foundation.click(BTN_ADD_PAGEDEF);
+		dropDown.selectItem(PageSet.DRP_SERVICE, service_Name, Constants.TEXT);
+		dropDown.selectItem(PageSet.DRP_PAGEDEF, pageSet_Def, Constants.TEXT);
+		foundation.waitforElementToBeVisible(BTN_ADD_INTENT, Constants.THREE_SECOND);
+		foundation.click(PageSet.BTN_ADD_INTENT);
+		String text = foundation.getText(DRP_PAGEINTENT);
+		CustomisedAssert.assertTrue(text.contains(pageSet_Intent));
+		dropDown.selectItem(PageSet.DRP_PAGEINTENT, pageSet_Intent, Constants.TEXT);
+		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(BTN_SAVE);
+		foundation.waitforElementToBeVisible(LBL_PAGESET_LIST, Constants.THREE_SECOND);
+
+	}
+	
 }
