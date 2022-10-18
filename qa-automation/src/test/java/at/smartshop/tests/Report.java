@@ -18,12 +18,15 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Strings;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNConsumerSummary;
+import at.smartshop.database.columns.CNDeviceList;
 import at.smartshop.database.columns.CNLocation;
+import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
@@ -59,6 +62,7 @@ import at.smartshop.pages.DailySalesSummary;
 import at.smartshop.pages.DataSourceManager;
 import at.smartshop.pages.DeleteSummaryReport;
 import at.smartshop.pages.DeviceByCategoryReport;
+import at.smartshop.pages.DeviceDashboard;
 import at.smartshop.pages.EmployeeCompDetailsReport;
 import at.smartshop.pages.EntrySummaryReport;
 import at.smartshop.pages.FinancialCanned;
@@ -217,6 +221,7 @@ public class Report extends TestInfra {
 	private FinancialCanned financialCanned = new FinancialCanned();
 	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
 	private SalesBy30Minutes salesBy30Minutes = new SalesBy30Minutes();
+	private CheckBox checkBox = new CheckBox();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -227,6 +232,8 @@ public class Report extends TestInfra {
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstOrgSummaryData;
 	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstDeviceListData;
+	private Map<String, String> rstLocationListData;
 
 	@Parameters({ "driver", "browser", "reportsDB" })
 	@BeforeClass
@@ -6382,7 +6389,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy15Minutes.getTblRecordsUI();
-			
+
 			salesBy15Minutes.getRowCount();
 			salesBy15Minutes.getJsonSalesData();
 
@@ -6418,9 +6425,9 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/*
-	 * This Method is for Sales By 30 mins Report data validation 
+	 * This Method is for Sales By 30 mins Report data validation
 	 * 
 	 * @author ravindhara Date: 10-10-2022
 	 * 
@@ -6429,7 +6436,6 @@ public class Report extends TestInfra {
 	public void salesBy30MinsReportDataValidation() {
 		try {
 			final String CASE_NUM = "206144";
-			
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -6461,7 +6467,8 @@ public class Report extends TestInfra {
 			salesBy30Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
-			String timePeriod = salesBy30Minutes.getTimePeroid(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			String timePeriod = salesBy30Minutes
+					.getTimePeroid(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			textBox.enterText(SalesBy30Minutes.TXT_SEARCH, timePeriod);
 			salesBy30Minutes.getTblRecordsUI();
 			salesBy30Minutes.getIntialData().putAll(salesBy30Minutes.getReportsData());
@@ -6476,24 +6483,28 @@ public class Report extends TestInfra {
 
 			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
 			salesBy30Minutes.getTblRecordsUI();
-			
+
 			salesBy30Minutes.getRowCount();
 			salesBy30Minutes.getJsonSalesData();
-			
+
 			// update the report date based on calculation
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 
 			// Updating Table data
 			salesBy30Minutes.grossSales(salesBy30Minutes.getTableHeaders().get(1), productPrice, tax);
-			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(2), salesBy30Minutes.getRequiredJsonData().get(2));
-			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(3), salesBy30Minutes.getRequiredJsonData().get(0));
+			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(2),
+					salesBy30Minutes.getRequiredJsonData().get(2));
+			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(3),
+					salesBy30Minutes.getRequiredJsonData().get(0));
 			salesBy30Minutes.TrasactionCount(salesBy30Minutes.getTableHeaders().get(4));
 
-			// Updating Footer data  
+			// Updating Footer data
 			salesBy30Minutes.grossSalesOfFooter(salesBy30Minutes.getTableHeaders().get(1), productPrice, tax);
-			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(2), salesBy30Minutes.getRequiredJsonData().get(2));
-			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(3), salesBy30Minutes.getRequiredJsonData().get(0));
+			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(2),
+					salesBy30Minutes.getRequiredJsonData().get(2));
+			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(3),
+					salesBy30Minutes.getRequiredJsonData().get(0));
 			salesBy30Minutes.TrasactionCountOfFooter(salesBy30Minutes.getTableHeaders().get(4));
 
 			// verify report headers
@@ -7184,9 +7195,13 @@ public class Report extends TestInfra {
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
 		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-		List<String> menu = Arrays
+		List<String> menus = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays
+				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
@@ -7199,18 +7214,69 @@ public class Report extends TestInfra {
 		List<String> subsidyGroup = Arrays
 				.asList(rstConsumerSearchData.get(CNConsumerSearch.TITLE).split(Constants.DELIMITER_TILD));
 		try {
-			// Login to ADM with Super Credentials
-			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+			// Launch ADM and select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Location
-			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(location.get(0));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 
-			// Verifying the selection of defaults as Top Off for GMA subsidy
-			subsidyConsumerSpend.selectionOfTopOffSubsidy(requiredData.get(0), currentDate, requiredData.get(9),
-					requiredData.get(7), requiredData.get(10));
+			// Remove Device from AutomationLocation1 Location
+			if (foundation.isDisplayed(LocationSummary.TBL_DEPLOYED_DEVICE_LIST)) {
+				foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
+				foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
+				foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
+				foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
+				foundation.click(DeviceDashboard.BTN_YES_REMOVE);
+				foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			}
+
+			// Deploy Device to AutoLocationConsumerVerified Location
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.selectLocationName(location.get(1));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
+			foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_FIND_DEVICE, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.click(LocationSummary.TBL_DEVICE_LIST);
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
+			foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			foundation.objectFocus(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+
+			// Select Payroll Deduct ON
+			foundation.objectFocus(LocationSummary.TXT_PAYROLL);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PAYROLL));
+			dropdown.selectItem(LocationSummary.DPD_PAYROLL, requiredData.get(0), Constants.TEXT);
+			textBox.enterText(LocationSummary.INPUT_PAYROLL_MAIL, rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT))
+				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT);
+			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_STREAM))
+				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_STREAM);
+			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_OFFLINE))
+				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_OFFLINE);
+			foundation.click(LocationSummary.DATE_PICKER_PAY_ROLL);
+			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
+			foundation.click(LocationSummary.TXT_PAYROLL);
+			dropdown.selectItem(LocationSummary.DPD_PAY_CYCLE_RECURRENCE, requiredData.get(7), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_PAY_CYCLE_GROUP_NAME,
+					rstLocationListData.get(CNLocationList.PAY_CYCLE));
+			textBox.enterText(LocationSummary.TXT_PAY_ROLL_SPEND_LIMIT, requiredData.get(6));
+			foundation.click(LocationSummary.BTN_SYNC);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
 			// Navigate to Admin > Consumer to Read Scancode and Consumer ID
-			List<String> details = subsidyConsumerSpend.readConsumerDetails(menu.get(1),
+			List<String> details = subsidyConsumerSpend.readConsumerDetails(menus.get(1),
 					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
 			login.logout();
 			browser.close();
@@ -7227,11 +7293,11 @@ public class Report extends TestInfra {
 			subsidyConsumerSpend.loginToADMWithSuperCredentials();
 
 			// Navigate to Admin Consumer to Read Transaction ID
-			String transID = subsidyConsumerSpend.readTransactionID(menu.get(1),
+			String transID = subsidyConsumerSpend.readTransactionID(menus.get(1),
 					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
 
 			// Select Report, Data and Location to run Report
-			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+			subsidyConsumerSpend.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
 
 			// Search with Transaction ID and get the data
