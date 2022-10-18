@@ -1607,4 +1607,67 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * @author sakthir Date: 14-10-2022
+	 */
+	@Test(description = "204917-Verify stock well is displayed in type drop down field of kiosk create page"
+			+"204918-Verify stock well option is displayed correctly when it is saved in Kiosk create page & device Summary page"
+			+"204919-Verify stock well is displayed in type drop down field of Device Summary page")
+	public void verifyTypeDropdownStockwellOptionForNewAndExistingLocationInDeviceSummary() {
+		   final String CASE_NUM = "204917";
+		
+		    // Reading test data from DataBase
+		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		    rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+			
+		   String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		   List<String> device=Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
+		  String data =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+		try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			//navigate to Admin->Device 
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
+
+            //Click new Device and verify Stock well dropdown option in new location
+			foundation.click(DeviceDashboard.BTN_CREATENEW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(KioskCreate.TITLE_KIOSK_CREATE));
+			foundation.click(KioskCreate.DPD_TYPE);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(KioskCreate.DPD_OPTION_TYPE).contains(data));
+			textBox.enterText(KioskCreate.TXT_NAME,string.getRandomCharacter());
+			String value=foundation.getText(KioskCreate.TXT_NAME);
+			dropDown.selectItem(KioskCreate.DPD_ORG, device.get(1), Constants.TEXT);
+			dropDown.selectItem(KioskCreate.DPD_PROCESSOR, device.get(2), Constants.TEXT);
+			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
+			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(KioskCreate.BTN_SAVE);
+			foundation.click(KioskCreate.BTN_SAVE);
+			
+			//Click on newly created and verify Stock well dropdown option in new location
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
+			deviceDashboard.selectDeviceName(value);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+			foundation.scrollIntoViewElement(DeviceSummary.DPD_TYPE);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_TYPE).contains(data));
+			
+			//Click existing Device and verify Stock well dropdown option in existing location
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
+			deviceDashboard.selectDeviceName(device.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+			foundation.scrollIntoViewElement(DeviceSummary.DPD_TYPE);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_TYPE).contains(data));
+			
+		}catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }

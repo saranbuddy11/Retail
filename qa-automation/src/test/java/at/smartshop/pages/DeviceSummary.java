@@ -59,7 +59,7 @@ public class DeviceSummary extends Factory {
     public static final By TXT_PREMIMUM_PAY_LABEL = By.id("premiumpaymentlabel-freedompay");
     public static final By LBL_PREMIMUM_CLIENT_ID_ERROR = By.id("freedompaystandardclientid-error");
     public static final By LBL_PREMIMUM_STORE_ID_ERROR = By.id("freedompaystandardstoreid-error");    
-
+    public static final By DPD_TYPE=By.xpath("//select[@id='kiosktype']//option");
 	
 	public By objSFEOptions(String text) {
 		return By.xpath("//dt[text()='"+text+"']/following-sibling::dd[1]");
@@ -68,7 +68,9 @@ public class DeviceSummary extends Factory {
 	public By objSubPaymentOption(String text) {
 	    return    By.xpath("//ul[@id='select2-processor2-results']//li[text()='"+text+"']");
 	    }
-	
+	public By selectSubPaymentOption(String text) {
+	    return    By.xpath("//span//ul[@id='select2-processor1-results']//li[text()='"+text+"']");
+	    }
 	
 	public void setTime(String locationName, String deviceName, String time, String menu) {
 		
@@ -120,10 +122,11 @@ public class DeviceSummary extends Factory {
 	 * 
 	 */
 	 public void validateClientIdAndStoreID() {
-		 textBox.enterText(TXT_PREMIMUM_CLIENT_ID, strings.getRandomCharacter()+"&**&");
+		    textBox.enterText(TXT_PREMIMUM_CLIENT_ID, strings.getRandomCharacter()+"&**&");
 			String clientId = foundation.getAttribute(TXT_PREMIMUM_CLIENT_ID, "value");
 			boolean clientIdStatus= strings.verifyNoSpecialCharacter(clientId);
 			foundation.waitforElementToBeVisible(LBL_PREMIMUM_CLIENT_ID_ERROR, Constants.THREE_SECOND);
+			foundation.click(TXT_PREMIMUM_STORE_ID);
 			if(clientIdStatus==false) {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_PREMIMUM_CLIENT_ID_ERROR));
 			}

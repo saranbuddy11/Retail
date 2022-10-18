@@ -720,7 +720,7 @@ public class PickList extends Factory {
 	 * @param day
 	 * @return
 	 */
-	public List<String> getDefaultOption(List<String> day) {
+	public List<String> verifyDefaultOption(List<String> day) {
 		List<String> elementsText = new ArrayList<String>();
 		for (int j = 0; j <= 6; j++) {
 			String value=foundation.getText(objClickPlanServiceDay(day.get(j)));
@@ -736,7 +736,7 @@ public class PickList extends Factory {
 	 * @param day
 	 * @return
 	 */
-	public List<String> getDPDOption(List<String> data,List<String> day) {
+	public List<String> verifyDPDOption(List<String> data,List<String> day) {
 		String text = null;
 		List<String> elementsText = new ArrayList<String>();
 		
@@ -786,12 +786,12 @@ public class PickList extends Factory {
 	}
 	
 	/**
-	 * Select the Dropdown options
+	 * Select the Dropdown options and verify save button is Enable
 	 * 
 	 * @param data
 	 * @param day
 	 */
-	public void selectDPDOption(String data,List<String> day,String checkboxSelection) {
+	public void verifySaveButtonEnableAfterSelectingDPDOption(String data,List<String> day,String checkboxSelection) {
 		List<WebElement> list = getDriver().findElements(CHECKBOX);
 	
 		for (int j = 0; j <= 6; j++) {
@@ -807,10 +807,12 @@ public class PickList extends Factory {
          for (int i = 0; i <= list.size() - 1; i++) {
  			if (checkboxSelection.equals("true")) {
  				String value = getDriver().findElement(objDay(String.valueOf(i + 1))).getAttribute("aria-checked");
+ 				 foundation.threadWait(3);
  				CustomisedAssert.assertEquals(value, checkboxSelection);
  			}
          }
 	}
+	
 	
 }
 
