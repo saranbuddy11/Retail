@@ -203,4 +203,16 @@ public class OrgSummary extends Factory {
 		foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * change special type in org summary
+	 * @param dropdown
+	 */
+	public void changeSpecialType(String dropdown) {
+		foundation.waitforElementToBeVisible(DPD_SPECIAL_TYPE, Constants.THREE_SECOND);
+		dropDown.selectItem(DPD_SPECIAL_TYPE, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.TWO_SECOND);
+	}
+	
 }
