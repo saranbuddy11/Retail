@@ -42,7 +42,9 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_CANCEL_1 = By.xpath("//button[@id='cancelBtn']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
 	public static final By DELETE_BUILD = By.xpath("//a[@title='Delete']");
+	public static final By LOCATION_DISABLED=By.id("locTable_scroll");
 	public static final By TXT_PROMO_NAME = By.id("name");
+	public static final By ALL_LOCATION=By.id("allLocCheck");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
 	public static final By DPD_LOCATION = By.id("location-select");
