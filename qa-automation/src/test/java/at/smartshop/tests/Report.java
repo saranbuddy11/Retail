@@ -90,6 +90,7 @@ import at.smartshop.pages.MultiTaxReport;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrderTransactionTimeReport;
 import at.smartshop.pages.OrgSummary;
+import at.smartshop.pages.PayrollDeductDetails;
 import at.smartshop.pages.PersonalChargeReport;
 import at.smartshop.pages.ProductCannedReport;
 import at.smartshop.pages.ProductPricingReport;
@@ -222,6 +223,7 @@ public class Report extends TestInfra {
 	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
 	private SalesBy30Minutes salesBy30Minutes = new SalesBy30Minutes();
 	private CheckBox checkBox = new CheckBox();
+	private PayrollDeductDetails payrollDeductDetails = new PayrollDeductDetails();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -7204,15 +7206,9 @@ public class Report extends TestInfra {
 				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
-		List<String> orderPageData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
-		List<String> product = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MMDDYY, Constants.TIME_ZONE_INDIA);
 		List<String> columnName = Arrays
 				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_HASH));
-		List<String> subsidyGroup = Arrays
-				.asList(rstConsumerSearchData.get(CNConsumerSearch.TITLE).split(Constants.DELIMITER_TILD));
 		try {
 			// Launch ADM and select Org
 			browser.navigateURL(
@@ -7252,79 +7248,100 @@ public class Report extends TestInfra {
 			foundation.objectFocus(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 
+			// Select GMA Subsidy OFF
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_GMA_SUBSIDY));
+			String value = dropdown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
+			if (value.equals(requiredData.get(0)))
+				dropdown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(1), Constants.TEXT);
+
 			// Select Payroll Deduct ON
 			foundation.objectFocus(LocationSummary.TXT_PAYROLL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_PAYROLL));
-			dropdown.selectItem(LocationSummary.DPD_PAYROLL, requiredData.get(0), Constants.TEXT);
-			textBox.enterText(LocationSummary.INPUT_PAYROLL_MAIL, rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT))
-				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT);
-			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_STREAM))
-				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_STREAM);
-			if (!checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_OFFLINE))
-				checkBox.check(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_OFFLINE);
-			foundation.click(LocationSummary.DATE_PICKER_PAY_ROLL);
-			locationSummary.verifyTopOffDateAutoLocation1(currentDate);
-			foundation.click(LocationSummary.TXT_PAYROLL);
-			dropdown.selectItem(LocationSummary.DPD_PAY_CYCLE_RECURRENCE, requiredData.get(7), Constants.TEXT);
-			textBox.enterText(LocationSummary.TXT_PAY_CYCLE_GROUP_NAME,
-					rstLocationListData.get(CNLocationList.PAY_CYCLE));
-			textBox.enterText(LocationSummary.TXT_PAY_ROLL_SPEND_LIMIT, requiredData.get(6));
+			value = dropdown.getSelectedItem(LocationSummary.DPD_PAYROLL);
+			CustomisedAssert.assertTrue(value.equals(requiredData.get(0)));
+			CustomisedAssert.assertTrue(checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT));
+			CustomisedAssert.assertTrue(checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_STREAM));
+			CustomisedAssert.assertTrue(checkBox.isChecked(LocationSummary.CHK_BOX_PAYROLL_DEDUCT_OFFLINE));
+			String payCycle = dropdown.getSelectedItem(LocationSummary.DPD_PAY_CYCLE_RECURRENCE);
 			foundation.click(LocationSummary.BTN_SYNC);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 
-			// Navigate to Admin > Consumer to Read Scancode and Consumer ID
-			List<String> details = subsidyConsumerSpend.readConsumerDetails(menus.get(1),
-					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
-			login.logout();
-			browser.close();
+			// Navigate to Admin > Consumer to Read Payroll Details
+			List<String> details = payrollDeductDetails.readConsumerDetails(menus.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME),
+					rstDeviceListData.get(CNDeviceList.LOCATION), requiredData.get(3), requiredData.get(4));
+
+			// Select location and sync with device
+			locationList.syncDevice(menus.get(0), location.get(1));
 
 			// Launch V5 Device to do Transaction on Subsidy Balance
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
-			String price = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(0), orderPageData.get(0),
-					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
-					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			String price = payrollDeductDetails.readPriceFromV5Transaction(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME),
+					rstV5DeviceData.get(CNV5Device.ORDER_PAGE), rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 			browser.close();
 
 			// Navigate to ADM
-			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+			payrollDeductDetails.loginToADMWithSuperCredentials();
 
 			// Navigate to Admin Consumer to Read Transaction ID
-			String transID = subsidyConsumerSpend.readTransactionID(menus.get(1),
-					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
+			String transID = payrollDeductDetails.readTransactionID(menus.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME),
+					rstDeviceListData.get(CNDeviceList.LOCATION));
 
 			// Select Report, Data and Location to run Report
-			subsidyConsumerSpend.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
+			payrollDeductDetails.selectAndRunReport(menus.get(2), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstDeviceListData.get(CNDeviceList.LOCATION),
+					transID);
 
 			// Search with Transaction ID and get the data
-			subsidyConsumerSpend.getTblRecordsUI();
-			subsidyConsumerSpend.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
-					rstV5DeviceData.get(CNV5Device.LOCATION));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(2),
+			payrollDeductDetails.getTblRecordsUI();
+			payrollDeductDetails.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(0), transID);
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(1), currentDate);
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(2), currentDate);
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(3),
 					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(3),
-					rstConsumerSearchData.get(CNConsumerSearch.ATTRIBUTE));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(5),
-					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
-			String dateArray[] = currentDate.split("/");
-			String date = dateArray[0].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/"
-					+ dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/" + dateArray[2];
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
-			price = price.replace("$", "");
-			price = price.replace(".", "");
-			price = price.replace("0", "");
-			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(5), details.get(2));
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(6), payCycle.toUpperCase());
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(7), details.get(1));
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(8), price);
+			payrollDeductDetails.verifyCommonValueContentofTableRecord(columnName.get(9), requiredData.get(2));
+			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Select Org and menu
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Remove Device from AutoLocationConsumerVerified Location
+			navigationBar.navigateToMenuItem(menus.get(0));
+			foundation.waitforElement(locationList.getlocationElement(location.get(1)), Constants.SHORT_TIME);
+			textBox.enterText(LocationList.TXT_FILTER, location.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationList.TBL_DEPLOYED_DEVICE_LIST);
+			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
+			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
+			foundation.waitforElement(DeviceDashboard.BTN_YES_REMOVE, Constants.SHORT_TIME);
+			foundation.click(DeviceDashboard.BTN_YES_REMOVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Deploy Device to AutomationLocation1 Location
+			navigationBar.navigateToMenuItem(menus.get(0));
+			locationList.deployDevice(location.get(0), rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 		}
 	}
 }
