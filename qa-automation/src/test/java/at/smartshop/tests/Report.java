@@ -5011,7 +5011,7 @@ public class Report extends TestInfra {
 	 * @author KarthikR
 	 * @date: 05-08-2022
 	 */
-	@Test(enabled = false, description = "202033 - Cash Flow Employee Device Report data validation")
+	@Test(description = "202033 - Cash Flow Employee Device Report data validation")
 	public void CashFlowEmployeeDeviceReportDataValidation() {
 		final String CASE_NUM = "202033";
 
@@ -5052,7 +5052,9 @@ public class Report extends TestInfra {
 			// read Report Data
 			cashFlowEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
 					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			System.out.println("1API-" + cashFlowEmployeeDevice.reportsData);
 			cashFlowEmployeeDevice.getInitialReportsData().putAll(cashFlowEmployeeDevice.reportsData);
+			System.out.println(cashFlowEmployeeDevice.getReportsTotalData());
 			cashFlowEmployeeDevice.getInitialReportTotals().putAll(cashFlowEmployeeDevice.getReportsTotalData());
 
 			// process sales API to generate data
@@ -5071,6 +5073,8 @@ public class Report extends TestInfra {
 			// read Updated Report Data
 			cashFlowEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
 					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			System.out.println("2API-" + cashFlowEmployeeDevice.reportsData);
+			System.out.println("3API-" + cashFlowEmployeeDevice.getRequiredCount());
 			cashFlowEmployeeDevice.getJsonSalesData();
 
 			// verify Report Headers
@@ -5078,35 +5082,35 @@ public class Report extends TestInfra {
 
 			// calculate Credit Payment Counts
 			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
-					columns.get(0), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(0));
+					columns.get(0), columnValue.get(1), cashFlowEmployeeDevice.getRequiredCount().get(0));
 
 			// calculate Credit Payment Amounts
 			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
-					columns.get(1), columnValue.get(0));
+					columns.get(1), columnValue.get(1));
 
 			// calculate Credit Void Counts
 			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
-					columns.get(2), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(4));
+					columns.get(2), columnValue.get(1), cashFlowEmployeeDevice.getRequiredCount().get(4));
 
 			// calculate Credit Void Amounts
 			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
-					columns.get(3), columnValue.get(0));
+					columns.get(3), columnValue.get(1));
 
 			// calculate Credit Declined Counts
 			cashFlowEmployeeDevice.calculateCounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
-					columns.get(4), columnValue.get(0), cashFlowEmployeeDevice.getRequiredCount().get(5));
+					columns.get(4), columnValue.get(1), cashFlowEmployeeDevice.getRequiredCount().get(5));
 
 			// calculate Credit Declined Amounts
 			cashFlowEmployeeDevice.calculateAmounts(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
-					columns.get(5), columnValue.get(0));
+					columns.get(5), columnValue.get(1));
 
 			// calculate Credit Sales
 			cashFlowEmployeeDevice.calculateLocationSales(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location, columns.get(6), columnValue.get(0));
+					location, columns.get(6), columnValue.get(1));
 
 			// calculate Credit Taxes
 			cashFlowEmployeeDevice.calculateLocationTax(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location,
-					columns.get(7), columnValue.get(0));
+					columns.get(7), columnValue.get(1));
 
 			// calculate Credit Total
 			cashFlowEmployeeDevice.calculateTotalsColumnData(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),

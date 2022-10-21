@@ -19,7 +19,6 @@ import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;

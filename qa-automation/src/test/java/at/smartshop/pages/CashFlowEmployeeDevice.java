@@ -13,7 +13,6 @@ import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 
 import com.aventstack.extentreports.Status;
 import com.google.gson.JsonArray;
@@ -83,7 +82,7 @@ public class CashFlowEmployeeDevice extends Factory {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(REPORT_NAME);
-			Assert.assertEquals(reportTitle, reportName);
+			CustomisedAssert.assertEquals(reportTitle, reportName);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -98,14 +97,14 @@ public class CashFlowEmployeeDevice extends Factory {
 				foundation.scrollIntoViewElement(REPORT_GRID_FIRST_ROW);
 				if (foundation.isDisplayed(NO_DATA_AVAILABLE_IN_TABLE)) {
 					ExtFactory.getInstance().getExtent().log(Status.INFO, "No Data Available in Report Table");
-					Assert.fail("Failed Report because No Data Available in Report Table");
+					CustomisedAssert.fail("Failed Report because No Data Available in Report Table");
 				} else {
 					ExtFactory.getInstance().getExtent().log(Status.INFO,
 							"Report Data Available in the Table, Hence passing the Test case");
 				}
 			} else {
 				ExtFactory.getInstance().getExtent().log(Status.INFO, "No Report Table Available");
-				Assert.fail("Failed Report because No Report Table Available");
+				CustomisedAssert.fail("Failed Report because No Report Table Available");
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -246,7 +245,8 @@ public class CashFlowEmployeeDevice extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 		for (int iter = 0; iter < tableHeaders.size(); iter++) {
-			Assert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			System.out.println(tableHeaders.get(iter) + "-" + columnName.get(iter));
+			CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 		}
 	}
 
@@ -686,12 +686,16 @@ public class CashFlowEmployeeDevice extends Factory {
 		int count = initialReportsData.size();
 		int coulumnCount = tableHeaders.size();
 		for (int val = 1; val < coulumnCount; val++) {
+			System.out.println(reportsTotalData.get(0).get(tableHeaders.get(val)) + "-hi-" + (cashFlowDetailsTotalsSum
+					.get(0).get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
 			CustomisedAssert.assertTrue(
 					reportsTotalData.get(0).get(tableHeaders.get(val)).contains(cashFlowDetailsTotalsSum.get(0)
 							.get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
 		}
 		for (int iter = 0; iter < count - 3; iter++) {
 			for (int val = 0; val < coulumnCount; val++) {
+				System.out.println(reportsData.get(iter).get(tableHeaders.get(val)) + "-ss-"
+						+ (initialReportsData.get(iter).get(tableHeaders.get(val))));
 				CustomisedAssert.assertTrue(reportsData.get(iter).get(tableHeaders.get(val))
 						.contains(initialReportsData.get(iter).get(tableHeaders.get(val))));
 			}
@@ -785,7 +789,6 @@ public class CashFlowEmployeeDevice extends Factory {
 	 */
 	public void getJsonSalesData() {
 		try {
-			requiredJsonData.clear();
 			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
 			String subTotal = sales.get(Reports.SUBTOTAL).getAsString();
 			requiredJsonData.add(Double.parseDouble(subTotal));
