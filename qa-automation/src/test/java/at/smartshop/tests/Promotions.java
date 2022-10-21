@@ -80,7 +80,7 @@ public class Promotions extends TestInfra {
 
 			String promotionName = strings.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			// String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String displayName = strings.getRandomCharacter();
 
 			List<String> requiredData = Arrays
@@ -98,15 +98,26 @@ public class Promotions extends TestInfra {
 			if (foundation.isDisplayed(CreatePromotions.TXT_DISPLAY_NAME))
 				textBox.enterText(CreatePromotions.TXT_DISPLAY_NAME, displayName);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+			foundation.waitforElement(CreatePromotions.TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+			textBox.enterText(CreatePromotions.TXT_SEARCH_ORGPAGE, requiredData.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(CreatePromotions.CHECKBOX_ORG);
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.ALL_LOCATION, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.ALL_LOCATION);
+			foundation.waitforElement(CreatePromotions.LOCATION_DISABLED, Constants.THREE_SECOND);
+			
+			
+//			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
+//			dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(0), Constants.TEXT);
+//			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
 			// dropDown.selectItem(CreatePromotions.DPD_ORG, requiredData.get(1),
 			// Constants.TEXT);
 			// foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(CreatePromotions.SELECT_ALL_LOCATION);
-			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.click(CreatePromotions.SELECT_ALL_LOCATION);
+//			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
 			// createPromotions.newPromotion(promotionType, promotionName,
 			// requiredData.get(0), requiredData.get(1),locationName);
 
