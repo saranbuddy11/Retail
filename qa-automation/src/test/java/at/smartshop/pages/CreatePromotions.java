@@ -46,6 +46,7 @@ public class CreatePromotions extends Factory {
 	public static final By LOCATION_DISABLED=By.id("locTable_scroll");
 	public static final By TXT_PROMO_NAME = By.id("name");
 	public static final By ALL_LOCATION=By.id("allLocCheck");
+	public static final By CATEGORY_SELECTED=By.cssSelector("#categoryBundleTable > tbody");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
 	public static final By BTN_CANCEL_CAT_POPUP=By.id("bundleCategoryModalCancel");
 	public static final By CAT_SELECTED=By.xpath("//div[@class='bundle-item']");
@@ -269,6 +270,29 @@ public class CreatePromotions extends Factory {
 		textBox.enterText(TXT_PROMO_NAME, promotionName);
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
 			textBox.enterText(TXT_DISPLAY_NAME, displayName);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(CHECKBOX_ORG);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		foundation.click(BTN_NEXT);
+		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
+		textBox.enterText(TXT_LOC_SEARCH, locationName);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(CHECKBOX_LOC);
+		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+	}
+	
+	public void newPromotionUsingTenderDiscount(String promotionType, String promotionName, String orgName,
+			String locationName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
 		foundation.click(BTN_NEXT);
 		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
 		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
