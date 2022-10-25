@@ -67,6 +67,20 @@ public class CashFlowEmployeeDevice extends Factory {
 	private List<String> tableHeaders = new ArrayList<>();
 	public String staffName = "Non-Employee";
 
+	int requiredRecordCount;
+	int recordCountOfCash;
+	int recordCountOfCreditCard;
+	int recordCountOfSOGO;
+	int recordCountOfComp;
+	int recordCountOfGuestPass;
+	int recordCountOfSpecial;
+	int recordCountOfAccount;
+
+	/**
+	 * Get Location Count
+	 * 
+	 * @return
+	 */
 	public int getLocationCount() {
 		WebElement locationDropdown = getDriver().findElement(By.cssSelector(DPD_LOCATION));
 		List<WebElement> locationDropdownList = locationDropdown.findElements(By.tagName("li"));
@@ -112,81 +126,13 @@ public class CashFlowEmployeeDevice extends Factory {
 	}
 
 	/**
-	 * Calculate Integer Total
-	 * 
-	 * @param columnName
-	 */
-	public void calculateIntegerTotal(String columnName) {
-		int rowSize = cashFlowDetailsTotal.size();
-		int totalValue = 0;
-		for (int iter = 0; iter < rowSize; iter++) {
-			int value = Integer.parseInt(cashFlowDetailsTotal.get(iter).get(columnName)
-					.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
-			totalValue = totalValue + value;
-		}
-		calculateCashFlowTotal.get(0).put(columnName, String.valueOf(totalValue));
-	}
-
-	/**
-	 * Calculate Double Total
-	 * 
-	 * @param columnName
-	 */
-	public void calculateDoubleTotal(String columnName) {
-		int rowSize = cashFlowDetailsTotal.size();
-		double totalValue = 0.0;
-		for (int iter = 0; iter < rowSize; iter++) {
-			double value = Double.parseDouble(cashFlowDetailsTotal.get(iter).get(columnName)
-					.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
-			totalValue = totalValue + value;
-			totalValue = Math.round(totalValue * 100.0) / 100.0;
-		}
-		calculateCashFlowTotal.get(0).put(columnName, String.valueOf(totalValue));
-	}
-
-	/**
-	 * Calculate Cash Flow Details Totals
-	 * 
-	 * @param location
-	 * @throws Exception
-	 */
-	public void calculateCashFlowDetailsTotals(String location) throws Exception {
-		cashFlowDetailsTotal.clear();
-		String locationName = location.replace("@", Constants.DELIMITER_HYPHEN);
-		WebElement containers = getDriver().findElement(By.id(REPORTS_CONTAINERS));
-		List<WebElement> tables = containers.findElements(By.cssSelector("div > div > div > table"));
-		int counter = 0;
-		int iterCount = 2;
-		for (int iter = 0; iter < tables.size(); iter++) {
-			Map<String, String> reportsdata = new LinkedHashMap<>();
-			String id = tables.get(iter).getAttribute("id");
-			iterCount++;
-			if (id.contains(locationName)) {
-				List<WebElement> rows = tables.get(iter).findElements(By.cssSelector("tbody > tr"));
-				int count = rows.size();
-				if (count >= 4) {
-					WebElement totalRow = getDriver()
-							.findElement(By.cssSelector("#report-container > div:nth-child(" + (iterCount)
-									+ ") > div:nth-child(2) > div > table > tbody > tr:nth-child(" + count + ")"));
-					for (int iterator = 1; iterator < tableHeaders.size() + 1; iterator++) {
-						WebElement column = totalRow.findElement(By.cssSelector("td:nth-child(" + iterator + ")"));
-						reportsdata.put(tableHeaders.get(iterator - 1), column.getText());
-					}
-					cashFlowDetailsTotal.put(counter, reportsdata);
-					counter++;
-				}
-			}
-		}
-	}
-
-	/**
 	 * Read all Records from UI Report
 	 * 
 	 * @param deviceId
 	 * @param location
 	 * @throws Exception
 	 */
-	public void readAllRecordsFromCashFlowDetailsTable(String deviceId, String location) throws Exception {
+	public void readAllRecordsFromCashFlowEmployeeDetailsTable(String deviceId, String location) throws Exception {
 		int locCount = getLocationCount();
 		reportsData.clear();
 		int count = 0;
@@ -242,12 +188,193 @@ public class CashFlowEmployeeDevice extends Factory {
 	 * 
 	 * @param columnNames
 	 */
-	public void verifyReportHeaders(String columnNames) {
-		List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
+	public void verifyReportHeaders(List<String> columnNames) {
 		for (int iter = 0; iter < tableHeaders.size(); iter++) {
-			System.out.println(tableHeaders.get(iter) + "-" + columnName.get(iter));
-			CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
+			CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnNames.get(iter)));
 		}
+	}
+
+	/**
+	 * Get Required Count Record
+	 * 
+	 * @param paymentType
+	 * @return
+	 */
+	public int getRequiredRecord(String paymentType) {
+		try {
+			requiredRecordCount = 0;
+			for (int rowCount = 0; rowCount < initialReportsData.size(); rowCount++) {
+				if (initialReportsData.get(rowCount).get(tableHeaders.get(0)).equals(paymentType)) {
+					requiredRecordCount = rowCount;
+					break;
+				}
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return requiredRecordCount;
+	}
+
+	/**
+	 * Calculate Count for Different Payment Type
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateCounts(String columnName, int recordCountOfPaymentType) throws Exception {
+		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
+		int updatedCounts = Integer.parseInt(initialCounts) + 1;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
+	}
+
+	/**
+	 * Calculate Amount for Different Payment Type
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateAmounts(String columnName, int recordCountOfPaymentType) throws Exception {
+		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
+		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
+		double updatedAmounts = Double
+				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
+		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedAmounts));
+	}
+
+	/**
+	 * Calculate Location Sales for Different Payment Type
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateLocationSales(String columnName, int recordCountOfPaymentType) throws Exception {
+		String paymentAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
+		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(4));
+		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
+		double salesData = Double
+				.parseDouble(paymentAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				- Double.parseDouble(voidAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+		salesData = Math.round(salesData * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(salesData));
+	}
+
+	/**
+	 * Calculate Location Tax
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateLocationTax(String columnName, int recordCountOfPaymentType) throws Exception {
+		String paymentCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(1));
+		String voidCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
+		double taxes = requiredJsonData.get(1) * (Double.parseDouble(paymentCounts) - Double.parseDouble(voidCounts));
+		taxes = Math.round(taxes * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(taxes));
+	}
+
+	/**
+	 * Calculate Totals Column Data
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateTotalsColumnData(String columnName, int recordCountOfPaymentType) throws Exception {
+		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(7));
+		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
+		String tipsAmount = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(12));
+		double totals = Double.parseDouble(tipsAmount.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				+ Double.parseDouble(salesDate.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				+ Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+		totals = Math.round(totals * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(totals));
+	}
+
+	/**
+	 * Calculate Counts for Totals
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateCountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
+		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
+		int updatedCounts = Integer.parseInt(initialCounts) + 7;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
+	}
+
+	/**
+	 * Calculate Amount for Totals
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateAmountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
+		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
+		double amount = (requiredJsonData.get(0) + requiredJsonData.get(1)) * 7;
+		double updatedAmounts = Double
+				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
+		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedAmounts));
+	}
+
+	/**
+	 * Calculate Location Sales for Totals
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateLocationSalesForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
+		String paymentAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
+		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(4));
+		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
+		double salesData = Double
+				.parseDouble(paymentAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				- Double.parseDouble(voidAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+		salesData = Math.round(salesData * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(salesData));
+	}
+
+	/**
+	 * Calculate Location Tax for Totals
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateLocationTaxForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
+		String paymentCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(1));
+		String voidCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
+		double taxes = requiredJsonData.get(1) * (Double.parseDouble(paymentCounts) - Double.parseDouble(voidCounts));
+		taxes = Math.round(taxes * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(taxes));
+	}
+
+	/**
+	 * Calculate Totals Column Data
+	 * 
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
+	public void calculateTotalsColumnDataForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
+		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(7));
+		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
+		String tipsAmount = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(12));
+		double totals = Double.parseDouble(tipsAmount.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				+ Double.parseDouble(salesDate.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+				+ Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
+		totals = Math.round(totals * 100.0) / 100.0;
+		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(totals));
 	}
 
 	/**
@@ -347,337 +474,6 @@ public class CashFlowEmployeeDevice extends Factory {
 	}
 
 	/**
-	 * Calculate Credit Card Sub Total counts
-	 * 
-	 * @param deviceName
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateCreditCardSubTotalCounts(String deviceName, String location, String columnName,
-			String columnValue) throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		int count = getSubHeaderCount(deviceName, location, colName.get(0), columnValue);
-		int counter = initialReportsData.size();
-		int payCount = 0;
-		String updatedPayCount = Constants.EMPTY_STRING;
-		for (int iter = 0; iter < counter; iter++) {
-			if (initialReportsData.get(iter).get(tableHeaders.get(0)).contains("Credit")
-					&& (!(initialReportsData.get(iter).get(tableHeaders.get(0))).equals("Credit Card Sub Total"))) {
-				String paySubCount = reportsData.get(iter).get(colName.get(1));
-				payCount = payCount + Integer.parseInt(paySubCount);
-				updatedPayCount = String.valueOf(payCount);
-			}
-		}
-		initialReportsData.get(count - 1).put(colName.get(1), updatedPayCount);
-	}
-
-	/**
-	 * Calcualte Credit Card Subtotal Amounts
-	 * 
-	 * @param deviceName
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateCreditCardSubTotalAmounts(String deviceName, String location, String columnName,
-			String columnValue) throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		int count = getSubHeaderCount(deviceName, location, colName.get(0), columnValue);
-		int counter = initialReportsData.size();
-		double payAmount = 0;
-		for (int iter = 0; iter < counter; iter++) {
-			if (initialReportsData.get(iter).get(tableHeaders.get(0)).contains("Credit")
-					&& (!initialReportsData.get(iter).get(tableHeaders.get(0)).equals("Credit Card Sub Total"))) {
-				String paySubAmount = reportsData.get(iter).get(colName.get(1)).replaceAll(Constants.REPLACE_DOLLOR,
-						Constants.EMPTY_STRING);
-				payAmount = payAmount
-						+ Double.parseDouble(paySubAmount.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
-				payAmount = Math.round(payAmount * 100.0) / 100.0;
-			}
-		}
-		initialReportsData.get(count - 1).put(colName.get(1), String.valueOf(payAmount));
-	}
-
-	/**
-	 * Calcualte Location Total Amounts
-	 * 
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateLocationTotalsAmounts(String columnName, String columnValue) throws Exception {
-		double totalAmount = 0;
-		double amount = 0;
-		double subCreditTotal = 0;
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		List<String> colValue = Arrays.asList(columnValue.split(Constants.DELIMITER_HASH));
-		int counter = initialReportsData.size() - 1;
-		for (int iter = 0; iter < counter; iter++) {
-			if (!initialReportsData.get(iter).get(tableHeaders.get(0)).contains("Credit")) {
-				amount = Double.parseDouble(reportsData.get(iter).get(colName.get(1)));
-				totalAmount = totalAmount + amount;
-			}
-			if (initialReportsData.get(iter).get(tableHeaders.get(0)).contains(colValue.get(0))) {
-				subCreditTotal = Double.parseDouble(reportsData.get(iter).get(colName.get(1)));
-			}
-		}
-		double updatedAmount = totalAmount + subCreditTotal;
-		updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-		initialReportsData.get(counter).put(colName.get(1), String.valueOf(updatedAmount));
-	}
-
-	/**
-	 * Calculate Location Total Counts
-	 * 
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateLocationTotalCounts(String columnName, String columnValue) throws Exception {
-		int totalCount = 0;
-		int count = 0;
-		int subCreditTotal = 0;
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		List<String> colValue = Arrays.asList(columnValue.split(Constants.DELIMITER_HASH));
-		int counter = initialReportsData.size() - 1;
-		for (int iter = 0; iter < counter; iter++) {
-			if (!initialReportsData.get(iter).get(tableHeaders.get(0)).contains("Credit")) {
-				count = Integer.parseInt(reportsData.get(iter).get(colName.get(1)));
-				totalCount = totalCount + count;
-			}
-			if (initialReportsData.get(iter).get(tableHeaders.get(0)).contains(colValue.get(0))) {
-				subCreditTotal = Integer.parseInt(reportsData.get(iter).get(colName.get(1)));
-			}
-		}
-		int updatedCount = totalCount + subCreditTotal;
-		initialReportsData.get(counter).put(colName.get(1), String.valueOf(updatedCount));
-	}
-
-	/**
-	 * Calculate Counts
-	 * 
-	 * @param device
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @param count
-	 * @throws Exception
-	 */
-	public void calculateCounts(String device, String location, String columnName, String columnValue, int count)
-			throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String initialCounts = initialReportsData
-				.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1).get(colName.get(1));
-		int updatedCounts = Integer.parseInt(initialCounts) + count;
-		initialReportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1).put(colName.get(1),
-				String.valueOf(updatedCounts));
-	}
-
-	/**
-	 * Calculate Amounts
-	 * 
-	 * @param device
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateAmounts(String device, String location, String columnName, String columnValue)
-			throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String initialAmounts = initialReportsData
-				.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1).get(colName.get(1));
-		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
-		double updatedAmounts = Double
-				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
-		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
-		initialReportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1).put(colName.get(1),
-				String.valueOf(updatedAmounts));
-	}
-
-	/**
-	 * Calculate Declined Amounts
-	 * 
-	 * @param device
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateDeclinedAmounts(String device, String location, String columnName, String columnValue)
-			throws Exception {
-		double updatedAmounts = 0;
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String initialAmounts = initialReportsData
-				.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1).get(colName.get(1));
-		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
-		if (initialAmounts.contains("0.00")) {
-			updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
-			initialReportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1)
-					.put(colName.get(1), String.valueOf(updatedAmounts));
-		} else {
-			updatedAmounts = Double
-					.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
-			updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
-			initialReportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1)
-					.put(colName.get(1), String.valueOf(updatedAmounts));
-		}
-	}
-
-	/**
-	 * Calculate Total Column Data
-	 * 
-	 * @param device
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateTotalsColumnData(String device, String location, String columnName, String columnValue)
-			throws Exception {
-		String total;
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String salesDate = reportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(1));
-		String taxes = reportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(2));
-		String tipsAmount = reportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(3));
-		double totals = Double.parseDouble(tipsAmount.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-				+ Double.parseDouble(salesDate.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-				+ Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
-		totals = Math.round(totals * 100.0) / 100.0;
-		if (totals < 0) {
-			total = String.valueOf(totals).replaceAll(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING);
-		} else {
-			total = String.valueOf(totals);
-		}
-		initialReportsData.get(getSubHeaderCount(device, location, colName.get(0), columnValue) - 1).put(colName.get(4),
-				String.valueOf(total));
-	}
-
-	/**
-	 * Calculate Location sales
-	 * 
-	 * @param deviceName
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateLocationSales(String deviceName, String location, String columnName, String columnValue)
-			throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String paymentAmounts = reportsData
-				.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).get(colName.get(1));
-		String voidAmounts = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(2));
-		String taxes = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(3));
-		double salesData = Double
-				.parseDouble(paymentAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-				- Double.parseDouble(voidAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
-		salesData = Math.round(salesData * 100.0) / 100.0;
-		initialReportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.put(colName.get(4), String.valueOf(salesData));
-		String newSales = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(4)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING);
-		reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).put(colName.get(4),
-				String.valueOf(newSales));
-	}
-
-	/**
-	 * Calculate Location Tax
-	 * 
-	 * @param deviceName
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void calculateLocationTax(String deviceName, String location, String columnName, String columnValue)
-			throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String paymentCounts = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(1));
-		String voidCounts = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(2));
-		double taxes = requiredJsonData.get(1)
-				* (Double.parseDouble(paymentCounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-						- Double.parseDouble(voidCounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
-		taxes = Math.round(taxes * 100.0) / 100.0;
-		initialReportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.put(colName.get(3), String.valueOf(taxes));
-		String newTax = reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.get(colName.get(3)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING);
-		reportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).put(colName.get(3),
-				String.valueOf(newTax));
-	}
-
-	/**
-	 * Update Total Grid Value
-	 * 
-	 * @param deviceName
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-	public void updateTotalsGridValue(String deviceName, String location, String columnName, String columnValue)
-			throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		initialReportTotals.get(0).putAll(
-				initialReportsData.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1));
-	}
-
-	/**
-	 * Calculate Total Grid Count
-	 * 
-	 * @param deviceName
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @param count
-	 * @throws Exception
-	 */
-	public void calculateTotalsGridCounts(String deviceName, String location, String columnName, String columnValue,
-			int count) throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String initialCounts = initialReportTotals
-				.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).get(colName.get(1));
-		int updatedCounts = Integer.parseInt(initialCounts) + count;
-		initialReportTotals.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.put(colName.get(1), String.valueOf(updatedCounts));
-	}
-
-	/**
-	 * Calculate Total Grid Amount
-	 * 
-	 * @param deviceName
-	 * @param location
-	 * @param columnName
-	 * @param columnValue
-	 * @throws Exception
-	 */
-
-	public void calculateTotalsGridAmounts(String deviceName, String location, String columnName, String columnValue)
-			throws Exception {
-		List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
-		String initialAmounts = initialReportTotals
-				.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1).get(colName.get(1));
-		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
-		double updatedAmounts = Double
-				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
-		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
-		initialReportTotals.get(getSubHeaderCount(deviceName, location, colName.get(0), columnValue) - 1)
-				.put(colName.get(1), String.valueOf(updatedAmounts));
-	}
-
-	/**
 	 * Verify Report Records
 	 * 
 	 * @throws Exception
@@ -685,19 +481,11 @@ public class CashFlowEmployeeDevice extends Factory {
 	public void verifyReportRecords() throws Exception {
 		int count = initialReportsData.size();
 		int coulumnCount = tableHeaders.size();
-		for (int val = 1; val < coulumnCount; val++) {
-			System.out.println(reportsTotalData.get(0).get(tableHeaders.get(val)) + "-hi-" + (cashFlowDetailsTotalsSum
-					.get(0).get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
-			CustomisedAssert.assertTrue(
-					reportsTotalData.get(0).get(tableHeaders.get(val)).contains(cashFlowDetailsTotalsSum.get(0)
-							.get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
-		}
-		for (int iter = 0; iter < count - 3; iter++) {
-			for (int val = 0; val < coulumnCount; val++) {
-				System.out.println(reportsData.get(iter).get(tableHeaders.get(val)) + "-ss-"
-						+ (initialReportsData.get(iter).get(tableHeaders.get(val))));
-				CustomisedAssert.assertTrue(reportsData.get(iter).get(tableHeaders.get(val))
-						.contains(initialReportsData.get(iter).get(tableHeaders.get(val))));
+
+		for (int counter = 0; counter < count; counter++) {
+			for (int iter = 0; iter < coulumnCount; iter++) {
+				CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+						.contains(initialReportsData.get(counter).get(tableHeaders.get(iter))));
 			}
 		}
 	}
@@ -744,12 +532,6 @@ public class CashFlowEmployeeDevice extends Factory {
 	 */
 	public void processAPI(String transStatus, String paymentType, String deviceID, String value) throws Exception {
 		requiredCount.clear();
-		int credCount = 0;
-		int voidCredCount = 0;
-		int declinedCredCount = 0;
-		int accCount = 0;
-		int accVoidCount = 0;
-		int tipCount = 0;
 		List<String> tStatus = Arrays.asList(transStatus.split(Constants.DELIMITER_HASH));
 		List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 		for (int iterator = 0; iterator < payType.size(); iterator++) {
@@ -759,29 +541,9 @@ public class CashFlowEmployeeDevice extends Factory {
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
-				if (tStatus.get(iter).equals(Constants.ACCEPTED) && payType.get(iterator).equals(Constants.CREDIT)) {
-					credCount = credCount + 1;
-					tipCount = tipCount + 1;
-				} else if (tStatus.get(iter).equals(Constants.VOID) && payType.get(iterator).equals(Constants.CREDIT)) {
-					voidCredCount = voidCredCount + 1;
-				} else if (tStatus.get(iter).equals(Constants.REJECTED)
-						&& payType.get(iterator).equals(Constants.CREDIT)) {
-					declinedCredCount = declinedCredCount + 1;
-				} else if (tStatus.get(iter).equals(Constants.ACCEPTED)
-						&& payType.get(iterator).equals(Constants.ACCOUNT)) {
-					accCount = accCount + 1;
-				} else if (tStatus.get(iter).equals(Constants.VOID)
-						&& payType.get(iterator).equals(Constants.ACCOUNT)) {
-					accVoidCount = accVoidCount + 1;
-				}
+				foundation.threadWait(Constants.ONE_SECOND);
 			}
 		}
-		requiredCount.add(credCount);
-		requiredCount.add(accCount);
-		requiredCount.add(tipCount);
-		requiredCount.add(accVoidCount);
-		requiredCount.add(voidCredCount);
-		requiredCount.add(declinedCredCount);
 	}
 
 	/**
