@@ -182,21 +182,27 @@ public class PickList extends Factory {
 	public static final By BTN_CANCEL_PLAN_SERVICEDAY = By.id("preference-cancel");
 	public static final By BTN_SAVE_PLAN_SERVICEDAY = By.id("preference-save");
 	public static final By BTN_SAVE_DISABLE_PLAN_SERVICEDAY = By.xpath("//button[@disabled='disabled']");
-
+	public static final By LIST_PICKLIST_BUTTONS = By.xpath("//div[@class='row-fluid']//div[@style='float:right']//button");
+	public static final By RECORD_COUNT = By.id("prd-show-total-count");
+	public static final By TABLE_ROW = By.xpath("//table[@id='filter-prd-grid']//tbody//td[@aria-describedby='filter-prd-grid_name']");
+	public static final By DELECT_ROW = By.xpath("//td[contains(@class,'ui-iggrid-selectedcell')]//i[@class='fa fa-trash']");
 
 	public By objClickPlanServiceDay(String data) {
 			return By.xpath("//tr[@data-id='" + data+ "']//td[@class='editable-style']");
 		}
-
+	
 	public By objDropdownPlanServiceDay(String data) {
 		return By.xpath("//tr[@data-id='" + data+ "']//td[@aria-describedby='preference-table_preference']");
 }
+	
 	public By objCheckBoxPlanServiceDay(String data) {
 			return By.xpath("//tr[@data-id='" + data+ "']//span[@style='display:inline-block']");
 	}
+	
 	public By objOption(String data) {
 		return By.xpath("//div[@class='ui-igcombo-list']/ul/li[text()='" + data+ "']");
 	}
+	
   public By objRouteText(String keyword) {
 		return By.xpath("//li[text()='" + keyword + "']");
 	}
@@ -813,6 +819,23 @@ public class PickList extends Factory {
          }
 	}
 	
+	/**
+	 * Update the need count and add the product
+	 * @param needcount
+	 * @param product
+	 */
+	public void addProductWithNeedCount(String product,String needcount) {
+	foundation.threadWait(3);	
+	textBox.enterText(PickList.LBL_FILTER_TYPE, product);
+	foundation.threadWait(Constants.MEDIUM_TIME);
+	foundation.waitforElement(objPickList(product),Constants.SHORT_TIME);
+	foundation.click(PickList.TBL_NEED);
+	foundation.objectFocus(PickList.TXT_NEED);
+	foundation.click(PickList.TXT_NEED);
+	foundation.waitforElement(PickList.TXT_NEED, Constants.LONG_TIME);
+	textBox.enterText(PickList.TXT_NEED, needcount);
+	foundation.click(objPickList(product));
+}
 	
 }
 

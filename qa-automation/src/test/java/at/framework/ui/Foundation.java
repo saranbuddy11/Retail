@@ -835,8 +835,8 @@ public class Foundation extends Factory {
 		r.keyPress(KeyEvent.VK_ENTER);
 		r.keyRelease(KeyEvent.VK_ENTER);
 	}
+	
 	/**
-
 	 * Clicking enter using Keyboard Actions
 	 * Clicking Shift and Down using Keyboard Actions
 	 * 
@@ -850,6 +850,23 @@ public class Foundation extends Factory {
 		r.keyRelease(KeyEvent.VK_SHIFT);
 	}
 
+	/**
+	 * Clicking enter using Keyboard Actions
+	 * Clicking ctrl+A and ctrl+X using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void clearText() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_A);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_A);
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_X);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_X);
+	}
 	
 }
 			

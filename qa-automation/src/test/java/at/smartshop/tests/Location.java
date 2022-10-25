@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -2455,11 +2456,12 @@ public class Location extends TestInfra {
 	
 	/**
 	 * @author sakthir Date:17-10-2022
+	 * @throws AWTException 
 	 */
 	@Test(description = "204920-Verify Stock well Store Id setting should accept only alpha numeric characters with limit upto 100 characters"
 			+"204921-Verify that Stock well Store ID setting field is not mandatory field to save"
 			+"204922-Ensure that new field Stockwell Store ID is displayed when type is set to Stock well in Location Summary page")
-	public void verifyStockwellStoreIdNewFieldAndLimitsForNewAndExistingAndSaveWithoutStoreIDValues() {
+	public void verifyStockwellStoreIdNewFieldAndLimitsForNewAndExistingAndSaveWithoutStoreIDValues() throws AWTException {
 		final String CASE_NUM = "204920";
 		
 		// Reading test data from DataBase
@@ -2485,13 +2487,8 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(LocationSummary.DPD_OPTION_TYPE).contains(location.get(1)));
 			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_STOCKWELL_STORE_ID));
-						
-			//verify Store Id Field limits 100 character for existing location
-			textBox.enterText(LocationSummary.TXT_STOCKWELL_STORE_ID,location.get(2));
-			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==100);
-			
+									
 			//click save while Stockwell Dropdown option selected without Store Id Field data for existing location
-			foundation.refreshPage();
 			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_STOCKWELL_STORE_ID));
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -2501,25 +2498,27 @@ public class Location extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
 			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==0);
+			
+			//verify Store Id Field limits 100 character for existing location
+			textBox.enterText(LocationSummary.TXT_STOCKWELL_STORE_ID,location.get(2));
+			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==100);
+			foundation.click(LocationSummary.BTN_SAVE);
+			
+			//verify After save for existing location with Store Id
+			locationList.selectLocationName(location.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==100);
 						
 			//navigate to Super->location org 
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			
-			//click create new and verify Stock well dropdown option 
+			//click create new  
 			foundation.click(LocationList.BTN_CREATE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_CREATE));
-			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(LocationSummary.DPD_OPTION_TYPE).contains(location.get(1)));
-			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_STOCKWELL_STORE_ID));
 			
-			//verify Store Id Field limits 100 character for new location
-			textBox.enterText(LocationSummary.TXT_STOCKWELL_STORE_ID,location.get(2));
-			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==100);
-			
-			//verify save by creating new location
-			foundation.refreshPage();
+			//verify Stock well dropdown option and verify save by creating new location
 			textBox.enterText(LocationSummary.TXT_NAME,Location);
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(LocationSummary.DPD_TIME_ZONE, location.get(3), Constants.TEXT);
@@ -2531,11 +2530,22 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==0);
 			foundation.click(LocationSummary.BTN_SAVE);
 			
-    		//verify After save for new location
+			//verify After save for new location
 			locationList.selectLocationName(Location);
 			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
 			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==0);
+			
+			//verify Store Id Field limits 100 character for new location
+			textBox.enterText(LocationSummary.TXT_STOCKWELL_STORE_ID,location.get(2));
+			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==100);
+			foundation.click(LocationSummary.BTN_SAVE);
+			
+    		//verify After save for new location with Store Id
+			locationList.selectLocationName(Location);
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length()==100);
 			
 		} 
 		catch (Exception exc) {
@@ -2546,10 +2556,16 @@ public class Location extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			locationList.selectLocationName(location.get(0));
-			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(7), Constants.TEXT);
+			foundation.click(LocationSummary.TXT_STOCKWELL_STORE_ID);
+			foundation.clearText();
 			foundation.click(LocationSummary.BTN_SAVE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			locationList.selectLocationName(Location);
+			locationList.selectLocationName(location.get(0));
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(7), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+     		locationList.selectLocationName(Location);
+			foundation.click(LocationSummary.TXT_STOCKWELL_STORE_ID);
+			foundation.clearText();
 			foundation.scrollIntoViewElement(LocationSummary.DPD_DISABLED);
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, location.get(6), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
