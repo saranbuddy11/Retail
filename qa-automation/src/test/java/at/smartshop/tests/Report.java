@@ -7190,6 +7190,8 @@ public class Report extends TestInfra {
 		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
 		List<String> columnNames = Arrays
 				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
 		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
@@ -7240,15 +7242,15 @@ public class Report extends TestInfra {
 					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
 			cashFlowDetails.getJsonSalesData();
 
-			int recordCountOfCash = cashFlowDetails.getRequiredRecord("Cash");
-			int recordCountOfCreditCard = cashFlowDetails.getRequiredRecord("Credit Card Sub Total");
-			int recordCountOfGEN3 = cashFlowDetails.getRequiredRecord("gen3");
-			int recordCountOfSOGO = cashFlowDetails.getRequiredRecord("SoGo");
-			int recordCountOfComp = cashFlowDetails.getRequiredRecord("Comp");
-			int recordCountOfGuestPass = cashFlowDetails.getRequiredRecord("Guest Pass");
-			int recordCountOfSpecial = cashFlowDetails.getRequiredRecord("Special- SPECIAL");
-			int recordCountOfAccount = cashFlowDetails.getRequiredRecord("Account");
-			int recordCountOfTotals = cashFlowDetails.getRequiredRecord("Totals");
+			int recordCountOfCash = cashFlowDetails.getRequiredRecord(paymentType.get(0));
+			int recordCountOfCreditCard = cashFlowDetails.getRequiredRecord(paymentType.get(1));
+			int recordCountOfGEN3 = cashFlowDetails.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSOGO = cashFlowDetails.getRequiredRecord(paymentType.get(3));
+			int recordCountOfComp = cashFlowDetails.getRequiredRecord(paymentType.get(4));
+			int recordCountOfGuestPass = cashFlowDetails.getRequiredRecord(paymentType.get(5));
+			int recordCountOfSpecial = cashFlowDetails.getRequiredRecord(paymentType.get(6));
+			int recordCountOfAccount = cashFlowDetails.getRequiredRecord(paymentType.get(7));
+			int recordCountOfTotals = cashFlowDetails.getRequiredRecord(paymentType.get(8));
 
 			System.out.println("recordCountOfCash +" + recordCountOfCash);
 			System.out.println("recordCountOfCreditCard +" + recordCountOfCreditCard);
