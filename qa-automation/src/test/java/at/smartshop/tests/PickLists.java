@@ -1693,7 +1693,6 @@ public class PickLists extends TestInfra {
                 CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
                 pickList.clickCheckbox("false");
                 pickList.verifyDefaultOption(day);
-	            CustomisedAssert.assertFalse(foundation.isDisplayed(PickList.BTN_SAVE_DISABLE_PLAN_SERVICEDAY));
 	            foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY); 
 			    }
 			}
