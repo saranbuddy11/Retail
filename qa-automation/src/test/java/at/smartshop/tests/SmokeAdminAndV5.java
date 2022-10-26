@@ -106,7 +106,7 @@ public class SmokeAdminAndV5 extends TestInfra {
 			locationSummary.navigateAndAddTaxMap(locationName, taxCategory, taxRateName);
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
 			foundation.waitforElementToDisappear(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			;
+			
 
 			// login to application
 			browser.close();

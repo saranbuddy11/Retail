@@ -15,13 +15,9 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
-import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNProductSummary;
-import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
-import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
@@ -31,8 +27,7 @@ import at.smartshop.v5.pages.ProductSearch;
 public class ConsumerFeedbackSurvey extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
-	private Dropdown dropdown = new Dropdown();
-	
+
 	private static final By REPORT_GRID_FIRST_ROW = By
 			.cssSelector("#consumerFeedbackLocationLevel > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
@@ -112,7 +107,7 @@ public class ConsumerFeedbackSurvey extends Factory {
 	public void updateTotalFeedbackCount(String columnName) {
 		try {
 			String initialCount = intialData.get(0).get(columnName);
-			int updatedCount = Integer.parseInt(initialCount) + 3;
+			int updatedCount = Integer.parseInt(initialCount) + 1;
 			intialData.get(0).put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -142,8 +137,8 @@ public class ConsumerFeedbackSurvey extends Factory {
 
 	public void verifyReportData() {
 		try {
-			System.out.println("reportsData : "+ reportsData.get(0));
-			System.out.println("intialData : "+ intialData.get(0));
+			System.out.println("reportsData : " + reportsData.get(0));
+			System.out.println("intialData : " + intialData.get(0));
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter))
 						.contains(intialData.get(0).get(tableHeaders.get(iter))));
@@ -153,7 +148,8 @@ public class ConsumerFeedbackSurvey extends Factory {
 		}
 	}
 
-	public void transactionThroughDevice(String product, String paymentEmail, String PIN, String feedbackQestion, By emojiObject,  By descriptionObject){
+	public void transactionThroughDevice(String product, String paymentEmail, String PIN, String feedbackQestion,
+			By emojiObject, By descriptionObject) {
 		try {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
@@ -169,8 +165,8 @@ public class ConsumerFeedbackSurvey extends Factory {
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterPin(PIN);
 			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			CustomisedAssert.assertTrue(
-					foundation.getText(ConsumerFeedbackSurvey.FEEDBACK_QUESTION).contains(feedbackQestion));
+			CustomisedAssert
+					.assertTrue(foundation.getText(ConsumerFeedbackSurvey.FEEDBACK_QUESTION).contains(feedbackQestion));
 			foundation.click(emojiObject);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(descriptionObject));
 //			browser.close();

@@ -144,17 +144,17 @@ public class ReportsSmokeTest extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
 
-//	@Parameters({ "driver", "browser", "reportsDB" })
-//	@BeforeClass
-//	public void beforeTest(String drivers, String browsers, String reportsDB) {
-//		try {
-//			browser.launch(drivers, browsers);
-//			dataSourceManager.switchToReportsDB(reportsDB);
-//			browser.close();
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
+	@Parameters({ "driver", "browser", "reportsDB" })
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	@Test(description = "166893- This test validates Data existance and Excel file exportaion of Sales Time Details Report")
 	public void salesTimeDetailsReport() {
@@ -341,7 +341,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
-			
+
 			// Verifying, whether the Report data available or not
 			accountAdjustment.checkForDataAvailabilyInResultTable();
 		} catch (Exception exc) {
@@ -619,7 +619,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), reportRequiredData.get(3),
 					IntlWebAppFunding.DATA_EXISTING_DATE, IntlWebAppFunding.DATA_EXISTING_DATE);
 			reportList.selectLocation(reportRequiredData.get(2));
-			
+
 //			// Select Organization
 //			navigationBar.selectOrganization(
 //					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -672,9 +672,9 @@ public class ReportsSmokeTest extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOFUND_LOC,
 					FilePath.PROPERTY_CONFIG_FILE);
-			
+
 			List<String> dateRange_Data = Arrays
 					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
 
@@ -683,10 +683,10 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			
+
 			reportList.selectDateRangeDate(dateRange_Data.get(0), dateRange_Data.get(1),
 					PayrollDeductDetails.DATA_EXISTING_DATE_START, PayrollDeductDetails.DATA_EXISTING_DATE_END);
-			
+
 //			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocationForSecondTypeDropdown(locationName);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -4240,7 +4240,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			ufsByEmployeeDevice.verifyReportName(
@@ -4388,7 +4388,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			
+
 			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end

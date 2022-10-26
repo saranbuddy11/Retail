@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import com.google.gson.JsonArray;
@@ -19,8 +20,11 @@ import com.google.gson.JsonObject;
 
 import at.framework.browser.Factory;
 import at.framework.files.JsonFile;
+import at.framework.generic.CustomisedAssert;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -34,6 +38,7 @@ public class TransactionSearchPage extends Factory {
 	private Foundation foundation = new Foundation();
 	private TextBox textBox = new TextBox();
 	private WebService webService = new WebService();
+	private Dropdown dropdown = new Dropdown();
 
 	public static final By TXT_SEARCH = By.cssSelector("input#transid");
 	public static final By DPD_DATE_RANGE = By.cssSelector("div#daterange");
@@ -42,22 +47,25 @@ public class TransactionSearchPage extends Factory {
 	public static final By BTN_FIND = By.id("findBtn");
 	public static final By LBL_TRANSACTION_SEARCH = By.xpath("//li[@id='Transaction Search']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
+	public static final By LNK_FIRST_ROW=By.xpath("//span[@id='Row_0']");
 	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
 	public static final By TXT_LOCATION_NAME = By.xpath("//input[@placeholder='Select Locations']");
 	public static final By TABLE_TRANSACTION_GRID = By.cssSelector("table#transdt > thead > tr");
 	public static final By TABLE_TRANSACTION_ROW = By.cssSelector("tr.odd");
+	public static final By LOCATION_DPD=By.xpath("//li[contains(@class,'results__option--highlighted')]");
 	public static final By TABLE_SALES_ITEM_GRID = By.cssSelector("table#rptdt > thead > tr");
 	public static final By TXT_REPORT_SEARCH = By.xpath("//input[@aria-controls='rptdt']");
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > script + div > div.col-12.comment-table-heading");
 	private static final By DPD_LOCATIONS = By
 			.xpath("//select[@id='loc-dropdown']//..//span[contains(@class,'multiple')]");
+	public static final By TRANSACTION_DETAILS=By.cssSelector(".trans > dl.dl-horizontal ");
 	private static final By TXT_LOCATION_SEARCH = By.cssSelector("span.selection > span > ul > li > input");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	public static final By LINK_TRANSACTION_ID = By.cssSelector("th#transactionId");
 	public static final By BTN_PRINT = By.id("printBtn");
 	public static final By TXT_TRANSACTION_SEARCH = By.xpath("//*[@id='transdt_filter']/label/input");
-
+    public static final By TRANSACTION_ID=By.id("transactionId");
 	public static final By LBL_LOCATION = By.xpath("//*[@id='location']/following-sibling::dd[1]");
 	public static final By LBL_DEVICE = By.xpath("//*[@id='device']/following-sibling::dd[1]");
 	public static final By LBL_SUBTOTAL = By.xpath("//*[@id='subtotal']/following-sibling::dd[1]");
@@ -125,7 +133,43 @@ public class TransactionSearchPage extends Factory {
 		foundation.waitforElement(BTN_PRINT, Constants.SHORT_TIME);
 		assertTrue(foundation.isDisplayed(BTN_PRINT));
 	}
-
+	
+	/**
+	 * verify transaction details
+	 * @param search
+	 * @param range
+	 * @param location
+	 * @param price
+	 */
+	public void verifyTransactionSearch(String search,String range,String location,String price) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_TRANSACTION_SEARCH));
+		foundation.waitforElementToBeVisible(TXT_SEARCH, Constants.THREE_SECOND);
+		textBox.enterText(TXT_SEARCH, search);
+		foundation.waitforElementToBeVisible(DPD_DATE_RANGE, Constants.THREE_SECOND);
+		foundation.click(DPD_DATE_RANGE);
+		foundation.click(DPD_DATE_OPTIONS);
+		foundation.waitforElementToBeVisible(DPD_LOCATION, Constants.THREE_SECOND);
+		foundation.click(TXT_CLEAR_ALL);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterText(TXT_LOCATION_SEARCH, location);
+		foundation.waitforElementToBeVisible(LOCATION_DPD, Constants.ONE_SECOND);
+		foundation.click(LOCATION_DPD);
+		foundation.click(BTN_FIND);
+		foundation.waitforElementToBeVisible(LNK_FIRST_ROW, Constants.THREE_SECOND);
+		foundation.objectClick(LNK_FIRST_ROW);
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TRANSACTION_ID));
+		JavascriptExecutor js = (JavascriptExecutor) getDriver();
+		WebElement tesxt = getDriver().findElement(TRANSACTION_DETAILS);
+		Object script = js.executeScript("return arguments[0].innerHTML", tesxt);
+		CustomisedAssert.assertTrue(script.toString().contains(search));
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(script.toString().contains(location));
+		CustomisedAssert.assertTrue(script.toString().contains(price));
+		foundation.waitforElementToBeVisible(BTN_PRINT, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_PRINT));
+		}
+		
 	/**
 	 * This method is to verify Transaction Details
 	 * 

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -434,6 +435,7 @@ public class Menu extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
 	/**
 	 * @author sakthir Date: 05-09-2022
 	 */
@@ -443,6 +445,7 @@ public class Menu extends TestInfra {
 			final String CASE_NUM = "197566";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			
 			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 			List<String> data =Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
@@ -467,6 +470,119 @@ public class Menu extends TestInfra {
 		    CustomisedAssert.assertFalse(value.equals(data.get(1)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * @author sakthir Date: 03-10-2022
+	 */
+	@Test(description = "205006-SOS-32134:To verify Featured Product CheckBox is Unchecked by creating new self service menu"
+			+"205007-To verify Featured Product CheckBox is Unchecked in Existing self service menu"
+			+"205008-To verify Featured Product CheckBox is Unchecked by adding new product to the newly created self service menu"
+			+"205009-To verify Featured Product CheckBox is Unchecked in by adding new product to the Existing self service menu")
+	public void verifyFeaturedProductCheckBoxStatusUncheckedForExistingAndNewProduct() {
+		
+			final String CASE_NUM = "205006";
+			
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> data =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
+			
+			//select location and create new menu with Add Product
+			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
+			foundation.click(SelfService.BTN_CREATE_NEW);
+			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
+			textBox.enterText(SelfService.TXT_MENU_NAME,data.get(7));
+			foundation.scrollIntoViewElement(SelfService.BTN_ADD_MENU);
+			foundation.click(SelfService.BTN_ADD_MENU);
+			textBox.enterText(SelfService.TXT_MENU_BUTTON_NAME, data.get(8));
+			foundation.click(SelfService.BTN_ADD_IMG);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(SelfService.BTN_ADD_SUBMENU);
+			textBox.enterText(SelfService.TXT_MENU_BUTTON_NAME, data.get(9));
+			foundation.click(SelfService.BTN_ADD_IMG);
+			foundation.waitforElementToBeVisible(SelfService.BTN_ADD_PRODUCT,3);
+			foundation.threadWait(3);
+			foundation.click(SelfService.BTN_ADD_PRODUCT);
+			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(10));
+			foundation.click(selfService.selectProductToAdd(data.get(10)));
+			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
+			foundation.click(SelfService.BTN_SAVE);
+			
+			//select location and search for new menu
+			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
+			textBox.enterText(SelfService.TXT_SEARCH,data.get(7));
+			foundation.click(selfService.objSelectMenu(data.get(7)));
+			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
+			
+			//verify the Featured Product CheckBox is unchecked
+			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(3)));
+			foundation.click(selfService.objProductExpand(data.get(3)));
+			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
+			
+			//Add new Product for new menu
+			foundation.click(SelfService.BTN_ADD_PRODUCT);
+			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(6));
+			foundation.click(selfService.selectProductToAdd(data.get(6)));
+			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
+			
+			//verify newly added product Featured Product CheckBox is unchecked
+			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(4)));
+			foundation.click(selfService.objProductExpand(data.get(4)));
+			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
+			foundation.click(SelfService.BTN_CANCEL_MENU);
+			
+			//select location and search for existing menu
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
+			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
+			textBox.enterText(SelfService.TXT_SEARCH,data.get(1));
+			foundation.click(selfService.objSelectMenu(data.get(1)));
+			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
+			
+			//verify the Featured Product CheckBox is unchecked
+			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(3)));
+			foundation.click(selfService.objProductExpand(data.get(3)));
+			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
+		
+			//Add new Product for Existing menu
+			foundation.click(SelfService.BTN_ADD_PRODUCT);
+			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(6));
+			foundation.click(selfService.selectProductToAdd(data.get(6)));
+			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
+			
+			//verify newly added product Featured Product CheckBox is unchecked
+			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(4)));
+			foundation.click(selfService.objProductExpand(data.get(4)));
+			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
+			foundation.click(SelfService.BTN_CANCEL_MENU);
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally
+		{
+			//resetting
+			foundation.refreshPage();
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
+			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
+			textBox.enterText(SelfService.TXT_SEARCH,data.get(7));
+			foundation.click(selfService.objSelectMenu(data.get(7)));
+			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
+			foundation.scrollIntoViewElement(SelfService.BTN_DELETE);
+			foundation.click(SelfService.BTN_DELETE);
+			foundation.alertAccept();
 		}
 	}
 }

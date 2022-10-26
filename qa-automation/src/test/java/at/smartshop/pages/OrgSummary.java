@@ -39,6 +39,7 @@ public class OrgSummary extends Factory {
 	public static final By LBL_ORG_LIST = By.xpath("//div[@class='dataTables_info']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane ']");
 	public static final By DPD_COUNTRY = By.xpath("//select[@name='country']");
+	public static final By ROUND_UP_CHARITY=By.id("roundupcheckbox");
 	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
 	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
 	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
@@ -124,7 +125,9 @@ public class OrgSummary extends Factory {
 	public static final By LBL_ORG_SUMMARY = By.id("Org Summary");
 	public static final By TXT_AGE_VERIFICATION = By.xpath("//dt[text()='Age Verification Enabled']");
 	public static final By CHK_AGE_VERIFICATION = By.id("ageverification");
-
+	
+	
+	
 	public By objVDI(String text) {
 
 		return By.xpath("//input[@value='" + text + "']");
@@ -171,6 +174,20 @@ public class OrgSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 
 	}
+	
+	/**
+	 * navigate to org summary and change pageset
+	 * @param menu
+	 * @param old
+	 */
+	public void navigateToOrgSummaryAndChangePageset(String menu,String old) {
+		navigationBar.navigateToMenuItem(menu);
+		foundation.waitforElementToBeVisible(LBL_ORG_SUMMARY, Constants.THREE_SECOND);
+		dropDown.selectItem(OrgSummary.DPD_PAGESET, old, Constants.TEXT);
+		foundation.waitforElementToBeVisible(OrgSummary.BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(OrgSummary.BTN_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
 
 	/**
 	 * Enable Tax2 column in super->org summary
@@ -187,4 +204,16 @@ public class OrgSummary extends Factory {
 		foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 	}
 
+	/**
+	 * change special type in org summary
+	 * @param dropdown
+	 */
+	public void changeSpecialType(String dropdown) {
+		foundation.waitforElementToBeVisible(DPD_SPECIAL_TYPE, Constants.THREE_SECOND);
+		dropDown.selectItem(DPD_SPECIAL_TYPE, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.TWO_SECOND);
+	}
+	
 }

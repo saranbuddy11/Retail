@@ -1,8 +1,6 @@
 
 package at.framework.reportsetup;
 
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestNGMethod;
@@ -64,29 +63,61 @@ public class Listeners implements ITestListener {
 		test = objReport.createTest("["+result.getMethod().getRealClass().getName()+"]["+result.getMethod().getMethodName()+"]"+" - "+result.getMethod().getDescription());
 		ExtFactory.getInstance().setExtent(test);
 	}
-
+	
 	public void onTestSuccess(ITestResult result) {
 		ExtFactory.getInstance().getExtent().log(Status.PASS,
 				" method[" + result.getMethod().getMethodName() + "] is passed");
-		if(TestInfra.updateTestRail.equals(Constants.YES)) {
-		String testCaseId=result.getMethod().getDescription().split("-")[0];		
-		testRail.testRailPassResult(testCaseId);
+//		if(TestInfra.updateTestRail.equals(Constants.YES)) {
+//		String testCaseId=result.getMethod().getDescription().split("-")[0];		
+//		testRail.testRailPassResult(testCaseId);
+//		
+		if(TestInfra.updateTestRail.toLowerCase().equals(Constants.YES.toLowerCase())) {
+			ArrayList<String> testCaseIdsList = getTestCaseIdsFromDescription(result.getMethod().getDescription());
+			for(String testId : testCaseIdsList) {
+				System.out.println("***[PASS Test Case Id]***: "+testId);
+				testRail.testRailPassResult(testId);
+				
+			}
 		}
 		passedCount++;
 		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());
 		updateCount(listResultSet.get(index),Constants.PASS, result.getMethod().getRealClass().getSimpleName());
 	}
-
+	
+	/**
+	 * Get all test case id from description
+	 * @author somesh sahu
+	 * @param description
+	 * @return
+	 */
+	public ArrayList<String> getTestCaseIdsFromDescription(String description){
+		String idArr[] = StringUtils.split(description, "-");
+		ArrayList<String> list = new ArrayList<String>();
+		for(int i=0;i<idArr.length;i++) {
+			if(idArr[i].replaceAll("[^0-9]","").toString().length()>=6) {
+				list.add(StringUtils.getDigits(idArr[i].trim()));
+			}
+		}
+		return list;
+	}
+	
 	public void onTestFailure(ITestResult result) {	
 		//update fail count
 		failedCount++;
 		int index=classNames.indexOf(result.getMethod().getRealClass().getSimpleName());
 		updateCount(listResultSet.get(index),Constants.FAIL, result.getMethod().getRealClass().getSimpleName());
 		
+//		if(TestInfra.updateTestRail.equals(Constants.YES)) {
+//			String testCaseId=result.getMethod().getDescription().split("-")[0];
+//			testRail.testRailFailResult(testCaseId ,"Exception is " +result.getThrowable());
+			
 		//update test rail
-		if(TestInfra.updateTestRail.equals(Constants.YES)) {
-		String testCaseId=result.getMethod().getDescription().split("-")[0];
-		testRail.testRailFailResult(testCaseId ,"Exception is " +result.getThrowable());
+		if(TestInfra.updateTestRail.toLowerCase().equals(Constants.YES.toLowerCase())) {	
+			ArrayList<String> testCaseIdsList = getTestCaseIdsFromDescription(result.getMethod().getDescription());
+			for(String testId : testCaseIdsList) {
+				System.out.println("***[FAIL Test Case Id]***: "+testId);
+				testRail.testRailFailResult(testId ,"Exception is " +result.getThrowable());
+			}
 		}
 		
 		//get screenshot

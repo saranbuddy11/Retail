@@ -41,9 +41,20 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_CANCEL = By.id("cancelBtn");
 	public static final By BTN_CANCEL_1 = By.xpath("//button[@id='cancelBtn']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
+	public static final By PROMO_TYPE=By.id("discountBy");
 	public static final By DELETE_BUILD = By.xpath("//a[@title='Delete']");
+	public static final By LOCATION_DISABLED=By.id("locTable_scroll");
 	public static final By TXT_PROMO_NAME = By.id("name");
+	public static final By ALL_LOCATION=By.id("allLocCheck");
+	public static final By CATEGORY_SELECTED=By.cssSelector("#categoryBundleTable > tbody");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
+	public static final By BTN_CANCEL_CAT_POPUP=By.id("bundleCategoryModalCancel");
+	public static final By CAT_SELECTED=By.xpath("//div[@class='bundle-item']");
+	public static final By BTN_CANCEL_ITEM_POPUP=By.id("bundleItemModalCancel");
+	public static final By SELECT_CAT_PRODUCT=By.xpath("/html/body/div[7]/div/div[2]/div[2]/div[2]/table/tbody/tr/th/span[2]");
+	public static final By CATEGORY_SEARCH_TXT=By.id("bundleCategorySearch");
+	public static final By SELECT_ITEM_PRODUCT=By.xpath("//*[@id='itemBundleTable']/tbody/tr/th/span[2]");
+	public static final By ITEM_SEARCH_TXT=By.id("bundleItemSearch");
 	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
 	public static final By DPD_LOCATION = By.id("location-select");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
@@ -59,6 +70,7 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
 	public static final By DPD_DISCOUNT_TIME = By.id("timing");
 	public static final By DPD_DISCOUNT_TYPE = By.id("discounttype");
+	public static final By PRICING=By.id("totalprice");
 	public static final By ALL_CATEGORY = By.id("allcategories");
 	public static final By BTN_CREATE = By.id("submitBtnContainer");
 	public static final By CHECKBOX_ORG=By.xpath("//span[@name='chk']");
@@ -84,6 +96,8 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_DURATION = By.id("duration");
 	public static final By DPD_CATEGORY = By.id("categorySelectInput");
 	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
+	public static final By ADD_CATEGORY=By.xpath("//button[@onclick='showBundleCategoryModal()']");
+	public static final By ADD_ITEM=By.xpath("//button[@onclick='showBundleItemModal()']");
 	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
 	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']");
 	public static final By BTN_CONTINUE = By.xpath("//button[text()='Continue']");
@@ -106,8 +120,10 @@ public class CreatePromotions extends Factory {
 	public static final By CHK_BUNDLE_OVERFLOW = By.id("hasoverflow");
 	public static final By DPD_DEVICE = By.id("device-select");
 	public static final By RB_BUNDLE_PRICE = By.id("bundlePriceCheckbox");
+	public static final By SELECTED_LOCATION=By.xpath("//td[@aria-describedby='locTable_locName']");
 	public static final By DPD_LOCATION_REMOVE = By
 			.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
+	public static final By SELECTED_ORG=By.cssSelector("#orgTable > tbody >tr >td");
 	public static final By DPD_DESELECT_ORGANIZATION = By.id("multiselectId");
 	public static final By DPD_DESELECT_LOCATION = By.id("multiselectIdLoc");
 	public static final By BTN_ORG_LEFT = By.id("singleSelectRtoL");
@@ -257,7 +273,7 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_NEXT);
 		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
 		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
@@ -272,6 +288,30 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
 		foundation.click(BTN_NEXT);
 	}
+	
+	public void newPromotionUsingTenderDiscount(String promotionType, String promotionName, String orgName,
+			String locationName) {
+		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+		textBox.enterText(TXT_PROMO_NAME, promotionName);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(CHECKBOX_ORG);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		foundation.click(BTN_NEXT);
+		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
+		textBox.enterText(TXT_LOC_SEARCH, locationName);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(CHECKBOX_LOC);
+		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+	}
+	
 
 	/**
 	 * Getting the Popup Data
@@ -644,6 +684,26 @@ public class CreatePromotions extends Factory {
 	}
 	
 	/**
+	 * back to edit promotion and expire promotion
+	 */
+	public void cancelingPromotionAndExpired() {
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+		foundation.scrollIntoViewElement(BTN_CANCEL_1);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_END_PROMO);
+		foundation.waitforElementToBeVisible(BTN_EXPIRE, 3);
+		foundation.click(BTN_EXPIRE);
+		foundation.waitforElementToBeVisible(PromotionList.PAGE_TITLE, 3);
+		}
+	/**
 	 * Delete Bundle Group
 	 */
 	public void deleteBundleGroup() {
@@ -751,6 +811,41 @@ public class CreatePromotions extends Factory {
 			}
 		}
 		return value;
+	}
+	
+	/**
+	 * verify price in promotion details page
+	 * @param price
+	 */
+	public void verifyPriceInPromotionDetails(String price) {
+		foundation.waitforElementToBeVisible(PRICING, 3);
+		String text = foundation.getText(PRICING);
+		CustomisedAssert.assertEquals(text, price);
+		foundation.waitforElementToBeVisible(BTN_CREATE_PROMOTION, 3);
+		foundation.click(BTN_CREATE_PROMOTION);
+		foundation.waitforElementToBeVisible(BTN_OK, 2);
+		foundation.click(BTN_OK);
+		foundation.isDisplayed(PromotionList.PAGE_TITLE);
+		
+	}
+	
+	/**
+	 * navigate to promotion details page and verify price
+	 * @param price
+	 */
+	public void navigateToPromotionDetailsPageAndVerifyPrice(String price) {
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(PRICING, Constants.SHORT_TIME);
+		String text = foundation.getText(PRICING);
+		CustomisedAssert.assertEquals(text, price);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	/**
