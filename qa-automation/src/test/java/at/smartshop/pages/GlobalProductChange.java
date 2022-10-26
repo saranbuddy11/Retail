@@ -476,6 +476,7 @@ public class GlobalProductChange extends Factory {
 	 */
 	public void verifyTax2ValueInProductTab(String location,String product) {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			foundation.threadWait(3);
 			foundation.click(objLocation(location));
 			foundation.waitforElementToBeVisible(GlobalProductChange.TAB_PRODUCT, 3);
 			foundation.threadWait(Constants.MEDIUM_TIME);

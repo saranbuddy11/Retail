@@ -389,7 +389,13 @@ public class LocationSummary extends Factory {
 	public static final By GMR_ERROR = By.id("gmaratepercent-error");
 	public static final By CREDIT_ERROR = By.id("creditratepercent-error");
 	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
+
+	public static final By LBL_LOCATION_CREATE = By.id("Location Create");
+	public static final By DPD_OPTION_TYPE=By.xpath("//select[@id='type-id']//option");
+	public static final By TXT_STOCKWELL_STORE_ID=By.xpath("//div[@id='stockwell-div-id']/dd/input[@id='stockwellstoreid']");
+
 	public static final By INVENTORY_GRID_FIRST_CELL = By.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
+
 	
 	
 
@@ -2616,5 +2622,17 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 
 	}
-
+	/*
+	 *Select Location and Device
+	 * @param locationName
+	 * @param deviceName
+	 *  
+	 */
+	public void selectLocationAndDevice(String locationName, String deviceName) {
+		locationList.selectLocationName(locationName);
+		CustomisedAssert.assertTrue(foundation.getText(LBL_LOCATION_SUMMARY).contains(locationName));
+		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
+		selectDeviceName(deviceName);
+	}
 }

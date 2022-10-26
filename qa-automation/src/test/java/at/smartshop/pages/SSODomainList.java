@@ -32,7 +32,20 @@ public class SSODomainList extends Factory {
 	public static final By DOMAIN_NAME_GRID_ROW = By.xpath("//td[@aria-describedby='ssodomaingrid_name']");
 	public static final By DOMAIN_NAME_ERROR = By.id("name-error");
 	public static final By DOMAIN_ADDRESS_ERROR = By.id("address-error");
-
+    public static final By LAB_RECORD = By.xpath("//div[@class='ui-iggrid-results']");
+	public static final By DPD_RECORD = By.xpath("//div[contains(@class,'ui-igedit-buttonimage')]");
+	public static final By MATCH_RECORD = By.xpath("//span[@title='Current records range']");
+	public static final By LAB_PAGING = By.xpath("//div[@class='ui-iggrid-paging']");
+	public static final By TABLE_LIST = By.xpath("//tbody[contains(@class,'ui-iggrid-record')]//tr");
+		
+	public By selectRecord(String data) {
+		return By.xpath("//div[@id='ssodomaingrid_editor_list']//span[text()='"+ data + "']");
+				
+	}
+	public By objPage(String data) {
+		return By.xpath("//div[@class='ui-iggrid-paging']/ul//li[@title='"+ data + "']");
+	}
+	
 	/**
 	 * verify all fields in sso domain list page
 	 */

@@ -4646,7 +4646,7 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 22-07-2022
 	 * 
 	 */
-	@Test(description = "202034-Verify the Data Validation of Daily Sales Summary Report")
+	@Test(priority = 1, description = "202034-Verify the Data Validation of Daily Sales Summary Report")
 	public void salesSummaryAndCostReportDataValication() {
 		try {
 			final String CASE_NUM = "202034";
@@ -5637,7 +5637,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ReportList.BTN_RUN_REPORT);
-
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(EntrySummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			entrySummaryReport.verifyReportName(reportName);
 			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
@@ -5713,7 +5713,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ReportList.BTN_RUN_REPORT);
-
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(DeleteSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			deleteSummaryReport.verifyReportName(reportName);
 			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
