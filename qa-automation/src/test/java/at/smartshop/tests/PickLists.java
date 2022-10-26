@@ -1905,14 +1905,6 @@ public class PickLists extends TestInfra {
 				} catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
 				}
-			}	
-			
-
-
-					
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
 		}
-	}
-
-}
+	
+		}
