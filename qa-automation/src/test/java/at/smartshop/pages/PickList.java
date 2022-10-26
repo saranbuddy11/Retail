@@ -217,9 +217,6 @@ public class PickList extends Factory {
 	public By objDriverText(String driver) {
 
 		return By.xpath("//li[contains(@class,'ui-state-default') and text()='" + driver + "']");
-
-		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"+ driver + "']");
-
 	}
 
 	public By objDayCheckbox(String day) {
