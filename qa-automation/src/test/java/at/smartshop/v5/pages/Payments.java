@@ -25,7 +25,9 @@ public class Payments {
 
 	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
 	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
+	public static final By EMAIL=By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
 	public static final By EMAIL_lOGIN_BTN = By.id("email-login-btn-id");
+	public static final By BTN_NEXT=By.id("emaillogin-input-btn-go-id");
 	public static final By EMAIL_LOGIN_TXT = By.id("emailLoginInput");
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
