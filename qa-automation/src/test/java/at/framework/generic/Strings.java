@@ -14,6 +14,23 @@ public class Strings {
 		String randomData = stringBuilder.toString();
 		return randomData.substring(0, 1).toUpperCase() + randomData.substring(1);
 		}
+	 public boolean verifyNoSpecialCharacter(String input) {
+	        boolean status = false;
+	        for (int i = 0; i < input.length(); i++) {
+	            char c = input.charAt(i);
+	            if ((Character.isAlphabetic(c) || Character.isDigit(c))) {
+	                status = true;
+	            } else {
+	                status = false;
+	                break;
+	            }
+	        }
+	        return status;
+
+
+
+	   }
+	
 } 
 
 

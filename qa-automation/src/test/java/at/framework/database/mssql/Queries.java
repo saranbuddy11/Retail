@@ -27,5 +27,6 @@ public class Queries {
 	public static final String LOGIN_PAGE = "SELECT * FROM QA.dbo.LoginPage where TestcaseID=";
 	public static final String STAFF_SUMMARY = "SELECT * FROM QA.dbo.StaffSummary where TestcaseID=";
 	public static final String SSO_DOMAIN = "SELECT * FROM QA.dbo.SSODomain where TestcaseID=";
+	public static final String ROUNDUP_CHARITY = "SELECT * FROM QA.dbo.RoundUpCharity where TestcaseID=";
 	
 }
