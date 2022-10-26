@@ -657,7 +657,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),
 					Constants.SHORT_TIME);
-			pickList.checkBoxsServiceDay(requiredData.get(2), requiredData.get(3), "false");
+			pickList.checkBoxsServiceDay(requiredData.get(2), requiredData.get(2), "false");
 			foundation.click(PickList.BTN_SAVE);
 			//foundation.waitforElement(PickList.SUCCESS_MSG, 5);
 		}
@@ -1115,7 +1115,8 @@ public class PickLists extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+		finally {
 			foundation.click(PickList.BTN_CANCEL_ORDER);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.SELECT_ORDER_TAB);
@@ -1332,6 +1333,7 @@ public class PickLists extends TestInfra {
 					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			// Delete the product
+			foundation.click(pickList.selectRoutes(requiredData.get(1), requiredData.get(4)));
 			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
 			foundation.click(PickList.DELETE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));
@@ -1559,19 +1561,18 @@ public class PickLists extends TestInfra {
 						pickList.selectLocationAndPicklistBtn(location.get(0));
 						foundation.click(PickList.TBL_ROW_DATA);
 						foundation.clickShiftAndDown();
-						
+						foundation.threadWait(3);
 						int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
 					
-						
 						//Export Excel File
 						foundation.click(PickList.EXPORT_BTN);
-						foundation.threadWait(Constants.THREE_SECOND);
+						foundation.threadWait(Constants.SHORT_TIME);
 						CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
-								pickListFilePathWithDateAndDay(filename,date)));	
+								pickListFilePathWithDateAndDay(filename,date)));
+						foundation.threadWait(3);
 						int excelCount = excel.getExcelRowCount(FilePath.
 								pickListFilePathWithDateAndDay(filename,date));
 						
-					
 					} catch (Exception exc) {
 						TestInfra.failWithScreenShot(exc.toString());
 					} finally {
