@@ -15,4 +15,6 @@ public class KioskCreate {
 	public static final By DPD_HARDWARE_TYPE = By.id("hwtype");
 	public static final By LBL_KIOSK_CREATE = By.xpath("//div[@class='container-fluid']/div/div/ul/li");
 	public static final By BTN_CANCEL= By.xpath("//button[text()='Cancel']");
+	public static final By DPD_TYPE= By.xpath("//span[@id='select2-kiosktype-container']");
+	public static final By DPD_OPTION_TYPE= By.xpath("//ul[@id='select2-kiosktype-results']//li");
 }
