@@ -49,7 +49,8 @@ public class PickList extends Factory {
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
 	public static final By BUTTON_SAVE = By.id("saveBtn");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
-	public static final By DELETE_BTN = By.xpath("//a[@class='delete-button']");
+//	public static final By DELETE_BTN = By.xpath("//a[@class='delete-button']");
+	public static final By DELETE_BTN = By.xpath("//td[contains(@class,'ui-iggrid-selectedcell')]//i[@class='fa fa-trash']");
 	public static final By TXT_NEED_PICKLIST = By.id("1657277901591EditingInput");
 	public static final By NEED_BTN = By.xpath("//*[@id='new-prd-grid']/tbody/tr/td[7]");
 	public static final By TBL_NEED = By
@@ -432,7 +433,9 @@ public class PickList extends Factory {
 		foundation.click(DATA_GRID_DRIVER);
 		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
 		foundation.click(DPD_DRIVER);
-		foundation.threadWait(5);
+//		foundation.threadWait(5);
+		foundation.click(DPD_DRIVER);
+		foundation.click(DPD_DRIVER);
 		foundation.waitforElementToBeVisible(DPD_DRIVERS, 5);
 		foundation.click(DPD_DRIVERS);
 		foundation.threadWait(5);
@@ -544,6 +547,7 @@ public class PickList extends Factory {
 		foundation.click(PickList.LBL_ADD_PRODUCT);
 		foundation.waitforElementToBeVisible(PickList.LBL_TITLE_HEADER, 5);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_TITLE_HEADER));
+		foundation.waitforElementToBeVisible(PickList.TXT_NEED_PICKLIST, 5);
 		textBox.enterText(PickList.LBL_FILTER_TYPE, product);
 		foundation.waitforElementToBeVisible(PickList.TXT_NEED_PICKLIST, 5);
 		foundation.click(PickList.TBL_NEED);
