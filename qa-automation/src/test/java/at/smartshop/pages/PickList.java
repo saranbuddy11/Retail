@@ -85,6 +85,7 @@ public class PickList extends Factory {
 	public static final By SELECT_ORDER_TAB = By.xpath("//td[@aria-describedby='cancelorder-table_location']");
 	public static final By BTN_CONFIRM_CANCEL_ORDER = By.id("cancelorder-yes");
 	public static final By LBL_HISTORY_TITLE = By.id("Pick List History");
+	public static final By LBL_PICK_LIST_TITLE = By.xpath("//li[@id='Pick List']");
 	public static final By TBL_ROW_HEADERS = By.xpath("//table[@id='picklisthistory']//thead");
 	public static final By BTN_HISTORY = By.id("btn-history");
 	public static final By VALIDATE_HIGHLIGHTED_LOCATIONS = By.xpath("//ul[@id='location-list']//li");
@@ -141,6 +142,7 @@ public class PickList extends Factory {
 	public static final By DPD_PICKLIST_ACTIONS = By.id("pick-list-action");
 	public static final By FILTER_PICKLIST = By.id("filter-prd-title");
 	public static final By DPD_CATEGORY = By.id("cate-select");
+	public static final By DPD_DRIVERS=By.xpath("//li[@class='ui-igcombo-listitem ui-state-default ui-unselectable ui-state-hover' and text()='Select']");
 	public static final By PRODUCT_NAME_GRID = By.id("filter-prd-grid_name");
 	public static final By BTN_SCHEDULING = By.xpath("//button[@onclick='toScheduling()']");
 	public static final By TXT_ROUTE_SCHEDULING = By.id("Route Scheduling");
@@ -157,9 +159,10 @@ public class PickList extends Factory {
 			.xpath("//td[@aria-describedby='dataGridPickListManager_location']");
 	public static final By BTN_SAVE_LIGHTSPEED = By.id("saveBtn");
 	public static final By BTN_MANAGE_COLUMN = By.xpath("//input[@id='mng-grid']");
-	public static final By FILTERED_PICKLIST_TBL_ROW = By.xpath("//table[@id='filter-prd-grid']/thead//tr");
+	public static final By FILTERED_PICKLIST_TBL_ROW = By.xpath("//table[@id='filter-prd-grid']/thead");
 	public static final By TXT_COLUMN_CHOOSER = By.xpath("//span[@class='ui-dialog-title']");
-	public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
+	//public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
+	public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']/li/span[@class='ui-iggrid-dialog-text']");
 	public static final By BTN_APPLY_COLUMN = By
 			.xpath("//span[@id='filter-prd-grid_hiding_modalDialog_footer_buttonok_lbl']");
 	public static final By BTN_CANCEL_COLUMN = By.xpath(
@@ -212,7 +215,11 @@ public class PickList extends Factory {
 	}
 
 	public By objDriverText(String driver) {
+
 		return By.xpath("//li[contains(@class,'ui-state-default') and text()='" + driver + "']");
+
+		return By.xpath("//li[contains(@class,'ui-state-default') and text()='"+ driver + "']");
+
 	}
 
 	public By objDayCheckbox(String day) {
@@ -417,8 +424,8 @@ public class PickList extends Factory {
 		foundation.click(DATA_GRID_DRIVER);
 		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
 		foundation.click(DPD_DRIVER);
-		foundation.threadWait(5);
-		foundation.click(objDriverText(option2));
+		//foundation.threadWait(3);
+		foundation.click(objRouteText(option2));
 		foundation.threadWait(5);
 		for (int i = 0; i <= list.size() - 1; i++) {
 			if (checkboxSelection.equals("true")) {
@@ -434,6 +441,42 @@ public class PickList extends Factory {
 			}
 		}
 
+	}
+	/**
+	 * Enter driver , route and select service day
+	 * 
+	 * @param option1
+	 * @param option2
+	 * @param checkboxSelection
+	 */
+	public void checkBoxsServiceDay(String option1, String option2, String checkboxSelection) {
+		List<WebElement> list = getDriver().findElements(CHECKBOX);
+		foundation.waitforElementToBeVisible(ROUTE_COLUMN, 5);
+		foundation.click(DATA_GRID_ROUTE);
+		foundation.waitforElementToBeVisible(DPD_ROUTE, 3);
+		foundation.click(DPD_ROUTE);
+		foundation.click(objRouteText(option1));
+		foundation.waitforElementToBeVisible(DRIVER_COLUMN, 5);
+		foundation.click(DATA_GRID_DRIVER);
+		foundation.waitforElementToBeVisible(DPD_DRIVER, 5);
+		foundation.click(DPD_DRIVER);
+		foundation.threadWait(5);
+		foundation.waitforElementToBeVisible(DPD_DRIVERS, 5);
+		foundation.click(DPD_DRIVERS);
+		foundation.threadWait(5);
+		for (int i = 0; i <= list.size() - 1; i++) {
+			if (checkboxSelection.equals("true")) {
+				if (!checkBox.isChecked(objDayCheckbox(String.valueOf(i + 1)))) {
+					foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+					foundation.threadWait(Constants.SHORT_TIME);
+				}
+				String value = getDriver().findElement(objDay(String.valueOf(i + 1))).getAttribute("aria-checked");
+				CustomisedAssert.assertEquals(value, checkboxSelection);
+			} else {
+				foundation.click(objDayCheckbox(String.valueOf(i + 1)));
+
+			}
+		}
 	}
 
 	public By selectDateRange(String text) {
@@ -612,7 +655,7 @@ public class PickList extends Factory {
 	}
 
 	/**
-	 * Select location from location filter,apply and click on plan picklist
+	 * Select location from location filter,apply and click on plan pickList
 	 * 
 	 * @param location
 	 */
@@ -647,7 +690,7 @@ public class PickList extends Factory {
 	}
 	
 	/**
-	 * Select location from location filter,apply and click on plan picklist
+	 * Select location from location filter,apply and click on plan pickList
 	 * 
 	 * @param location
 	 */

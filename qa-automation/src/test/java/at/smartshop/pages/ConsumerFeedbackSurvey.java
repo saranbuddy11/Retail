@@ -107,7 +107,7 @@ public class ConsumerFeedbackSurvey extends Factory {
 	public void updateTotalFeedbackCount(String columnName) {
 		try {
 			String initialCount = intialData.get(0).get(columnName);
-			int updatedCount = Integer.parseInt(initialCount) + 3;
+			int updatedCount = Integer.parseInt(initialCount) + 1;
 			intialData.get(0).put(columnName, String.valueOf(updatedCount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

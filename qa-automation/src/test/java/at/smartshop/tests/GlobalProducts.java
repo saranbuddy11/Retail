@@ -206,13 +206,14 @@ public class GlobalProducts extends TestInfra {
 			foundation.click(ProductSummary.BTN_MODAL_SAVE);
 
 			// Remove selected location
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.waitforElementToBeVisible(ProductSummary.TXT_SEARCH, 5);
 			textBox.enterText(ProductSummary.TXT_SEARCH, rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(ProductSummary.LOATION_NAME);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_REMOVE);
-			foundation.waitforElement(ProductSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -841,12 +842,13 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertEquals(value, pickList.get(0));
 			value = foundation.getText(globalProduct.selectProductLoyaltyMultiplier(location.get(0)));
 			CustomisedAssert.assertEquals(value, price.get(0));
-			foundation.threadWait(5);
+			foundation.threadWait(3);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Resetting Product data
 			navigationBar.navigateToMenuItem(menus.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			foundation.click(globalProductChange.objLocation(location.get(0)));
 			foundation.click(globalProductChange.objLocation(location.get(1)));
 			foundation.scrollIntoViewElement(GlobalProductChange.BTN_LOCATION_APPLY);
@@ -1404,10 +1406,10 @@ public class GlobalProducts extends TestInfra {
 			// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.HISTORY_BTN));
 			foundation.waitforElementToBeVisible(GlobalProductChange.HISTORY_BTN, 5);
 			Point coordinates = foundation.getCoordinates(GlobalProductChange.HISTORY_BTN);
-			foundation.threadWait(3);
+			foundation.threadWait(5);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
-			foundation.threadWait(3);
+			foundation.threadWait(5);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getY()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1659,12 +1661,13 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.verifyRecordData(dropdown.get(10), dropdown.get(11));
 			globalProductChange.verifyRecordData(dropdown.get(14), dropdown.get(12));
 			globalProductChange.verifyRecordData(dropdown.get(15), dropdown.get(13));
+			foundation.threadWait(5);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// resetting the data
-			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
+			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 5);
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			globalProductChange.updateDepositeAndTaxField(dropdown.get(7), dropdown.get(8), dropdown.get(9));
 			navigationBar.navigateToMenuItem(menu.get(0));
@@ -1992,21 +1995,26 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.clickConfirmMsgInGPC(data.get(2));
 
 			// verify Tax2 value in ProductsTab
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			globalProductChange.verifyTax2ValueInProductTab(location.get(0), product.get(4));
-			foundation.refreshPage();
+			
+							
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset Data
+			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
 			foundation.isDisplayed(GlobalProductChange.LBL_UPDATE);
 			globalProductChange.updateTax2Value(product.get(5));
-			globalProductChange.clickConfirmMsgInGPC(data.get(2));
-
+			globalProductChange.clickConfirmMsgInGPC(data.get(2));		
+						
 			// Disable Tax column in Super->org Summary
 			orgsummary.enableTax2Column(menu.get(1), data.get(1));
-
+						
 		}
 	}
 
@@ -2075,6 +2083,11 @@ public class GlobalProducts extends TestInfra {
 		} finally {
 
 			// Reset Data Tax2 value and save
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			foundation.click(globalProductChange.objLocation(location.get(0)));
+			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+			textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product.get(1));
 			foundation.click(globalProductChange.objTableDataProduct(product.get(1)));
 			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
 			foundation.click(GlobalProductChange.BTN_NEXT);
@@ -2083,7 +2096,7 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.clickConfirmMsgInGPC(data.get(4));
 
 			// Disable Tax column in super->org summary
-			orgsummary.enableTax2Column(menu.get(2), data.get(0));
+						orgsummary.enableTax2Column(menu.get(2), data.get(0));
 		}
 	}
 
@@ -2141,17 +2154,17 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.verifyCheckmarksInOPC(data.get(3),data.get(2),data.get(2));
 			globalProductChange.clickConfirmMsgInOPC();
 			
-			
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
 			//reset value for Global Product Change
 			navigationBar.navigateToMenuItem(menu);
 			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
 			globalProductChange.verifyCheckmarksInGPC( data.get(4), data.get(4));
 			globalProductChange.clickConfirmMsgInGPC(data.get(5));
 			
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+						
 			//Operator Product Catalog Change
 			globalProductChange.selectProductOPC(product.get(1));
 			globalProductChange.verifyCheckmarksInOPC(data.get(6),data.get(7),data.get(4));

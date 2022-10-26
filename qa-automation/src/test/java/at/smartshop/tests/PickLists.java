@@ -216,7 +216,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
 
-			// verifying Location Dropdown is present or not
+			// verifying Location  is present or not
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.DRP_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(PickList.DRP_LOCATION, location, Constants.TEXT);
@@ -657,7 +657,11 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)),
 					Constants.SHORT_TIME);
+
 			pickList.checkboxsServiceDay(requiredData.get(2), requiredData.get(3), "false");
+
+			pickList.checkBoxsServiceDay(requiredData.get(2), requiredData.get(3), "false");
+
 			foundation.click(PickList.BTN_SAVE);
 			//foundation.waitforElement(PickList.SUCCESS_MSG, 5);
 		}
@@ -992,7 +996,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.threadWait(Constants.TWO_SECOND);
 			String color = foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS);
-			CustomisedAssert.assertEquals(color,dbColor.get(0) );
+			CustomisedAssert.assertEquals(color,dbColor.get(0));
 			foundation.click(PickList.TXT_DESELECT_ALL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.VALIDATE_DESELECTED_LOCATION));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1357,20 +1361,24 @@ public class PickLists extends TestInfra {
 	@Test(description = "196848-SOS-27313-ADM>Pick List Manager>Select  Location>Verify picklist manage columns with show or hide options")
 
 	public void verifyManageColumnsOnFilteredPickList() {
+		final String CASE_NUM = "196848";
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		List<String> data =Arrays
+					.asList( rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> manageColumn =Arrays
+					.asList( rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+		 
 		try {
-			final String CASE_NUM = "196848";
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+//			browser.navigateURL(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 
@@ -1386,12 +1394,18 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
 
 			// Taking list of UI headers of Filetered location page
-			List<String> uiListHeaders = pickList.getTableHeadersForFilteredLocations();
+			Map<String, String> uiTableHeaders = table.getTblHeadersPickListHistory(PickList.FILTERED_PICKLIST_TBL_ROW);
+			List<String> uiListHeaders = new ArrayList<String>(uiTableHeaders.keySet());
+			Collections.sort(uiListHeaders);
+			System.out.println(uiListHeaders);
+			System.out.println(data);
+			CustomisedAssert.assertTrue(uiListHeaders.equals(data));
 
 			// Click on Manage Column button and verifying the headers present
 			foundation.click(PickList.BTN_MANAGE_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LIST_COLUMN_CHOOSER));
 			List<String> columnChooser = foundation.getTextofListElement(PickList.LIST_COLUMN_CHOOSER);
+
 			System.out.println(columnChooser);
 			CustomisedAssert.assertTrue(columnChooser.contains(uiListHeaders));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_COLUMN_CHOOSER));
@@ -1402,6 +1416,19 @@ public class PickLists extends TestInfra {
 			// Click on Remove button
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.click(PickList.BTN_REMOVE_PRODUCT);
+
+		    CustomisedAssert.assertTrue(columnChooser.equals(manageColumn));
+			foundation.scrollIntoViewElement(PickList.BTN_CANCEL_COLUMN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_COLUMN_CHOOSER));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_COLUMN));
+			foundation.scrollIntoViewElement(PickList.BTN_CANCEL_COLUMN);
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.click(PickList.BTN_CANCEL_COLUMN);
+//			
+//			// Click on Remove button
+//			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
+//			foundation.click(PickList.BTN_REMOVE_PRODUCT);
+
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1549,18 +1576,15 @@ public class PickLists extends TestInfra {
 						pickList.selectLocationAndPicklistBtn(location.get(0));
 						foundation.click(PickList.TBL_ROW_DATA);
 						foundation.clickShiftAndDown();
-						
 						int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
-					
-						
+            
 						//Export Excel File
 						foundation.click(PickList.EXPORT_BTN);
 						foundation.threadWait(Constants.THREE_SECOND);
 						CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
 								pickListFilePathWithDateAndDay(filename,date)));	
-						int excelCount = excel.getExcelRowCount(FilePath.
-								pickListFilePathWithDateAndDay(filename,date));
-					
+						int excelCount = excel.getExcelRowCount(FilePath.pickListFilePathWithDateAndDay(filename,date));
+		
 					} catch (Exception exc) {
 						TestInfra.failWithScreenShot(exc.toString());
 					} finally {
@@ -1604,6 +1628,7 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
 			foundation.click(PickList.BTN_CLOSE);
 			
+
 			//select location in pick list page ,click Add product and Verifying location name shows under location column
 			foundation.waitforElementToBeVisible(PickList.TBL_ROW_DATA, 3);
 			foundation.click(PickList.TBL_ROW_DATA);
@@ -1612,6 +1637,7 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
 			foundation.click(PickList.BTN_CLOSE);
+
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1881,4 +1907,12 @@ public class PickLists extends TestInfra {
 				}
 			}	
 			
+
+
+					
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
 }

@@ -50,13 +50,20 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By BTN_PROMPT_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
+	public static final By CHOOSE_ROLE_DEVICE_FILTER=By.xpath("//div[text()='Choose Role and Device Filters']");
+	public static final By CHOOSE_LOCATION=By.xpath("//div[text()='Choose Location Filters']");
 	public static final By MULTI_SELECT_TENDER_TYPES = By.id("tendertypes");
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
+	public static final By TXT_SEARCH_ORGPAGE=By.id("orgFilterType");
+	public static final By TXT_LOC_SEARCH=By.id("locFilterType");
 	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
 	public static final By DPD_DISCOUNT_TIME = By.id("timing");
 	public static final By DPD_DISCOUNT_TYPE = By.id("discounttype");
+	public static final By PRICING=By.id("totalprice");
 	public static final By ALL_CATEGORY = By.id("allcategories");
 	public static final By BTN_CREATE = By.id("submitBtnContainer");
+	public static final By CHECKBOX_ORG=By.xpath("//span[@name='chk']");
+	public static final By CHECKBOX_LOC=By.xpath("//td[@aria-describedby='locTable_activeCheckBox']");
 	public static final By TXT_AMOUNT = By.id("amount");
 	public static final By TXT_START_DATE = By.id("startdate");
 	public static final By TXT_END_DATE = By.id("enddate");
@@ -249,11 +256,22 @@ public class CreatePromotions extends Factory {
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
 			textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
-		foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
-		dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
-		foundation.click(BTN_ORG_RIGHT);
-		dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
-		foundation.click(BTN_LOC_RIGHT);
+		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(CHECKBOX_ORG);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		foundation.click(BTN_NEXT);
+		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
+		textBox.enterText(TXT_LOC_SEARCH, locationName);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(CHECKBOX_LOC);
+		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
 	}
 
 	/**
@@ -491,13 +509,22 @@ public class CreatePromotions extends Factory {
 	 * @param location
 	 */
 	public void selectOrgLoc(String org, String location) {
-		dropDown.selectItem(DPD_ORG, org, Constants.TEXT);
-		foundation.click(BTN_ORG_RIGHT);
-		foundation.threadWait(Constants.THREE_SECOND);
-		dropDown.selectItem(DPD_LOC, location, Constants.TEXT);
-		foundation.click(BTN_LOC_RIGHT);
+		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+		textBox.enterText(TXT_SEARCH_ORGPAGE, org);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(CHECKBOX_ORG);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
-		foundation.waitforElementToBeVisible(LBL_BUNDLE_DETAILS, 5);
+		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
+		textBox.enterText(TXT_LOC_SEARCH, location);
+		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(CHECKBOX_LOC);
+		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+	    foundation.threadWait(Constants.THREE_SECOND);
+	    foundation.objectClick(BTN_NEXT);
+	    foundation.waitforElementToBeVisible(LBL_BUILD_BUNDLE, Constants.TWO_SECOND);
+	    
 	}
 
 	/**
@@ -599,9 +626,45 @@ public class CreatePromotions extends Factory {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL_1);
 		foundation.alertAccept();
 	}
 
+	/**
+	 * back to edit promotion and expire promotion
+	 */
+	public void cancelingPromotionAndExpired() {
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+		foundation.scrollIntoViewElement(BTN_CANCEL_1);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_END_PROMO);
+		foundation.waitforElementToBeVisible(BTN_EXPIRE, 3);
+		foundation.click(BTN_EXPIRE);
+		foundation.waitforElementToBeVisible(PromotionList.PAGE_TITLE, 3);
+		}
+	
+	public void deselectOrgAndLoc() {
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
+		foundation.scrollIntoViewElement(BTN_CANCEL_1);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
+		
+	}
+	
 	/**
 	 * Delete Bundle Group
 	 */
@@ -680,10 +743,16 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_CANCEL_1);
+		foundation.threadWait(Constants.SHORT_TIME);
 		dropDown.selectItem(DPD_PROMO_TYPE, promo, Constants.TEXT);
 		foundation.click(BTN_NEXT);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.objectClick(BTN_NEXT);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.objectClick(BTN_NEXT);
 		foundation.threadWait(Constants.SHORT_TIME);
@@ -704,6 +773,41 @@ public class CreatePromotions extends Factory {
 			}
 		}
 		return value;
+	}
+	
+	/**
+	 * verify price in promotion details page
+	 * @param price
+	 */
+	public void verifyPriceInPromotionDetails(String price) {
+		foundation.waitforElementToBeVisible(PRICING, 3);
+		String text = foundation.getText(PRICING);
+		CustomisedAssert.assertEquals(text, price);
+		foundation.waitforElementToBeVisible(BTN_CREATE_PROMOTION, 3);
+		foundation.click(BTN_CREATE_PROMOTION);
+		foundation.waitforElementToBeVisible(BTN_OK, 2);
+		foundation.click(BTN_OK);
+		foundation.isDisplayed(PromotionList.PAGE_TITLE);
+		
+	}
+	
+	/**
+	 * navigate to promotion details page and verify price
+	 * @param price
+	 */
+	public void navigateToPromotionDetailsPageAndVerifyPrice(String price) {
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElementToBeVisible(PRICING, Constants.SHORT_TIME);
+		String text = foundation.getText(PRICING);
+		CustomisedAssert.assertEquals(text, price);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	/**

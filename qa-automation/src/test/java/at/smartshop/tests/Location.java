@@ -65,6 +65,7 @@ public class Location extends TestInfra {
 	private Table table = new Table();
 	private UserRoles userRoles = new UserRoles();
 	private UserList userList = new UserList();
+	private Strings strings = new Strings();
 	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
@@ -2222,7 +2223,6 @@ public class Location extends TestInfra {
 		}
 	}
 
-
 	/**
 	 * @author Prabha Nigam
 	 *
@@ -2321,9 +2321,44 @@ public class Location extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
-	 * @author sakthir  12-09-2022
+	 * @author afrosean Date:08-09-2022
+	 */
+	@Test(description = "203865-ADM > Super > Create new location")
+	public void verifyUserIsAbleToCreateLocation() {
+		final String CASE_NUM = "203865";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		String locationName = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+
+		try {
+
+			// launch Browser, Select Menu and location by Using super User
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// select menu and menu item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// create location under automation Org location
+			locationList.createLocation(locationName, datas.get(1), datas.get(2));
+
+			// search same location
+			locationList.verifyLocationInLocationList(rstLocationData.get(CNLocation.NAME), datas.get(3));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author sakthir 12-09-2022
 	 *
 	 */
 
@@ -2334,15 +2369,21 @@ public class Location extends TestInfra {
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
-		String location =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String location = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 		String product = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
 		try {
 			
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
+
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//select Location
+
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// select Location
+
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			locationList.selectLocationName(location);
 
@@ -2351,15 +2392,15 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 
 			// adding product and verifying on Product UI
-            foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
-			String Column_Header=foundation.getText(LocationSummary.TBL_PRODUCT_HEADER);
+			foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
+			String Column_Header = foundation.getText(LocationSummary.TBL_PRODUCT_HEADER);
 			CustomisedAssert.assertTrue(Column_Header.contains(product));
-			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 	
 	/**
 	 * @author sakthir Date:30-09-2022
@@ -2572,4 +2613,5 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 		}
 	}
+
 }

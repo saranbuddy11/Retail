@@ -1174,6 +1174,7 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			foundation.click(LocationSummary.BTN_DEVICE_CLOSE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.TBL_DEPLOYED_DEVICE_LIST);
 			foundation.waitforElement(DeviceDashboard.BTN_LIVE_CONNECTION_STATUS, Constants.SHORT_TIME);
 			foundation.click(DeviceDashboard.BTN_REMOVE_DEVICE);
