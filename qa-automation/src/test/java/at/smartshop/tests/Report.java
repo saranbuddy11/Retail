@@ -5534,17 +5534,18 @@ public class Report extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			foundation.threadWait(Constants.ONE_SECOND);
-
-			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			String inventoryValue = locationSummary
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
 					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason);
+			
+			
 
 			// Updating the Inventory of the product
 //			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
