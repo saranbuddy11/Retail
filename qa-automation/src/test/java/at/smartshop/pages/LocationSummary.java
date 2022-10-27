@@ -56,10 +56,12 @@ public class LocationSummary extends Factory {
 	public static final By TXT_MARKET_LENGTH = By.id("mkcidlength");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
+	public static final By ADD_BTN=By.id("saveCmrhomeBtn");
 	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
 	public static final By DPD_TYPE = By.xpath("//select[@id='type-id']");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
+	public static final By HAS_NO_END_DATE=By.id("cmr_sc_no_end_date");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input#productFilterType");
@@ -169,6 +171,7 @@ public class LocationSummary extends Factory {
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By DPD_TAX_RATE_EDIT = By.id("targetid");
 	public static final By BTN_CANCEL_MAPPING = By.id("taxcatcancel");
+	public static final By REMOVE_BTN=By.xpath("/html/body/div[3]/div[6]/div[3]/a[2]");
 	public static final By BTN_SAVE_MAPPING = By.id("taxcatsave");
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
@@ -231,6 +234,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_LNK_DEVICE_SUMMARY = By
 			.xpath("//td[@aria-describedby='deviceDataGrid_table_device']//a[@class='devices']");
 	public static final By BTN_REMOVE_DEVICE = By.xpath("//button[@class='btn btn-danger']");
+	public static final By BTN_NEXT=By.id("home_cmr_selected_next");
 	public static final By BTN_YES_REMOVE = By.xpath("//button[text()='Yes, Remove']");
 	public static final By LBL_DURATION = By.xpath("//td[@aria-describedby='deviceDataGrid_table_duration']//a");
 	public static final By LBL_POPUP_DEPLOY_DEVICE_CLOSE = By
@@ -340,6 +344,7 @@ public class LocationSummary extends Factory {
 	public static final By LBL_ADD_PRODUCT = By.id("modaltemplate-title");
 	public static final By BTN_CANCEL_PRODUCT = By.id("modalcancel");
 	public static final By TBL_DATA_GRID = By.cssSelector("#productDataGrid > tbody");
+	public static final By CHECK_CHECKBOX=By.xpath("//input[@class='check_size']");
 	public static final By TBL_GRID = By.id("productDataGrid");
 	public static final By VALIDATE_HIGHLIGHTED_TEXT = By.xpath("//table[@id='chooseprddt']//tbody//tr");
 	public static final By LBL_POPUP_ADD_PRODUCT_CLOSE = By
@@ -354,6 +359,7 @@ public class LocationSummary extends Factory {
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_minstock']");
 	public static final By TAB_PROMOTIONS = By.id("loc-promotions");
 	public static final By PROMOTIONS_SEARCH = By.id("promoFilterType");
+	public static final By SEARCH_TXT=By.xpath("//input[@aria-controls='choosecmrhomedt']");
 	public static final By MANAGE_COLUMN_POPUP_HEADER = By
 			.xpath("//div[@id='promoGrid_hiding_modalDialog']//span[@class='ui-dialog-title']");
 	public static final By MANAGE_COLUMN_RESET_BUTTON = By.xpath(
@@ -864,14 +870,36 @@ public class LocationSummary extends Factory {
 	 * @param imageName
 	 * @param imagePath
 	 */
-	public void addHomeCommercial(String imageName, String imagePath) {
+	public void addHomeCommercial(String imagePath) {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		foundation.click(BTN_ADD_HOME_COMMERCIAL);
 		foundation.click(TXT_UPLOAD_NEW);
 		textBox.enterText(BTN_UPLOAD_INPUT, imagePath);
-		textBox.enterText(TXT_ADD_NAME, imageName);
-		foundation.click(BTN_ADD);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(HAS_NO_END_DATE);
+		foundation.waitforElementToBeVisible(ADD_BTN, Constants.THREE_SECOND);
+		foundation.click(ADD_BTN);
+		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+		foundation.click(BTN_SAVE);
+	}
+	
+	public void addHomeCommercials(String imagePath) {
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		foundation.click(BTN_ADD_HOME_COMMERCIAL);
+		foundation.waitforElementToBeVisible(SEARCH_TXT, Constants.THREE_SECOND);
+		textBox.enterText(SEARCH_TXT, imagePath);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CHECK_CHECKBOX);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(HAS_NO_END_DATE);
+		foundation.waitforElementToBeVisible(ADD_BTN, Constants.THREE_SECOND);
+		foundation.click(ADD_BTN);
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LBL_SPINNER_MSG);
 		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
@@ -888,8 +916,10 @@ public class LocationSummary extends Factory {
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
 		foundation.click(objTable(imageName));
-		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
-		foundation.click(BTN_REMOVE);
+		foundation.waitforElement(REMOVE_BTN, Constants.SHORT_TIME);
+		foundation.adjustBrowerSize("0.7");
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.objectClick(REMOVE_BTN);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LBL_SPINNER_MSG);
