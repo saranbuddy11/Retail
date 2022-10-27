@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import at.framework.browser.Factory;
 import at.smartshop.keys.Constants;
@@ -142,4 +143,23 @@ public class Table extends Factory{
 		return uiTblHeaders;
 	}
 
+	public Map<String, String> getTblHeadersDevice(By tableGrid) {
+		Map<String, String> uiTblHeaders = new HashMap<>();
+		try {
+			int index = 1;
+
+			WebElement tableReports = getDriver().findElement(tableGrid);
+			List<WebElement> columnHeaders = tableReports.findElements(By.tagName("th"));
+			
+			for (WebElement columnHeader : columnHeaders) {
+				getDriver().findElement(By.cssSelector("table> thead > tr > th:nth-child(" + index + ")"));
+				uiTblHeaders.put(columnHeader.getText(), columnHeader.getText());
+				index++;
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return uiTblHeaders;
+	}
+	
 }

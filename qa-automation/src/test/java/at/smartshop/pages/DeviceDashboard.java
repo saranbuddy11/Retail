@@ -1,6 +1,10 @@
 package at.smartshop.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
@@ -22,11 +26,17 @@ public class DeviceDashboard {
 	public static final By TXT_SEARCH=By.id("deviceNameTxt");
 	public static final By BTN_SEARCH=By.id("submitBtn");
 	public static final By TBL_DEVICE_NAME = By.xpath("//td[@aria-describedby='device-grid_name']/a");
+	public static final By TABLE_HEADER=By.id("device-grid_headers");
+	public static final By BTN_CREATENEW=By.id("newBtn");
 	
 	public By selectRecord(String data) {
 		return By.xpath("//div[@id='device-grid_editor_list']//span[text()='"+ data + "']");
 				
 	}
+	
+	
+
+	
 	/**
 	 * navigate to Admin->Device and search for existing device & new Device
 	 * 
