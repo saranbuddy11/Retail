@@ -20,11 +20,14 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationSummary;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -40,6 +43,7 @@ public class LocationSummary extends Factory {
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
 	private CheckBox checkBox = new CheckBox();
+	private DateAndTime dateAndTime = new DateAndTime();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By NO_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupcancel");
@@ -927,6 +931,47 @@ public class LocationSummary extends Factory {
 		foundation.objectClick(CLEAR_INVENTORY_FILTER);
 		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
 	}
+
+	public String updateInventoryWithTimeOfTransacction(String scancode, String inventoryValue, String reasonCode, String format, String requiredTimeZone) {
+		String updatedTime = String
+				.valueOf(dateAndTime.getDateAndTime1(format, requiredTimeZone));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
+		
+		foundation.objectClick(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+		
+//		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.waitforElement(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='" + "DataGrid_qtyonhand']/div/div/span/input"),
+				Constants.TWO_SECOND);
+		
+		textBox.clearText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"));
+		
+		textBox.enterText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				inventoryValue);
+		
+//		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
+				Constants.TWO_SECOND);
+		
+		
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
+
+		
+		
+		foundation.objectClick(CLEAR_INVENTORY_FILTER);
+		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
+		return updatedTime;
+	}
+
 
 	/**
 	 * This method is to get the inventory value of the product

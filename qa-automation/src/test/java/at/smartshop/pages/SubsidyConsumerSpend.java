@@ -303,8 +303,8 @@ public class SubsidyConsumerSpend extends Factory {
 		String price = foundation.getText(ProductSearch.PRODUCT_PRICE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPage)));
 		foundation.click(Payments.EMAIL_ACCOUNT);
-		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.ONE_SECOND);
-		foundation.click(Payments.BTN_EMAIL_LOGIN);
+//		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.ONE_SECOND);
+//		foundation.click(Payments.BTN_EMAIL_LOGIN);
 		foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 		foundation.click(Payments.EMAIL_LOGIN_TXT);
 		foundation.threadWait(Constants.ONE_SECOND);

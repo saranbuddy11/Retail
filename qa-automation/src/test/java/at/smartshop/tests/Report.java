@@ -293,6 +293,11 @@ public class Report extends TestInfra {
 			double adustedBalance = Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			double updatedbalance = initialbalance
 					+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+			
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+			
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
@@ -300,6 +305,7 @@ public class Report extends TestInfra {
 			dropdown.selectItemByIndex(ConsumerSummary.REF_EFT, 0);
 
 			foundation.threadWait(Constants.MEDIUM_TIME);
+		
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
@@ -310,11 +316,11 @@ public class Report extends TestInfra {
 			 * rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			 */
 
-			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+			
+			
+			System.out.println("updatedTime Account adjestment :"+ updatedTime);
 
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
@@ -3822,17 +3828,27 @@ public class Report extends TestInfra {
 
 			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 
-			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
-					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			foundation.threadWait(Constants.ONE_SECOND);
-
-			// Updating the Inventory of the product
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
-					requiredData.get(2));
-
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+			
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+//			foundation.threadWait(Constants.ONE_SECOND);
+			
+			
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
+					requiredData.get(2));
+
+			// Updating the Inventory of the product
+//			String updatedTime =locationSummary.updateInventoryWithTimeOfTransacction(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
+//					requiredData.get(2), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+//					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
+			System.out.println("updatedTime :"+ updatedTime);
+
+//			String updatedTime = String
+//					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+//							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -5519,17 +5535,27 @@ public class Report extends TestInfra {
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			foundation.threadWait(Constants.ONE_SECOND);
 
-			String inventoryValue = locationSummary
-					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-
-			// Updating the Inventory of the product
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason);
-
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+			
+			String inventoryValue = locationSummary
+					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			
+			
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason);
 
+			// Updating the Inventory of the product
+//			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+//					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+//					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
+
+//			String updatedTime = String
+//					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+//							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+			System.out.println("updatedTime entry :"+ updatedTime);
+			
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(1));
 
@@ -5599,12 +5625,14 @@ public class Report extends TestInfra {
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			// Updating the Inventory of the product
-			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason);
+			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
+			
 
-			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+//			String updatedTime = String
+//					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+//							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -6775,6 +6803,7 @@ public class Report extends TestInfra {
 			accountFunding.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
+			foundation.threadWait(Constants.THREE_SECOND);
 			// Navigate to Report again to read Updated Report Data
 			accountFunding.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
