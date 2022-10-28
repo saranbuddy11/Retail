@@ -1351,18 +1351,19 @@ public class Promotions extends TestInfra {
 
 			// Create new promotion
 			foundation.click(PromotionList.BTN_CREATE);
-			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
-			dropDown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
-			dropDown.selectItem(CreatePromotions.DPD_ORG, organization, Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
-			dropDown.selectItem(CreatePromotions.DPD_LOC, locationName.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.waitforClikableElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+//			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+//			dropDown.selectItem(CreatePromotions.DPD_PROMO_TYPE, promotionType, Constants.TEXT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			textBox.enterText(CreatePromotions.TXT_PROMO_NAME, promotionName);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.waitforElement(CreatePromotions.DPD_ORG, Constants.SHORT_TIME);
+//			dropDown.selectItem(CreatePromotions.DPD_ORG, organization, Constants.TEXT);
+//			foundation.click(CreatePromotions.BTN_ORG_RIGHT);
+//			dropDown.selectItem(CreatePromotions.DPD_LOC, locationName.get(0), Constants.TEXT);
+//			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+			createPromotions.newPromotion(promotionType, promotionName, promotionName, organization, locationName.get(0));
+			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			dropDown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			foundation.threadWait(Constants.ONE_SECOND);
