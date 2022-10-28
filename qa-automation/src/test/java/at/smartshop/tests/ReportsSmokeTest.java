@@ -341,7 +341,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
-			
+
 			// Verifying, whether the Report data available or not
 			accountAdjustment.checkForDataAvailabilyInResultTable();
 		} catch (Exception exc) {
@@ -619,7 +619,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), reportRequiredData.get(3),
 					IntlWebAppFunding.DATA_EXISTING_DATE, IntlWebAppFunding.DATA_EXISTING_DATE);
 			reportList.selectLocation(reportRequiredData.get(2));
-			
+
 //			// Select Organization
 //			navigationBar.selectOrganization(
 //					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -672,9 +672,9 @@ public class ReportsSmokeTest extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+			String locationName = propertyFile.readPropertyFile(Configuration.AUTOFUND_LOC,
 					FilePath.PROPERTY_CONFIG_FILE);
-			
+
 			List<String> dateRange_Data = Arrays
 					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
 
@@ -683,10 +683,10 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			
+
 			reportList.selectDateRangeDate(dateRange_Data.get(0), dateRange_Data.get(1),
 					PayrollDeductDetails.DATA_EXISTING_DATE_START, PayrollDeductDetails.DATA_EXISTING_DATE_END);
-			
+
 //			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocationForSecondTypeDropdown(locationName);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -3949,8 +3949,7 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			cashFlowEmployeeDevice.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			cashFlowEmployeeDevice.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -4241,7 +4240,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			ufsByEmployeeDevice.verifyReportName(
@@ -4389,6 +4388,8 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			accountFunding.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -5067,22 +5068,26 @@ public class ReportsSmokeTest extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+			List<String> reportRequiredData = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
+
 			// Select Organization
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(reportRequiredData.get(1));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectReport(reportRequiredData.get(0));
+
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), reportRequiredData.get(3),
+					UnpaidOrder.DATA_EXISTING_DATE, UnpaidOrder.DATA_EXISTING_DATE);
+			reportList.selectLocation(reportRequiredData.get(2));
+
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			unpaidOrder.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			unpaidOrder.verifyReportName(reportRequiredData.get(0));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
@@ -5091,11 +5096,12 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
-			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+			reportList.verifyTheFileWithFullName(reportRequiredData.get(0),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
 			unpaidOrder.checkForDataAvailabilyInResultTable();
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

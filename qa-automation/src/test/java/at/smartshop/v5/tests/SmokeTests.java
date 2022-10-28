@@ -103,12 +103,12 @@ public class SmokeTests extends TestInfra {
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 
 		try {
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 			navigationBar.navigateToMenuItem(menuItem);
 
 			// Selecting location
-			locationSummary.selectingMarketCard(locationName,ValidateHeading, fixedMarket);
+			locationSummary.selectingMarketCard(locationName, ValidateHeading, fixedMarket);
 			foundation.refreshPage();
 			foundation.threadWait(Constants.TWO_SECOND);
 
@@ -116,7 +116,7 @@ public class SmokeTests extends TestInfra {
 			Assert.fail();
 		} finally {
 			// Resetting test data
-			locationSummary.selectingMarketCard(locationName,ValidateHeading, NoneMarket);
+			locationSummary.selectingMarketCard(locationName, ValidateHeading, NoneMarket);
 		}
 	}
 
@@ -138,25 +138,25 @@ public class SmokeTests extends TestInfra {
 		String scanCode = requiredData.get(3);
 		String productPrice = requiredData.get(4);
 		String resettedPrice = requiredData.get(5);
-		
+
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 
 		try {
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			// Selecting location
 			locationList.selectLocationName(locationName);
 			foundation.waitforElement(LocationSummary.VALIDATE_HEADING, Constants.SHORT_TIME);
 			Assert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING).equals(validateHeading));
-			locationSummary.selectingProduct(tab,productName,scanCode,productPrice);
+			locationSummary.selectingProduct(tab, productName, scanCode, productPrice);
 			foundation.refreshPage();
 			foundation.threadWait(Constants.TWO_SECOND);
 		} catch (Throwable exc) {
 			Assert.fail();
 		} finally {
 			// Resetting test data
-			locationSummary.selectingProduct(tab,productName,scanCode,resettedPrice);
+			locationSummary.selectingProduct(tab, productName, scanCode, resettedPrice);
 			browser.close();
 		}
 	}
@@ -179,7 +179,7 @@ public class SmokeTests extends TestInfra {
 		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 
 		try {
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			// navigate to location summary and update price and sync
@@ -188,40 +188,40 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.selectingProduct(tab,productName,scanCode,productPrice);
+			locationSummary.selectingProduct(tab, productName, scanCode, productPrice);
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			
-			//launching v5 Device
-			 List<String> language = Arrays
-	    				.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
-	    		// launch v5 application
-	    		browser.launch(Constants.REMOTE, Constants.CHROME);
-	    		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			// launching v5 Device
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 
-	    		landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-	    		foundation.click(LandingPage.IMG_SEARCH_ICON);
-	    		textBox.enterKeypadText(productName);
-	    		foundation.click(ProductSearch.BTN_PRODUCT);
-	    		assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
-	    		assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), validateproductPrice);
-			
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(productName);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
+			assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), validateproductPrice);
+
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 			navigationBar.navigateToMenuItem(menuItem);
 			textBox.enterText(LocationList.TXT_FILTER,
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			locationSummary.selectingProduct(tab,productName,scanCode,resettedPrice);
+			locationSummary.selectingProduct(tab, productName, scanCode, resettedPrice);
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 		}
@@ -237,15 +237,15 @@ public class SmokeTests extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String tab = requiredData.get(0);
 		String scanCode = requiredData.get(1);
-		String productName = requiredData.get(2);
+		String productName = requiredData.get(1);
 		String updatedProductName = requiredData.get(3);
 		String productHeader = requiredData.get(4);
 		String productPrice = requiredData.get(5);
-		
+
 		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 
 		try {
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			// navigate to location summary and adding Product
@@ -254,50 +254,50 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			locationSummary.selectTab(tab);
 			foundation.threadWait(Constants.TWO_SECOND);
 			locationSummary.addProduct(scanCode);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.refreshPage();
-            locationSummary.addEditProduct(tab, productName, updatedProductName, menuItem);
-            
-            List<String> language = Arrays
-    				.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
-            locationSummary.kiosklanguageSetting(
-    				propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
-    				language.get(0), language.get(1));
+			locationSummary.addEditProduct(tab, scanCode, updatedProductName, menuItem);
 
-    		// launch v5 application
-    		browser.launch(Constants.REMOTE, Constants.CHROME);
-    		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> language = Arrays
+					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
+			locationSummary.kiosklanguageSetting(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					language.get(0), language.get(1));
 
-    		landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
-    		foundation.click(LandingPage.IMG_SEARCH_ICON);
-    		textBox.enterKeypadText(scanCode);
-    		foundation.click(ProductSearch.BTN_PRODUCT);
-    		foundation.threadWait(Constants.THREE_SECOND);
-    		assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
-    		assertEquals(foundation.getText(Order.TXT_PRODUCT), updatedProductName);
-    		assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), productPrice);
+			// launch v5 application
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
+			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			textBox.enterKeypadText(scanCode);
+			foundation.click(ProductSearch.BTN_PRODUCT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), updatedProductName);
+			assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), productPrice);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// reset data
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
-			
+
 			navigationBar.navigateToMenuItem(menuItem);
 			textBox.enterText(LocationList.TXT_FILTER,
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			 locationSummary.addEditProduct(tab, updatedProductName,productName, menuItem);
-			 locationList.selectLocationName(
-						propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.addEditProduct(tab, updatedProductName, productName, menuItem);
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(tab);
 			foundation.WaitForAjax(5000);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -305,7 +305,7 @@ public class SmokeTests extends TestInfra {
 			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, scanCode);
 			foundation.WaitForAjax(10000);
-			Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
+			// Assert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(updatedProductName));
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_REMOVE);
@@ -337,7 +337,7 @@ public class SmokeTests extends TestInfra {
 		String statusType = rstLocationData.get(CNLocation.LOCATION_NAME);
 
 		try {
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -378,14 +378,15 @@ public class SmokeTests extends TestInfra {
 
 			// Basic Information Page
 			foundation.click(LocationSummary.BTN_CREATE_PROMO);
-			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			createPromotions.newPromotion(promotionType, promotionName, promotionName, orgName,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// Promotion Details Page
 			List<String> discountType = Arrays
 					.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-			
+
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, discountType.get(0), Constants.TEXT);
 			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, discountType.get(2));
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -448,11 +449,10 @@ public class SmokeTests extends TestInfra {
 			promotionList.verifyPromotionName(promotionName);
 			login.logout();
 
-			//launching test4 with super user for full sync
+			// launching test4 with super user for full sync
 			locationSummary.launchingBrowserAndSelectingOrg();
-			
 
-			//launching v5 Device
+			// launching v5 Device
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(
@@ -468,7 +468,7 @@ public class SmokeTests extends TestInfra {
 			textBox.enterKeypadText(discountType.get(3));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), discountType.get(3));			
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), discountType.get(3));
 			Assert.assertTrue(promotionName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
@@ -485,7 +485,7 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			promotionList.expirePromotion(menuItem.get(2), promotionName, statusType,gridName);
+			promotionList.expirePromotion(menuItem.get(2), promotionName, statusType, gridName);
 		}
 	}
 
@@ -632,8 +632,8 @@ public class SmokeTests extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			String productName = V5Data.get(0);
 			String productHeader = V5Data.get(1);
-			
-			//launching v5 Device
+
+			// launching v5 Device
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(
@@ -650,7 +650,7 @@ public class SmokeTests extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
-			
+
 			Assert.assertTrue(V5Data.get(2).equals(foundation.getText(Order.TXT_TENDER_DISCOUNT)));
 
 		} catch (Throwable exc) {
@@ -665,14 +665,14 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			promotionList.expirePromotion(menuItem.get(1), promotionName, statusType,gridName);
+			promotionList.expirePromotion(menuItem.get(1), promotionName, statusType, gridName);
 		}
 	}
 
 	@Test(description = "167053-Verify the Promotions tab: Create/Edit/Expire Promotions for Bundle Type Promotion on Location Summary page as Operator")
 	public void VerifyCreateEditExpireBundlePromotions() {
 		final String CASE_NUM = "167053";
-		
+
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
@@ -775,17 +775,17 @@ public class SmokeTests extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			login.logout();
-			
-			//launching test4 with super user for full sync
+
+			// launching test4 with super user for full sync
 			locationSummary.launchingBrowserAndSelectingOrg();
-			
-			//launching v5 Device
+
+			// launching v5 Device
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
 					language.get(0), language.get(1));
-			 
+
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -808,7 +808,7 @@ public class SmokeTests extends TestInfra {
 			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
 			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
-			
+
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -821,7 +821,7 @@ public class SmokeTests extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			promotionList.expirePromotion(menuItem.get(1), promotionName, statusType,gridName);
+			promotionList.expirePromotion(menuItem.get(1), promotionName, statusType, gridName);
 		}
 	}
 
@@ -838,7 +838,7 @@ public class SmokeTests extends TestInfra {
 		try {
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			List<String> language = Arrays
@@ -855,7 +855,7 @@ public class SmokeTests extends TestInfra {
 			foundation.refreshPage();
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.EXTRA_LONG_TIME);
 			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-			
+
 			// Home Commercial image validation
 			assertEquals(actualData, requiredData);
 		} catch (Throwable exc) {
@@ -864,10 +864,10 @@ public class SmokeTests extends TestInfra {
 			// resetting test data
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
-			
+
 			// Selecting Device's location
 			locationList.selectLocationName(locationName);
 			locationSummary.removeHomeCommercial(imageName);
@@ -894,12 +894,13 @@ public class SmokeTests extends TestInfra {
 
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		final String productName = rstLocationData.get(CNLocation.PRODUCT_NAME) + strings.getRandomCharacter();
-		final String scanCode = rstLocationData.get(CNLocation.ACTUAL_DATA) + strings.getRandomCharacter().toLowerCase();
+		final String scanCode = rstLocationData.get(CNLocation.ACTUAL_DATA)
+				+ strings.getRandomCharacter().toLowerCase();
 
 		try {
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
-			
+
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 
 			// Creating Product
@@ -914,15 +915,16 @@ public class SmokeTests extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(GlobalProduct.BUTTON_SAVE);
 			foundation.waitforElement(GlobalProduct.SELECT_LOCATION, Constants.SHORT_TIME);
-		//	textBox.enterText(GlobalProduct.SELECT_LOCATION, locationName);
-		//  foundation.threadWait(Constants.TWO_SECOND);
+			// textBox.enterText(GlobalProduct.SELECT_LOCATION, locationName);
+			// foundation.threadWait(Constants.TWO_SECOND);
 
-			
-			//dropDown.selectItem(GlobalProduct.SELECT_LOCATION, locationName, Constants.TEXT);
-		//	foundation.waitforClikableElement(GlobalProduct.LBL_SAVE_DONE, Constants.SHORT_TIME);
+			// dropDown.selectItem(GlobalProduct.SELECT_LOCATION, locationName,
+			// Constants.TEXT);
+			// foundation.waitforClikableElement(GlobalProduct.LBL_SAVE_DONE,
+			// Constants.SHORT_TIME);
 			foundation.click(GlobalProduct.LBL_SAVE_DONE);
 
-			// Editing the product 
+			// Editing the product
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(GlobalProduct.TXT_FILTER, productName);
@@ -957,8 +959,8 @@ public class SmokeTests extends TestInfra {
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.TWO_SECOND);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
-			
-			//launching v5 Device
+
+			// launching v5 Device
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(
@@ -983,15 +985,15 @@ public class SmokeTests extends TestInfra {
 			// Resetting test data
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
-			
+
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			textBox.enterText(LocationList.TXT_FILTER,
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));		
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.selectTab(requiredData.get(0));
 			foundation.WaitForAjax(5000);
 			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
@@ -1003,7 +1005,9 @@ public class SmokeTests extends TestInfra {
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_REMOVE);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.threadWait(Constants.THREE_SECOND);
 		}
 	}
 
@@ -1018,7 +1022,7 @@ public class SmokeTests extends TestInfra {
 		String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 
 		try {
-			//launching browser and selecting org
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			// navigate to location summary
@@ -1059,12 +1063,12 @@ public class SmokeTests extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String productName = requiredData.get(1);
 		String productHeader = requiredData.get(3);
-		
+
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			navigationBar.navigateToMenuItem(menuItem.get(2));
@@ -1097,7 +1101,7 @@ public class SmokeTests extends TestInfra {
 			locationSummary.saveTaxMapping(requiredData.get(2), requiredData.get(8));
 			foundation.click(LocationSummary.BTN_SAVE);
 
-			//launching v5 Device
+			// launching v5 Device
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(
@@ -1115,16 +1119,17 @@ public class SmokeTests extends TestInfra {
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 
-			// verify the display of total section		
+			// verify the display of total section
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			String tax1 = foundation.getText(Order.LBL_TAX_1).split(Constants.DOLLAR)[1];
-			String tax2 = foundation.getText(Order.LBL_TAX_2).split(Constants.DOLLAR)[1];
+			String tax1 = foundation.getText(Order.TAX).split(Constants.DOLLAR)[1];
+			String tax2 = foundation.getText(Order.TAX).split(Constants.DOLLAR)[1];
 			String tax3 = foundation.getText(Order.LBL_TAX_3).split(Constants.DOLLAR)[1];
 			String tax4 = foundation.getText(Order.LBL_TAX_4).split(Constants.DOLLAR)[1];
 			String balanceDue = foundation.getText(Order.LBL_BALANCE_DUE).split(Constants.DOLLAR)[1];
 			String subTotal = foundation.getText(Order.LBL_SUB_TOTAL).split(Constants.DOLLAR)[1];
 
-			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(tax1)+ Double.parseDouble(tax2)+ Double.parseDouble(tax3)+ Double.parseDouble(tax4);
+			Double expectedBalanceDue = Double.parseDouble(productPrice) + Double.parseDouble(tax1)
+					+ Double.parseDouble(tax2) + Double.parseDouble(tax3) + Double.parseDouble(tax4);
 			Double expectedTaxWithRoundUp = Math.round(expectedBalanceDue * 100.0) / 100.0;
 			assertEquals(balanceDue, expectedTaxWithRoundUp.toString());
 			assertEquals(subTotal, productPrice);
@@ -1139,8 +1144,8 @@ public class SmokeTests extends TestInfra {
 			// reset data
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
@@ -1153,28 +1158,31 @@ public class SmokeTests extends TestInfra {
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
 		}
 	}
+
 	@Test(description = "167007-Verify Create/Edit/Delete Menus in Micromarket service on Menus as Super")
 	public void VerifyCreateEditDeleteMicroMarketMenu() {
 		final String CASE_NUM = "167007";
-		
-		//reading data from dataBase
+
+		// reading data from dataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
 		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		
+
 		List<String> requiredData = Arrays
 				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		try {
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			dropDown.selectItem(SelfService.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),Constants.TEXT);
+			dropDown.selectItem(SelfService.DPD_LOCATION,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					Constants.TEXT);
 			foundation.click(SelfService.BTN_CREATE_NEW);
 			textBox.enterText(SelfService.TXT_MENU_NAME, requiredData.get(0));
 			selfService.clickCheckbox();
@@ -1188,24 +1196,28 @@ public class SmokeTests extends TestInfra {
 			textBox.enterText(SelfService.TXT_MENU_BUTTON_NAME, requiredData.get(1));
 			foundation.click(SelfService.BTN_MENU_UPLOAD);
 			textBox.enterText(SelfService.UPLOAD_BUTTON_IMG, FilePath.IMAGE_PATH);
-			foundation.waitforElement(SelfService.BTN_ADD_IMG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.alertAccept();
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(SelfService.BTN_ADD_IMG);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(SelfService.BTN_SAVE);
-			
-			//Updating the Menu
+
+			// Updating the Menu
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(SelfService.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),Constants.TEXT);
+			dropDown.selectItem(SelfService.DPD_LOCATION,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					Constants.TEXT);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow( requiredData.get(0));
+			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
 			textBox.enterText(SelfService.TXT_MONDAY_STRT, requiredData.get(2));
 			textBox.enterText(SelfService.TXT_MONDAY_END, requiredData.get(3));
 			foundation.click(SelfService.BTN_SAVE);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);		
+			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.waitforElement(LocationList.TXT_FILTER, Constants.SHORT_TIME);
-			
+
 			List<String> language = Arrays
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			locationSummary.kiosklanguageSetting(
@@ -1222,23 +1234,25 @@ public class SmokeTests extends TestInfra {
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
-			//Resetting the data
+			// Resetting the data
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			
-			//launching browser and selecting org
+
+			// launching browser and selecting org
 			locationSummary.launchingBrowserAndSelectingOrg();
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			dropDown.selectItem(SelfService.DPD_LOCATION, propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),Constants.TEXT);
+			dropDown.selectItem(SelfService.DPD_LOCATION,
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE),
+					Constants.TEXT);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow( requiredData.get(0));
+			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
 			foundation.click(SelfService.BTN_DELETE);
-		    foundation.alertAccept();
-		    foundation.refreshPage();
-		    textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-		    foundation.threadWait(Constants.SHORT_TIME);
-		    assertEquals(foundation.getText(SelfService.TXT_NO_MATCH), requiredData.get(5));
+			foundation.alertAccept();
+			foundation.refreshPage();
+			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			assertEquals(foundation.getText(SelfService.TXT_NO_MATCH), requiredData.get(5));
 		}
 	}
 }

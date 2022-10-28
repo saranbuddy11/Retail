@@ -887,6 +887,7 @@ public class AgeVerification extends TestInfra {
 
 			// Verifying the selection of defaults for Age Verification and Enabling It
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.scrollIntoViewElement(LocationSummary.TXT_AGE_VERIFICATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_AGE_VERIFICATION));
 			if (checkBox.isChkEnabled(LocationSummary.CHK_AGE_VERIFICATION))
@@ -900,6 +901,7 @@ public class AgeVerification extends TestInfra {
 			navigationBar.navigateToMenuItem(menus.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AgeVerificationDetails.TXT_AGE_VERIFICATION));
 			login.logout();
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Login with Super user to disable Age verification under Org Summary
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -923,6 +925,7 @@ public class AgeVerification extends TestInfra {
 			foundation.waitforElement(OrgList.LBL_ORG_LIST, Constants.SHORT_TIME);
 			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Relogin with Operator User to verify Age Verification
 			navigationBar.launchBrowserAndSelectOrg(
@@ -941,6 +944,7 @@ public class AgeVerification extends TestInfra {
 					.assertFalse(tabNames.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 			foundation.threadWait(Constants.TWO_SECOND);
 			login.logout();
+			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1168,9 +1172,9 @@ public class AgeVerification extends TestInfra {
 			foundation.waitforElementToBeVisible(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
-			foundation.click(DeviceSummary.BTN_SAVE);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+//			foundation.click(DeviceSummary.BTN_SAVE);
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
 
 			// Navigate to Device to Uncheck the age verification
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1179,9 +1183,9 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
-			foundation.click(DeviceSummary.BTN_SAVE);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+//			foundation.click(DeviceSummary.BTN_SAVE);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1435,22 +1439,26 @@ public class AgeVerification extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollToBottom();
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
+			foundation.waitforElementToBeVisible(DeviceSummary.BTN_SAVE, 3);
 			foundation.click(DeviceSummary.BTN_SAVE);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.LONG_TIME);
 
 			// Navigate to Location to verify the age verification prompt in NO
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
+			// foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.THREE_SECOND);
 
@@ -1462,7 +1470,7 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
+			// foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -1472,11 +1480,12 @@ public class AgeVerification extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(LocationSummary.AGE_VERIFICATION);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1748,7 +1757,7 @@ public class AgeVerification extends TestInfra {
 			// Deleting Active PIN record After validation
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
 			textBox.enterText(AgeVerificationDetails.INPUT_TEXT, rstLocationListData.get(CNLocationList.LOCATION_NAME));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			Map<Integer, Map<String, String>> uiTableData = ageVerificationDetails.getTblRecordsUI();
 			for (int i = 0; i < uiTableData.size(); i++) {
 				foundation.click(ageVerificationDetails.objExpirePinConfirmation(
@@ -2091,8 +2100,8 @@ public class AgeVerification extends TestInfra {
 				.asList(rstAdminAgeVerificationData.get(CNAdminAgeVerification.STATUS).split(Constants.DELIMITER_TILD));
 		String checkOutCurrentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 		String checkOutFutureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
-		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
-		String pastDate = dateAndTime.getPastDate(Constants.REGEX_MM_DD_YYYY, requiredData.get(8));
+		String futureDate = dateAndTime.getFutureDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
+		String pastDate = dateAndTime.getPastDate(Constants.REGEX_DD_MM_YYYY, requiredData.get(8));
 		try {
 			// Select Menu and Location
 			navigationBar.launchBrowserAsSuperAndSelectOrg(

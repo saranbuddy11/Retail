@@ -29,28 +29,39 @@ import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNOrgSummary;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.keys.Reports;
 import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
+import at.smartshop.pages.AccountFunding;
+import at.smartshop.pages.AccountProfitability;
 import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
+import at.smartshop.pages.BalanceReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
+import at.smartshop.pages.CashAudit;
+import at.smartshop.pages.CancelReport;
 import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowEmployeeDevice;
+import at.smartshop.pages.CashoutLog;
 import at.smartshop.pages.ConsumerFeedbackSurvey;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.CreatePromotions;
+import at.smartshop.pages.CreditTransaction;
 import at.smartshop.pages.CrossOrgLoyaltyReport;
 import at.smartshop.pages.CrossOrgRateReport;
 import at.smartshop.pages.DailySalesSummary;
 import at.smartshop.pages.DataSourceManager;
+import at.smartshop.pages.DeleteSummaryReport;
 import at.smartshop.pages.DeviceByCategoryReport;
 import at.smartshop.pages.EmployeeCompDetailsReport;
+import at.smartshop.pages.EntrySummaryReport;
+import at.smartshop.pages.FinancialCanned;
 import at.smartshop.pages.FinancialRecapReport;
 import at.smartshop.pages.FolioBillingReport;
 import at.smartshop.pages.GuestPassByDevice;
@@ -62,6 +73,7 @@ import at.smartshop.pages.IntlWebAppFunding;
 import at.smartshop.pages.InventoryAdjustmentDetail;
 import at.smartshop.pages.InventoryList;
 import at.smartshop.pages.InventoryTotals;
+import at.smartshop.pages.InventoryValueSummary;
 import at.smartshop.pages.InventoryVariance;
 import at.smartshop.pages.InvoiceDetailsReport;
 import at.smartshop.pages.ItemStockoutReport;
@@ -75,6 +87,7 @@ import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrderTransactionTimeReport;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.PersonalChargeReport;
+import at.smartshop.pages.ProductCannedReport;
 import at.smartshop.pages.ProductPricingReport;
 import at.smartshop.pages.ProductSales;
 import at.smartshop.pages.ProductSalesByCategoryReport;
@@ -85,21 +98,27 @@ import at.smartshop.pages.QueuedCreditTransactionsReport;
 import at.smartshop.pages.RemainingGuestPassLiability;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.SalesAnalysisReport;
+import at.smartshop.pages.SalesBy15Minutes;
+import at.smartshop.pages.SalesBy30Minutes;
 import at.smartshop.pages.SalesItemDetailsReport;
 import at.smartshop.pages.SalesSummaryAndCost;
 import at.smartshop.pages.SalesTimeDetailsByDevice;
 import at.smartshop.pages.SalesTimeDetailsReport;
 import at.smartshop.pages.SoldDetails;
 import at.smartshop.pages.SoldDetailsInt;
+import at.smartshop.pages.SoldItemCOGS;
+import at.smartshop.pages.SubsidyConsumerSpend;
 import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
 import at.smartshop.pages.UFSByDevice;
 import at.smartshop.pages.UnfinishedCloseReport;
+import at.smartshop.pages.UnpaidOrder;
 import at.smartshop.pages.UnsoldReport;
 import at.smartshop.pages.VoidedProductReport;
 import at.smartshop.utilities.CurrenyConverter;
+import at.smartshop.utilities.WebService;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
@@ -181,6 +200,24 @@ public class Report extends TestInfra {
 	private SalesTimeDetailsReport salesTimeDetailsReport = new SalesTimeDetailsReport();
 	private SalesTimeDetailsByDevice salesTimeDetailsByDevice = new SalesTimeDetailsByDevice();
 	private SoldDetailsInt soldDetailsInt = new SoldDetailsInt();
+	private SubsidyConsumerSpend subsidyConsumerSpend = new SubsidyConsumerSpend();
+	private UnpaidOrder unpaidOrder = new UnpaidOrder();
+	private InventoryValueSummary inventoryValueSummary = new InventoryValueSummary();
+	private EntrySummaryReport entrySummaryReport = new EntrySummaryReport();
+	private SoldItemCOGS soldItemCOGS = new SoldItemCOGS();
+	private DeleteSummaryReport deleteSummaryReport = new DeleteSummaryReport();
+	private AccountFunding accountFunding = new AccountFunding();
+	private CashAudit cashAudit = new CashAudit();
+	private ProductCannedReport ProductCannedReport = new ProductCannedReport();
+	private CreditTransaction creditTransaction = new CreditTransaction();
+	private CashoutLog cashOutLog = new CashoutLog();
+	private CancelReport cancelReport = new CancelReport();
+	private BalanceReport balanceReport = new BalanceReport();
+	private WebService webService = new WebService();
+	private AccountProfitability accountProfitability = new AccountProfitability();
+	private FinancialCanned financialCanned = new FinancialCanned();
+	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
+	private SalesBy30Minutes salesBy30Minutes = new SalesBy30Minutes();
 	private UFSByDevice ufsByDevice = new UFSByDevice();
 
 	private Map<String, String> rstNavigationMenuData;
@@ -191,6 +228,7 @@ public class Report extends TestInfra {
 	private Map<String, String> rstReportListData;
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstOrgSummaryData;
+	private Map<String, String> rstV5DeviceData;
 
 	@Parameters({ "driver", "browser", "reportsDB" })
 	@BeforeClass
@@ -260,7 +298,10 @@ public class Report extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
-			foundation.threadWait(Constants.ONE_SECOND);
+
+			dropdown.selectItemByIndex(ConsumerSummary.REF_EFT, 0);
+
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
@@ -311,6 +352,8 @@ public class Report extends TestInfra {
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
 
+			System.out.println("uiData :" + uiData);
+			System.out.println("dbData :" + dbData);
 			// Validate account adjustment adjusted report data
 			CustomisedAssert.assertEquals(uiData, dbData);
 
@@ -557,7 +600,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "120269-This test validates Member Purchase Details Report Data Calculation")
@@ -878,7 +920,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "142642-This test validates ICE Report Data Calculation")
@@ -927,6 +968,7 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(ICEReport.LBL_REPORT_NAME, Constants.MEDIUM_TIME);
 			iceReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			textBox.enterText(ICEReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
@@ -948,8 +990,10 @@ public class Report extends TestInfra {
 			// locationSummary.manageColumn(columnName.get(0));
 			iceReport.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 			locationSummary.selectTab(tabName.get(1));
+			foundation.threadWait(Constants.TWO_SECOND);
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					actualData.get(0));
+			foundation.threadWait(Constants.TWO_SECOND);
 			iceReport.updateFills(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1),
 					requiredData.get(0));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
@@ -1088,12 +1132,15 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforElementToBeVisible(LocationSummary.INVENTORY_GRID_FIRST_CELL, Constants.MEDIUM_TIME);
+
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(0),
 					reason.get(0));
+
+			foundation.waitforElementToBeVisible(LocationSummary.INVENTORY_GRID_FIRST_CELL, Constants.MEDIUM_TIME);
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), actualData.get(1),
@@ -1629,7 +1676,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "143268-This test validates Voided Product Report Data Calculation")
@@ -1946,11 +1992,9 @@ public class Report extends TestInfra {
 
 			// verify report data
 			orderTransactionTime.verifyReportData();
-
 		} catch (Exception exc) {
 			Assert.fail();
 		}
-
 	}
 
 	@Test(description = "145249-This test validates Invoice Details Report Data Calculation")
@@ -3192,8 +3236,8 @@ public class Report extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3363,8 +3407,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3446,8 +3490,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3606,8 +3650,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 //			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterKeypadTextWithCaseSensitive(paymentEmailDetails.get(0));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -3774,6 +3818,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.TWO_SECOND);
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					requiredData.get(2));
 
@@ -3781,6 +3826,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// Updating the Inventory of the product
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
@@ -3867,6 +3913,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(0),
 					requiredData.get(2));
@@ -3875,6 +3922,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
 
 			// Updating the Inventory of the product
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
@@ -4144,12 +4192,13 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * This Method is for Consumer Feedback Survey Report Data Validation
+	 * This Method is for Consumer Feedback Survey Report Data Validation For Happy
+	 * Feedback
 	 * 
 	 * @author ravindhara Date: 11-07-2022
 	 */
-	@Test(priority = 1, description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data")
-	public void consumerFeedbackSurveyReportDataValidation() {
+	@Test(priority = 1, description = "197794-Verifying and Validating the Consumer Feedback Survey Report Data For Happy Feedback")
+	public void consumerFeedbackSurveyReportDataValidationForHappyFeedback() {
 		final String CASE_NUM = "197794";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -4225,7 +4274,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			consumerFeedbackSurvey.getTblRecordsUI();
 			consumerFeedbackSurvey.getIntialData().putAll(consumerFeedbackSurvey.getReportsData());
@@ -4234,8 +4283,6 @@ public class Report extends TestInfra {
 			consumerFeedbackSurvey.updateData(consumerFeedbackSurvey.getTableHeaders().get(1),
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 			consumerFeedbackSurvey.updateTotalFeedbackCount(consumerFeedbackSurvey.getTableHeaders().get(3));
-			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(4));
-			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(5));
 			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(6));
 
 			login.logout();
@@ -4247,24 +4294,6 @@ public class Report extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
 					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
-					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-			browser.close();
-
-			// Launch V5 Device and purchasing a product with Sad Feedback
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.SAD_EMOJI_BTN,
-					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
-			browser.close();
-
-			// Launch V5 Device and purchasing a product with Neutral Feedback
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
-					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.NORMAL_EMOJI_BTN,
 					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
 			browser.close();
 
@@ -4290,7 +4319,7 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			consumerFeedbackSurvey.getTblRecordsUI();
 
@@ -4301,17 +4330,17 @@ public class Report extends TestInfra {
 			consumerFeedbackSurvey.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// navigate to location and disabling of Consumer Feedback Survey
-			navigationBar.navigateToMenuItem(menuItems.get(0));
-			locationList.selectLocationName(
-					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
-			foundation.threadWait(Constants.ONE_SECOND);
-			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(1),
-					Constants.TEXT);
-			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
-			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//		} finally {
+//			// navigate to location and disabling of Consumer Feedback Survey
+//			navigationBar.navigateToMenuItem(menuItems.get(0));
+//			locationList.selectLocationName(
+//					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(1),
+//					Constants.TEXT);
+//			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
+//			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		}
 	}
 
@@ -4610,7 +4639,7 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 22-07-2022
 	 * 
 	 */
-	@Test(description = "202034-Verify the Data Validation of Daily Sales Summary Report")
+	@Test(priority = 1, description = "202034-Verify the Data Validation of Daily Sales Summary Report")
 	public void salesSummaryAndCostReportDataValication() {
 		try {
 			final String CASE_NUM = "202034";
@@ -4693,7 +4722,7 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date:29-07-2022
 	 */
 
-	@Test(description = "198562-Verify the Data Validation of Sales Item Details Report Report")
+	@Test(description = "198562-Verify the Data Validation of Sales Item Details Report")
 	public void salesItemDetailsReportDataValidation() {
 		try {
 			final String CASE_NUM = "198562";
@@ -4975,7 +5004,7 @@ public class Report extends TestInfra {
 	 * @author KarthikR
 	 * @date: 05-08-2022
 	 */
-	@Test(description = "202033 - Cash Flow Employee Device Report data validation")
+	@Test(enabled = false, description = "202033 - Cash Flow Employee Device Report data validation")
 	public void CashFlowEmployeeDeviceReportDataValidation() {
 		final String CASE_NUM = "202033";
 
@@ -5315,6 +5344,1832 @@ public class Report extends TestInfra {
 
 			// verify report total data
 			salesTimeDetailsByDevice.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Unpaid Order Report Data Validation
+	 * 
+	 * @author ravindhara Date: 25-08-2022
+	 */
+	@Test(description = "203621-This test validates Unpaid Order Report Data")
+	public void UnpaidOrderReportDataValidation() {
+		try {
+			final String CASE_NUM = "203621";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+			navigationBar.selectOrganization(requiredData.get(0));
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu);
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), requiredData.get(2),
+					UnpaidOrder.DATA_EXISTING_DATE, UnpaidOrder.DATA_EXISTING_DATE);
+			reportList.selectLocation(requiredData.get(1));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(UnpaidOrder.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			unpaidOrder.verifyReportName(reportName);
+			unpaidOrder.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			unpaidOrder.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			unpaidOrder.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Inventory Value Summary Report Data Validation
+	 * 
+	 * @author ravindhara Date: 29-08-2022
+	 */
+	@Test(description = "203690-Verify the Data Validation of Inventory Value Summary Report")
+	public void inventoryValueSummaryReportDataValidation() {
+		try {
+			final String CASE_NUM = "203690";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectLocation(locationName);
+			textBox.enterText(InventoryValueSummary.PRODUCT_SEARCH_BY, productName);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			inventoryValueSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			inventoryValueSummary.getTblRecordsUI();
+			inventoryValueSummary.getIntialData().putAll(inventoryValueSummary.getReportsData());
+
+			// process sales API to generate data
+			inventoryValueSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			inventoryValueSummary.getTblRecordsUI();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String cost = rstProductSummaryData.get(CNProductSummary.COST);
+			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
+			String userKey = rstProductSummaryData.get(CNProductSummary.USER_KEY);
+			String cat1 = rstProductSummaryData.get(CNProductSummary.CATEGORY1);
+			String cat2 = rstProductSummaryData.get(CNProductSummary.CATEGORY2);
+			String cat3 = rstProductSummaryData.get(CNProductSummary.CATEGORY3);
+
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(0), locationName);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(1), userKey);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(2), scanCode);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(3), productName);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(4), cat1);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(5), cat2);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(6), cat3);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(7), cost);
+			inventoryValueSummary.updateData(inventoryValueSummary.getTableHeaders().get(8), productPrice);
+			inventoryValueSummary.quantityOnHand(inventoryValueSummary.getTableHeaders().get(9));
+			inventoryValueSummary.calculateTotal(inventoryValueSummary.getTableHeaders().get(12), cost);
+			inventoryValueSummary.calculateTotal(inventoryValueSummary.getTableHeaders().get(13), productPrice);
+			inventoryValueSummary.saleCount(inventoryValueSummary.getTableHeaders().get(14));
+			inventoryValueSummary.saleCount(inventoryValueSummary.getTableHeaders().get(15));
+
+			// verify report headers
+			inventoryValueSummary.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			inventoryValueSummary.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Entry Summary Report Report Data Validation
+	 * 
+	 * @author ravindhara Date: 02-09-2022
+	 */
+	@Test(description = "203698-This test validates Entry Summary Report Data Calculation")
+	public void entrySummaryReportDataValidation() {
+		try {
+			final String CASE_NUM = "203698";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			String reason = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to location and Inventory section
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue = locationSummary
+					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason);
+
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElement(EntrySummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			entrySummaryReport.verifyReportName(reportName);
+			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
+			entrySummaryReport.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			entrySummaryReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			entrySummaryReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Delete Summary Report Data Validation
+	 * 
+	 * @author ravindhara Date: 07-08-2022
+	 */
+	@Test(description = "203720-This test validates Delete Summary Report Data Calculation")
+	public void deleteSummaryReportDataValidation() {
+		try {
+			final String CASE_NUM = "203720";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			String reason = rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA);
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to location and Inventory section
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue = locationSummary
+					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason);
+
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+
+			// navigate to Reports
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElement(DeleteSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			deleteSummaryReport.verifyReportName(reportName);
+			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
+			deleteSummaryReport.getTblRecordsUI();
+
+			// Validating the Headers and Report data
+			deleteSummaryReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+			deleteSummaryReport.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Product Sales Report Data Validation
+	 * 
+	 * @author ravindhara Date: 08-09-2022
+	 */
+	@Test(description = "203834-Verify the Data Validation of Sold Item COGS Report")
+	public void soldItemCOGSReportDataValidation() {
+		try {
+			final String CASE_NUM = "203834";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			soldItemCOGS.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			soldItemCOGS.getTblRecordsUI();
+			soldItemCOGS.getIntialData().putAll(soldItemCOGS.getReportsData());
+			soldItemCOGS.getUpdatedTableFooters().putAll(soldItemCOGS.getTableFooters());
+
+			// process sales API to generate data
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			soldItemCOGS.getTblRecordsUI();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			// String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
+			String cost = rstProductSummaryData.get(CNProductSummary.COST);
+
+			// Updating Table data
+			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(0), locationName);
+			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(1), productName);
+			soldItemCOGS.updateMultipleData(soldItemCOGS.getTableHeaders().get(2), scanCode);
+			soldItemCOGS.saleCount(soldItemCOGS.getTableHeaders().get(4));
+			soldItemCOGS.updateData(soldItemCOGS.getTableHeaders().get(5), cost);
+			soldItemCOGS.calculateTotalCOGS(soldItemCOGS.getTableHeaders().get(6), cost);
+			soldItemCOGS.calculateRevenue(soldItemCOGS.getTableHeaders().get(7), productPrice);
+			soldItemCOGS.calculateProfit(soldItemCOGS.getTableHeaders().get(8));
+
+			// Updating Footer data
+			soldItemCOGS.updateCostPercentOfFooter(soldItemCOGS.getTableHeaders().get(1));
+			soldItemCOGS.calculateIntegerTotalOfFooter(soldItemCOGS.getTableHeaders().get(4));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(5));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(6));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(7));
+			soldItemCOGS.calculateDoubleTotalOfFooter(soldItemCOGS.getTableHeaders().get(8));
+
+			// verify report headers
+			soldItemCOGS.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			soldItemCOGS.verifyReportData();
+
+			// verify report total data
+			soldItemCOGS.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Subsidy Consumer Spend Report Data Validation
+	 * 
+	 * @author KarthikR
+	 * @date: 24-08-2022
+	 */
+	@Test(description = "203623 - Subsidy Consumer Spend Report data validation")
+	public void SubsidyConsumerSpendReportDataValidation() {
+		final String CASE_NUM = "203623";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+		rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+		List<String> orderPageData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+		List<String> product = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		List<String> columnName = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		List<String> subsidyGroup = Arrays
+				.asList(rstConsumerSearchData.get(CNConsumerSearch.TITLE).split(Constants.DELIMITER_TILD));
+		try {
+			// Login to ADM with Super Credentials
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+
+			// Select Location
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+
+			// Verifying the selection of defaults as Top Off for GMA subsidy
+			subsidyConsumerSpend.selectionOfTopOffSubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+					requiredData.get(7), requiredData.get(10));
+
+			// Navigate to Admin > Consumer to Read Scancode and Consumer ID
+			List<String> details = subsidyConsumerSpend.readConsumerDetails(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device to do Transaction on Subsidy Balance
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			String price = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(0), orderPageData.get(0),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			browser.close();
+
+			// Navigate to ADM
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+
+			// Navigate to Admin Consumer to Read Transaction ID
+			String transID = subsidyConsumerSpend.readTransactionID(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
+
+			// Select Report, Data and Location to run Report
+			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
+
+			// Read the Table Data from UI and Validate
+			subsidyConsumerSpend.getTblRecordsUI();
+			subsidyConsumerSpend.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
+					rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(2),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(3),
+					rstConsumerSearchData.get(CNConsumerSearch.ATTRIBUTE));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(5),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
+			String dateArray[] = currentDate.split("/");
+			String date = dateArray[0].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/"
+					+ dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "") + "/" + dateArray[2];
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
+			price = price.replace("$", "");
+			price = price.replace(".", "");
+			price = price.replace("0", "");
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
+
+			// Verifying the selection of defaults as Roll Over for GMA subsidy
+			navigationBar.navigateToMenuItem(menu.get(3));
+			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.selectionOfRollOverSubsidy(requiredData.get(0), currentDate, requiredData.get(9),
+					requiredData.get(8), requiredData.get(11));
+			login.logout();
+			browser.close();
+
+			// Again Launch V5 Device to do another Transaction with Subsidy Balance
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			price = subsidyConsumerSpend.readPriceFromV5Transaction(product.get(1), orderPageData.get(0),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN),
+					rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+			foundation.threadWait(Constants.THREE_SECOND);
+			browser.close();
+
+			// Navigate to ADM
+			subsidyConsumerSpend.loginToADMWithSuperCredentials();
+
+			// Read Transaction ID
+			transID = subsidyConsumerSpend.readTransactionID(menu.get(1),
+					rstConsumerSearchData.get(CNConsumerSearch.SEARCH), rstV5DeviceData.get(CNV5Device.LOCATION));
+
+			// Select Report, Data and Location to run Report
+			subsidyConsumerSpend.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), rstV5DeviceData.get(CNV5Device.LOCATION), transID);
+
+			// Search with Transaction ID and get the data
+			subsidyConsumerSpend.getTblRecordsUI();
+			subsidyConsumerSpend.verifyReportHeaders(rstConsumerSearchData.get(CNConsumerSearch.COLUMN_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(0),
+					rstV5DeviceData.get(CNV5Device.LOCATION));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(1), details.get(1));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(2),
+					rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(3),
+					rstConsumerSearchData.get(CNConsumerSearch.ATTRIBUTE));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(4), details.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(5),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(6), subsidyGroup.get(0));
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(7), transID);
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(8), date);
+			price = price.replace("$", "");
+			price = price.replace(".", "");
+			price = price.replace("0", "");
+			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/*
+	 * This Method is for Product Canned Report Data Validation
+	 * 
+	 * @author ravindhara Date: 20-09-2022
+	 */
+	@Test(description = "204450-Verify the Data Validation of Product Canned Report")
+	public void productCannedReportDataValidation() {
+		try {
+			final String CASE_NUM = "204450";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
+
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// process sales API to generate data
+			ProductCannedReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Select the Report Date range and Location and run report
+			navigationBar.navigateToMenuItem(menu.get(1));
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			ProductCannedReport.verifyReportName(location);
+
+			// Read the Report the Data
+			ProductCannedReport.getTblRecordsUI();
+			ProductCannedReport.getIntialData().putAll(ProductCannedReport.getReportsData());
+
+			List<String> reason = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+			// navigate to location and Inventory section & Updating Spoil Damage of product
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER, scanCode);
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue = locationSummary.getInventoryValue(scanCode);
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(scanCode, ProductCannedReport.decrementedInventoryValue(inventoryValue),
+					reason.get(0));
+
+			// Updating Shrink of product
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER, scanCode);
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue1 = locationSummary.getInventoryValue(scanCode);
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(scanCode, ProductCannedReport.decrementedInventoryValue(inventoryValue1),
+					reason.get(1));
+
+			// navigate to Products section & Updating Min & Max quantity of product
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.WaitForAjax(5000);
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			// updating Min Stock
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, productName);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.PRODUCT_NAME).equals(productName));
+			locationSummary.enterMinStock(productName, rstProductSummaryData.get(CNProductSummary.GPCMIN));
+			foundation.threadWait(Constants.TWO_SECOND);
+			// updating Min Stock
+			locationSummary.enterMaxStock(productName, rstProductSummaryData.get(CNProductSummary.GPCMAX));
+			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
+
+			// process sales API to generate data again
+			ProductCannedReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			foundation.threadWait(Constants.TWO_SECOND);
+			// rerun and reread report
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location and Re-run report
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			ProductCannedReport.getTblRecordsUI();
+			ProductCannedReport.getRequiredRecord(productName);
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+
+			ProductCannedReport.updateData(ProductCannedReport.getTableHeaders().get(0), productName);
+			String salesUnits = ProductCannedReport.saleCount(ProductCannedReport.getTableHeaders().get(1));
+			ProductCannedReport.calculateSales(ProductCannedReport.getTableHeaders().get(2), productPrice);
+			String spoilUnits = ProductCannedReport.saleCount(ProductCannedReport.getTableHeaders().get(4));
+			String shrinkUnits = ProductCannedReport.saleCount(ProductCannedReport.getTableHeaders().get(6));
+			ProductCannedReport.calculatePercent(ProductCannedReport.getTableHeaders().get(5), salesUnits, spoilUnits);
+			ProductCannedReport.calculatePercent(ProductCannedReport.getTableHeaders().get(7), salesUnits, shrinkUnits);
+
+			// verify report headers
+			ProductCannedReport.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			ProductCannedReport.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/*
+	 * Credit Transaction Spend Report Data Validation
+	 * 
+	 * @author ravindhara Date: 22-09-2022
+	 * 
+	 * @date: 24-08-2022
+	 */
+	@Test(description = "204887-This test validates Credit Transaction Report Data Calculation")
+	public void creditTransactionReportData() {
+		try {
+
+			final String CASE_NUM = "204887";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// process sales API to generate data
+			creditTransaction.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			// Select Menu and Menu Item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			creditTransaction.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
+					(String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
+			creditTransaction.getTblRecordsUI();
+			creditTransaction.getIntialData().putAll(creditTransaction.getReportsData());
+			creditTransaction.getRequiredRecord((String) creditTransaction.getJsonData().get(Reports.TRANS_DATE_TIME));
+
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+			// apply calculation and update data
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(0),
+					(String) creditTransaction.getJsonData().get(Reports.TRANS_DATE_TIME));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(2),
+					(String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(3),
+					creditTransaction.getRequiredJsonData().get(0));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(4), requiredData.get(0));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(5),
+					creditTransaction.getRequiredJsonData().get(1));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(6),
+					creditTransaction.getRequiredJsonData().get(2));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(7),
+					creditTransaction.getRequiredJsonData().get(3));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(9), requiredData.get(1));
+			creditTransaction.updateData(creditTransaction.getTableHeaders().get(10), requiredData.get(2));
+
+			// verify report headers
+			creditTransaction.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			creditTransaction.verifyReportData();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cashout Log Report data validation
+	 * 
+	 * @author KarthikR Date: 22-09-2022
+	 */
+	@Test(description = "120168 - CashOut Log Report data validation")
+	public void cashOutLogReportDataValidation() {
+		try {
+			final String CASE_NUM = "120168";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process Kiosk Cashout API to generate data
+			cashOutLog.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			cashOutLog.getCashoutJsonData();
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			cashOutLog.selectAndRunReport(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstReportListData.get(CNReportList.REPORT_NAME), rstReportListData.get(CNReportList.DATE_RANGE),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Report Data from UI
+			textBox.enterText(CashoutLog.TXT_SEARCH_FILTER, cashOutLog.getRequiredCashOutJsonData().get(0));
+			cashOutLog.getCashOutLog();
+
+			// verify Report Headers
+			cashOutLog.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify Report Data
+			cashOutLog.verifyKCORecord();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Account Profitability Report Data Validation
+	 * 
+	 * @author ravindhara Date: 22-07-2022
+	 */
+	@Test(description = "205004-Verify the Data Validation of Account Profitability Report ")
+	public void AccountProfitabilityReportDataValidation() {
+		try {
+			final String CASE_NUM = "205004";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			accountProfitability.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			accountProfitability.getTblRecordsUI();
+			accountProfitability.getIntialData().putAll(accountProfitability.getReportsData());
+
+			// process sales API to generate data
+			accountProfitability.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			accountProfitability.getTblRecordsUI();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String deposit = rstProductSummaryData.get(CNProductSummary.DEPOSIT_CATEGORY);
+
+			accountProfitability.updateData(accountProfitability.getTableHeaders().get(0), location);
+			accountProfitability.calculateAmount(accountProfitability.getTableHeaders().get(1), productPrice, tax);
+			accountProfitability.calculateTax(accountProfitability.getTableHeaders().get(2), tax);
+			accountProfitability.calculateDeposit(accountProfitability.getTableHeaders().get(3), deposit);
+			accountProfitability.calculateNetSales(accountProfitability.getTableHeaders().get(4));
+
+			// verify report headers
+			accountProfitability.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			accountProfitability.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Financial Canned Report Data Validation 204450
+	 * 
+	 * @author ravindhara Date: 29-09-2022
+	 */
+	@Test(description = "203570-Verify the Data Validation of Financial Canned Report")
+	public void financialCannedReportDataValidation() {
+		try {
+			final String CASE_NUM = "203570";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
+
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select the Report Date range and Location and run report
+			navigationBar.navigateToMenuItem(menu.get(1));
+			reportList.selectReport(reportName);
+
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+
+			financialCanned.verifyReportName(reportName);
+
+			// Read the Report the Data
+			financialCanned.getTblRecordsUI();
+			financialCanned.getIntialData().putAll(financialCanned.getReportsData());
+
+			List<String> reason = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+			// navigate to location and Inventory section & Updating Spoil Damage of product
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER, scanCode);
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue = locationSummary.getInventoryValue(scanCode);
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(scanCode, financialCanned.decrementedInventoryValue(inventoryValue),
+					reason.get(0));
+
+			// Updating Shrink of product
+			foundation.waitforElement(LocationSummary.LNK_INVENTORY, Constants.SHORT_TIME);
+			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
+
+			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER, scanCode);
+			foundation.threadWait(Constants.ONE_SECOND);
+
+			String inventoryValue1 = locationSummary.getInventoryValue(scanCode);
+
+			// Updating the Inventory of the product
+			locationSummary.updateInventory(scanCode, financialCanned.decrementedInventoryValue(inventoryValue1),
+					reason.get(1));
+
+			// process sales API to generate data again
+			financialCanned.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			foundation.threadWait(Constants.TWO_SECOND);
+			// rerun and reread report
+			navigationBar.navigateToMenuItem(menu.get(1));
+
+			// Select the Report Date range and Location and Re-run report
+			reportList.selectReport(reportName);
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			financialCanned.getTblRecordsUI();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String cost = rstProductSummaryData.get(CNProductSummary.COST);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+
+			financialCanned.updateData(financialCanned.getTableHeaders().get(0), location);
+			String sales = financialCanned.calculateSalesAmount(financialCanned.getTableHeaders().get(1), productPrice,
+					tax);
+			String productCost = financialCanned.calculateCost(financialCanned.getTableHeaders().get(2), cost);
+			String ProductCostPercentage = financialCanned.calculatePercent(financialCanned.getTableHeaders().get(3),
+					productCost, sales);
+			String spoilAmount = financialCanned.calculateSpoilDamagesAmount(financialCanned.getTableHeaders().get(4),
+					cost);
+			String spoilPercentage = financialCanned.calculatePercent(financialCanned.getTableHeaders().get(5),
+					spoilAmount, sales);
+			String shortAmount = financialCanned.calculateSpoilDamagesAmount(financialCanned.getTableHeaders().get(8),
+					cost);
+			String shortPercentage = financialCanned.calculatePercent(financialCanned.getTableHeaders().get(9),
+					shortAmount, sales);
+
+			financialCanned.calculateGrossMargin(financialCanned.getTableHeaders().get(10), ProductCostPercentage,
+					spoilPercentage, shortPercentage);
+			financialCanned.updateLastYearAmount(financialCanned.getTableHeaders().get(11));
+			financialCanned.updateLastYearPercent(financialCanned.getTableHeaders().get(12));
+
+			// verify report headers
+			financialCanned.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			financialCanned.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/*
+	 * This Method is for Sales By 15 mins Report data validation 203347
+	 * 
+	 * @author ravindhara Date: 06-10-2022
+	 * 
+	 */
+	@Test(description = "205070-Verify the Data Validation of Sales By 15 mins Report")
+	public void salesBy15MinsReportDataValidation() {
+		try {
+			final String CASE_NUM = "205070";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			// process sales API to generate data
+			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			salesBy15Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			String timePeriod = salesBy15Minutes
+					.getTimePeroid(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
+			salesBy15Minutes.getTblRecordsUI();
+			salesBy15Minutes.getIntialData().putAll(salesBy15Minutes.getReportsData());
+			salesBy15Minutes.getUpdatedTableFooters().putAll(salesBy15Minutes.getTableFooters());
+
+			// process sales API to generate data
+			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+
+			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
+			salesBy15Minutes.getTblRecordsUI();
+
+			salesBy15Minutes.getRowCount();
+			salesBy15Minutes.getJsonSalesData();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+
+			// Updating Table data
+			salesBy15Minutes.grossSales(salesBy15Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(2),
+					salesBy15Minutes.getRequiredJsonData().get(2));
+			salesBy15Minutes.calculateAmount(salesBy15Minutes.getTableHeaders().get(3),
+					salesBy15Minutes.getRequiredJsonData().get(0));
+			salesBy15Minutes.TrasactionCount(salesBy15Minutes.getTableHeaders().get(4));
+
+			// Updating Footer data
+			salesBy15Minutes.grossSalesOfFooter(salesBy15Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(2),
+					salesBy15Minutes.getRequiredJsonData().get(2));
+			salesBy15Minutes.calculateAmountOfFooter(salesBy15Minutes.getTableHeaders().get(3),
+					salesBy15Minutes.getRequiredJsonData().get(0));
+			salesBy15Minutes.TrasactionCountOfFooter(salesBy15Minutes.getTableHeaders().get(4));
+
+			// verify report headers
+			salesBy15Minutes.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			salesBy15Minutes.verifyReportData();
+
+			// verify report total data
+			salesBy15Minutes.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/*
+	 * This Method is for Sales By 30 mins Report data validation
+	 * 
+	 * @author ravindhara Date: 10-10-2022
+	 * 
+	 */
+	@Test(description = "206144-Verify the Data Validation of Sales By 30 mins Report")
+	public void salesBy30MinsReportDataValidation() {
+		try {
+			final String CASE_NUM = "206144";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			// process sales API to generate data
+			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			salesBy30Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Read the Report the Data
+			String timePeriod = salesBy30Minutes
+					.getTimePeroid(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+			textBox.enterText(SalesBy30Minutes.TXT_SEARCH, timePeriod);
+			salesBy30Minutes.getTblRecordsUI();
+			salesBy30Minutes.getIntialData().putAll(salesBy30Minutes.getReportsData());
+			salesBy30Minutes.getUpdatedTableFooters().putAll(salesBy30Minutes.getTableFooters());
+
+			// process sales API to generate data
+			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// rerun and reread report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.TWO_SECOND);
+
+			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
+			salesBy30Minutes.getTblRecordsUI();
+
+			salesBy30Minutes.getRowCount();
+			salesBy30Minutes.getJsonSalesData();
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+
+			// Updating Table data
+			salesBy30Minutes.grossSales(salesBy30Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(2),
+					salesBy30Minutes.getRequiredJsonData().get(2));
+			salesBy30Minutes.calculateAmount(salesBy30Minutes.getTableHeaders().get(3),
+					salesBy30Minutes.getRequiredJsonData().get(0));
+			salesBy30Minutes.TrasactionCount(salesBy30Minutes.getTableHeaders().get(4));
+
+			// Updating Footer data
+			salesBy30Minutes.grossSalesOfFooter(salesBy30Minutes.getTableHeaders().get(1), productPrice, tax);
+			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(2),
+					salesBy30Minutes.getRequiredJsonData().get(2));
+			salesBy30Minutes.calculateAmountOfFooter(salesBy30Minutes.getTableHeaders().get(3),
+					salesBy30Minutes.getRequiredJsonData().get(0));
+			salesBy30Minutes.TrasactionCountOfFooter(salesBy30Minutes.getTableHeaders().get(4));
+
+			// verify report headers
+			salesBy30Minutes.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			salesBy30Minutes.verifyReportData();
+
+			// verify report total data
+			salesBy30Minutes.verifyReportFootertData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cancel Report data validation
+	 * 
+	 * @author KarthikR Date: 26-09-2022
+	 */
+	@Test(description = "204991 - Cancel Report data validation")
+	public void cancelReportDataValidation() {
+		try {
+			final String CASE_NUM = "204991";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process API POST Request to generate data
+			webService.apiReportPostRequest(
+					propertyFile.readPropertyFile(Configuration.SALE_CANCEL_TRANS, FilePath.PROPERTY_CONFIG_FILE),
+					cancelReport.saleCancelJsonDataUpdate());
+			cancelReport.getJsonSalesData();
+			cancelReport.getJsonArrayData(CancelReport.jsonData, Reports.ITEMS, Reports.PAYMENTS);
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			cancelReport.selectAndRunReport(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM),
+					rstReportListData.get(CNReportList.REPORT_NAME), rstReportListData.get(CNReportList.DATE_RANGE),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Report Data from UI
+			cancelReport.readAllRecordsFromCancelReportTable();
+			cancelReport.getRequiredRecord(columnName.get(0),
+					String.valueOf(CancelReport.REQUIRED_JSON_DATA_LIST.get(0)));
+
+			// verify Report Headers
+			cancelReport.verifyReportHeaders(columnName.get(1));
+
+			// verify Location of UI Table Record
+			cancelReport.verifyLocation(columnName.get(2));
+
+			// verify Time Cancelled column of UI Table Record
+			cancelReport.verifyTimeCancelled(columnName.get(3),
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+
+			// verify TransID column of UI Table Record
+			cancelReport.verifyTransID(columnName.get(4));
+
+			// verify Items column of UI Table Record
+			cancelReport.verifyItems(columnName.get(5));
+
+			// verify Total column of UI Table Record
+			cancelReport.verifyTotal(columnName.get(6));
+
+			// verify Name On CC column of UI Table Record
+			cancelReport.verifyNameOnCC(columnName.get(7));
+
+			// verify Last 4 Of CC column of UI Table Record
+			cancelReport.verifyLast4OfCC(columnName.get(8));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Balance Report data validation
+	 * 
+	 * @author KarthikR Date: 29-09-2022
+	 */
+	@Test(description = "204999 - Balance Report data validation")
+	public void balanceReportDataValidation() {
+		try {
+			final String CASE_NUM = "204999";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menu = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			balanceReport.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Report Data from UI
+			balanceReport.readBalanceReportTableHeaders();
+
+			// verify Report Headers
+			textBox.enterText(BalanceReport.TXT_SEARCH, requiredData.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			balanceReport.readAllRecordsFromBalanceReportTable(columnName.get(2));
+			balanceReport.getInitialReportsData().putAll(BalanceReport.reportsData);
+
+			// Navigate to Admin > Consumer
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+
+			// Search for Consumer
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME),
+					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			foundation.click(consumerSearch.objFirstNameCell(requiredData.get(0)));
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Read Balance from Consumer Summary page and do Adjust on Consumer Balance
+			balanceReport.getADMData().add(String.valueOf(consumerSummary.getBalance()));
+			foundation.click(ConsumerSummary.BTN_ADJUST);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE));
+			balanceReport.getADMData().add(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+			double updatedbalance = Double.parseDouble(balanceReport.getADMData().get(0))
+					- Double.parseDouble(balanceReport.getADMData().get(1));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
+					Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			balanceReport.getADMData().add(String.valueOf(updatedbalance));
+
+			// Read Balance of Subsidy from Consumer Summary page and do Adjust on Subsidy
+			// Balance
+			foundation.click(ConsumerSummary.BTN_SUBSIDY_ADJUST);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE));
+			balanceReport.getADMData()
+					.add(String.valueOf(foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE).replace("$", "")));
+			double updatedSubisdybalance = Double.parseDouble(balanceReport.getADMData().get(3))
+					+ Double.parseDouble(balanceReport.getADMData().get(1));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedSubisdybalance));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
+					Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			balanceReport.getADMData().add(String.valueOf(updatedSubisdybalance));
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			balanceReport.selectAndRunReport(menu.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME));
+
+			// Read Updated Report Data
+			textBox.enterText(BalanceReport.TXT_SEARCH, requiredData.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			balanceReport.readAllRecordsFromBalanceReportTable(columnName.get(2));
+
+			// Update Consumer Balance
+			balanceReport.updateConsumerBalance();
+
+			// Update Subsidy Balance
+			balanceReport.updateSubsidyBalance();
+
+			// Verify Report Headers
+			balanceReport.verifyReportHeaders(columnName.get(1));
+
+			// Verify Report Data
+			balanceReport.verifyReportRecords(requiredData.get(1));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Account Funding Report Data Validation
+	 * 
+	 * @author KarthikR Date: 12-09-2022
+	 */
+	@Test(description = "119931 - Account Funding Report data validation")
+	public void accountFundingReportDataValidation() {
+		try {
+			final String CASE_NUM = "119931";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+			rstConsumerSummaryData = dataBase.getConsumerSummaryData(Queries.CONSUMER_SUMMARY, CASE_NUM);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> menus = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> columnName = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			accountFunding.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			accountFunding.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+
+			// Read Account Funding Report Data
+			accountFunding.getAccountFundingHeaders();
+			accountFunding.getAccountFunding();
+			accountFunding.getInitialReportsData().putAll(AccountFunding.reportsData);
+
+			// Navigate To Admin > Consumer and search for Consumer
+			navigationBar.navigateToMenuItem(menus.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			dropdown.selectItem(ConsumerSearch.DPD_SEARCH_BY, rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+					Constants.TEXT);
+			foundation.click(ConsumerSearch.CLEAR_SEARCH);
+			textBox.enterText(ConsumerSearch.TXT_SEARCH, rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
+			dropdown.selectItem(ConsumerSearch.DPD_LOCATION, locationName, Constants.TEXT);
+			foundation.click(ConsumerSearch.BTN_GO);
+			foundation.scrollIntoViewElement(ConsumerSearch.TBL_CONSUMERS);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Read Balance from Consumer Summary page and do Adjust on Report
+			accountFunding.getADMData().add(String.valueOf(consumerSummary.getBalance()));
+			foundation.click(ConsumerSummary.BTN_ADJUST);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE));
+			accountFunding.getADMData().add(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
+			double updatedbalance = Double.parseDouble(accountFunding.getADMData().get(0))
+					+ Double.parseDouble(accountFunding.getADMData().get(1));
+			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
+			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
+					Constants.TEXT);
+			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// process sales API again to generate new data
+			accountFunding.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Navigate to Report again to read Updated Report Data
+			accountFunding.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+			accountFunding.getAccountFunding();
+
+			// Update Date
+			accountFunding.getInitialReportsData().get(0).put(AccountFunding.tableHeaders.get(0),
+					accountFunding.getTime());
+
+			// Update Operator Credit
+			accountFunding.updateOperatorCredit();
+
+			// Update Consumer Credit
+			accountFunding.updateCreditAndCash(AccountFunding.tableHeaders.get(3));
+
+			// Update Kiosk Credit
+			accountFunding.updateCreditAndCash(AccountFunding.tableHeaders.get(4));
+
+			// Update Kiosk Cash
+			accountFunding.updateCreditAndCash(AccountFunding.tableHeaders.get(5));
+
+			// Update Remaining Account Balances
+			accountFunding.updateRemainingAccountBalances();
+
+			// Update Account Sales
+			accountFunding.updateSales(AccountFunding.tableHeaders.get(8));
+
+			// Update Credit Sales
+			accountFunding.updateSales(AccountFunding.tableHeaders.get(9));
+
+			// Update Total Sales
+			accountFunding.calculateTotalSales();
+
+			// Verify Report Headers
+			accountFunding.verifyReportHeaders(columnName.get(1));
+
+			// Verify Report Data
+			accountFunding.verifyReportRecords();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Cash Audit Report data validation
+	 * 
+	 * @author KarthikR Date: 16-09-2022
+	 */
+	@Test(description = "120109 - Cash Audit Report data validation")
+	public void cashAuditReportDataValidation() {
+		try {
+			final String CASE_NUM = "120109";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			rstConsumerSearchData = dataBase.getConsumerSearchData(Queries.CONSUMER_SEARCH, CASE_NUM);
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+			List<String> menus = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+
+			// Login to ADM with Super Credentials
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			cashAudit.processAPI(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			cashAudit.getCashoutJsonData();
+
+			// Navigate To Report Tab and Select the Report Date range & Location, run
+			// report
+			cashAudit.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+
+			// read Report Data
+			cashAudit.readAllRecordsFromCashAuditTable();
+			cashAudit.getLastPickupData().putAll(cashAudit.reportSecondLayerData);
+
+			// verify Report Headers
+			cashAudit.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify GMA Record
+			cashAudit.updateGMARecord(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
+			cashAudit.verifyGMARecord();
+
+			// verify KCO Record
+			cashAudit.updateKCORecord();
+			cashAudit.verifyKCORecord();
+
+			// verify TotalPlus Total
+			// cashAudit.verifyTotal(cashAudit.tableHeaders.get(3));
+
+			// verify TotalMinus Total
+			cashAudit.verifyTotal(cashAudit.tableHeaders.get(4));
+
+			// verify Last PickUp Record
+			cashAudit.verifyLastPickUp();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Consumer Feedback Survey Report Data Validation for Bad
+	 * Feedback
+	 * 
+	 * @author ravindhara Date: 12-10-2022
+	 */
+	@Test(priority = 1, description = "206251-Verifying and Validating the Consumer Feedback Survey Report Data")
+	public void consumerFeedbackSurveyReportDataValidationForSadFeedback() {
+		final String CASE_NUM = "206251";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+		// Reading test data from DataBase
+		List<String> menuItems = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item for Location and to Enable Consumer Feedback Survey
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
+			foundation.threadWait(Constants.ONE_SECOND);
+			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(0),
+					Constants.TEXT);
+			textBox.enterText(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_QUESTION, requiredData.get(2));
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
+			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			login.logout();
+			browser.close();
+
+			String product = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			List<String> paymentEmailDetails = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));
+
+			// Launch V5 Device and purchasing a product with Happy Feedback
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
+			browser.close();
+
+			// Navigate to Reports
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			consumerFeedbackSurvey.getTblRecordsUI();
+			consumerFeedbackSurvey.getIntialData().putAll(consumerFeedbackSurvey.getReportsData());
+
+			// apply calculation and update data
+			consumerFeedbackSurvey.updateData(consumerFeedbackSurvey.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.updateTotalFeedbackCount(consumerFeedbackSurvey.getTableHeaders().get(3));
+			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(4));
+
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device and purchasing a product with Sad Feedback
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.SAD_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
+			browser.close();
+
+			// Navigate to Reports
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			consumerFeedbackSurvey.getTblRecordsUI();
+
+			// verify report headers
+			consumerFeedbackSurvey.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			consumerFeedbackSurvey.verifyReportData();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * This Method is for Consumer Feedback Survey Report Data Validation for
+	 * Neutral Feedback
+	 * 
+	 * @author ravindhara Date: 12-10-2022
+	 */
+	@Test(priority = 1, description = "206251-Verifying and Validating the Consumer Feedback Survey Report Data Neutral Feedback")
+	public void consumerFeedbackSurveyReportDataValidationForNeutralFeedback() {
+		final String CASE_NUM = "206252";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+		// Reading test data from DataBase
+		List<String> menuItems = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+		try {
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Org,Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item for Location and to Enable Consumer Feedback Survey
+			navigationBar.navigateToMenuItem(menuItems.get(0));
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_TOGGLEINFO_BAR);
+			foundation.threadWait(Constants.ONE_SECOND);
+			dropdown.selectItem(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_SUMMARY_ENABLE_DD, requiredData.get(0),
+					Constants.TEXT);
+			textBox.enterText(ConsumerFeedbackSurvey.CONSUMER_FEEDBACK_QUESTION, requiredData.get(2));
+			foundation.click(ConsumerFeedbackSurvey.LOCATION_SUMMARY_SAVE_BUTTON);
+			foundation.waitforElement(ConsumerFeedbackSurvey.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			locationList.selectLocationName(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			login.logout();
+			browser.close();
+
+			String product = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
+			List<String> paymentEmailDetails = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));
+
+			// Launch V5 Device and purchasing a product with Happy Feedback
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.HAPPY_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
+			browser.close();
+
+			// Navigate to Reports
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			consumerFeedbackSurvey.getTblRecordsUI();
+			consumerFeedbackSurvey.getIntialData().putAll(consumerFeedbackSurvey.getReportsData());
+
+			// apply calculation and update data
+			consumerFeedbackSurvey.updateData(consumerFeedbackSurvey.getTableHeaders().get(1),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.updateTotalFeedbackCount(consumerFeedbackSurvey.getTableHeaders().get(3));
+			consumerFeedbackSurvey.updateCount(consumerFeedbackSurvey.getTableHeaders().get(5));
+
+			login.logout();
+			browser.close();
+
+			// Launch V5 Device and purchasing a product with Neutral Feedback
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			consumerFeedbackSurvey.transactionThroughDevice(product, paymentEmailDetails.get(0),
+					paymentEmailDetails.get(1), requiredData.get(2), ConsumerFeedbackSurvey.NORMAL_EMOJI_BTN,
+					order.objText(rstProductSummaryData.get(CNProductSummary.DESCRIPTION)));
+			browser.close();
+
+			// Navigate to Reports
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.navigateToMenuItem(menuItems.get(1));
+
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			consumerFeedbackSurvey.getTblRecordsUI();
+
+			// verify report headers
+			consumerFeedbackSurvey.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			consumerFeedbackSurvey.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

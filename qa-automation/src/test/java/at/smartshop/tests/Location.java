@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,6 +49,8 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
+import at.smartshop.pages.UserList;
+import at.smartshop.pages.UserRoles;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.ProductSearch;
@@ -60,6 +63,9 @@ public class Location extends TestInfra {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private Table table = new Table();
+	private UserRoles userRoles = new UserRoles();
+	private UserList userList = new UserList();
+	private Strings strings = new Strings();
 	private LocationList locationList = new LocationList();
 	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
@@ -69,6 +75,7 @@ public class Location extends TestInfra {
 	private Strings string = new Strings();
 	private Excel excel = new Excel();
 	private DeviceList deviceList = new DeviceList();
+	private DeviceSummary deviceSummary = new DeviceSummary();
 	private CheckBox checkBox = new CheckBox();
 
 	private Map<String, String> rstGlobalProductChangeData;
@@ -1238,7 +1245,7 @@ public class Location extends TestInfra {
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2071,4 +2078,540 @@ public class Location extends TestInfra {
 					rstLocationData.get(CNLocation.LOCATION_NAME), requiredData.get(1));
 		}
 	}
+
+	/**
+	 * @author afrosean Date:17-08-20222
+	 */
+	@Test(description = "202842- ADM > Admin > User and Roles verify Navigation bar, access location and Edit users")
+	public void verifyNavigationBarAccessLocationAndEditUsersWithOperator() {
+		final String CASE_NUM = "202842";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays.asList(rstLocationData.get(CNLocation.NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+			// launch Browser with super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Super > User and Roles
+			navigationBar.navigateToMenuItem(menu.get(0));
+			userRoles.searchDriver(datas.get(0));
+			login.logout();
+
+			// launch Browser by Using Operator User
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// verify natigationBar in operator user
+			navigationBar.verifyNavigationBarsArePresent();
+
+			// Navigate to location summary page
+			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.VALIDATE_HEADING)
+					.contains(rstLocationData.get(CNLocation.LOCATION_NAME)));
+
+			// Navigate to Admin > User and roles
+			navigationBar.navigateToMenuItem(menu.get(1));
+			userList.verifyEditUserPage(datas.get(1), datas.get(2));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author Prabha Nigam
+	 *
+	 */
+
+	@Test(description = "202819 - SOS-31922-ADM-Location Summary Page-->Add a Product , Popup Message is not getting displayed for Super")
+	public void verifyPopUpMessageWhileAddingProductInLocationSummaryPage() {
+		final String CASE_NUM = "202819";
+
+		// Reading test data from DataBase
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+		try {
+			// launch Browser, Select Menu and location by Using super User
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+
+			// adding product and verifying on Product UI
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT);
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_ADD_PRODUCT_SEARCH, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_ADD_PRODUCT_SEARCH, product);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.SELECT_PRODUCT);
+			foundation.click(LocationSummary.BTN_ADD);
+			foundation.waitforElementToBeVisible(LocationList.TXT_SPINNER_SUCCESS_MSG, Constants.LONG_TIME);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting the test data
+			foundation.refreshPage();
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationSummary.removeProductFromLocation(product, location);
+		}
+	}
+
+	@Test(description = "204719 - ADM > Menu > Create New Location > Verify Daily Trans In Dashboard - TestRail")
+	public void verifyDailyTransInDashBoard() {
+		try {
+			final String CASE_NUM = "204719";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+			List<String> DropDownResult = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.FILTER_RESULT).split(Constants.DELIMITER_TILD));
+			String location = Constants.AUTO_TEST + string.getRandomCharacter();
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to menu item -> user and roles
+			foundation.threadWait(Constants.SHORT_TIME);
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationList.BTN_CREATE);
+
+			textBox.enterText(LocationSummary.TXT_NAME, location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_TIME_ZONE, DropDownResult.get(0), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, DropDownResult.get(1), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationList.TXT_FILTER, location);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+			Map<String, String> tableInformation = locationList.fetchLocationInformation(location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(
+					tableInformation.get(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME)),
+					rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author Prabha Nigam
+	 *
+	 */
+
+	@Test(description = "202866 - SOS-31922-ADM-Location Summary Page-->Add a Product , Popup Message is not getting displayed for Operator")
+	public void verifyPopUpMessageWhileAddingProductInLocationSummaryPageforOperator() {
+		final String CASE_NUM = "202866";
+
+		// Reading test data from DataBase
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+		try {
+			// launch Browser, Select Menu and location by Using super User
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+
+			// adding product and verifying on Product UI
+			foundation.click(LocationSummary.BTN_ADD_PRODUCT);
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_ADD_PRODUCT_SEARCH, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_ADD_PRODUCT_SEARCH, product);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.SELECT_PRODUCT);
+			foundation.click(LocationSummary.BTN_ADD);
+			foundation.waitforElementToBeVisible(LocationList.TXT_SPINNER_SUCCESS_MSG, Constants.LONG_TIME);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting the test data
+			foundation.refreshPage();
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationSummary.removeProductFromLocation(product, location);
+		}
+	}
+
+	/**
+	 * @author Prabha Nigam
+	 *
+	 */
+
+	@Test(description = "203228 - SOS-31835 ADM>Location summary > Product grid> Edit Product>'Close' button is not working properly")
+	public void verifyCloseButtonFromProductPopUpOnLocationSummaryPage() {
+		final String CASE_NUM = "203228";
+
+		// Reading test data from DataBase
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		String location = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String product = rstLocationData.get(CNLocation.PRODUCT_NAME);
+
+		try {
+			// launch Browser, Select Menu and location by Using super User
+
+			// Select Menu and Menu Item
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			locationList.selectLocationName(location);
+
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+
+			// Searching product and verifying on Close button
+			foundation.waitforElement(LocationSummary.TXT_PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+			foundation.threadWait(5);
+			foundation.click(LocationSummary.PRODUCT_NAME);
+			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_CLOSE_PRODUCT);
+			foundation.threadWait(5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TAB_PRODUCTS));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean Date:08-09-2022
+	 */
+	@Test(description = "203865-ADM > Super > Create new location")
+	public void verifyUserIsAbleToCreateLocation() {
+		final String CASE_NUM = "203865";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+
+		List<String> datas = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		String locationName = rstLocationData.get(CNLocation.NAME) + strings.getRandomCharacter();
+
+		try {
+
+			// launch Browser, Select Menu and location by Using super User
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// select menu and menu item
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// create location under automation Org location
+			locationList.createLocation(locationName, datas.get(1), datas.get(2));
+
+			// search same location
+			locationList.verifyLocationInLocationList(rstLocationData.get(CNLocation.NAME), datas.get(3));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author sakthir 12-09-2022
+	 *
+	 */
+
+	@Test(description = "202654-Location Summary > Product Tab - Print Group Shows By Default")
+	public void verifyPrintGroupTableHeaderShowsByDefaultInProductTab() {
+		final String CASE_NUM = "202654";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		String location = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String product = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+		try {
+
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// select Location
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location);
+
+			// Navigating to products tab
+			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+
+			// adding product and verifying on Product UI
+			foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
+			String Column_Header = foundation.getText(LocationSummary.TBL_PRODUCT_HEADER);
+			CustomisedAssert.assertTrue(Column_Header.contains(product));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author sakthir Date:30-09-2022
+	 */
+	@Test(description = "176240-Verify FreedomPay Integration > ADM Premium Payment"
+			+ "176137 - ADM >>location Summary >> Devices >> Device Summary Page"
+			+ "176134- ADM >>Device Summary Page >>Premium Payment >> Freedom Pay Configuration"
+			+ "176132-ADM >>Device Summary Page >>Premium Payment>>Drop down"
+			+ "176131-ADM >>Device Summary Page >>Premium Payment option"
+			+ "176133-ADM >> Device Summary Page >> Premium Payment >>Premium Pay ID")
+	public void verifyADMPremiumPaymentAndFreedomPayConfigurationInDeviceSummary() {
+		final String CASE_NUM = "176240";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		List<String> data = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER).split(Constants.DELIMITER_TILD));
+
+		// Launch ADM as super
+		navigationBar.launchBrowserAsSuperAndSelectOrg(
+				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+		// navigate to location menu
+		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+		// select Location and verify Location Summary Heading
+		locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.LBL_LOCATION_SUMMARY)
+				.contains(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
+		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+
+		// enter device and select device
+		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstDeviceListData.get(CNDeviceList.DEVICE));
+		locationSummary.selectDeviceName(rstDeviceListData.get(CNDeviceList.DEVICE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
+
+		// select payment and freedom payment
+		deviceSummary.selectPaymentAndSubPaymet(data.get(0), data.get(1));
+
+		// verify freedom Payment options
+		deviceSummary.verifyFreedomPayment();
+
+	}
+
+	/**
+	 * @author sakthir Date:14-10-2022
+	 */
+	@Test(description = "204916-Verify the Stock well Location type in Location summary page for all existing locations"
+			+ "204915-Verify the Stock well Location type in Location summary page for new location")
+	public void verifyStockwellOptionInTypeFieldForExistingAndNewLocationInLocationSummary() {
+		final String CASE_NUM = "204916";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> location = Arrays
+				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+
+		try {
+
+			// Launch ADM as super
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// select location and verify Stock well dropdown option in existing location
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(LocationSummary.DPD_OPTION_TYPE).contains(location.get(1)));
+
+			// navigate to Super->location org
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// click create new and verify Stock well dropdown option
+			foundation.click(LocationList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_CREATE));
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(LocationSummary.DPD_OPTION_TYPE).contains(location.get(1)));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author sakthir Date:17-10-2022
+	 * @throws AWTException
+	 */
+	@Test(description = "204920-Verify Stock well Store Id setting should accept only alpha numeric characters with limit upto 100 characters"
+			+ "204921-Verify that Stock well Store ID setting field is not mandatory field to save"
+			+ "204922-Ensure that new field Stockwell Store ID is displayed when type is set to Stock well in Location Summary page")
+	public void verifyStockwellStoreIdNewFieldAndLimitsForNewAndExistingAndSaveWithoutStoreIDValues()
+			throws AWTException {
+		final String CASE_NUM = "204920";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationListData = dataBase.getLocationListData(Queries.LOCATION_LIST, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays
+				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		String Location = Constants.AUTO_TEST + string.getRandomCharacter();
+
+		try {
+
+			// Launch ADM as super
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// select location and verify Stock well dropdown option in existing location
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(LocationSummary.DPD_OPTION_TYPE).contains(location.get(1)));
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_STOCKWELL_STORE_ID));
+
+			// click save while Stockwell Dropdown option selected without Store Id Field
+			// data for existing location
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_STOCKWELL_STORE_ID));
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// verify After save for existing location
+			locationList.selectLocationName(location.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert
+					.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length() == 0);
+
+			// verify Store Id Field limits 100 character for existing location
+			textBox.enterText(LocationSummary.TXT_STOCKWELL_STORE_ID, location.get(2));
+			CustomisedAssert
+					.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length() == 100);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// verify After save for existing location with Store Id
+			locationList.selectLocationName(location.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert
+					.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length() == 100);
+
+			// navigate to Super->location org
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// click create new
+			foundation.click(LocationList.BTN_CREATE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_CREATE));
+
+			// verify Stock well dropdown option and verify save by creating new location
+			textBox.enterText(LocationSummary.TXT_NAME, Location);
+			foundation.threadWait(Constants.SHORT_TIME);
+			dropDown.selectItem(LocationSummary.DPD_TIME_ZONE, location.get(3), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(LocationSummary.DPD_OPTION_TYPE).contains(location.get(1)));
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_STOCKWELL_STORE_ID));
+			CustomisedAssert
+					.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length() == 0);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// verify After save for new location
+			locationList.selectLocationName(Location);
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert
+					.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length() == 0);
+
+			// verify Store Id Field limits 100 character for new location
+			textBox.enterText(LocationSummary.TXT_STOCKWELL_STORE_ID, location.get(2));
+			CustomisedAssert
+					.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length() == 100);
+			foundation.click(LocationSummary.BTN_SAVE);
+
+			// verify After save for new location with Store Id
+			locationList.selectLocationName(Location);
+			foundation.scrollIntoViewElement(LocationSummary.DPD_TYPE);
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(1), Constants.TEXT);
+			CustomisedAssert
+					.assertTrue(foundation.getAttributeValue(LocationSummary.TXT_STOCKWELL_STORE_ID).length() == 100);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location.get(0));
+			foundation.click(LocationSummary.TXT_STOCKWELL_STORE_ID);
+			foundation.clearText();
+			foundation.click(LocationSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			locationList.selectLocationName(location.get(0));
+			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(7), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			locationList.selectLocationName(Location);
+			foundation.click(LocationSummary.TXT_STOCKWELL_STORE_ID);
+			foundation.clearText();
+			foundation.scrollIntoViewElement(LocationSummary.DPD_DISABLED);
+			dropDown.selectItem(LocationSummary.DPD_DISABLED, location.get(6), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
+		}
+	}
+
 }

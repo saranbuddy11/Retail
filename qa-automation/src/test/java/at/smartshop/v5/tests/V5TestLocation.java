@@ -90,6 +90,7 @@ public class V5TestLocation extends TestInfra {
 			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
 			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.JSON_SALES_CREATION);
 			foundation.waitforElement(LocationSummary.TXT_UPLOAD_STATUS, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			String expectedData = foundation.getText(LocationSummary.TXT_UPLOAD_STATUS);
 			CustomisedAssert.assertEquals(expectedData, actualData);
 
@@ -554,6 +555,7 @@ public class V5TestLocation extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(6), Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			categoryList.selectCategory(requiredData.get(1));
 			categorySummary.updateName(requiredData.get(0));

@@ -51,7 +51,7 @@ public class SoldDetails extends Factory {
 	public final static By TXT_SEARCH_TRANSACTION = By.xpath("//input[@aria-controls='transdt']");
 	public final static By TXT_ID_TRANSACTION = By.cssSelector("#Row_0");
 	public final static By FIND_TRANSACTION = By.xpath("//button[@id='findBtn']");
-	public final static By TXT_SEARCH_FILTER = By.cssSelector("input[aria-controls='rptdt']");
+	public final static By TXT_SEARCH_FILTER = By.xpath("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -291,7 +291,8 @@ public class SoldDetails extends Factory {
 		try {
 			for (int i = 0; i < reportsData.size(); i++) {
 				innerMap = reportsData.get(i);
-				innerValue = innerMap.get(columnName);
+				innerValue = innerMap.get(columnName).replace("%", "");
+				System.out.println(value + "-" + innerValue);
 				CustomisedAssert.assertTrue(value.contains(innerValue));
 			}
 		} catch (Exception exc) {
@@ -300,7 +301,7 @@ public class SoldDetails extends Factory {
 	}
 
 	/**
-	 * Calcualte Margin value
+	 * Calculate Margin value
 	 * 
 	 * @param cost
 	 * @param totalPrice
@@ -315,7 +316,7 @@ public class SoldDetails extends Factory {
 						/ totalPrice) * 100.0;
 				DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
 				String d = df.format(margin);
-				marginValues.add(String.valueOf(d) + Constants.DELIMITER_PERCENTAGE);
+				marginValues.add(String.valueOf(d));
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

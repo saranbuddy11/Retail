@@ -144,6 +144,14 @@ public class GlobalProductChange extends Factory {
 	public static final By TXT_TAX2_PRODUCT=By.xpath("//input[@id='tax-2']");
 	public static final By COL_TAX2_PRODUCT=By.xpath("(//tr[@class='odd']//td)[11]");
 	public static final By TABLE_TAX2_COL=By.xpath("//table[@id='filtered-prd-dt']//tbody//td[11]");
+	public static final By ERROR_MSG=By.xpath("//div[text()='Min value should be less than or equal to Max value  ']");
+  public static final By TXT_UPC=By.xpath("//input[@id='single-num']");
+  public static final By CLOUMN_PRODUCT=By.xpath("//tbody[@aria-relevant='all']");
+  public static final By TXT_EXACT=By.xpath("//input[@id='single-num']");
+  public static final By TXT_START=By.id("start-num");
+  public static final By TXT_END=By.id("end-num");
+  public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']");
+	public static final By TABLE_PRODUCT=By.xpath("(//tbody//tr[@class='odd']/td)[2]");
 
 
 	public By objTableRow(String location) {
@@ -166,8 +174,7 @@ public class GlobalProductChange extends Factory {
 	public By objProductName(String productName) {
 		return By.xpath("//span[text()='" + productName + "']");
 
-	}
-	
+	}	
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -357,7 +364,7 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(GlobalProductChange.TXT_TAX2, tax2);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TAX2_CHECKED));
 		foundation.click(GlobalProductChange.BTN_SUBMIT);
-		foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.SHORT_TIME);
+		foundation.waitforElement(GlobalProductChange.BUTTON_OK, Constants.THREE_SECOND);
 		verifyButtonOkayInGPC();
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 3);
 	}
@@ -370,8 +377,10 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.BUTTON_OK);
 		foundation.waitforElementToBeVisible(INPUT_TEXT, 3);
 		textBox.enterText(INPUT_TEXT, "CONFIRM");
+		foundation.threadWait(1);
 		foundation.clickEnter();
 		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);
 
 	}
@@ -400,8 +409,8 @@ public class GlobalProductChange extends Factory {
 	public void selectProductOPC(String product) {
 	if (!checkBox.isChecked(GlobalProductChange.OPC_CHECK_BOX))
 		checkBox.check(GlobalProductChange.OPC_CHECK_BOX);
-	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
+	foundation.threadWait(Constants.SHORT_TIME);
 	foundation.waitforElementToBeVisible(objTableDataOperatorProduct(product),3);
 	foundation.click(objTableDataOperatorProduct(product));
 	foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT,3);
@@ -411,15 +420,15 @@ public class GlobalProductChange extends Factory {
 	 * Click confirmation buttons in OPC
 	 */
 	public void clickConfirmMsgInOPC() {
-		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT,3);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
-	foundation.click(GlobalProductChange.BTN_SUBMIT);
-	foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_CHANGE_OPC,3);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_CHANGE_OPC));
-	foundation.click(GlobalProductChange.BTN_OK);
-	foundation.waitforElementToBeVisible(GlobalProductChange.REASON_BTNOK,5);
-	foundation.click(GlobalProductChange.REASON_BTNOK);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT,5);
+	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
+	    foundation.click(GlobalProductChange.BTN_SUBMIT);
+	    foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_CHANGE_OPC,3);
+	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_CHANGE_OPC));
+	    foundation.click(GlobalProductChange.BTN_OK);
+	    foundation.waitforElementToBeVisible(GlobalProductChange.REASON_BTNOK,Constants.LONG_TIME);
+	    foundation.click(GlobalProductChange.REASON_BTNOK);
+	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 	}
 	
 	/**
@@ -452,6 +461,7 @@ public class GlobalProductChange extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 		foundation.click(objLocation(location));
 		foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRODUCT_SEARCH,5);
 		textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product);
 		foundation.click(objTableDataProduct(product));
 		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT,3);
@@ -466,8 +476,10 @@ public class GlobalProductChange extends Factory {
 	 */
 	public void verifyTax2ValueInProductTab(String location,String product) {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			foundation.threadWait(3);
 			foundation.click(objLocation(location));
 			foundation.waitforElementToBeVisible(GlobalProductChange.TAB_PRODUCT, 3);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.click(GlobalProductChange.TAB_PRODUCT);
 			foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2_PRODUCT, 3);
 			foundation.click(GlobalProductChange.TXT_TAX2_PRODUCT);
@@ -491,6 +503,7 @@ public class GlobalProductChange extends Factory {
 		dropDown.selectItem(GlobalProductChange.DPD_REMOVE, product, Constants.TEXT);
 		
 	}
+
 	/**
 	 * update Tax2 value
 	 * 
@@ -503,4 +516,86 @@ public class GlobalProductChange extends Factory {
 	textBox.enterText(GlobalProductChange.TXT_TAX2, product);
 	
 	}
+	/**
+
+	 * verify Min, Max have checkmarks for  values
+
+	 * verify Min, Max have checkmarks for negative values
+
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	public void verifyCheckmarksInGPC(String min,String max) {
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MIN));
+	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MIN, 3);
+	foundation.click(GlobalProductChange.TXT_MIN);
+	textBox.enterText(GlobalProductChange.TXT_MIN, min);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MIN_CHECKEDBOX));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MAX));
+	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MAX, 3);
+	foundation.click(GlobalProductChange.TXT_MAX);
+	textBox.enterText(GlobalProductChange.TXT_MAX, max);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
+	}
+	/**
+
+	 * verify Min, Max have checkmarks for  values
+
+	 * verify Min, Max have checkmarks for negative values
+
+	 * 
+	 * @param min
+	 * @param max
+	 * @param count
+	 */
+	public void verifyCheckmarksInOPC(String min,String max,String count) {
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MIN, 3);
+		foundation.click(GlobalProductChange.TXT_MIN);
+		textBox.enterText(GlobalProductChange.TXT_MIN, min);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MIN_CHECKEDBOX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MAX, 3);
+		foundation.click(GlobalProductChange.TXT_MAX);
+		textBox.enterText(GlobalProductChange.TXT_MAX,max);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.CASE_COUNT, 3);
+		foundation.click(GlobalProductChange.CASE_COUNT);
+		textBox.enterText(GlobalProductChange.CASE_COUNT,count);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CASE_COUNT_CHECKBOX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC,3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
+		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
+	}
+	
+	/**
+	 *verify Start And End range values
+	 * @param option
+	 * @param start
+	 * @param end
+	 */
+	public void verifyStartAndEnd(String option,String start,String end) {
+	dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY,option, Constants.TEXT);
+	foundation.click(GlobalProductChange.TXT_START);
+	textBox.enterText(GlobalProductChange.TXT_START,start);
+	foundation.click(GlobalProductChange.TXT_END);
+	textBox.enterText(GlobalProductChange.TXT_END,end);
+	foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+	
 }
+	
+	/**
+	 * verify Exact Match value
+	 * @param option
+	 * @param range
+	 */
+	public void verifyExactMatch(String option,String range) {
+		dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY,option, Constants.TEXT);
+		foundation.click(GlobalProductChange.TXT_EXACT);
+		textBox.enterText(GlobalProductChange.TXT_EXACT,range);
+		foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+		
+	}
+
+}
+	
+

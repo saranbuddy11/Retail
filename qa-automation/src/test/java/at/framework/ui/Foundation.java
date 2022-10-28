@@ -1,5 +1,8 @@
 package at.framework.ui;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,16 +16,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
@@ -836,5 +835,38 @@ public class Foundation extends Factory {
 		r.keyPress(KeyEvent.VK_ENTER);
 		r.keyRelease(KeyEvent.VK_ENTER);
 	}
+	
+	/**
+	 * Clicking enter using Keyboard Actions
+	 * Clicking Shift and Down using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void clickShiftAndDown() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_SHIFT);
+		r.keyPress(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_DOWN);
+		r.keyRelease(KeyEvent.VK_SHIFT);
+	}
+
+	/**
+	 * Clicking enter using Keyboard Actions
+	 * Clicking ctrl+A and ctrl+X using Keyboard Actions
+	 * 
+	 * @throws AWTException
+	 */
+	public void clearText() throws AWTException {
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_A);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_A);
+		r.keyPress(KeyEvent.VK_CONTROL);
+		r.keyPress(KeyEvent.VK_X);
+		r.keyRelease(KeyEvent.VK_CONTROL);
+		r.keyRelease(KeyEvent.VK_X);
+	}
+	
 }
 			

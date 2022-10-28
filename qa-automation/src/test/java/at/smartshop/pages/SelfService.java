@@ -43,11 +43,34 @@ public class SelfService extends Factory {
 	public static final By TXT_MENU = By.xpath("//div[@id='menubtn-1-Id']//div[@class='category-content']");
 	public static final By TXT_NO_MATCH = By.xpath("//td[@class='dataTables_empty']");
 	public static final By TBL_CHECKBOX = By.xpath("//ul[@id='hide_menu_time']");
-
+	public static final By LBL_SELFSERVICE= By.id("Self Service Menu List");
+	public static final By TXT_SEARCH = By.xpath("//input[@type='text']");
+	public static final By CLICK_SET_LIMITS = By.xpath("//td//a[text()='Set Limits']");
+	public static final By COL_TIMESLOT = By.xpath("//div[@class='flex-column']//dt[text()='Timeslot']");
+	public static final By COL_MAX_ORDER = By.xpath("//div[@class='flex-column']/dt/b[text()='Max Orders']");
+	public static final By ROW_SET_LIMITS = By.xpath("//div[@class='flex-row']");
+	public static final By LBL_SELFSERIVICE_MENU = By.xpath("//ul[@class='breadcrumb']");
+	public static final By CHK_FEATURED_PRODUCT = By.xpath("//input[@name='isFeaturedProduct']");
+	public static final By BTN_CANCEL_MENU = By.xpath("//div[@class='span12']//button[@id='cancelBtn']");
+	public static final By BTN_ADD_PRODUCT = By.xpath("//div [@id='menu-addproducts']/i");
+	public static final By SEARCH_ADD_PRODUCT = By.xpath("(//input[@id='menuprd-search'])[4]");
+	public static final By BTN_ADD_PRODUCT_POPUP = By.xpath("(//div[text()='Add'])[4]");
+	public static final By BTN_ADD_SUBMENU = By.xpath("//div[@class='menu-item-add']//i");
+	
 	public By objPrintCheckbox(String text) {
 	return By.xpath("//b[text()='"+text+"']//..//..//input");
 	}
 	
+	public By objSelectMenu(String text) {
+		return By.xpath("//tbody//td[text()='"+text+"']");
+}
+	public By objProductExpand(String index) {
+		return By.xpath("(//div[@class='product']/div[@class='menu-item-toggle'])["+index+"]");
+}
+	public By selectProductToAdd(String text) {
+		return By.xpath("//tr[@id='row_0']//td[text()='"+text+"']");
+}
+
 	public void clickCheckbox() {
 		WebElement checkBox = getDriver().findElement(TBL_CHECKBOX);
 		List<WebElement> checkbox = checkBox.findElements(By.className("flex-checkbox")); 

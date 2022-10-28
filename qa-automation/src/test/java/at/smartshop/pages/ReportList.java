@@ -39,14 +39,13 @@ public class ReportList extends Factory {
 	public static final String PAYMENTS = "payments";
 	public static final String STATUS = "status";
 	public static final String TYPE = "type";
-
-	private static final By TXT_SEARCH = By.id("Search");
+	public static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
 	private static final By BTN_PREVIOUS_MONTH = By.xpath("//th[@class='prev available']");
 	private static final By SELECT_TODAY = By.xpath(
 			"//td[@class='today active start-date active end-date available' or @class='today weekend active start-date active end-date available']");
 	private static final By GRID_SCHEDULED_REPORT = By.xpath("//div[@class='ranges']//ul");
-	private static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
+	public static final By DPD_DATE_OPTIONS = By.xpath("//div[@class='ranges']//ul//li");
 	private static final By DPD_LOCATIONS = By.xpath("//input[@placeholder='Select...']");
 	private static final By DPD_LOCATION_LIST = By.cssSelector("span.select2-results > #select2-locdt-results");
 	private static final By DPD_CLIENT_AND_NATIONALACCOUNT_LIST = By

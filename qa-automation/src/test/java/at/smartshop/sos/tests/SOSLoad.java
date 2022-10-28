@@ -35,7 +35,7 @@ import at.smartshop.sos.pages.SOSHome;
 import at.smartshop.tests.TestInfra;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
-public class Sos extends TestInfra {
+public class SOSLoad extends TestInfra {
 	private ResultSets dataBase = new ResultSets();
 	private SOSHome sosHome = new SOSHome();
 	private Foundation foundation = new Foundation();

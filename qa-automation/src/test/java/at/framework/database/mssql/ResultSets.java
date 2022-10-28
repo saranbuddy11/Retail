@@ -29,6 +29,8 @@ import at.smartshop.database.columns.CNPickList;
 import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNReportList;
+import at.smartshop.database.columns.CNRoundUpCharity;
+import at.smartshop.database.columns.CNSSODomain;
 import at.smartshop.database.columns.CNStaffSummary;
 import at.smartshop.database.columns.CNSuperList;
 import at.smartshop.database.columns.CNUserRoles;
@@ -191,6 +193,8 @@ public class ResultSets extends Connections {
 						resultSet.getString(CNProductSummary.PRODUCT_NAME));
 				rstProductSummary.put(CNProductSummary.DEVICE_ID, resultSet.getString(CNProductSummary.DEVICE_ID));
 				rstProductSummary.put(CNProductSummary.TAX, resultSet.getString(CNProductSummary.TAX));
+				rstProductSummary.put(CNProductSummary.LOCATION_NAME,
+						resultSet.getString(CNProductSummary.LOCATION_NAME));
 			}
 
 		} catch (Exception exc) {
@@ -1084,5 +1088,62 @@ public class ResultSets extends Connections {
 			}
 		}
 		return rstStaffViewData;
+	}
+	
+	
+	public Map<String, String> getSSODomainData(String query, String testcaseID) {
+		Map<String, String> rstSSODomainData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstSSODomainData.put(CNSSODomain.DOMAIN_ADDRESS, resultSet.getString(CNSSODomain.DOMAIN_ADDRESS));
+				rstSSODomainData.put(CNSSODomain.DOMAIN_NAME, resultSet.getString(CNSSODomain.DOMAIN_NAME));
+				rstSSODomainData.put(CNSSODomain.REQUIRED_DATA, resultSet.getString(CNSSODomain.REQUIRED_DATA));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstSSODomainData;
+	}
+	
+	public Map<String, String> getRoundUpCharity(String query, String testcaseID) {
+		Map<String, String> rstRoundUpCharityData = new HashMap<>();
+		Statement statement = null;
+		String sqlQuery = Constants.EMPTY_STRING;
+		try {
+			if (connection == null)
+				getConnection();
+			statement = connection.createStatement();
+			sqlQuery = query + testcaseID;
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+				rstRoundUpCharityData.put(CNRoundUpCharity.NAME, resultSet.getString(CNRoundUpCharity.NAME));
+				rstRoundUpCharityData.put(CNRoundUpCharity.REQUIRED_OPTIONS, resultSet.getString(CNRoundUpCharity.REQUIRED_OPTIONS));
+				rstRoundUpCharityData.put(CNRoundUpCharity.DISPLAY_NAME, resultSet.getString(CNRoundUpCharity.DISPLAY_NAME));
+				rstRoundUpCharityData.put(CNRoundUpCharity.LOCATION, resultSet.getString(CNRoundUpCharity.LOCATION));
+				rstRoundUpCharityData.put(CNRoundUpCharity.CAUSE_NAME, resultSet.getString(CNRoundUpCharity.CAUSE_NAME));
+			}
+		} catch (Exception exc) {
+			Assert.fail(exc.toString());
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+		return rstRoundUpCharityData;
 	}
 }

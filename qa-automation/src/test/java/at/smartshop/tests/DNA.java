@@ -15,7 +15,9 @@ import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNAdminDNA;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.pages.DNADetails;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
@@ -135,6 +137,7 @@ public class DNA extends TestInfra {
 			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(DNADetails.TOOL_TIP_TEXT));
 			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
+			dropDown.selectItem(DNADetails.DD_ISDISABLED,requiredData.get(1),Constants.TEXT);
 			text = dropDown.getSelectedItem(DNADetails.DD_ISDISABLED);
 			CustomisedAssert.assertEquals(text, requiredData.get(1));
 
@@ -231,6 +234,59 @@ public class DNA extends TestInfra {
 			CustomisedAssert.assertEquals(text, requiredData.get(20));
 			foundation.click(DNADetails.IS_DISABLED_COMBO_BOX);
 		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * @author sakthir Date: 07-09-2022
+	 */
+	@Test(description = "203808-To Verify that the error message is shown while entering less value in \"Yellow Max\" then the \"Yellow Min\"")
+	public void verifyValidationErrorMsgInDNA() {
+		final String CASE_NUM = "203808";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		
+		try {
+			// Select Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin tab and verify DNA Sub Tab
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.LOCATION_NAME));
+			foundation.waitforElementToBeVisible(DNADetails.DD_ISDISABLED, Constants.SHORT_TIME);
+			dropDown.selectItem(DNADetails.DD_ISDISABLED,requiredData.get(0),Constants.TEXT);
+			CustomisedAssert.assertTrue(dropDown.getSelectedItem(DNADetails.DD_ISDISABLED).equals(requiredData.get(0)));
+			foundation.click(DNADetails.GREEN_MAX_FIELD);
+			textBox.enterText(DNADetails.GREEN_MAX_FIELD,requiredData.get(1));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.GREEN_MAX_FIELD), requiredData.get(1));
+			foundation.click(DNADetails.YELLOW_MIN_FIELD);
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.YELLOW_MIN_FIELD), requiredData.get(2));
+			foundation.click(DNADetails.YELLOW_MAX_FIELD);
+			textBox.enterText(DNADetails.YELLOW_MAX_FIELD,requiredData.get(3));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.YELLOW_MAX_FIELD), requiredData.get(3));
+			foundation.click(DNADetails.RED_MIN_FIELD);
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.RED_MIN_FIELD), requiredData.get(4));
+			foundation.click(DNADetails.YELLOW_MAX_FIELD);
+			textBox.enterText(DNADetails.YELLOW_MAX_FIELD,requiredData.get(1));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.YELLOW_MAX_FIELD), requiredData.get(1));
+			foundation.click(DNADetails.RED_MIN_FIELD);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.RED_MIN_FIELD));
+			CustomisedAssert.assertEquals(foundation.getAttributeValue(DNADetails.RED_MIN_FIELD), requiredData.get(2));
+			foundation.click(DNADetails.BTN_SAVE);
+			foundation.waitforElementToBeVisible(DNADetails.TXT_ERROR_MESSAGE, 5);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DNADetails.TXT_ERROR_MESSAGE));
+			
+		}
+		
+		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
