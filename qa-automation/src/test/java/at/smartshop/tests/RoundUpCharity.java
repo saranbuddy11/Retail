@@ -166,7 +166,7 @@ public class RoundUpCharity extends TestInfra {
 			foundation.scrollIntoViewElement(OrgSummary.DPD_COUNTRY);
 			dropDown.selectItem(OrgSummary.DPD_COUNTRY,data.get(1), Constants.TEXT);
 			foundation.scrollIntoViewElement(OrgSummary.CHK_AGE_VERIFICATION);
-			CustomisedAssert.assertTrue(foundation.getText(OrgSummary.ROUND_UP_CHARITY).equals(data.get(1)));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.ROUND_UP_CHARITY));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -211,7 +211,7 @@ public class RoundUpCharity extends TestInfra {
 			
 			//search and verify grid
 			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
-			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.SELECT_ROW).equals(data.get(4)));
+			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.SELECT_ROW_CAUSENAME).equals(data.get(4)));
 			}
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
@@ -272,7 +272,7 @@ public class RoundUpCharity extends TestInfra {
 			
 			//Click on Add Charity and enter fields and click on save
 			foundation.click(AdminRoundUpCharity.BTN_ADDCHARITY);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADDCHARITY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADD_CHARITY));
 			textBox.enterText(AdminRoundUpCharity.TXT_EIN_SEARCH, data.get(11));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
 			foundation.click(AdminRoundUpCharity.BTN_SEARCH);
@@ -282,18 +282,19 @@ public class RoundUpCharity extends TestInfra {
     		CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.GET_LOCATION).equals(data.get(13)));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SAVE));
 			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(11));
+			CustomisedAssert.assertEquals(foundation.getText(AdminRoundUpCharity.SELECT_ROW_CAUSENAME), data.get(16));
 			
 			//Click on Add Charity and Click and verify Cancel
 			foundation.click(AdminRoundUpCharity.BTN_ADDCHARITY);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADDCHARITY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADD_CHARITY));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_CANCEL));
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
-							
+					
 			//search and Click existing on charity 
-			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
-			foundation.click(AdminRoundUpCharity.SELECT_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDITCHARITY));
+			adminRoundUpCharity.selectCharity(data.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.GET_LOCATION).equals(location));
 			
 			// remove single location and Click and verify save button
@@ -305,29 +306,30 @@ public class RoundUpCharity extends TestInfra {
 			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			foundation.waitforElement(AdminRoundUpCharity.LBL_ROUNDUPCHARITY,3);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+			foundation.threadWait(5);
+			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
+			System.out.println(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW).contains(data.get(10)));
 			
 			//verify the location and Add location click on save
-			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
-			foundation.click(AdminRoundUpCharity.SELECT_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDITCHARITY));
+			adminRoundUpCharity.selectCharity(data.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
 			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.GET_LOCATION).equals(Location.get(1)));
 			adminRoundUpCharity.selectLocationFromDropDown(data.get(7));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.GET_LOCATION).contains(data.get(15)));
 			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			
 			//remove all location and Add location click on save
-			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
-			foundation.click(AdminRoundUpCharity.SELECT_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDITCHARITY));
+			adminRoundUpCharity.selectCharity(data.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
 			foundation.click(AdminRoundUpCharity.CLEAR_LOCATION);
 			adminRoundUpCharity.selectLocationFromDropDown(data.get(9));
      		CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.GET_LOCATION).equals(data.get(14)));
 			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			
 			//search and Click existing on charity and Click and verify Cancel
-			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
-			foundation.click(AdminRoundUpCharity.SELECT_ROW);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDITCHARITY));
+			adminRoundUpCharity.selectCharity(data.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_CANCEL));
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			foundation.waitforElement(AdminRoundUpCharity.LBL_ROUNDUPCHARITY,3);
@@ -345,10 +347,9 @@ public class RoundUpCharity extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_DELECT_CHARITY_DELECT));
 				foundation.click(AdminRoundUpCharity.BTN_DELECT_CHARITY_DELECT);
 				foundation.waitforElementToBeVisible(AdminRoundUpCharity.TXT_SEARCH, 3);
-				foundation.threadWait(3);
-				textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
-				foundation.click(AdminRoundUpCharity.SELECT_ROW);
-				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDITCHARITY));
+				foundation.threadWait(5);
+				adminRoundUpCharity.selectCharity(data.get(4));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
 				CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.GET_LOCATION).equals(data.get(14)));
 				foundation.click(adminRoundUpCharity.removeLocation(data.get(9)));
 				adminRoundUpCharity.selectLocationFromDropDown(data.get(5));
@@ -358,6 +359,7 @@ public class RoundUpCharity extends TestInfra {
 				foundation.click(AdminRoundUpCharity.BTN_SAVE);
 				foundation.waitforElement(AdminRoundUpCharity.LBL_ROUNDUPCHARITY,3);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+				CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW).contains(data.get(3)));
 				login.logout();
 				navigationBar.launchBrowserAsSuperAndSelectOrg(
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));

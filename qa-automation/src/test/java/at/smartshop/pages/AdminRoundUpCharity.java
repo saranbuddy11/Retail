@@ -25,9 +25,9 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By LBL_ACITIVECHARITY = By.xpath("//div/h3/b[text()='Active Charities']");
 	public static final By TXT_SEARCH = By.xpath("//input[@type='text']");
 	public static final By TBL_GRID = By.xpath("//table[contains(@class,'table-borderless dataTable')]");
-	public static final By SELECT_ROW = By.xpath("//tbody[@role='alert']//td/a[contains(@href,'addCharity?')]");
-	public static final By LBL_ADDCHARITY = By.xpath("//h2[text()='Add a Charity']");
-	public static final By LBL_EDITCHARITY = By.xpath("//h2[text()='Edit Charity']");
+	public static final By SELECT_ROW_CAUSENAME = By.xpath("//tbody[@role='alert']//td/a[contains(@href,'addCharity?')]");
+	public static final By LBL_ADD_CHARITY = By.xpath("//h2[text()='Add a Charity']");
+	public static final By LBL_EDIT_CHARITY = By.xpath("//h2[text()='Edit Charity']");
 	public static final By BTN_CANCEL = By.id("cancelCharityBtn");
 	public static final By BTN_SAVE = By.id("saveCharityBtn");
 	public static final By TXT_DISPLAYNAME = By.id("displayName");
@@ -44,6 +44,7 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By BTN_DELECT_CHARITY_DELECT = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By GET_LOCATION = By.xpath("//ul//li[@class='select2-selection__choice']");
 	public static final By TBL_HEADER_CHARITY = By.xpath("//table[@id='dt']/thead//th");
+	public static final By SELECT_ROW = By.xpath("//tbody[@role='alert']//tr//td");
 
 	public By removeLocation(String location) {
 		return By.xpath("//ul//li[text()='"+location+"']/span[@class='select2-selection__choice__remove']"); }
@@ -51,6 +52,14 @@ public class AdminRoundUpCharity extends Factory {
 	public By selectLocation(String location) {
 		return By.xpath("//ul[@class='select2-results__options select2-results__options--nested']//li[text()='"+location+"']"); }
 	
+	/**
+	 * select charity  
+	 * @param data
+	 */
+	public void selectCharity(String data) {
+	textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data);
+	foundation.click(AdminRoundUpCharity.SELECT_ROW_CAUSENAME);
+	}
 	
 	/**
 	 * verify charity dropdown options 
