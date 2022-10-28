@@ -8036,7 +8036,7 @@ public class Report extends TestInfra {
 //			System.out.println("48");
 //
 //			// update Sales Total
-//			ufsByDevice.calculateSalesTimeDoubleTotal(columnName.get(27));
+			ufsByDevice.calculateSalesTimeDoubleTotal(columnName.get(27));
 //			System.out.println("49");
 //
 //			// update Discounts Total
