@@ -58,7 +58,6 @@ public class SalesTimeDetailsReport extends Factory {
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 	private int rowCount;
 	private Double totalSales;
-	private String cost;
 
 	public void verifyReportName(String reportName) {
 		try {
