@@ -43,8 +43,8 @@ import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BalanceReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
-import at.smartshop.pages.CashAudit;
 import at.smartshop.pages.CancelReport;
+import at.smartshop.pages.CashAudit;
 import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowEmployeeDevice;
 import at.smartshop.pages.CashoutLog;
@@ -112,6 +112,7 @@ import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
+import at.smartshop.pages.UFSByEmployeeDevice;
 import at.smartshop.pages.UnfinishedCloseReport;
 import at.smartshop.pages.UnpaidOrder;
 import at.smartshop.pages.UnsoldReport;
@@ -217,6 +218,9 @@ public class Report extends TestInfra {
 	private FinancialCanned financialCanned = new FinancialCanned();
 	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
 	private SalesBy30Minutes salesBy30Minutes = new SalesBy30Minutes();
+	private UFSByEmployeeDevice ufsByEmployeeDevice = new UFSByEmployeeDevice();
+	
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -7167,3 +7171,4 @@ public class Report extends TestInfra {
 		}
 	}
 }
+
