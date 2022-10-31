@@ -27,7 +27,6 @@ import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.Foundation;
-import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -126,9 +125,9 @@ public class UFSReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	// Sales Time Details related calculations
-	
+
 	public int getRequiredRecord(String paymentType) {
 		try {
 			requiredRecordCount = 0;
@@ -156,31 +155,31 @@ public class UFSReport extends Factory {
 		int count = 0;
 
 		String locationName = location.replace("@", Constants.DELIMITER_HYPHEN);
-			String tableCashFlowDetails = cashFlow + Constants.DELIMITER_HYPHEN + locationName;
-			WebElement tableReports = getDriver().findElement(By.id(tableCashFlowDetails));
-			List<WebElement> headers = tableReports.findElements(By.tagName("th"));
-			tableHeaders.clear();
-			for (WebElement header : headers) {
-				tableHeaders.add(header.getText());
-			}
-			WebElement tableReportsList = getDriver()
-					.findElement(By.cssSelector(Constants.DELIMITER_HASH + tableCashFlowDetails + " > tbody"));
-			List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
-			for (WebElement row : rows) {
-				Map<String, String> reportsdata = new LinkedHashMap<>();
-				for (int iter = 1; iter < tableHeaders.size() + 1; iter++) {
-					if (iter == 1) {
-						WebElement column = row.findElement(By.cssSelector("td:nth-child(" + iter + ")"));
-						reportsdata.put(tableHeaders.get(iter - 1), column.getText());
-					} else {
-						WebElement column = row.findElement(By.cssSelector("td:nth-child(" + iter + ")"));
-						reportsdata.put(tableHeaders.get(iter - 1),
-								column.getText().replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
-					}
+		String tableCashFlowDetails = cashFlow + Constants.DELIMITER_HYPHEN + locationName;
+		WebElement tableReports = getDriver().findElement(By.id(tableCashFlowDetails));
+		List<WebElement> headers = tableReports.findElements(By.tagName("th"));
+		tableHeaders.clear();
+		for (WebElement header : headers) {
+			tableHeaders.add(header.getText());
+		}
+		WebElement tableReportsList = getDriver()
+				.findElement(By.cssSelector(Constants.DELIMITER_HASH + tableCashFlowDetails + " > tbody"));
+		List<WebElement> rows = tableReportsList.findElements(By.tagName("tr"));
+		for (WebElement row : rows) {
+			Map<String, String> reportsdata = new LinkedHashMap<>();
+			for (int iter = 1; iter < tableHeaders.size() + 1; iter++) {
+				if (iter == 1) {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + iter + ")"));
+					reportsdata.put(tableHeaders.get(iter - 1), column.getText());
+				} else {
+					WebElement column = row.findElement(By.cssSelector("td:nth-child(" + iter + ")"));
+					reportsdata.put(tableHeaders.get(iter - 1),
+							column.getText().replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 				}
-				reportsData.put(count, reportsdata);
-				count++;
 			}
+			reportsData.put(count, reportsdata);
+			count++;
+		}
 		System.out.println("tableHeaders :" + tableHeaders);
 		System.out.println("reportsData :" + reportsData);
 		System.out.println("reportsTotalData :" + reportsTotalData);
@@ -192,8 +191,7 @@ public class UFSReport extends Factory {
 	 * @param columnNames
 	 */
 	public void verifyReportHeaders(String columnName) {
-		List<String> columnNames = Arrays
-				.asList(columnName.split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
 		for (int iter = 0; iter < tableHeaders.size(); iter++) {
 			Assert.assertTrue(tableHeaders.get(iter).equals(columnNames.get(iter)));
 		}
@@ -320,7 +318,7 @@ public class UFSReport extends Factory {
 			}
 		}
 	}
-	
+
 	// Sales API transaction related methods
 
 	/**
@@ -467,22 +465,22 @@ public class UFSReport extends Factory {
 		verifyReportName(reportName);
 	}
 
-	
 	public By objReportColumn(String columnName, String productName) {
 		return By.xpath("//table//td[text()='" + productName + "']/following::td[@aria-describedby='hierarchicalGrid_"
 				+ columnName + "']");
 	}
 
 	public void getTblRecordsUIOfSalesTimeDetails(String location) {
-		try {			
+		try {
 			int recordCount = 0;
 			String locationName = location.replace("@", Constants.DELIMITER_HYPHEN);
-				String tableCashFlowDetails = salesTime + Constants.DELIMITER_HYPHEN + locationName;
-				WebElement tableReportsSalesTimeDetails = getDriver().findElement(By.id(tableCashFlowDetails));
+			String tableCashFlowDetails = salesTime + Constants.DELIMITER_HYPHEN + locationName;
+			WebElement tableReportsSalesTimeDetails = getDriver().findElement(By.id(tableCashFlowDetails));
 			tableHeadersOfSalesTimeDetails.clear();
 			WebElement tableReportsListSalesTimeDetails = getDriver()
 					.findElement(By.cssSelector(Constants.DELIMITER_HASH + tableCashFlowDetails + " > tbody"));
-			List<WebElement> columnHeaders = tableReportsSalesTimeDetails.findElements(By.cssSelector("thead > tr > th"));
+			List<WebElement> columnHeaders = tableReportsSalesTimeDetails
+					.findElements(By.cssSelector("thead > tr > th"));
 			List<WebElement> rows = tableReportsListSalesTimeDetails.findElements(By.tagName("tr"));
 			for (WebElement columnHeader : columnHeaders) {
 				tableHeadersOfSalesTimeDetails.add(columnHeader.getText());
@@ -503,7 +501,7 @@ public class UFSReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	// Sales Time Details related calculations
 
 	/**
@@ -516,8 +514,9 @@ public class UFSReport extends Factory {
 		try {
 			String initialAmount = intialDataOfSalesTimeDetails.get(rowCountOfSalesTimeDetils).get(columnName)
 					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
-			double updatedAmount = (Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-					* 2) * 7 + Double.parseDouble(initialAmount);
+			double updatedAmount = (Double
+					.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2) * 7
+					+ Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 			intialDataOfSalesTimeDetails.get(rowCountOfSalesTimeDetils).put(columnName,
 					Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
@@ -536,8 +535,9 @@ public class UFSReport extends Factory {
 		try {
 			String initialAmount = intialDataOfSalesTimeDetails.get(4).get(columnName)
 					.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING);
-			double updatedAmount = (Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
-					* 2)* 7 + Double.parseDouble(initialAmount);
+			double updatedAmount = (Double
+					.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2) * 7
+					+ Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 			intialDataOfSalesTimeDetails.get(4).put(columnName,
 					Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
@@ -590,13 +590,13 @@ public class UFSReport extends Factory {
 //					- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
 					+ Double.parseDouble(initialAmount);
 			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
-			intialDataOfSalesTimeDetails.get(4).put(columnName,
-					Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
+			intialDataOfSalesTimeDetails.get(4).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return totalSales;
 	}
+
 	/**
 	 * This Method is for Transaction count
 	 * 
@@ -618,14 +618,14 @@ public class UFSReport extends Factory {
 	 * @param columnName
 	 */
 	public void TrasactionCountOfFooter(String columnName) {
-			try {
-				String saleCount = intialDataOfSalesTimeDetails.get(4).get(columnName);
-				int updatedCount = Integer.parseInt(saleCount) + 7;
-				intialDataOfSalesTimeDetails.get(4).put(columnName, String.valueOf(updatedCount));
-			} catch (Exception exc) {
-				TestInfra.failWithScreenShot(exc.toString());
-			}
+		try {
+			String saleCount = intialDataOfSalesTimeDetails.get(4).get(columnName);
+			int updatedCount = Integer.parseInt(saleCount) + 7;
+			intialDataOfSalesTimeDetails.get(4).put(columnName, String.valueOf(updatedCount));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
 
 	/**
 	 * This Method is for Deciding the Time Range
@@ -646,7 +646,7 @@ public class UFSReport extends Factory {
 			} else if (transTime.isAfter(LocalTime.of(14, 01, 00)) && transTime.isBefore(LocalTime.MAX)) {
 				rowCountOfSalesTimeDetils = 3;
 			}
-			System.out.println("rowCountOfSalesTimeDetils : "+ rowCountOfSalesTimeDetils);
+			System.out.println("rowCountOfSalesTimeDetils : " + rowCountOfSalesTimeDetils);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -727,7 +727,7 @@ public class UFSReport extends Factory {
 	public Map<String, String> getUpdatedTableFootersOfSalesTimeDetails() {
 		return updatedTableFooters;
 	}
-	
+
 	public Map<Integer, Map<String, String>> getCashFlowDetailsTotal() {
 		return cashFlowDetailsTotal;
 	}

@@ -7223,7 +7223,6 @@ public class Report extends TestInfra {
 					location);
 			ufsReport.getInitialReportsData().putAll(ufsReport.reportsData);
 			ufsReport.getInitialReportTotals().putAll(ufsReport.getReportsTotalData());
-			
 
 			// Read the Report the Data
 			ufsReport.getTblRecordsUIOfSalesTimeDetails(location);
@@ -7473,86 +7472,40 @@ public class Report extends TestInfra {
 			// calculate Totals Total
 			ufsReport.calculateTotalsColumnDataForTotals(ufsReport.getTableHeaders().get(13), recordCountOfTotals);
 
-			// verify Report Data
+			// verify Report Data for Cash Flow
 			ufsReport.verifyReportRecords();
-			
-//			=====================
-//			=====================
-			
-			
-//					final String CASE_NUM = "202038";
 
-//					rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-//					rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
-//					rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+			// Validations for Sales Time Detais
 
-//					navigationBar.selectOrganization(
-//							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-//
-//					String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
-//							FilePath.PROPERTY_CONFIG_FILE);
-//
-//
-//					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			ufsReport.decideTimeRange((String) ufsReport.getJsonData().get(Reports.TRANS_DATE));
 
-//					// Select the Report Date range and Location and run report
-//					reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-//					reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-//					reportList.selectLocation(locationName);
-//					foundation.threadWait(Constants.SHORT_TIME);
-//					foundation.click(ReportList.BTN_RUN_REPORT);
-//					foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
-//					ufsReport.verifyReportName(locationName);
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
 
-//					// Read the Report the Data
-//					ufsReport.getTblRecordsUIOfSalesTimeDetails();
-//					ufsReport.getIntialDataOfSalesTimeDetails().putAll(ufsReport.getReportsDataOfSalesTimeDetails());
-//					ufsReport.getUpdatedTableFootersOfSalesTimeDetails().putAll(ufsReport.getTableFootersOfSalesTimeDetails());
-//
-//					// process sales API to generate data
-//					//ufsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-//
-//					// rerun and reread report
-//					foundation.click(ReportList.BTN_RUN_REPORT);
-//					foundation.threadWait(Constants.TWO_SECOND);
-//
-//					ufsReport.getTblRecordsUIOfSalesTimeDetails();
+			// Updating Table data
+			ufsReport.TrasactionCount(ufsReport.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsReport.saleIncludingTaxes(ufsReport.getTableHeadersOfSalesTimeDetails().get(5), productPrice, tax,
+					discount);
 
-					ufsReport
-							.decideTimeRange((String) ufsReport.getJsonData().get(Reports.TRANS_DATE));
+			// Updating Footer data
+			ufsReport.TrasactionCountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsReport.saleIncludingTaxesOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(5), productPrice,
+					tax, discount);
 
-					// update the report date based on calculation
-					String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
-					String tax = rstProductSummaryData.get(CNProductSummary.TAX);
-					String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
+			// verify report headers Validations for Sales Time Detais
+			ufsReport.verifyReportHeadersOfSalesTimeDetails(columnNames.get(1));
 
-					// Updating Table data
-					ufsReport.TrasactionCount(ufsReport.getTableHeadersOfSalesTimeDetails().get(1));
-					ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
-					ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(3), discount);
-					ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(4), tax);
-					ufsReport.saleIncludingTaxes(ufsReport.getTableHeadersOfSalesTimeDetails().get(5), productPrice,
-							tax, discount);
+			// verify report dataValidations for Sales Time Detais
+			ufsReport.verifyReportDataOfSalesTimeDetails();
 
-					// Updating Footer data
-					ufsReport.TrasactionCountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(1));
-					ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(2),
-							productPrice);
-					ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(3), discount);
-					ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(4), tax);
-					ufsReport.saleIncludingTaxesOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(5),
-							productPrice, tax, discount);
-
-					// verify report headers
-					ufsReport.verifyReportHeadersOfSalesTimeDetails(columnNames.get(1));
-
-					// verify report data
-					ufsReport.verifyReportDataOfSalesTimeDetails();
-
-					// verify report total data
-//					ufsReport.verifyReportFootertDataOfSalesTimeDetails();
-				
-			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
