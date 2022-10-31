@@ -1376,6 +1376,7 @@ public class Promotions extends TestInfra {
 			// navigate to same promotion and validate update promotion
 			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.MEDIUM_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(PromotionList.BTN_SEARCH);
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			CustomisedAssert.assertTrue(checkBox.isChecked(EditPromotion.CHK_ACTIVE));
@@ -1384,45 +1385,88 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(CreatePromotions.LBL_PAGE_TITLE)
 					.equals(rstLocationData.get(CNLocation.PROMOTION_TYPE)));
-			CustomisedAssert.assertTrue(dropDown.getSelectedItem(CreatePromotions.DPD_DESELECT_ORGANIZATION)
-					.equals(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE)));
+			foundation.waitforElement(CreatePromotions.TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+			textBox.enterText(CreatePromotions.TXT_SEARCH_ORGPAGE, organization);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(
-					dropDown.getSelectedItem(CreatePromotions.DPD_DESELECT_LOCATION).equals(locationName.get(0)));
-			// foundation.click(EditPromotion.ICON_CLR_LOCATION);
-			dropDown.selectItem(CreatePromotions.DPD_DESELECT_LOCATION, locationName.get(0), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_LOC_LEFT);
-			dropDown.selectItem(CreatePromotions.DPD_LOCATION, locationName.get(1), Constants.TEXT);
-			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.waitforClikableElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+					foundation.getText(CreatePromotions.SELECTED_ORG).equals(organization));
 			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.TXT_LOC_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(CreatePromotions.TXT_LOC_SEARCH, locationName.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert
+			.assertTrue(foundation.getText(CreatePromotions.SELECTED_LOCATION).equals(locationName.get(0)));
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.CHECKBOX_LOC);
+			foundation.threadWait(Constants.THREE_SECOND);
+			textBox.enterText(CreatePromotions.TXT_LOC_SEARCH, locationName.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.CHECKBOX_LOC);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
+			
+			
+//			CustomisedAssert.assertTrue(foundation.getText(CreatePromotions.SELECTED_ORG)
+//					.equals(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE)));
+//			CustomisedAssert.assertTrue(
+//					dropDown.getSelectedItem(CreatePromotions.DPD_DESELECT_LOCATION).equals(locationName.get(0)));
+//			// foundation.click(EditPromotion.ICON_CLR_LOCATION);
+//			dropDown.selectItem(CreatePromotions.DPD_DESELECT_LOCATION, locationName.get(0), Constants.TEXT);
+//			foundation.click(CreatePromotions.BTN_LOC_LEFT);
+//			dropDown.selectItem(CreatePromotions.DPD_LOCATION, locationName.get(1), Constants.TEXT);
+//			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			foundation.waitforClikableElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+//			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// select promotion details
 			dropDown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.waitforClikableElement(EditPromotion.BTN_UPDATE, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_UPDATE);
-			foundation.click(EditPromotion.BTN_CONTINUE);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.objectClick(EditPromotion.BTN_CONTINUE);
 			foundation.waitforClikableElement(EditPromotion.BTN_SAVE, Constants.SHORT_TIME);
-			foundation.click(EditPromotion.BTN_SAVE);
+			foundation.objectClick(EditPromotion.BTN_SAVE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
-			foundation.waitforClikableElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.waitforElement(PromotionList.PAGE_TITLE, Constants.LONG_TIME);
-
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(PromotionList.BTN_SEARCH);
-			foundation.click(PromotionList.LINK_EXPAND);
-			foundation.waitforElement(PromotionList.LBL_ORG_NAME, Constants.SHORT_TIME);
-			String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
-			CustomisedAssert.assertEquals(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), orgName);
-			foundation.click(PromotionList.LINK_EXPAND);
-			foundation.waitforElement(PromotionList.LBL_LOCATION_NAME, Constants.SHORT_TIME);
-			String locName = foundation.getText(PromotionList.LBL_LOCATION_NAME);
-			CustomisedAssert.assertEquals(locationName.get(1), locName);
-			foundation.threadWait(Constants.ONE_SECOND);
+//			foundation.click(PromotionList.LINK_EXPAND);
+//			foundation.waitforElement(PromotionList.LBL_ORG_NAME, Constants.SHORT_TIME);
+//			String orgName = foundation.getText(PromotionList.LBL_ORG_NAME);
+//			CustomisedAssert.assertEquals(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), orgName);
+//			foundation.click(PromotionList.LINK_EXPAND);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.TXT_LOC_SEARCH, Constants.SHORT_TIME);
+			textBox.enterText(CreatePromotions.TXT_LOC_SEARCH, locationName.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert
+			.assertTrue(foundation.getText(CreatePromotions.SELECTED_LOCATION).contains(locationName.get(1)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			
+			//Reverse to promotion page
+			foundation.scrollIntoViewElement(CreatePromotions.BTN_CANCEL_1);
+			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CANCEL_1);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CANCEL_1);
+			foundation.alertAccept();
+			foundation.threadWait(Constants.SHORT_TIME);
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
