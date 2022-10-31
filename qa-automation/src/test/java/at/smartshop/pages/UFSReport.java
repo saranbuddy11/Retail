@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -518,8 +519,9 @@ public class UFSReport extends Factory {
 					.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2) * 7
 					+ Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
 			intialDataOfSalesTimeDetails.get(rowCountOfSalesTimeDetils).put(columnName,
-					Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
+					Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -539,8 +541,9 @@ public class UFSReport extends Factory {
 					.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2) * 7
 					+ Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
 			intialDataOfSalesTimeDetails.get(4).put(columnName,
-					Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
+					Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -564,8 +567,9 @@ public class UFSReport extends Factory {
 //					- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
 					+ Double.parseDouble(initialAmount);
 			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
 			intialDataOfSalesTimeDetails.get(rowCountOfSalesTimeDetils).put(columnName,
-					Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
+					Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -590,7 +594,8 @@ public class UFSReport extends Factory {
 //					- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
 					+ Double.parseDouble(initialAmount);
 			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
-			intialDataOfSalesTimeDetails.get(4).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
+			intialDataOfSalesTimeDetails.get(4).put(columnName, Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

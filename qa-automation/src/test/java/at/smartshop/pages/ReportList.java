@@ -156,8 +156,6 @@ public class ReportList extends Factory {
 		try {
 			foundation.waitforElement(DPD_DATE, 1);
 			foundation.click(DPD_DATE);
-//			if(optionName.equals("Today")) {
-//				if(optionName=="Today") {
 				foundation.click(TODAYS_DATE_OF_TYPE2);
 				System.out.println("Entered in to calender");
 //			}

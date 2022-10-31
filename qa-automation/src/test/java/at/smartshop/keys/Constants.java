@@ -121,4 +121,5 @@ public class Constants {
 	public static final String REGEX_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 	public static final String NUMBER_FORMATE_PATTERN = "#,##0.00;(#,##0.00)";
 	public static final String NUMBER_FORMATE_PATTERN_WITH_DOLLER = "$#,##0.00;-$#,##0.00";
+	public static final String NUMBER_FORMATE_PATTERN_WITH_COMMA = "#,###.00";
 }
