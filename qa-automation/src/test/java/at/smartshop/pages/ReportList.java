@@ -77,7 +77,7 @@ public class ReportList extends Factory {
 	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By.xpath("//span[@role='presentation'][normalize-space()='×']");
 	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
 	private static final By SELECT_TRANSACTION_LOCATIONS = By.cssSelector("#select2-loc-dropdown-results > li > ul > li");
-	public static final By TODAYS_DATE_OF_TYPE2 = By.xpath("(//td[@class='today active start-date active end-date available'])[2]");
+	public static final By TODAYS_DATE_OF_TYPE2 = By.xpath("(//td[@class='today active start-date active end-date available'])[2] | //td[@class='today active start-date active end-date available']");
 	
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
@@ -154,13 +154,13 @@ public class ReportList extends Factory {
 	
 	public void selectDateofType2(String optionName) {
 		try {
-//			foundation.waitforElement(DPD_DATE, 1);
+			foundation.waitforElement(DPD_DATE, 1);
 			foundation.click(DPD_DATE);
 //			if(optionName.equals("Today")) {
-				if(optionName=="Today") {
+//				if(optionName=="Today") {
 				foundation.click(TODAYS_DATE_OF_TYPE2);
 				System.out.println("Entered in to calender");
-			}
+//			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

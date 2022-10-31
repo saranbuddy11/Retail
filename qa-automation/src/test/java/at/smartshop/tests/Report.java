@@ -7193,7 +7193,7 @@ public class Report extends TestInfra {
 		List<String> paymentType = Arrays
 				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
 		List<String> columnNames = Arrays
-				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
 		try {
 			// Navigate to ADM and Select Org
@@ -7226,7 +7226,7 @@ public class Report extends TestInfra {
 			
 
 			// Read the Report the Data
-			ufsReport.getTblRecordsUIOfSalesTimeDetails();
+			ufsReport.getTblRecordsUIOfSalesTimeDetails(location);
 			ufsReport.getIntialDataOfSalesTimeDetails().putAll(ufsReport.getReportsDataOfSalesTimeDetails());
 			ufsReport.getUpdatedTableFootersOfSalesTimeDetails().putAll(ufsReport.getTableFootersOfSalesTimeDetails());
 
@@ -7248,7 +7248,7 @@ public class Report extends TestInfra {
 					location);
 			ufsReport.getJsonSalesData();
 
-			ufsReport.getTblRecordsUIOfSalesTimeDetails();
+			ufsReport.getTblRecordsUIOfSalesTimeDetails(location);
 
 			int recordCountOfCash = ufsReport.getRequiredRecord(paymentType.get(0));
 			int recordCountOfCreditCard = ufsReport.getRequiredRecord(paymentType.get(1));
@@ -7264,7 +7264,7 @@ public class Report extends TestInfra {
 			System.out.println("recordCountOfCreditCard +" + recordCountOfCreditCard);
 
 			// verify Report Headers
-			ufsReport.verifyReportHeaders(columnNames);
+			ufsReport.verifyReportHeaders(columnNames.get(0));
 
 			// calculate Credit Payment Counts
 			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfCash);
@@ -7544,13 +7544,13 @@ public class Report extends TestInfra {
 							productPrice, tax, discount);
 
 					// verify report headers
-					ufsReport.verifyReportHeadersOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+					ufsReport.verifyReportHeadersOfSalesTimeDetails(columnNames.get(1));
 
 					// verify report data
 					ufsReport.verifyReportDataOfSalesTimeDetails();
 
 					// verify report total data
-					ufsReport.verifyReportFootertDataOfSalesTimeDetails();
+//					ufsReport.verifyReportFootertDataOfSalesTimeDetails();
 				
 			
 		} catch (Exception exc) {
