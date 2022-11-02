@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -622,7 +623,9 @@ public class UFSByDevice extends Factory {
 					* 2 + Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2) * 7
 					+ Double.parseDouble(initialAmount);
 			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
-			initialDataOfSalesTimeDetails.get(4).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
+			initialDataOfSalesTimeDetails.get(4).put(columnName,
+					Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
