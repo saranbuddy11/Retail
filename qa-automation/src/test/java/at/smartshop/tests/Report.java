@@ -4908,7 +4908,7 @@ public class Report extends TestInfra {
 	}
 
 	/**
-	 * <<<<<<< HEAD This Method is for Sold Details Int Report Data Validation
+	 * This Method is for Sold Details Int Report Data Validation
 	 * 
 	 * @author ravindhara Date:16-08-2022
 	 */
