@@ -294,17 +294,21 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(locationName);
 
 			// upload image
-			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
-			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
-			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
-			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PIXEL_SIZE);
-			foundation.threadWait(5);
-			textBox.enterText(LocationSummary.TXT_ADD_NAME,
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
-			foundation.click(LocationSummary.BTN_ADD);
+//			foundation.waitforElement(LocationSummary.BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+//			foundation.click(LocationSummary.BTN_ADD_HOME_COMMERCIAL);
+//			foundation.click(LocationSummary.TXT_UPLOAD_NEW);
+//			textBox.enterText(LocationSummary.BTN_UPLOAD_INPUT, FilePath.IMAGE_PIXEL_SIZE);
+//			foundation.threadWait(5);
+//			textBox.enterText(LocationSummary.TXT_ADD_NAME,
+//					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
+//			foundation.click(LocationSummary.BTN_ADD);
+
+			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
 
 			// disabling location
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.selectLocationName(locationName);
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_Yes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
