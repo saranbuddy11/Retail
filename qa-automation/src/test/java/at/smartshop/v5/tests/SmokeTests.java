@@ -873,6 +873,7 @@ public class SmokeTests extends TestInfra {
 		}
 	}
 
+
 	@Test(description = "167002- Verify the Create New products on Global Products as Super")
 	public void VerifyCreateAddRemoveNewProduct() {
 		final String CASE_NUM = "167002";

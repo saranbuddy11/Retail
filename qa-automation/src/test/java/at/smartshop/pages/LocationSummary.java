@@ -20,11 +20,14 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Browser;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.DateAndTime;
 import at.framework.reportsetup.ExtFactory;
 import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationSummary;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -40,6 +43,7 @@ public class LocationSummary extends Factory {
 	private LocationList locationList = new LocationList();
 	private Browser browser = new Browser();
 	private CheckBox checkBox = new CheckBox();
+	private DateAndTime dateAndTime = new DateAndTime();
 
 	public static final By DPD_DISABLED = By.id("isdisabled");
 	public static final By NO_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupcancel");
@@ -56,12 +60,10 @@ public class LocationSummary extends Factory {
 	public static final By TXT_MARKET_LENGTH = By.id("mkcidlength");
 	public static final By DLG_COLUMN_CHOOSER_OPTIONS = By
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
-	public static final By ADD_BTN=By.id("saveCmrhomeBtn");
 	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
 	public static final By DPD_TYPE = By.xpath("//select[@id='type-id']");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
-	public static final By HAS_NO_END_DATE=By.id("cmr_sc_no_end_date");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input#productFilterType");
@@ -171,7 +173,6 @@ public class LocationSummary extends Factory {
 	public static final By DPD_TAX_CATEGORY = By.id("taxcat");
 	public static final By DPD_TAX_RATE_EDIT = By.id("targetid");
 	public static final By BTN_CANCEL_MAPPING = By.id("taxcatcancel");
-	public static final By REMOVE_BTN=By.xpath("/html/body/div[3]/div[6]/div[3]/a[2]");
 	public static final By BTN_SAVE_MAPPING = By.id("taxcatsave");
 	public static final By BTN_REMOVE_MAPPING = By.id("taxcatremove");
 	public static final By TXT_SEARCH_TAX_MAPPING = By.xpath("//div[@id='taxmapdt_filter']//input");
@@ -234,7 +235,6 @@ public class LocationSummary extends Factory {
 	public static final By BTN_LNK_DEVICE_SUMMARY = By
 			.xpath("//td[@aria-describedby='deviceDataGrid_table_device']//a[@class='devices']");
 	public static final By BTN_REMOVE_DEVICE = By.xpath("//button[@class='btn btn-danger']");
-	public static final By BTN_NEXT=By.id("home_cmr_selected_next");
 	public static final By BTN_YES_REMOVE = By.xpath("//button[text()='Yes, Remove']");
 	public static final By LBL_DURATION = By.xpath("//td[@aria-describedby='deviceDataGrid_table_duration']//a");
 	public static final By LBL_POPUP_DEPLOY_DEVICE_CLOSE = By
@@ -344,7 +344,6 @@ public class LocationSummary extends Factory {
 	public static final By LBL_ADD_PRODUCT = By.id("modaltemplate-title");
 	public static final By BTN_CANCEL_PRODUCT = By.id("modalcancel");
 	public static final By TBL_DATA_GRID = By.cssSelector("#productDataGrid > tbody");
-	public static final By CHECK_CHECKBOX=By.xpath("//input[@class='check_size']");
 	public static final By TBL_GRID = By.id("productDataGrid");
 	public static final By VALIDATE_HIGHLIGHTED_TEXT = By.xpath("//table[@id='chooseprddt']//tbody//tr");
 	public static final By LBL_POPUP_ADD_PRODUCT_CLOSE = By
@@ -359,7 +358,6 @@ public class LocationSummary extends Factory {
 			.xpath("//table[@id='productDataGrid']/tbody/tr/td[@aria-describedby='productDataGrid_minstock']");
 	public static final By TAB_PROMOTIONS = By.id("loc-promotions");
 	public static final By PROMOTIONS_SEARCH = By.id("promoFilterType");
-	public static final By SEARCH_TXT=By.xpath("//input[@aria-controls='choosecmrhomedt']");
 	public static final By MANAGE_COLUMN_POPUP_HEADER = By
 			.xpath("//div[@id='promoGrid_hiding_modalDialog']//span[@class='ui-dialog-title']");
 	public static final By MANAGE_COLUMN_RESET_BUTTON = By.xpath(
@@ -397,13 +395,12 @@ public class LocationSummary extends Factory {
 	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
 
 	public static final By LBL_LOCATION_CREATE = By.id("Location Create");
-	public static final By DPD_OPTION_TYPE=By.xpath("//select[@id='type-id']//option");
-	public static final By TXT_STOCKWELL_STORE_ID=By.xpath("//div[@id='stockwell-div-id']/dd/input[@id='stockwellstoreid']");
+	public static final By DPD_OPTION_TYPE = By.xpath("//select[@id='type-id']//option");
+	public static final By TXT_STOCKWELL_STORE_ID = By
+			.xpath("//div[@id='stockwell-div-id']/dd/input[@id='stockwellstoreid']");
 
-	public static final By INVENTORY_GRID_FIRST_CELL = By.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
-
-	
-	
+	public static final By INVENTORY_GRID_FIRST_CELL = By
+			.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -870,22 +867,39 @@ public class LocationSummary extends Factory {
 	 * @param imageName
 	 * @param imagePath
 	 */
-	public void addHomeCommercial(String imagePath) {
+	public void addHomeCommercial(String imageName, String imagePath) {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		foundation.click(BTN_ADD_HOME_COMMERCIAL);
 		foundation.click(TXT_UPLOAD_NEW);
 		textBox.enterText(BTN_UPLOAD_INPUT, imagePath);
-		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(HAS_NO_END_DATE);
-		foundation.waitforElementToBeVisible(ADD_BTN, Constants.THREE_SECOND);
-		foundation.click(ADD_BTN);
+		textBox.enterText(TXT_ADD_NAME, imageName);
+		foundation.click(BTN_ADD);
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LBL_SPINNER_MSG);
 		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
 	}
-	
+
+	/**
+	 * Remove Home Commercial in Location Summary Page
+	 * 
+	 * @param imageName
+	 */
+	public void removeHomeCommercial(String imageName) {
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		textBox.enterText(TXT_CMR_FILTER, imageName);
+		foundation.click(objTable(imageName));
+		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
+		foundation.click(BTN_REMOVE);
+		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
+		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+		foundation.refreshPage();
+	}
+
 	public void addHomeCommercials(String imagePath) {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
@@ -907,27 +921,6 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * Remove Home Commercial in Location Summary Page
-	 * 
-	 * @param imageName
-	 */
-	public void removeHomeCommercial(String imageName) {
-		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
-		foundation.click(BTN_HOME_COMMERCIAL);
-		textBox.enterText(TXT_CMR_FILTER, imageName);
-		foundation.click(objTable(imageName));
-		foundation.waitforElement(REMOVE_BTN, Constants.SHORT_TIME);
-		foundation.adjustBrowerSize("0.7");
-		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.objectClick(REMOVE_BTN);
-		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
-		foundation.click(BTN_SYNC);
-		foundation.isDisplayed(LBL_SPINNER_MSG);
-		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
-		foundation.refreshPage();
-	}
-
-	/**
 	 * Updating the Inventory of the product
 	 * 
 	 * @param scancode
@@ -944,11 +937,10 @@ public class LocationSummary extends Factory {
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='" + "DataGrid_qtyonhand']/div/div/span/input"),
 				Constants.TWO_SECOND);
-		
-		textBox.clearText(
-				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
-						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"));
-		
+
+		textBox.clearText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"));
+
 		textBox.enterText(
 				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
@@ -962,6 +954,42 @@ public class LocationSummary extends Factory {
 
 		foundation.objectClick(CLEAR_INVENTORY_FILTER);
 		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
+	}
+
+	public String updateInventoryWithTimeOfTransacction(String scancode, String inventoryValue, String reasonCode,
+			String format, String requiredTimeZone) {
+		String updatedTime = String.valueOf(dateAndTime.getDateAndTime1(format, requiredTimeZone));
+		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
+
+		foundation.objectClick(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"));
+
+//		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.waitforElement(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='" + "DataGrid_qtyonhand']/div/div/span/input"),
+				Constants.TWO_SECOND);
+
+		textBox.clearText(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"));
+
+		textBox.enterText(
+				By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+						+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']/div/div/span/input"),
+				inventoryValue);
+
+//		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.click(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
+				+ "']//..//td[@aria-describedby='inventoryDataGrid_reasoncode']/span/div"));
+		foundation.waitforElement(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"),
+				Constants.TWO_SECOND);
+
+		foundation.click(By.xpath("//ul[@class='ui-igcombo-listitemholder']/li[text()='" + reasonCode + "']"));
+
+		foundation.objectClick(CLEAR_INVENTORY_FILTER);
+		foundation.waitforElement(CLEAR_INVENTORY_FILTER, Constants.TWO_SECOND);
+		return updatedTime;
 	}
 
 	/**
@@ -2053,12 +2081,13 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
-	 * change special type, theme and market card edit 
+	 * change special type, theme and market card edit
+	 * 
 	 * @param dropdown
 	 * @param market
 	 * @param marketlenght
 	 */
-	public void changeSpecialTypeThemeMarketCardEdit(String dropdown, String dpd,String market, String marketlenght) {
+	public void changeSpecialTypeThemeMarketCardEdit(String dropdown, String dpd, String market, String marketlenght) {
 		foundation.waitforElementToBeVisible(DPD_SPECIAL_TYPE, Constants.THREE_SECOND);
 		dropDown.selectItem(DPD_SPECIAL_TYPE, dropdown, Constants.TEXT);
 		foundation.waitforElementToBeVisible(DPD_THEME, Constants.THREE_SECOND);
@@ -2652,11 +2681,14 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 
 	}
+
 	/*
-	 *Select Location and Device
+	 * Select Location and Device
+	 * 
 	 * @param locationName
+	 * 
 	 * @param deviceName
-	 *  
+	 * 
 	 */
 	public void selectLocationAndDevice(String locationName, String deviceName) {
 		locationList.selectLocationName(locationName);
