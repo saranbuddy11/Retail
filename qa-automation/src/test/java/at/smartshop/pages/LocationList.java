@@ -44,12 +44,13 @@ public class LocationList extends Factory {
 	public static final By TIME_ZONE = By.id("timezone");
 	public static final By TYPE_ID = By.id("type-id");
 	public static final By SAVE_BTN = By.id("saveBtn");
-	public static final By POP_UP=By.xpath("//div[@class='modal-header']/h5");
-	public static final By POPUP_SAVE=By.id("confirmDisableId");
-	public static final By DISABLED=By.id("isdisabled");
-	public static final By DAILY_TRANS=By.id("dataGrid_table_transactions");
+	public static final By POP_UP = By.xpath("//div[@class='modal-header']/h5");
+	public static final By POPUP_SAVE = By.id("confirmDisableId");
+	public static final By DISABLED = By.id("isdisabled");
+	public static final By DAILY_TRANS = By.id("dataGrid_table_transactions");
 	public static final By TXT_SPINNER_SUCCESS_MSG = By
 			.xpath("//div[@class='humane humane-libnotify-success humane-animate']//li");
+	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='dataGrid_table']/tbody/tr/td/a/i");
 
 	/**
 	 * Selecting the Location Name
@@ -88,6 +89,7 @@ public class LocationList extends Factory {
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
 		login.logout();
 		browser.close();
 	}
@@ -97,6 +99,7 @@ public class LocationList extends Factory {
 		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 		foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
 		foundation.waitforElement(LocationSummary.TXT_FIND_DEVICE, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(LocationSummary.TXT_FIND_DEVICE, device);
 		foundation.click(LocationSummary.TBL_DEVICE_LIST);
 		foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
@@ -180,15 +183,16 @@ public class LocationList extends Factory {
 		foundation.click(SAVE_BTN);
 		foundation.waitforElementToBeVisible(LBL_LOCATION_LIST, 5);
 	}
-	
+
 	/**
 	 * verify location in location list page
+	 * 
 	 * @param locationName
 	 * @param dropdown
 	 */
-	public void verifyLocationInLocationList(String locationName,String dropdown) {
+	public void verifyLocationInLocationList(String locationName, String dropdown) {
 		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
-		textBox.enterText(TXT_FILTER, locationName);	
+		textBox.enterText(TXT_FILTER, locationName);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(LINK_LOCATION_LIST);
 		foundation.waitforElementToBeVisible(DISABLED, Constants.SHORT_TIME);
@@ -198,9 +202,8 @@ public class LocationList extends Factory {
 		foundation.waitforElementToBeVisible(POP_UP, Constants.SHORT_TIME);
 		foundation.click(POPUP_SAVE);
 		foundation.waitforElementToBeVisible(LBL_LOCATION_LIST, Constants.THREE_SECOND);
-		textBox.enterText(TXT_FILTER, locationName);	
+		textBox.enterText(TXT_FILTER, locationName);
 		foundation.threadWait(Constants.THREE_SECOND);
-		//CustomisedAssert.assertFalse(foundation.isDisplayed(LINK_LOCATION_LIST));
-		
+		// CustomisedAssert.assertFalse(foundation.isDisplayed(LINK_LOCATION_LIST));
 	}
 }

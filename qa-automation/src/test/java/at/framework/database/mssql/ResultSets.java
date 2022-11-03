@@ -288,6 +288,8 @@ public class ResultSets extends Connections {
 				rstLocationSummary.put(CNLocationSummary.PAYROLL_DEDUCT,
 						resultSet.getString(CNLocationSummary.PAYROLL_DEDUCT));
 				rstLocationSummary.put(CNLocationSummary.START_DATE, resultSet.getString(CNLocationSummary.START_DATE));
+				rstLocationSummary.put(CNLocationSummary.ADDRESS, resultSet.getString(CNLocationSummary.ADDRESS));
+
 			}
 		} catch (
 
@@ -1089,8 +1091,7 @@ public class ResultSets extends Connections {
 		}
 		return rstStaffViewData;
 	}
-	
-	
+
 	public Map<String, String> getSSODomainData(String query, String testcaseID) {
 		Map<String, String> rstSSODomainData = new HashMap<>();
 		Statement statement = null;
@@ -1117,7 +1118,7 @@ public class ResultSets extends Connections {
 		}
 		return rstSSODomainData;
 	}
-	
+
 	public Map<String, String> getRoundUpCharity(String query, String testcaseID) {
 		Map<String, String> rstRoundUpCharityData = new HashMap<>();
 		Statement statement = null;
@@ -1130,10 +1131,13 @@ public class ResultSets extends Connections {
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
 				rstRoundUpCharityData.put(CNRoundUpCharity.NAME, resultSet.getString(CNRoundUpCharity.NAME));
-				rstRoundUpCharityData.put(CNRoundUpCharity.REQUIRED_OPTIONS, resultSet.getString(CNRoundUpCharity.REQUIRED_OPTIONS));
-				rstRoundUpCharityData.put(CNRoundUpCharity.DISPLAY_NAME, resultSet.getString(CNRoundUpCharity.DISPLAY_NAME));
+				rstRoundUpCharityData.put(CNRoundUpCharity.REQUIRED_OPTIONS,
+						resultSet.getString(CNRoundUpCharity.REQUIRED_OPTIONS));
+				rstRoundUpCharityData.put(CNRoundUpCharity.DISPLAY_NAME,
+						resultSet.getString(CNRoundUpCharity.DISPLAY_NAME));
 				rstRoundUpCharityData.put(CNRoundUpCharity.LOCATION, resultSet.getString(CNRoundUpCharity.LOCATION));
-				rstRoundUpCharityData.put(CNRoundUpCharity.CAUSE_NAME, resultSet.getString(CNRoundUpCharity.CAUSE_NAME));
+				rstRoundUpCharityData.put(CNRoundUpCharity.CAUSE_NAME,
+						resultSet.getString(CNRoundUpCharity.CAUSE_NAME));
 			}
 		} catch (Exception exc) {
 			Assert.fail(exc.toString());
