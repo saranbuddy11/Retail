@@ -9,7 +9,6 @@ import at.smartshop.pages.ReportList;
 
 public class FilePath {
 	public FilePath() {
-
 	}
 
 	private static ReportList reportList = new ReportList();
@@ -25,6 +24,8 @@ public class FilePath {
 	public static final String JSON_MKA = PATH + "\\src\\test\\resources\\MKAAccount.json";
 	public static final String JSON_KIOSK_CASH_OUT = PATH + "\\src\\test\\resources\\KioskCashOut.json";
 	public static final String JSON_SALES_CREATION = PATH + "\\src\\test\\resources\\SalesCreation.json";
+	public static final String JSON_SALES_CREATION_UFS_BY_DEVICE = PATH
+			+ "\\src\\test\\resources\\SalesCreation_UFSByDevice.json";
 	public static final String CANCEL_SALE_CREATION = PATH + "\\src\\test\\resources\\CancelSaleCreation.json";
 	public static final String JSON_SALES_CREATION_WITH_DEPOSIT_AND_DISCOUNT = PATH
 			+ "\\src\\test\\resources\\SalesCreationWithDepositandDiscount.json";
