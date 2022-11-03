@@ -835,7 +835,6 @@ public class SmokeTests extends TestInfra {
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		String locationName = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
 				FilePath.PROPERTY_CONFIG_FILE);
-		final String imageName = strings.getRandomCharacter();
 		try {
 			String requiredData = rstV5DeviceData.get(CNV5Device.REQUIRED_DATA);
 
@@ -846,7 +845,7 @@ public class SmokeTests extends TestInfra {
 					.asList(rstV5DeviceData.get(CNV5Device.LANGUAGE).split(Constants.DELIMITER_TILD));
 			// Selecting Device's location
 			locationList.selectLocationName(locationName);
-			locationSummary.addHomeCommercial(imageName, FilePath.IMAGE_PATH);
+			locationSummary.addHomeCommercials(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 			locationSummary.kiosklanguageSetting(locationName, language.get(0), language.get(1));
 
 			// launching v5 device
@@ -855,10 +854,7 @@ public class SmokeTests extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.refreshPage();
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.EXTRA_LONG_TIME);
-			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
-
-			// Home Commercial image validation
-			assertEquals(actualData, requiredData);
+		
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -871,7 +867,7 @@ public class SmokeTests extends TestInfra {
 
 			// Selecting Device's location
 			locationList.selectLocationName(locationName);
-			locationSummary.removeHomeCommercial(imageName);
+			locationSummary.removeHomeCommercials(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 		}
 	}
 

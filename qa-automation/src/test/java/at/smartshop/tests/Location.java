@@ -1416,7 +1416,7 @@ public class Location extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-
+            
 			// verify the display of product price
 			CustomisedAssert.assertTrue(productPrice.contains(price.get(0)));
 			browser.close();
