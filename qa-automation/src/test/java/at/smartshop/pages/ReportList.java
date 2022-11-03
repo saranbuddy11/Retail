@@ -136,6 +136,7 @@ public class ReportList extends Factory {
 		}
 	}
 
+
 	/**
 	 * This method is to Select the Date
 	 * 
@@ -165,8 +166,6 @@ public class ReportList extends Factory {
 			foundation.waitforElement(DPD_DATE, 1);
 			foundation.click(DPD_DATE);
 				foundation.click(TODAYS_DATE_OF_TYPE2);
-				System.out.println("Entered in to calender");
-//			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
