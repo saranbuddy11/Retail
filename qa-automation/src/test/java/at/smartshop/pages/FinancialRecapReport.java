@@ -268,6 +268,8 @@ public class FinancialRecapReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("intialData :" + intialData);
+			System.out.println("reportsData :" + reportsData);
 			foundation.threadWait(Constants.TWO_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {

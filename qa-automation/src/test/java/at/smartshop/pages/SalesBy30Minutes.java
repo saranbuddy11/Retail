@@ -48,7 +48,7 @@ public class SalesBy30Minutes extends Factory {
 
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE = By.cssSelector("#rptdt");
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE_GRID = By.cssSelector("#rptdt > tbody");
-	public static final By TXT_SEARCH = By.xpath("input[aria-controls='rptdt']");
+	public static final By TXT_SEARCH = By.xpath("//input[@aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, String> tableFooterData = new LinkedHashMap<>();
