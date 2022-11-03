@@ -532,9 +532,12 @@ public class V5ReleaseTest extends TestInfra {
 
 			// set language and sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(2));
+			foundation.threadWait(Constants.THREE_SECOND);
 			locationSummary.kiosklanguageSetting(location, language.get(0), language.get(1));
+			browser.close();
 
 			// launch v5 application
+			foundation.threadWait(Constants.TWO_SECOND);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			// foundation.click(landingPage.objLanguage(language.get(0)));
@@ -564,6 +567,7 @@ public class V5ReleaseTest extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
 			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LocationSummary.BTN_REMOVE_MAPPING);
 			// reset category
 			navigationBar.navigateToMenuItem(menuItem.get(1));
