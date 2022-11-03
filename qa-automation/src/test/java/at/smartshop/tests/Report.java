@@ -50,6 +50,7 @@ import at.smartshop.pages.CashAudit;
 import at.smartshop.pages.CancelReport;
 import at.smartshop.pages.CashFlow;
 import at.smartshop.pages.CashFlowDetails;
+import at.smartshop.pages.CashFlowDetailsInternational;
 import at.smartshop.pages.CashFlowDevice;
 import at.smartshop.pages.CashFlowEmployeeDevice;
 import at.smartshop.pages.CashoutLog;
@@ -230,6 +231,9 @@ public class Report extends TestInfra {
 	private CheckBox checkBox = new CheckBox();
 	private PayrollDeductDetails payrollDeductDetails = new PayrollDeductDetails();
 	private UFSByDevice ufsByDevice = new UFSByDevice();
+	private CashFlowDetailsInternational cashFlowDetailsInternational = new CashFlowDetailsInternational();
+	
+	
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -330,10 +334,6 @@ public class Report extends TestInfra {
 			 * rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 			 * rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			 */
-
-			
-			
-			System.out.println("updatedTime Account adjestment :"+ updatedTime);
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
@@ -8175,9 +8175,6 @@ public class Report extends TestInfra {
 			int recordCountOfAccount = cashFlowDetails.getRequiredRecord(paymentType.get(7));
 			int recordCountOfTotals = cashFlowDetails.getRequiredRecord(paymentType.get(8));
 
-			System.out.println("recordCountOfCash +" + recordCountOfCash);
-			System.out.println("recordCountOfCreditCard +" + recordCountOfCreditCard);
-
 			// verify Report Headers
 			cashFlowDetails.verifyReportHeaders(columnNames);
 
@@ -8395,6 +8392,357 @@ public class Report extends TestInfra {
 
 			// verify Report Data
 			cashFlowDetails.verifyReportRecords();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * Cash Flow Details International Report Data Validation
+	 * 
+	 * @author ravindhara, Date:21-10-2022
+	 */
+	@Test(description = "206385- Cash Flow Details International Report data validation")
+	public void CashFlowDetailsInternationalReportDataValidation() {
+		final String CASE_NUM = "206385";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			cashFlowDetailsInternational.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			cashFlowDetailsInternational.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			cashFlowDetailsInternational.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowDetailsInternational.getInitialReportsData().putAll(cashFlowDetailsInternational.reportsData);
+//			cashFlowDetailsInternational.getInitialReportTotals().putAll(cashFlowDetailsInternational.getReportsTotalData());
+
+			// process sales API to generate data
+			cashFlowDetailsInternational.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			// read Updated Report Data
+			cashFlowDetailsInternational.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowDetailsInternational.getJsonSalesData();
+
+			int recordCountOfComp = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(0));
+			int recordCountOfGEN3 = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(1));
+			int recordCountOfCreditCard = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSpecial = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(3));
+			int recordCountOfCash = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(4));
+			int recordCountOfAccount = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(5));
+			int recordCountOfTotals = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(6));
+
+			// calculate Comp Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfComp);
+
+			// calculate Comp Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfComp);
+
+			// calculate Comp Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfComp);
+
+			// calculate Comp Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfComp);
+
+			// calculate Comp Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfComp);
+
+			// calculate Comp Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfComp);
+
+			// calculate Comp Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfComp);
+
+			// calculate gen3 Product Counts
+			cashFlowDetailsInternational.calculateProductCountsForCredit(
+					cashFlowDetailsInternational.getTableHeaders().get(1), recordCountOfGEN3);
+
+			// calculate gen3 Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfGEN3);
+
+			// calculate gen3 Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfGEN3);
+
+			// calculate gen3 Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfGEN3);
+
+			// calculate gen3 Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfGEN3);
+
+			// calculate gen3 Credit Rejected Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(6),
+					recordCountOfGEN3);
+
+			// calculate gen3 Credit Rejected Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(7),
+					recordCountOfGEN3);
+
+			// calculate gen3 Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfGEN3);
+
+			// calculate gen3 Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTaxForCredit(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfGEN3);
+
+			// calculate gen3 Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfGEN3);
+
+			// calculate gen3 Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfGEN3);
+
+			// calculate Credit Card Sub Total Product Counts
+			cashFlowDetailsInternational.calculateProductCountsForCredit(
+					cashFlowDetailsInternational.getTableHeaders().get(1), recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Credit Rejected Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(6),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Credit Rejected Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(7),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTaxForCredit(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfCreditCard);
+
+			// calculate Special - SPECIAL Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfSpecial);
+
+			// calculate Cash Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfCash);
+
+			// calculate Cash Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfCash);
+
+			// calculate Cash Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfCash);
+
+			// calculate Cash Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfCash);
+
+			// calculate Cash Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfCash);
+
+			// calculate Cash Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfCash);
+
+			// calculate Cash Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfCash);
+
+			// calculate Cash Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfCash);
+
+			// calculate Cash Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfCash);
+
+			// calculate Account Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfAccount);
+
+			// calculate Account Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfAccount);
+
+			// calculate Account Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfAccount);
+
+			// calculate Account Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfAccount);
+
+			// calculate Account Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfAccount);
+
+			// calculate Account Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfAccount);
+
+			// calculate Account Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfAccount);
+
+			// calculate Account Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfAccount);
+
+			// calculate Account Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfAccount);
+
+			// calculate Totals Product Counts
+			cashFlowDetailsInternational.calculateProductCountsForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(1), recordCountOfTotals);
+
+			// calculate Totals Sales Counts
+			cashFlowDetailsInternational.calculateCountsForTotals(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfTotals);
+
+			// calculate Totals Sales Amount
+			cashFlowDetailsInternational.calculateAmountsForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(3), recordCountOfTotals);
+
+			// calculate Totals Void Counts
+			cashFlowDetailsInternational.calculateCountsForTotals(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfTotals);
+
+			// calculate Totals Void Amount
+			cashFlowDetailsInternational.calculateAmountsForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(5), recordCountOfTotals);
+
+			// calculate Totals Credit Rejected Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(6),
+					recordCountOfTotals);
+
+			// calculate Totals Credit Rejected Amount
+			cashFlowDetailsInternational.calculateAmounts(
+					cashFlowDetailsInternational.getTableHeaders().get(7), recordCountOfTotals);
+
+			// calculate Totals Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTaxForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(8), recordCountOfTotals);
+
+			// calculate Totals Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTaxForTotals(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfTotals);
+
+			// calculate Totals Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSalesForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(10), recordCountOfTotals);
+
+			// calculate Totals Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTaxForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(11), recordCountOfTotals);
+
+			// verify Report Headers
+			cashFlowDetailsInternational.verifyReportHeaders(columnNames);
+
+			// verify Report Data
+			cashFlowDetailsInternational.verifyReportRecords();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
