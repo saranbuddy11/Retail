@@ -308,7 +308,6 @@ public class RoundUpCharity extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 			foundation.threadWait(5);
 			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(4));
-			System.out.println(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW).contains(data.get(10)));
 			
 			//verify the location and Add location click on save
@@ -340,6 +339,8 @@ public class RoundUpCharity extends TestInfra {
 		}
 				finally {
 				//resetting
+				navigationBar.navigateToMenuItem(menu.get(1));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 				textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(11));
 				foundation.click(AdminRoundUpCharity.BTN_DELECT_CHARITY);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_DELECT_CHARITY));
