@@ -48,7 +48,7 @@ public class SubsidyConsumerSpend extends Factory {
 
 	private static final By REPORT_GRID_FIRST_ROW = By
 			.cssSelector("#subsidy-consumer-report-data > tbody > tr:nth-child(1)");
-	public final static By TXT_SEARCH_FILTER = By.cssSelector("input[aria-controls='rptdt']");
+	public final static By TXT_SEARCH_FILTER = By.xpath("//input[@id='filterType']");
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("div#subsidy-consumer-report-container>div[style='font-size: 18px;font-weight:700;']");
 	private static final By TABLE = By.cssSelector("#subsidy-consumer-report-data");
@@ -156,7 +156,7 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
 		verifyReportName(reportName);
 		checkForDataAvailabilyInResultTable();
-		textBox.enterText(SoldDetails.TXT_SEARCH_FILTER, transID);
+		textBox.enterText(TXT_SEARCH_FILTER, transID);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
@@ -302,9 +302,9 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		String price = foundation.getText(ProductSearch.PRODUCT_PRICE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPage)));
-		foundation.click(Payments.EMAIL_ACCOUNT);
-		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.ONE_SECOND);
-		foundation.click(Payments.BTN_EMAIL_LOGIN);
+		foundation.click(Payments.EMAIL_ACCOUNT_BTN);
+//		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.ONE_SECOND);
+//		foundation.click(Payments.BTN_EMAIL_LOGIN);
 		foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 		foundation.click(Payments.EMAIL_LOGIN_TXT);
 		foundation.threadWait(Constants.ONE_SECOND);

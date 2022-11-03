@@ -8,8 +8,8 @@ public class DeviceList {
 	public static final By LIST_SERIAL_NUMBER = By.xpath("//td[@aria-describedby='device-grid_serialNumber']");
 	public static final By TXT_SEARCH_DEVICE = By.id("deviceNameTxt");
 	public static final By BTN_EXPORT_DEVICE = By.id("exportDevice");
-	public static final By TXT_RECORD_COUNT = By.id("deviceDataGrid_table_pager");
-	public static final By TBL_GRID = By.id("deviceDataGrid_table_headers");
+	public static final By TXT_RECORD_COUNT = By.id("device-grid_pager");
+	public static final By TBL_GRID = By.id("device-grid_headers");
 	public static final By TBL_ROW = By.xpath("//*[@id='device-grid_scroll']//tbody");
 	public static final By BTN_COMMISSION = By.id("commissionBtn");
 	public static final By BTN_SEARCH = By.cssSelector("#submitBtn.btn.btn-primary");
@@ -26,7 +26,7 @@ public class DeviceList {
 	public static final By TBL_DEVICE_NAME = By.xpath("//td[@aria-describedby='deviceDataGrid_table_namelink']");
 
 	public By objDeveiceLink(String deviceName) {
-		return By.xpath("//td[@aria-describedby='deviceDataGrid_table_namelink']//a[text()='" + deviceName + "']");
+		return By.xpath("//td[@aria-describedby='device-grid_name']//a[text()='" + deviceName + "']");
 	}
 
 	public By DeveiceLink(String deviceName) {

@@ -39,6 +39,7 @@ public class OrgSummary extends Factory {
 	public static final By LBL_ORG_LIST = By.xpath("//div[@class='dataTables_info']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane ']");
 	public static final By DPD_COUNTRY = By.xpath("//select[@name='country']");
+	public static final By ROUND_UP_CHARITY=By.id("roundupcheckbox");
 	public static final By DPD_TAX_SYSTEM = By.id("taxsystem");
 	public static final By DPD_CURRENCY = By.cssSelector("select#currency");
 	public static final By DPD_CROSS_ORG_ACCOUNT = By.id(" coa");
