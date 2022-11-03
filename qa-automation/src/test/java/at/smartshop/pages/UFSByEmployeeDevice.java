@@ -186,9 +186,6 @@ public class UFSByEmployeeDevice extends Factory {
 			reportsData.put(count, reportsdata);
 			count++;
 		}
-		System.out.println("tableHeaders :" + tableHeaders);
-		System.out.println("reportsData :" + reportsData);
-		System.out.println("reportsTotalData :" + reportsTotalData);
 	}
 
 	/**
@@ -203,13 +200,24 @@ public class UFSByEmployeeDevice extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Counts
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateCounts(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 1;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Amounts
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateAmounts(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
@@ -217,9 +225,14 @@ public class UFSByEmployeeDevice extends Factory {
 				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
 		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedAmounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Sales
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationSales(String columnName, int recordCountOfPaymentType) throws Exception {
 		String paymentAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
 		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(4));
@@ -230,18 +243,28 @@ public class UFSByEmployeeDevice extends Factory {
 				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		salesData = Math.round(salesData * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(salesData));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Tax
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationTax(String columnName, int recordCountOfPaymentType) throws Exception {
 		String paymentCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(1));
 		String voidCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
 		double taxes = requiredJsonData.get(1) * (Double.parseDouble(paymentCounts) - Double.parseDouble(voidCounts));
 		taxes = Math.round(taxes * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(taxes));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Totals Column Data
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateTotalsColumnData(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(7));
 		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
@@ -251,16 +274,26 @@ public class UFSByEmployeeDevice extends Factory {
 				+ Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		totals = Math.round(totals * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(totals));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Counts For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateCountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 7;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Amounts For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateAmountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		double amount = (requiredJsonData.get(0) + requiredJsonData.get(1)) * 7;
@@ -268,9 +301,14 @@ public class UFSByEmployeeDevice extends Factory {
 				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
 		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedAmounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Sales For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationSalesForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String paymentAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
 		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(4));
@@ -281,18 +319,28 @@ public class UFSByEmployeeDevice extends Factory {
 				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		salesData = Math.round(salesData * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(salesData));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Tax For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationTaxForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String paymentCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(1));
 		String voidCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
 		double taxes = requiredJsonData.get(1) * (Double.parseDouble(paymentCounts) - Double.parseDouble(voidCounts));
 		taxes = Math.round(taxes * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(taxes));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Totals Column Data For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateTotalsColumnDataForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(7));
 		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
@@ -302,7 +350,6 @@ public class UFSByEmployeeDevice extends Factory {
 				+ Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		totals = Math.round(totals * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(totals));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
 	/**
@@ -312,11 +359,6 @@ public class UFSByEmployeeDevice extends Factory {
 	 */
 	public void verifyReportRecords() throws Exception {
 		int count = initialReportsData.size();
-		System.out.println("initialReportTotals :" + initialReportTotals);
-		System.out.println("reportsTotalData :" + reportsTotalData);
-		System.out.println("initialReportsData :" + initialReportsData);
-		System.out.println("reportsData11111 :" + reportsData);
-
 		for (int counter = 0; counter < count; counter++) {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -381,7 +423,6 @@ public class UFSByEmployeeDevice extends Factory {
 				foundation.threadWait(Constants.ONE_SECOND);
 			}
 		}
-		System.out.println("requiredCount :" + requiredCount);
 	}
 
 	/**
@@ -505,9 +546,6 @@ public class UFSByEmployeeDevice extends Factory {
 				reportsDataOfSalesTimeDetails.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("tableHeadersOfSalesTimeDetails :" + tableHeadersOfSalesTimeDetails);
-			System.out.println("reportsDataOfSalesTimeDetails :" + reportsDataOfSalesTimeDetails);
-			System.out.println("tableFooterData :" + tableFooterData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -661,7 +699,6 @@ public class UFSByEmployeeDevice extends Factory {
 			} else if (transTime.isAfter(LocalTime.of(14, 01, 00)) && transTime.isBefore(LocalTime.MAX)) {
 				rowCountOfSalesTimeDetils = 3;
 			}
-			System.out.println("rowCountOfSalesTimeDetils : " + rowCountOfSalesTimeDetils);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -674,9 +711,6 @@ public class UFSByEmployeeDevice extends Factory {
 		try {
 			int count = intialDataOfSalesTimeDetails.size();
 			foundation.threadWait(Constants.TWO_SECOND);
-			System.out.println("reportsDataOfSalesTimeDetails :" + reportsDataOfSalesTimeDetails);
-			System.out.println("intialDataOfSalesTimeDetails :" + intialDataOfSalesTimeDetails);
-
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeadersOfSalesTimeDetails.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsDataOfSalesTimeDetails.get(counter)
