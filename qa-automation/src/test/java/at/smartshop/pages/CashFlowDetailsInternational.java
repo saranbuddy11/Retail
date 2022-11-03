@@ -198,24 +198,48 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Product Counts
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateProductCounts(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 2;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
 	}
 
+	/**
+	 * calculate Product Counts For Credit
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateProductCountsForCredit(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 4;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
 	}
 
+	/**
+	 * calculate Counts
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateCounts(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 1;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
 	}
 
+	/**
+	 * calculate Amounts
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateAmounts(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
@@ -233,6 +257,12 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Net Sales Inc Tax
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateNetSalesIncTax(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
 		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(5));
@@ -253,6 +283,12 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Net Tax
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateNetTax(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
 		String RejectedCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(6));
@@ -269,6 +305,12 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate NetTax For Credit
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateNetTaxForCredit(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
 		String RejectedCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(6));
@@ -285,6 +327,12 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Net Sales
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateNetSales(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
 		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(9));
@@ -302,18 +350,36 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Product Counts For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateProductCountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + (6 * 2);
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
 	}
 
+	/**
+	 * calculate Counts For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateCountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 5;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
 	}
 
+	/**
+	 * calculate Amounts For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateAmountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		double amount = (requiredJsonData.get(0) + requiredJsonData.get(1)) * 5;
@@ -331,6 +397,12 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Net Sales Inc Tax For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateNetSalesIncTaxForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
 		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(5));
@@ -351,6 +423,12 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Net Tax For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateNetTaxForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
 		String RejectedCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(6));
@@ -367,6 +445,12 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * calculate Net Sales For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateNetSalesForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
 		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(9));
@@ -384,6 +468,10 @@ public class CashFlowDetailsInternational extends Factory {
 		}
 	}
 
+	/**
+	 * verify Report Records
+	 * @throws Exception
+	 */
 	public void verifyReportRecords() throws Exception {
 		int count = initialReportsData.size();
 		for (int counter = 0; counter < count; counter++) {
