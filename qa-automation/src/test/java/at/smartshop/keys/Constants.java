@@ -4,7 +4,6 @@ public class Constants {
 	private Constants() {
 
 	}
-
 	public static final String DELIMITER_COLON = ":";
 	public static final String DELIMITER_HASH = "#";
 	public static final String DELIMITER_TILD = "~";
@@ -54,6 +53,7 @@ public class Constants {
 	public static final int TWO_SECOND = 2;
 	public static final int THREE_SECOND = 3;
 	public static final int SHORT_TIME = 5;
+	public static final int TEN_SECOND = 10;
 	public static final int MEDIUM_TIME = 15;
 	public static final int LONG_TIME = 20;
 	public static final int EXTRA_LONG_TIME = 30;
@@ -117,6 +117,10 @@ public class Constants {
 	public static final String CREDIT = "CREDIT";
 	public static final String ACCOUNT = "ACCOUNT";
 	public static final String REJECTED = "REJECTED";
+	public static final String CASH = "CASH";
+	public static final String SOGO = "SOGO";
+	public static final String COMP = "COMP";
+	public static final String GUESTPASS = "GUESTPASS";
 	public static final String DECIMAL_FORMAT = "###.##";
 	public static final String REGEX_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 	public static final String NUMBER_FORMATE_PATTERN = "#,##0.00;(#,##0.00)";

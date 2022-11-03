@@ -19,10 +19,12 @@ public class Payments {
 	private Browser browser = new Browser();
 	private PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
-	private Order order = new Order();
-
-	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
-	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
+	private Order order= new Order();
+	
+//	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
+//	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
+	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
+	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.2.0']");
 	public static final By EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
 	public static final By EMAIL_lOGIN_BTN = By.id("email-login-btn-id");
 	public static final By BTN_NEXT = By.id("emaillogin-input-btn-go-id");

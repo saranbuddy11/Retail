@@ -32,7 +32,14 @@ public class ReportList extends Factory {
 	private Dropdown dropdown = new Dropdown();
 	private Excel excel = new Excel();
 
-	public  static final By TXT_SEARCH = By.id("Search");
+	public static final String ID = "id";
+	public static final String SALES_HEADER = "salesheader";
+	public static final String TRANS_ID = "transid";
+	public static final String TRANS_DATE = "transdate";
+	public static final String PAYMENTS = "payments";
+	public static final String STATUS = "status";
+	public static final String TYPE = "type";
+	public static final By TXT_SEARCH = By.id("Search");
 	public static final By DPD_DATE = By.id("reportrange1");
 	private static final By BTN_PREVIOUS_MONTH = By.xpath("//th[@class='prev available']");
 	private static final By SELECT_TODAY = By.xpath(
@@ -74,11 +81,12 @@ public class ReportList extends Factory {
 	private static final By DATE_RANGE_NEXT_MONTH_OF_TYPE_3 = By.cssSelector(
 			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > thead > tr:nth-child(1) > th.month");
 	public static final By TRANSACTION_DPD_DATE = By.id("daterange");
-	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By.xpath("//span[@role='presentation'][normalize-space()='×']");
+	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By
+			.xpath("//span[@role='presentation'][normalize-space()='×']");
 	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
 	private static final By SELECT_TRANSACTION_LOCATIONS = By.cssSelector("#select2-loc-dropdown-results > li > ul > li");
 	public static final By TODAYS_DATE_OF_TYPE2 = By.xpath("(//td[@class='today active start-date active end-date available'])[2] | //td[@class='today active start-date active end-date available']");
-	
+
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
 	 * propertyFile.readPropertyFile(Configuration.CURRENT_URL,
@@ -635,7 +643,6 @@ public class ReportList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
 
 	/**
 	 * This method is to Select the Location for Transaction Search

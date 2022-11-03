@@ -1405,10 +1405,17 @@ public class Device extends TestInfra {
 			foundation.click(DeviceSummary.BTN_SAVE);
 			
 			//validating the No MSR option
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
-			foundation.click(DeviceList.TXT_SEARCH);
-			textBox.enterText(DeviceList.TXT_SEARCH, device);
-			foundation.click(DeviceList.TBL_DEVICE_NAME);
+			
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+//			foundation.click(DeviceList.TXT_SEARCH);
+//			textBox.enterText(DeviceList.TXT_SEARCH, device);
+//			foundation.click(DeviceList.TBL_DEVICE_NAME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
+			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
+			foundation.click(DeviceList.BTN_SEARCH);
+			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
+			foundation.click(DeviceList.TXT_TABLE_RECORD);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_MSR_CHECK).equals(data.get(2)));
 		}
