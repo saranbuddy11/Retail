@@ -8825,9 +8825,6 @@ public class Report extends TestInfra {
 			int recordCountOfAccount = CashFlowEmployee.getRequiredRecord(paymentType.get(7));
 			int recordCountOfTotals = CashFlowEmployee.getRequiredRecord(paymentType.get(8));
 
-			System.out.println("recordCountOfCash +" + recordCountOfCash);
-			System.out.println("recordCountOfCreditCard +" + recordCountOfCreditCard);
-
 			// verify Report Headers
 			CashFlowEmployee.verifyReportHeaders(columnNames);
 

@@ -192,9 +192,6 @@ public class CashFlowEmployee extends Factory {
 			reportsTotalData.put(counter, reportTotalsdata);
 			counter++;
 		}
-		System.out.println("tableHeaders :" + tableHeaders);
-		System.out.println("reportsData :" + reportsData);
-		System.out.println("reportsTotalData :" + reportsTotalData);
 	}
 
 	/**
@@ -208,14 +205,24 @@ public class CashFlowEmployee extends Factory {
 		}
 	}
 
-	// =============================================
+	/**
+	 * calculate Counts
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateCounts(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 1;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Amounts
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateAmounts(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		double amount = requiredJsonData.get(0) + requiredJsonData.get(1);
@@ -223,9 +230,14 @@ public class CashFlowEmployee extends Factory {
 				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
 		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedAmounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Sales
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationSales(String columnName, int recordCountOfPaymentType) throws Exception {
 		String paymentAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
 		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(4));
@@ -236,21 +248,29 @@ public class CashFlowEmployee extends Factory {
 				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		salesData = Math.round(salesData * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(salesData));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Tax
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationTax(String columnName, int recordCountOfPaymentType) throws Exception {
-//			List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
 		String paymentCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(1));
 		String voidCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
 		double taxes = requiredJsonData.get(1) * (Double.parseDouble(paymentCounts) - Double.parseDouble(voidCounts));
 		taxes = Math.round(taxes * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(taxes));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Totals Column Data
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateTotalsColumnData(String columnName, int recordCountOfPaymentType) throws Exception {
-//			String total;
 		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(7));
 		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
 		String tipsAmount = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(12));
@@ -258,22 +278,27 @@ public class CashFlowEmployee extends Factory {
 				+ Double.parseDouble(salesDate.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 				+ Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		totals = Math.round(totals * 100.0) / 100.0;
-//			if (totals < 0) {
-//				total = String.valueOf(totals).replaceAll(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING);
-//			} else {
-//				total = String.valueOf(totals);
-//			}
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(totals));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Counts For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateCountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialCounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		int updatedCounts = Integer.parseInt(initialCounts) + 7;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedCounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Amounts For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateAmountsForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String initialAmounts = initialReportsData.get(recordCountOfPaymentType).get(columnName);
 		double amount = (requiredJsonData.get(0) + requiredJsonData.get(1)) * 7;
@@ -281,9 +306,14 @@ public class CashFlowEmployee extends Factory {
 				.parseDouble(initialAmounts.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)) + amount;
 		updatedAmounts = Math.round(updatedAmounts * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(updatedAmounts));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Sales For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationSalesForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
 		String paymentAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(2));
 		String voidAmounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(4));
@@ -294,21 +324,29 @@ public class CashFlowEmployee extends Factory {
 				- Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		salesData = Math.round(salesData * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(salesData));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Location Tax For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateLocationTaxForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
-//			List<String> colName = Arrays.asList(columnName.split(Constants.DELIMITER_HASH));
 		String paymentCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(1));
 		String voidCounts = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(3));
 		double taxes = requiredJsonData.get(1) * (Double.parseDouble(paymentCounts) - Double.parseDouble(voidCounts));
 		taxes = Math.round(taxes * 100.0) / 100.0;
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(taxes));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
+	/**
+	 * calculate Totals Column Data For Totals
+	 * @param columnName
+	 * @param recordCountOfPaymentType
+	 * @throws Exception
+	 */
 	public void calculateTotalsColumnDataForTotals(String columnName, int recordCountOfPaymentType) throws Exception {
-//			String total;
 		String salesDate = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(7));
 		String taxes = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(8));
 		String tipsAmount = reportsData.get(recordCountOfPaymentType).get(tableHeaders.get(12));
@@ -316,13 +354,7 @@ public class CashFlowEmployee extends Factory {
 				+ Double.parseDouble(salesDate.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 				+ Double.parseDouble(taxes.replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING));
 		totals = Math.round(totals * 100.0) / 100.0;
-//			if (totals < 0) {
-//				total = String.valueOf(totals).replaceAll(Constants.DELIMITER_HYPHEN, Constants.EMPTY_STRING);
-//			} else {
-//				total = String.valueOf(totals);
-//			}
 		initialReportsData.get(recordCountOfPaymentType).put(columnName, String.valueOf(totals));
-		System.out.println(initialReportsData.get(recordCountOfPaymentType));
 	}
 
 	/**
@@ -332,34 +364,16 @@ public class CashFlowEmployee extends Factory {
 	 */
 	public void verifyReportRecords() throws Exception {
 		int count = initialReportsData.size();
-		int coulumnCount = tableHeaders.size();
-		System.out.println("initialReportTotals :" + initialReportTotals);
-		System.out.println("reportsTotalData :" + reportsTotalData);
-		System.out.println("initialReportsData :" + initialReportsData);
-		System.out.println("reportsData11111 :" + reportsData);
-
 		for (int counter = 0; counter < count; counter++) {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 						.contains(initialReportsData.get(counter).get(tableHeaders.get(iter))));
 			}
 		}
-//			for (int val = 1; val < coulumnCount; val++) {
-//				CustomisedAssert.assertTrue(
-//						reportsTotalData.get(0).get(tableHeaders.get(val)).contains(cashFlowDetailsTotalsSum.get(0)
-//								.get(tableHeaders.get(val)).replaceAll(Constants.REPLACE_DOLLOR, Constants.EMPTY_STRING)));
-//			}
-//			for (int iter = 0; iter < count - 3; iter++) {
-//				for (int val = 0; val < coulumnCount; val++) {
-//					CustomisedAssert.assertTrue(reportsData.get(iter).get(tableHeaders.get(val))
-//							.contains(initialReportsData.get(iter).get(tableHeaders.get(val))));
-//				}
-//			}
 	}
 
 	/**
 	 * Json Array Data Update
-	 * 
 	 * @param jsonObj
 	 * @param reqString
 	 * @param salesheader
@@ -411,10 +425,6 @@ public class CashFlowEmployee extends Factory {
 				foundation.threadWait(Constants.ONE_SECOND);
 			}
 		}
-//				requiredCount.add(accCount);
-//				requiredCount.add(accVoidCount);
-//				requiredCount.add(declinedCredCount);
-		System.out.println("requiredCount :" + requiredCount);
 	}
 
 	/**
