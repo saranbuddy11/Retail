@@ -9384,4 +9384,337 @@ public class Report extends TestInfra {
 		}
 	}
 
+
+	/**
+	 * UFS By Employee Device Report Data Validation
+	 * 
+	 * @author ravindhara, Date:02/11/2022
+	 */
+	@Test(description = "206489- UFS By Employee Device Report data validation")
+	public void UFSByEmployeeDeviceReportDataValidation() {
+		final String CASE_NUM = "206489";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			ufsByEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			ufsByEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsByEmployeeDevice.getInitialReportsData().putAll(ufsByEmployeeDevice.reportsData);
+			ufsByEmployeeDevice.getInitialReportTotals().putAll(ufsByEmployeeDevice.getReportsTotalData());
+
+			// Read the Report the Data
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			ufsByEmployeeDevice.getIntialDataOfSalesTimeDetails().putAll(ufsByEmployeeDevice.getReportsDataOfSalesTimeDetails());
+			ufsByEmployeeDevice.getUpdatedTableFootersOfSalesTimeDetails().putAll(ufsByEmployeeDevice.getTableFootersOfSalesTimeDetails());
+
+			// process sales API to generate data
+			ufsByEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			ufsByEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Updated Report Data
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsByEmployeeDevice.getJsonSalesData();
+
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+
+			int recordCountOfCash = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(0));
+			int recordCountOfCreditCard = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(1));
+			int recordCountOfGEN3 = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSOGO = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(3));
+			int recordCountOfComp = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(4));
+			int recordCountOfGuestPass = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(5));
+			int recordCountOfSpecial = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(6));
+			int recordCountOfAccount = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(7));
+			int recordCountOfTotals = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(8));
+
+			// verify Report Headers
+			ufsByEmployeeDevice.verifyReportHeaders(columnNames.get(0));
+
+			// calculate Credit Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfCash);
+
+			// calculate Credit Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfCash);
+
+			// calculate Credit Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfCash);
+
+			// calculate Credit Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfCash);
+
+			// calculate Credit Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfCash);
+
+			// calculate Credit Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfCash);
+
+			// calculate Credit Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfCash);
+
+			// calculate Credit Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfCreditCard);
+
+			// calculate Credit Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfCreditCard);
+
+			// calculate Credit Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfCreditCard);
+
+			// calculate Credit Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfCreditCard);
+
+			// calculate Credit Declined Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(5), recordCountOfCreditCard);
+
+			// calculate Credit Declined Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfCreditCard);
+
+			// calculate Credit Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfCreditCard);
+
+			// calculate Credit Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfCreditCard);
+
+			// calculate Credit Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfCreditCard);
+
+			// calculate gen3 Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfGEN3);
+
+			// calculate gen3 Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfGEN3);
+
+			// calculate gen3 Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfGEN3);
+
+			// calculate gen3 Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfGEN3);
+
+			// calculate gen3 Declined Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(5), recordCountOfGEN3);
+
+			// calculate gen3 Declined Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfGEN3);
+
+			// calculate gen3 Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfGEN3);
+
+			// calculate gen3 Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfGEN3);
+
+			// calculate gen3 Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfGEN3);
+
+			// calculate SOGO Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfSOGO);
+
+			// calculate SOGO Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfSOGO);
+
+			// calculate SOGO Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfSOGO);
+
+			// calculate SOGO Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfSOGO);
+
+			// calculate SOGO Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfSOGO);
+
+			// calculate SOGO Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfSOGO);
+
+			// calculate SOGO Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfSOGO);
+
+			// calculate Comp Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfComp);
+
+			// calculate Comp Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfComp);
+
+			// calculate Comp Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfComp);
+
+			// calculate Comp Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfComp);
+
+			// calculate Comp Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfComp);
+
+			// calculate Comp Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfComp);
+
+			// calculate Comp Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfComp);
+
+			// calculate GuestPass Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfGuestPass);
+
+			// calculate GuestPass Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfGuestPass);
+
+			// calculate GuestPass Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfGuestPass);
+
+			// calculate GuestPass Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfGuestPass);
+
+			// calculate GuestPass Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfGuestPass);
+
+			// calculate Special Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfSpecial);
+
+			// calculate Special Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfSpecial);
+
+			// calculate Special Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfSpecial);
+
+			// calculate Special Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfSpecial);
+
+			// calculate Special Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfSpecial);
+
+			// calculate Special Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfSpecial);
+
+			// calculate Special Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfSpecial);
+
+			// calculate Account Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfAccount);
+
+			// calculate Account Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfAccount);
+
+			// calculate Account Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfAccount);
+
+			// calculate Account Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfAccount);
+
+			// calculate Account Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfAccount);
+
+			// calculate Account Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfAccount);
+
+			// calculate Account Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfAccount);
+
+			// calculate Totals Payment Counts
+			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfTotals);
+
+			// calculate Totals Payment Amounts
+			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfTotals);
+
+			// calculate Totals Void Counts
+			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfTotals);
+
+			// calculate Totals Void Amounts
+			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfTotals);
+
+			// calculate Totals Declined Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(5), recordCountOfTotals);
+
+			// calculate Totals Declined Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfTotals);
+
+			// calculate Totals Sales
+			ufsByEmployeeDevice.calculateLocationSalesForTotals(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfTotals);
+
+			// calculate Totals Taxes
+			ufsByEmployeeDevice.calculateLocationTaxForTotals(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfTotals);
+
+			// calculate Totals Total
+			ufsByEmployeeDevice.calculateTotalsColumnDataForTotals(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfTotals);
+
+			// verify Report Data for Cash Flow
+			ufsByEmployeeDevice.verifyReportRecords();
+
+			// Validations for Sales Time Details
+
+			ufsByEmployeeDevice.decideTimeRange((String) ufsByEmployeeDevice.getJsonData().get(Reports.TRANS_DATE));
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
+
+			// Updating Table data
+			ufsByEmployeeDevice.TrasactionCount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsByEmployeeDevice.saleIncludingTaxes(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5), productPrice, tax,
+					discount);
+
+			// Updating Footer data
+			ufsByEmployeeDevice.TrasactionCountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsByEmployeeDevice.saleIncludingTaxesOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5), productPrice,
+					tax, discount);
+
+			// verify report headers Validations for Sales Time Details
+			ufsByEmployeeDevice.verifyReportHeadersOfSalesTimeDetails(columnNames.get(1));
+
+			// verify report dataValidations for Sales Time Details
+			ufsByEmployeeDevice.verifyReportDataOfSalesTimeDetails();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
