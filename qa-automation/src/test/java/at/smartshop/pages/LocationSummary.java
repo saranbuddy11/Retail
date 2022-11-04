@@ -303,6 +303,11 @@ public class LocationSummary extends Factory {
 			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
 			.xpath("/html/body/div[7]/div[1]/table/thead/tr[1]/th[3]");
+
+	public static final By SEARCH_TXT = By.xpath("//input[@aria-controls='choosecmrhomedt']");
+	public static final By BTN_NEXT = By.id("home_cmr_selected_next");
+	public static final By HAS_NO_END_DATE = By.id("cmr_sc_no_end_date");
+	public static final By ADD_BTN = By.id("saveCmrhomeBtn");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
