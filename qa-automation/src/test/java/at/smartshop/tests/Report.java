@@ -1259,15 +1259,18 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
 			tipDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			textBox.enterText(TipDetailsReport.TXT_SEARCH, String.valueOf((String) tipDetails.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
 			tipDetails.getTblRecordsUI();
 			tipDetails.getIntialData().putAll(tipDetails.getReportsData());
 			tipDetails.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
 					(String) tipDetails.getJsonData().get(Reports.TRANS_ID));
 
-//			// process API
+			// process API
 //			tipDetails.processAPI(requiredOption.get(0), requiredOption.get(1));
-//			foundation.click(ReportList.BTN_RUN_REPORT);
-//			tipDetails.getTblRecordsUI();
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			textBox.enterText(TipDetailsReport.TXT_SEARCH, String.valueOf((String) tipDetails.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
+			tipDetails.getTblRecordsUI();
 
 			// apply calculation and update data
 			tipDetails.updateData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredOption.get(1));
