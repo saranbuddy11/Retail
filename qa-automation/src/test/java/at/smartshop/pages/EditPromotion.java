@@ -33,6 +33,7 @@ public class EditPromotion extends Factory {
 	public static final By PAGE_TITLE = By.id("pagetitle");
 	public static final By DPD_ITEM = By.cssSelector("select#itemSelectInput");
 	public static final By LBL_PROMPT_TITLE = By.cssSelector("div.ajs-header");
+	public static final By SELECTED_ITEM=By.cssSelector("#itemBundleTable > tbody");
 	public static final By DPD_LOCATION = By.xpath("//select[@id='location-select']/..//span//li/input");
 	public static final By BTN_CANCEL = By.id("cancelBtn");
 	public static final By BTN_SAVE_AS = By.xpath("//button[text()='Save As New Promotion']");

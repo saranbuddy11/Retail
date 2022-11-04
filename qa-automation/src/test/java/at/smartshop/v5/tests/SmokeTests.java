@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.files.Excel;
+import at.framework.generic.CustomisedAssert;
 import at.framework.generic.DateAndTime;
 import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
@@ -62,6 +63,7 @@ public class SmokeTests extends TestInfra {
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private LocationList locationList = new LocationList();
+	private CheckBox checkBox=new CheckBox();
 	private Order order = new Order();
 	private Dropdown dropDown = new Dropdown();
 	private LocationSummary locationSummary = new LocationSummary();
@@ -713,18 +715,27 @@ public class SmokeTests extends TestInfra {
 			// Creating New Promotion
 			foundation.click(LocationSummary.BTN_CREATE_PROMO);
 			createPromotions.newPromotion(promotionType, promotionName, displayName, orgName, locationName);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Detail page
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(3), Constants.TEXT);
-			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, actualData.get(1));
-			foundation.threadWait(Constants.TWO_SECOND);
-			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
+//			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, actualData.get(1));
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			textBox.enterText(CreatePromotions.SEARCH_CATEGORY, Keys.ENTER);
+			foundation.waitforElementToBeVisible(CreatePromotions.ADD_CATEGORY, Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.ADD_CATEGORY);
+			textBox.enterText(CreatePromotions.CATEGORY_SEARCH_TXT, actualData.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			checkBox.check(CreatePromotions.SELECT_CAT_PRODUCT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_CAT_POPUP, Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_CANCEL_CAT_POPUP);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Updating the Category to Item
 			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
@@ -733,16 +744,29 @@ public class SmokeTests extends TestInfra {
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
-			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+//			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.ADD_ITEM);
+			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, actualData.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			checkBox.check(CreatePromotions.SELECT_ITEM_PRODUCT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CREATE, Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Verify Item correctly updated in Promotion Screen
 			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
@@ -752,14 +776,24 @@ public class SmokeTests extends TestInfra {
 			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 
 			foundation.threadWait(Constants.TWO_SECOND);
 			String bundleOption = dropdown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
 			Assert.assertEquals(bundleOption, requiredData.get(1));
-			String itemValue = dropdown.getSelectedItem(EditPromotion.DPD_ITEM);
-			Assert.assertEquals(itemValue, actualData.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.ADD_ITEM);
+			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, actualData.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+//			String itemValue = foundation.getText(EditPromotion.SELECTED_ITEM);
+//			CustomisedAssert.assertTrue(itemValue.contains(actualData.get(0)));
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -872,7 +906,6 @@ public class SmokeTests extends TestInfra {
 			locationSummary.removeHomeCommercial(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 		}
 	}
-
 
 	@Test(description = "167002- Verify the Create New products on Global Products as Super")
 	public void VerifyCreateAddRemoveNewProduct() {
