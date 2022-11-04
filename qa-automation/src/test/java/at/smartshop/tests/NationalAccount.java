@@ -3,6 +3,7 @@ package at.smartshop.tests;
 import static org.junit.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import java.awt.AWTException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,9 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.AdminNationalAccounts;
 import at.smartshop.pages.CreateNewNationalAccountCategory;
 import at.smartshop.pages.CreateNewRule;
+import at.smartshop.pages.GlobalProduct;
+import at.smartshop.pages.GlobalProductChange;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NationalAccountRules;
 import at.smartshop.pages.NationalAccounts;
 import at.smartshop.pages.NavigationBar;
@@ -60,6 +64,9 @@ public class NationalAccount extends TestInfra {
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private CreateNewNationalAccountCategory createNewNationalAccountsCategory = new CreateNewNationalAccountCategory();
+	private LocationSummary locationSummary = new LocationSummary();
+	private GlobalProductChange globalProductChange = new GlobalProductChange();
+	private GlobalProduct globalProduct = new GlobalProduct();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationSummaryData;
@@ -2261,4 +2268,405 @@ public class NationalAccount extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * SOS-16895
+	 * @author Sakthir 
+	 * @Date 31/10/2022
+	 */
+	@Test(description = "150889-Verify if Price unlocked Location is editable for Master National Account user")
+	public void verifyPriceUnlockedlocationEditableForMasterAccountUser(){
+		final String CASE_NUM = "150889";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays.asList(
+				rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
+		
+		try {
+			
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						
+			//click on expand and verify header
+		    navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
+			
+			//select lock options
+			adminNationalAccounts.selectLockOption(data.get(3),data.get(1));
+			
+			//navigate to location and editable price value
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(5));
+			
+			//navigate to product->Global Product Change and editable price value
+			navigationBar.navigateToMenuItem(menu.get(2));
+			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(9),data.get(11));
+
+			//verify the product price updated value in Global Product Change
+			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8), data.get(9));
+			
+			//navigate to product->Global Product
+			navigationBar.navigateToMenuItem(menu.get(3));
+		    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
+		    
+		    //verify the product price updated value in Global Product 
+		    globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12),data.get(14));
+		    
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//resetting
+					navigationBar.navigateToMenuItem(menu.get(1));
+					locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(6));
+					navigationBar.navigateToMenuItem(menu.get(2));
+					globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(10),data.get(11));
+					navigationBar.navigateToMenuItem(menu.get(3));
+				    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));	
+				    navigationBar.navigateToMenuItem(menu.get(0));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+					foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+					foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+					adminNationalAccounts.selectLockOption(data.get(3),data.get(1));
+			}
+	}
+	
+	/**
+	 * SOS-16895
+	 * @author Sakthir
+	 * @Date 31/10/2022
+	 */
+	@Test(description = "150887-Verify if Price unlocked Location is editable for National Account user")
+	public void verifyPriceUnlockedlocationEditableForNationalAccountUser() {
+		final String CASE_NUM = "150887";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays.asList(
+				rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
+		
+		try {
+			
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			   
+			//click on expand and verify header
+		    navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
+			
+			//select lock options
+			adminNationalAccounts.selectLockOption(data.get(3),data.get(1));
+			
+			//navigate to location and editable price value
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(5));
+			
+			//navigate to product->Global Product Change and editable price value
+			navigationBar.navigateToMenuItem(menu.get(2));
+			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(9),data.get(11));
+
+			//verify the price
+			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8), data.get(9));
+			
+			//navigate to product->Global Product
+			navigationBar.navigateToMenuItem(menu.get(3));
+		    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
+		    
+		    //verify price value
+		    globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12),data.get(14));
+		 
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//resetting
+					navigationBar.navigateToMenuItem(menu.get(1));
+					locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(6));
+					navigationBar.navigateToMenuItem(menu.get(2));
+					globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(10),data.get(11));
+					navigationBar.navigateToMenuItem(menu.get(3));
+				    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));
+				    navigationBar.navigateToMenuItem(menu.get(0));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+					foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+					foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+					adminNationalAccounts.selectLockOption(data.get(3),data.get(1));
+		}
+	}
+	
+	/**
+	 * SOS-16895
+	 * @author Sakthir
+	 * @Date 01/11/2022
+	 */
+	@Test(description = "150885-Verfiy if Price Locked Location is editable for Master National Account user"
+			+"150883-Verify if the PriceLock column shows unlocked by default in National Account Client page - Master National Accoun")
+	public void verifyDefaultOptionAndPriceLockedlocationEditableForMasterAccountUser()  {
+		final String CASE_NUM = "150885";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays.asList(
+				rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
+		
+		try {
+			
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			
+			//click on expand and verify header
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
+			
+			//verify default option
+			CustomisedAssert.assertTrue(foundation.getText(adminNationalAccounts.selectPriceLock(data.get(3))).equals(data.get(1)));
+			
+			//select lock options
+			adminNationalAccounts.selectLockOption(data.get(3),data.get(0));
+			
+			//navigate to location and editable price value
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(5));
+			
+			//navigate to product->Global Product Change and editable price value
+			navigationBar.navigateToMenuItem(menu.get(2));
+			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(9),data.get(11));
+
+			//verify the price
+			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8), data.get(9));
+			
+			//navigate to product->Global Product
+			navigationBar.navigateToMenuItem(menu.get(3));
+		    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
+		    
+		    //verify price value
+		    globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12),data.get(14));
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//resetting
+					navigationBar.navigateToMenuItem(menu.get(1));
+					locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(6));
+					navigationBar.navigateToMenuItem(menu.get(2));
+					globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(10),data.get(11));
+					navigationBar.navigateToMenuItem(menu.get(3));
+				    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));	
+				    navigationBar.navigateToMenuItem(menu.get(0));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+					foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+					foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+					adminNationalAccounts.selectLockOption(data.get(3),data.get(1));
+			}
+	}
+	
+	/**
+	 * SOS-16895
+	 * @author Sakthir
+	 * @Date 03/11/2022
+	 */
+	@Test(description = "150886-Verfiy if Price Locked Location is editable for National Account user"
+			+"150882-Verfiy if the PriceLock column shows unlocked by default in National Account Client page - National Account user")
+	public void verifyDefaultOptionAndPriceLockedlocationEditableForNationalAccountUser(){
+		final String CASE_NUM = "150886";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays.asList(
+				rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
+		
+		try {
+			
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			
+			//click on expand and verify header
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
+			
+			//verify default option
+			CustomisedAssert.assertTrue(foundation.getText(adminNationalAccounts.selectPriceLock(data.get(3))).equals(data.get(1)));
+			
+			//select lock options
+			adminNationalAccounts.selectLockOption(data.get(3),data.get(0));
+			
+			//navigate to location and editable price value
+			navigationBar.navigateToMenuItem(menu.get(1));
+			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(5));
+			
+			//navigate to product->Global Product Change and editable price value
+			navigationBar.navigateToMenuItem(menu.get(2));
+			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(9),data.get(11));
+
+			//verify the price
+			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8), data.get(9));
+			
+			//navigate to product->Global Product
+			navigationBar.navigateToMenuItem(menu.get(3));
+		    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
+		    
+		    //verify price value
+		    globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12),data.get(14));
+		    
+
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			//resetting
+				navigationBar.navigateToMenuItem(menu.get(1));
+				locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(6));
+				navigationBar.navigateToMenuItem(menu.get(2));
+				globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(10),data.get(11));
+				navigationBar.navigateToMenuItem(menu.get(3));
+			    globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));
+			    navigationBar.navigateToMenuItem(menu.get(0));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+				foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+				foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+				adminNationalAccounts.selectLockOption(data.get(3),data.get(1));
+		}
+	}
+	
+	/**
+	 * SOS-29247,SOS-19656
+	 * @author Sakthir 
+	 * @Date 04/11/2022
+	 */
+	@Test(description = "206527-Verify Menus After Login With Master National Account Enabled credential"
+			+"206525-To verify National Accounts Client Screen Update to Plural of functionality (Manage Rules)")
+	public void verifyMenuOptionsInDashboardAndManageRulesLinkUsingMasterNA()
+	{
+		final String CASE_NUM = "206527";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredOptions = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> client = Arrays
+				.asList(rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME).split(Constants.DELIMITER_TILD));
+		
+		try {
+			
+			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+			// Super>National Accounts
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//verify menu in login page
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminNationalAccounts.NAVIGATION_MENU).equals(requiredOptions));
+			
+			//navigate to Admin->National Account and verify manage roles in plural functionality
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+			CustomisedAssert.assertTrue(foundation.getText(AdminNationalAccounts.LNK_MANAGE_RULES).equals(client.get(2)));
+			
+			}
+		
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * SOS-19205
+	 * @author Sakthir 
+	 * @Date 04/11/2022
+	 */
+	@Test(description = "206526-Verify National Account save name with apostrophe in it")
+	public void verifyNASaveWithApostropheUsingSuperuser()
+	{
+		final String CASE_NUM = "206526";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+		
+		String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String data =rstNationalAccountsData.get(CNNationalAccounts.LOCATION)+"'s";
+		String client = rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME);
+		
+		try {
+			//login as Super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
+			
+			//click on create new and enter name with apostrophe and Click on save
+			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_PAGE_TITLE));
+			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, data);
+			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT,client,Constants.TEXT);
+			foundation.click(AdminNationalAccounts.BTN_SAVE);
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		finally {
+			
+			//resetting
+			foundation.threadWait(3);
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TXT_FILTER));
+			textBox.enterText(AdminNationalAccounts.TXT_FILTER,rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
+			CustomisedAssert.assertTrue(foundation.getText(AdminNationalAccounts.NATIONAL_ACCOUNT_NAME).equals(data));
+			foundation.click(NationalAccounts.ICON_DELETE);
+			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
+			foundation.click(NationalAccounts.BTN_POP_UP_YES);
+		}
+	}
+		
 }
