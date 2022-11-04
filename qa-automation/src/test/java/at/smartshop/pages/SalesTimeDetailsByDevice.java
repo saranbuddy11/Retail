@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -207,7 +208,8 @@ public class SalesTimeDetailsByDevice extends Factory {
 			double updatedAmount = Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					* 2 + Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
+			intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -225,7 +227,8 @@ public class SalesTimeDetailsByDevice extends Factory {
 			double updatedAmount = Double.parseDouble(amount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
 					* 2 + Double.parseDouble(initialAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			updatedTableFooters.put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(updatedAmount));
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
+			updatedTableFooters.put(columnName, Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -248,7 +251,8 @@ public class SalesTimeDetailsByDevice extends Factory {
 //					- Double.parseDouble(discount.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
 					+ Double.parseDouble(initialAmount);
 			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
-			intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
+			intialData.get(rowCount).put(columnName, Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -271,7 +275,8 @@ public class SalesTimeDetailsByDevice extends Factory {
 					* 2 + Double.parseDouble(tax.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)) * 2
 					+ Double.parseDouble(initialAmount);
 			totalSales = Math.round(updatedAmount * 100.0) / 100.0;
-			updatedTableFooters.put(columnName, Constants.DOLLAR_SYMBOL + String.valueOf(totalSales));
+			DecimalFormat formatter = new DecimalFormat(Constants.NUMBER_FORMATE_PATTERN_WITH_COMMA);
+			updatedTableFooters.put(columnName, Constants.DOLLAR_SYMBOL + formatter.format(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

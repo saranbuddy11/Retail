@@ -46,9 +46,12 @@ import at.smartshop.pages.BadScanReport;
 import at.smartshop.pages.BalanceReport;
 import at.smartshop.pages.BillingInformationReport;
 import at.smartshop.pages.CanadaMultiTaxReport;
-import at.smartshop.pages.CashAudit;
 import at.smartshop.pages.CancelReport;
+import at.smartshop.pages.CashAudit;
 import at.smartshop.pages.CashFlow;
+import at.smartshop.pages.CashFlowEmployee;
+import at.smartshop.pages.CashFlowDetails;
+import at.smartshop.pages.CashFlowDetailsInternational;
 import at.smartshop.pages.CashFlowDevice;
 import at.smartshop.pages.CashFlowEmployeeDevice;
 import at.smartshop.pages.CashoutLog;
@@ -118,6 +121,8 @@ import at.smartshop.pages.TenderTransactionLogReport;
 import at.smartshop.pages.TipDetailsReport;
 import at.smartshop.pages.TipSummaryReport;
 import at.smartshop.pages.TransactionCannedReport;
+import at.smartshop.pages.UFSByEmployeeDevice;
+import at.smartshop.pages.UFSReport;
 import at.smartshop.pages.UFSByDevice;
 import at.smartshop.pages.UnfinishedCloseReport;
 import at.smartshop.pages.UnpaidOrder;
@@ -225,9 +230,14 @@ public class Report extends TestInfra {
 	private FinancialCanned financialCanned = new FinancialCanned();
 	private SalesBy15Minutes salesBy15Minutes = new SalesBy15Minutes();
 	private SalesBy30Minutes salesBy30Minutes = new SalesBy30Minutes();
+	private UFSByEmployeeDevice ufsByEmployeeDevice = new UFSByEmployeeDevice();
+	private UFSReport ufsReport = new UFSReport();
+	private CashFlowEmployee CashFlowEmployee = new CashFlowEmployee();
+	private CashFlowDetails cashFlowDetails = new CashFlowDetails();
 	private CheckBox checkBox = new CheckBox();
 	private PayrollDeductDetails payrollDeductDetails = new PayrollDeductDetails();
 	private UFSByDevice ufsByDevice = new UFSByDevice();
+	private CashFlowDetailsInternational cashFlowDetailsInternational = new CashFlowDetailsInternational();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -328,10 +338,6 @@ public class Report extends TestInfra {
 			 * rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 			 * rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			 */
-
-			
-			
-			System.out.println("updatedTime Account adjestment :"+ updatedTime);
 
 			foundation.threadWait(Constants.SHORT_TIME);
 
@@ -8090,6 +8096,1622 @@ public class Report extends TestInfra {
 
 			// verify report dataValidations for Sales Time Details
 			ufsByDevice.verifyReportDataOfSalesTimeDetails();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * Cash Flow Details Report Data Validation
+	 * 
+	 * @author ravindhara, Date:18-10-2022
+	 */
+	@Test(description = "206324- Cash Flow Details Report data validation")
+	public void CashFlowDetailsReportDataValidation() {
+		final String CASE_NUM = "206324";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			cashFlowDetails.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			cashFlowDetails.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			cashFlowDetails.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowDetails.getInitialReportsData().putAll(cashFlowDetails.reportsData);
+			cashFlowDetails.getInitialReportTotals().putAll(cashFlowDetails.getReportsTotalData());
+
+			// process sales API to generate data
+			cashFlowDetails.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			cashFlowDetails.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Updated Report Data
+			cashFlowDetails.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowDetails.getJsonSalesData();
+
+			int recordCountOfCash = cashFlowDetails.getRequiredRecord(paymentType.get(0));
+			int recordCountOfCreditCard = cashFlowDetails.getRequiredRecord(paymentType.get(1));
+			int recordCountOfGEN3 = cashFlowDetails.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSOGO = cashFlowDetails.getRequiredRecord(paymentType.get(3));
+			int recordCountOfComp = cashFlowDetails.getRequiredRecord(paymentType.get(4));
+			int recordCountOfGuestPass = cashFlowDetails.getRequiredRecord(paymentType.get(5));
+			int recordCountOfSpecial = cashFlowDetails.getRequiredRecord(paymentType.get(6));
+			int recordCountOfAccount = cashFlowDetails.getRequiredRecord(paymentType.get(7));
+			int recordCountOfTotals = cashFlowDetails.getRequiredRecord(paymentType.get(8));
+
+			// verify Report Headers
+			cashFlowDetails.verifyReportHeaders(columnNames);
+
+			// calculate Credit Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfCash);
+
+			// calculate Credit Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfCash);
+
+			// calculate Credit Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfCash);
+
+			// calculate Credit Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfCash);
+
+			// calculate Credit Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfCash);
+
+			// calculate Credit Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfCash);
+
+			// calculate Credit Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13), recordCountOfCash);
+
+			// calculate Credit Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfCreditCard);
+
+			// calculate Credit Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfCreditCard);
+
+			// calculate Credit Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfCreditCard);
+
+			// calculate Credit Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfCreditCard);
+
+			// calculate Credit Declined Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(5), recordCountOfCreditCard);
+
+			// calculate Credit Declined Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(6), recordCountOfCreditCard);
+
+			// calculate Credit Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfCreditCard);
+
+			// calculate Credit Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfCreditCard);
+
+			// calculate Credit Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13),
+					recordCountOfCreditCard);
+
+			// calculate gen3 Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfGEN3);
+
+			// calculate gen3 Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfGEN3);
+
+			// calculate gen3 Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfGEN3);
+
+			// calculate gen3 Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfGEN3);
+
+			// calculate gen3 Declined Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(5), recordCountOfGEN3);
+
+			// calculate gen3 Declined Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(6), recordCountOfGEN3);
+
+			// calculate gen3 Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfGEN3);
+
+			// calculate gen3 Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfGEN3);
+
+			// calculate gen3 Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13), recordCountOfGEN3);
+
+			// calculate SOGO Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfSOGO);
+
+			// calculate SOGO Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfSOGO);
+
+			// calculate SOGO Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfSOGO);
+
+			// calculate SOGO Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfSOGO);
+
+			// calculate SOGO Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfSOGO);
+
+			// calculate SOGO Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfSOGO);
+
+			// calculate SOGO Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13), recordCountOfSOGO);
+
+			// calculate Comp Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfComp);
+
+			// calculate Comp Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfComp);
+
+			// calculate Comp Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfComp);
+
+			// calculate Comp Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfComp);
+
+			// calculate Comp Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfComp);
+
+			// calculate Comp Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfComp);
+
+			// calculate Comp Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13), recordCountOfComp);
+
+			// calculate GuestPass Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfGuestPass);
+
+			// calculate GuestPass Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfGuestPass);
+
+			// calculate GuestPass Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfGuestPass);
+
+			// calculate GuestPass Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfGuestPass);
+
+			// calculate GuestPass Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13),
+					recordCountOfGuestPass);
+
+			// calculate Special Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfSpecial);
+
+			// calculate Special Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfSpecial);
+
+			// calculate Special Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfSpecial);
+
+			// calculate Special Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfSpecial);
+
+			// calculate Special Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfSpecial);
+
+			// calculate Special Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfSpecial);
+
+			// calculate Special Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13), recordCountOfSpecial);
+
+			// calculate Account Payment Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(1), recordCountOfAccount);
+
+			// calculate Account Payment Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(2), recordCountOfAccount);
+
+			// calculate Account Void Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(3), recordCountOfAccount);
+
+			// calculate Account Void Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(4), recordCountOfAccount);
+
+			// calculate Account Sales
+			cashFlowDetails.calculateLocationSales(cashFlowDetails.getTableHeaders().get(7), recordCountOfAccount);
+
+			// calculate Account Taxes
+			cashFlowDetails.calculateLocationTax(cashFlowDetails.getTableHeaders().get(8), recordCountOfAccount);
+
+			// calculate Account Total
+			cashFlowDetails.calculateTotalsColumnData(cashFlowDetails.getTableHeaders().get(13), recordCountOfAccount);
+
+			// calculate Totals Payment Counts
+			cashFlowDetails.calculateCountsForTotals(cashFlowDetails.getTableHeaders().get(1), recordCountOfTotals);
+
+			// calculate Totals Payment Amounts
+			cashFlowDetails.calculateAmountsForTotals(cashFlowDetails.getTableHeaders().get(2), recordCountOfTotals);
+
+			// calculate Totals Void Counts
+			cashFlowDetails.calculateCountsForTotals(cashFlowDetails.getTableHeaders().get(3), recordCountOfTotals);
+
+			// calculate Totals Void Amounts
+			cashFlowDetails.calculateAmountsForTotals(cashFlowDetails.getTableHeaders().get(4), recordCountOfTotals);
+
+			// calculate Totals Declined Counts
+			cashFlowDetails.calculateCounts(cashFlowDetails.getTableHeaders().get(5), recordCountOfTotals);
+
+			// calculate Totals Declined Amounts
+			cashFlowDetails.calculateAmounts(cashFlowDetails.getTableHeaders().get(6), recordCountOfTotals);
+
+			// calculate Totals Sales
+			cashFlowDetails.calculateLocationSalesForTotals(cashFlowDetails.getTableHeaders().get(7),
+					recordCountOfTotals);
+
+			// calculate Totals Taxes
+			cashFlowDetails.calculateLocationTaxForTotals(cashFlowDetails.getTableHeaders().get(8),
+					recordCountOfTotals);
+
+			// calculate Totals Total
+			cashFlowDetails.calculateTotalsColumnDataForTotals(cashFlowDetails.getTableHeaders().get(13),
+					recordCountOfTotals);
+
+			// verify Report Data
+			cashFlowDetails.verifyReportRecords();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * Cash Flow Details International Report Data Validation
+	 * 
+	 * @author ravindhara, Date:21-10-2022
+	 */
+	@Test(description = "206385- Cash Flow Details International Report data validation")
+	public void CashFlowDetailsInternationalReportDataValidation() {
+		final String CASE_NUM = "206385";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			cashFlowDetailsInternational.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			cashFlowDetailsInternational.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			cashFlowDetailsInternational.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowDetailsInternational.getInitialReportsData().putAll(cashFlowDetailsInternational.reportsData);
+//			cashFlowDetailsInternational.getInitialReportTotals().putAll(cashFlowDetailsInternational.getReportsTotalData());
+
+			// process sales API to generate data
+			cashFlowDetailsInternational.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
+
+			// run and read report
+			foundation.click(ReportList.BTN_RUN_REPORT);
+
+			// read Updated Report Data
+			cashFlowDetailsInternational.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			cashFlowDetailsInternational.getJsonSalesData();
+
+			int recordCountOfComp = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(0));
+			int recordCountOfGEN3 = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(1));
+			int recordCountOfCreditCard = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSpecial = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(3));
+			int recordCountOfCash = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(4));
+			int recordCountOfAccount = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(5));
+			int recordCountOfTotals = cashFlowDetailsInternational.getRequiredRecord(paymentType.get(6));
+
+			// calculate Comp Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfComp);
+
+			// calculate Comp Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfComp);
+
+			// calculate Comp Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfComp);
+
+			// calculate Comp Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfComp);
+
+			// calculate Comp Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfComp);
+
+			// calculate Comp Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfComp);
+
+			// calculate Comp Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfComp);
+
+			// calculate gen3 Product Counts
+			cashFlowDetailsInternational.calculateProductCountsForCredit(
+					cashFlowDetailsInternational.getTableHeaders().get(1), recordCountOfGEN3);
+
+			// calculate gen3 Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfGEN3);
+
+			// calculate gen3 Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfGEN3);
+
+			// calculate gen3 Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfGEN3);
+
+			// calculate gen3 Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfGEN3);
+
+			// calculate gen3 Credit Rejected Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(6),
+					recordCountOfGEN3);
+
+			// calculate gen3 Credit Rejected Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(7),
+					recordCountOfGEN3);
+
+			// calculate gen3 Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfGEN3);
+
+			// calculate gen3 Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTaxForCredit(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfGEN3);
+
+			// calculate gen3 Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfGEN3);
+
+			// calculate gen3 Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfGEN3);
+
+			// calculate Credit Card Sub Total Product Counts
+			cashFlowDetailsInternational.calculateProductCountsForCredit(
+					cashFlowDetailsInternational.getTableHeaders().get(1), recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Credit Rejected Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(6),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Credit Rejected Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(7),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTaxForCredit(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfCreditCard);
+
+			// calculate Credit Card Sub Total Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfCreditCard);
+
+			// calculate Special - SPECIAL Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfSpecial);
+
+			// calculate Special - SPECIAL Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfSpecial);
+
+			// calculate Cash Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfCash);
+
+			// calculate Cash Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfCash);
+
+			// calculate Cash Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfCash);
+
+			// calculate Cash Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfCash);
+
+			// calculate Cash Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfCash);
+
+			// calculate Cash Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfCash);
+
+			// calculate Cash Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfCash);
+
+			// calculate Cash Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfCash);
+
+			// calculate Cash Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfCash);
+
+			// calculate Account Product Counts
+			cashFlowDetailsInternational.calculateProductCounts(cashFlowDetailsInternational.getTableHeaders().get(1),
+					recordCountOfAccount);
+
+			// calculate Account Sales Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfAccount);
+
+			// calculate Account Sales Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(3),
+					recordCountOfAccount);
+
+			// calculate Account Void Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfAccount);
+
+			// calculate Account Void Amount
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(5),
+					recordCountOfAccount);
+
+			// calculate Account Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(8),
+					recordCountOfAccount);
+
+			// calculate Account Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTax(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfAccount);
+
+			// calculate Account Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSales(cashFlowDetailsInternational.getTableHeaders().get(10),
+					recordCountOfAccount);
+
+			// calculate Account Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTax(cashFlowDetailsInternational.getTableHeaders().get(11),
+					recordCountOfAccount);
+
+			// calculate Totals Product Counts
+			cashFlowDetailsInternational.calculateProductCountsForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(1), recordCountOfTotals);
+
+			// calculate Totals Sales Counts
+			cashFlowDetailsInternational.calculateCountsForTotals(cashFlowDetailsInternational.getTableHeaders().get(2),
+					recordCountOfTotals);
+
+			// calculate Totals Sales Amount
+			cashFlowDetailsInternational.calculateAmountsForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(3), recordCountOfTotals);
+
+			// calculate Totals Void Counts
+			cashFlowDetailsInternational.calculateCountsForTotals(cashFlowDetailsInternational.getTableHeaders().get(4),
+					recordCountOfTotals);
+
+			// calculate Totals Void Amount
+			cashFlowDetailsInternational.calculateAmountsForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(5), recordCountOfTotals);
+
+			// calculate Totals Credit Rejected Counts
+			cashFlowDetailsInternational.calculateCounts(cashFlowDetailsInternational.getTableHeaders().get(6),
+					recordCountOfTotals);
+
+			// calculate Totals Credit Rejected Amount
+			cashFlowDetailsInternational.calculateAmounts(
+					cashFlowDetailsInternational.getTableHeaders().get(7), recordCountOfTotals);
+
+			// calculate Totals Net Sales Amount Inclusive of sales
+			cashFlowDetailsInternational.calculateNetSalesIncTaxForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(8), recordCountOfTotals);
+
+			// calculate Totals Net Tax Amount
+			cashFlowDetailsInternational.calculateNetTaxForTotals(cashFlowDetailsInternational.getTableHeaders().get(9),
+					recordCountOfTotals);
+
+			// calculate Totals Net Sales Amount
+			cashFlowDetailsInternational.calculateNetSalesForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(10), recordCountOfTotals);
+
+			// calculate Totals Total Amount
+			cashFlowDetailsInternational.calculateNetSalesIncTaxForTotals(
+					cashFlowDetailsInternational.getTableHeaders().get(11), recordCountOfTotals);
+
+			// verify Report Headers
+			cashFlowDetailsInternational.verifyReportHeaders(columnNames);
+
+			// verify Report Data
+			cashFlowDetailsInternational.verifyReportRecords();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/**
+	 * Cash Flow Employee Report Data Validation
+	 * 
+	 * @author ravindhara, Date:26-10-2022
+	 */
+	@Test(description = "206407- Cash Flow Employee Report data validation")
+	public void CashFlowEmployeeReportDataValidation() {
+		final String CASE_NUM = "206407";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_HASH));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			CashFlowEmployee.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			CashFlowEmployee.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			CashFlowEmployee.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			CashFlowEmployee.getInitialReportsData().putAll(CashFlowEmployee.reportsData);
+			CashFlowEmployee.getInitialReportTotals().putAll(CashFlowEmployee.getReportsTotalData());
+
+			// process sales API to generate data
+			CashFlowEmployee.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			CashFlowEmployee.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Updated Report Data
+			CashFlowEmployee.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			CashFlowEmployee.getJsonSalesData();
+
+			int recordCountOfCash = CashFlowEmployee.getRequiredRecord(paymentType.get(0));
+			int recordCountOfCreditCard = CashFlowEmployee.getRequiredRecord(paymentType.get(1));
+			int recordCountOfGEN3 = CashFlowEmployee.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSOGO = CashFlowEmployee.getRequiredRecord(paymentType.get(3));
+			int recordCountOfComp = CashFlowEmployee.getRequiredRecord(paymentType.get(4));
+			int recordCountOfGuestPass = CashFlowEmployee.getRequiredRecord(paymentType.get(5));
+			int recordCountOfSpecial = CashFlowEmployee.getRequiredRecord(paymentType.get(6));
+			int recordCountOfAccount = CashFlowEmployee.getRequiredRecord(paymentType.get(7));
+			int recordCountOfTotals = CashFlowEmployee.getRequiredRecord(paymentType.get(8));
+
+			// verify Report Headers
+			CashFlowEmployee.verifyReportHeaders(columnNames);
+
+			// calculate Credit Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfCash);
+
+			// calculate Credit Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfCash);
+
+			// calculate Credit Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfCash);
+
+			// calculate Credit Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfCash);
+
+			// calculate Credit Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfCash);
+
+			// calculate Credit Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfCash);
+
+			// calculate Credit Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfCash);
+
+			// calculate Credit Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfCreditCard);
+
+			// calculate Credit Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfCreditCard);
+
+			// calculate Credit Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfCreditCard);
+
+			// calculate Credit Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfCreditCard);
+
+			// calculate Credit Declined Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(5), recordCountOfCreditCard);
+
+			// calculate Credit Declined Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(6), recordCountOfCreditCard);
+
+			// calculate Credit Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfCreditCard);
+
+			// calculate Credit Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfCreditCard);
+
+			// calculate Credit Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13),
+					recordCountOfCreditCard);
+
+			// calculate gen3 Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfGEN3);
+
+			// calculate gen3 Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfGEN3);
+
+			// calculate gen3 Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfGEN3);
+
+			// calculate gen3 Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfGEN3);
+
+			// calculate gen3 Declined Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(5), recordCountOfGEN3);
+
+			// calculate gen3 Declined Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(6), recordCountOfGEN3);
+
+			// calculate gen3 Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfGEN3);
+
+			// calculate gen3 Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfGEN3);
+
+			// calculate gen3 Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfGEN3);
+
+			// calculate SOGO Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfSOGO);
+
+			// calculate SOGO Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfSOGO);
+
+			// calculate SOGO Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfSOGO);
+
+			// calculate SOGO Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfSOGO);
+
+			// calculate SOGO Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfSOGO);
+
+			// calculate SOGO Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfSOGO);
+
+			// calculate SOGO Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfSOGO);
+
+			// calculate Comp Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfComp);
+
+			// calculate Comp Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfComp);
+
+			// calculate Comp Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfComp);
+
+			// calculate Comp Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfComp);
+
+			// calculate Comp Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfComp);
+
+			// calculate Comp Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfComp);
+
+			// calculate Comp Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfComp);
+
+			// calculate GuestPass Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfGuestPass);
+
+			// calculate GuestPass Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfGuestPass);
+
+			// calculate GuestPass Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfGuestPass);
+
+			// calculate GuestPass Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfGuestPass);
+
+			// calculate GuestPass Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13),
+					recordCountOfGuestPass);
+
+			// calculate Special Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfSpecial);
+
+			// calculate Special Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfSpecial);
+
+			// calculate Special Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfSpecial);
+
+			// calculate Special Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfSpecial);
+
+			// calculate Special Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfSpecial);
+
+			// calculate Special Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfSpecial);
+
+			// calculate Special Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfSpecial);
+
+			// calculate Account Payment Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfAccount);
+
+			// calculate Account Payment Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(2), recordCountOfAccount);
+
+			// calculate Account Void Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(3), recordCountOfAccount);
+
+			// calculate Account Void Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(4), recordCountOfAccount);
+
+			// calculate Account Sales
+			CashFlowEmployee.calculateLocationSales(CashFlowEmployee.getTableHeaders().get(7), recordCountOfAccount);
+
+			// calculate Account Taxes
+			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfAccount);
+
+			// calculate Account Total
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfAccount);
+
+			// calculate Totals Payment Counts
+			CashFlowEmployee.calculateCountsForTotals(CashFlowEmployee.getTableHeaders().get(1), recordCountOfTotals);
+
+			// calculate Totals Payment Amounts
+			CashFlowEmployee.calculateAmountsForTotals(CashFlowEmployee.getTableHeaders().get(2), recordCountOfTotals);
+
+			// calculate Totals Void Counts
+			CashFlowEmployee.calculateCountsForTotals(CashFlowEmployee.getTableHeaders().get(3), recordCountOfTotals);
+
+			// calculate Totals Void Amounts
+			CashFlowEmployee.calculateAmountsForTotals(CashFlowEmployee.getTableHeaders().get(4), recordCountOfTotals);
+
+			// calculate Totals Declined Counts
+			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(5), recordCountOfTotals);
+
+			// calculate Totals Declined Amounts
+			CashFlowEmployee.calculateAmounts(CashFlowEmployee.getTableHeaders().get(6), recordCountOfTotals);
+
+			// calculate Totals Sales
+			CashFlowEmployee.calculateLocationSalesForTotals(CashFlowEmployee.getTableHeaders().get(7),
+					recordCountOfTotals);
+
+			// calculate Totals Taxes
+			CashFlowEmployee.calculateLocationTaxForTotals(CashFlowEmployee.getTableHeaders().get(8),
+					recordCountOfTotals);
+
+			// calculate Totals Total
+			CashFlowEmployee.calculateTotalsColumnDataForTotals(CashFlowEmployee.getTableHeaders().get(13),
+					recordCountOfTotals);
+
+			// verify Report Data
+			CashFlowEmployee.verifyReportRecords();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * UFS Report Data Validation
+	 * 
+	 * @author ravindhara, Date:28-10-2022
+	 */
+	@Test(description = "206324- UFS Report data validation")
+	public void UFSReportDataValidation() {
+		final String CASE_NUM = "206411";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			ufsReport.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			ufsReport.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			ufsReport.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsReport.getInitialReportsData().putAll(ufsReport.reportsData);
+			ufsReport.getInitialReportTotals().putAll(ufsReport.getReportsTotalData());
+
+			// Read the Report the Data
+			ufsReport.getTblRecordsUIOfSalesTimeDetails(location);
+			ufsReport.getIntialDataOfSalesTimeDetails().putAll(ufsReport.getReportsDataOfSalesTimeDetails());
+			ufsReport.getUpdatedTableFootersOfSalesTimeDetails().putAll(ufsReport.getTableFootersOfSalesTimeDetails());
+
+			// process sales API to generate data
+			ufsReport.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			ufsReport.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Updated Report Data
+			ufsReport.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsReport.getJsonSalesData();
+
+			ufsReport.getTblRecordsUIOfSalesTimeDetails(location);
+
+			int recordCountOfCash = ufsReport.getRequiredRecord(paymentType.get(0));
+			int recordCountOfCreditCard = ufsReport.getRequiredRecord(paymentType.get(1));
+			int recordCountOfGEN3 = ufsReport.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSOGO = ufsReport.getRequiredRecord(paymentType.get(3));
+			int recordCountOfComp = ufsReport.getRequiredRecord(paymentType.get(4));
+			int recordCountOfGuestPass = ufsReport.getRequiredRecord(paymentType.get(5));
+			int recordCountOfSpecial = ufsReport.getRequiredRecord(paymentType.get(6));
+			int recordCountOfAccount = ufsReport.getRequiredRecord(paymentType.get(7));
+			int recordCountOfTotals = ufsReport.getRequiredRecord(paymentType.get(8));
+
+			// verify Report Headers
+			ufsReport.verifyReportHeaders(columnNames.get(0));
+
+			// calculate Credit Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfCash);
+
+			// calculate Credit Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfCash);
+
+			// calculate Credit Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfCash);
+
+			// calculate Credit Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfCash);
+
+			// calculate Credit Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfCash);
+
+			// calculate Credit Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfCash);
+
+			// calculate Credit Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfCash);
+
+			// calculate Credit Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfCreditCard);
+
+			// calculate Credit Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfCreditCard);
+
+			// calculate Credit Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfCreditCard);
+
+			// calculate Credit Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfCreditCard);
+
+			// calculate Credit Declined Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(5), recordCountOfCreditCard);
+
+			// calculate Credit Declined Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(6), recordCountOfCreditCard);
+
+			// calculate Credit Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfCreditCard);
+
+			// calculate Credit Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfCreditCard);
+
+			// calculate Credit Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfCreditCard);
+
+			// calculate gen3 Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfGEN3);
+
+			// calculate gen3 Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfGEN3);
+
+			// calculate gen3 Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfGEN3);
+
+			// calculate gen3 Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfGEN3);
+
+			// calculate gen3 Declined Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(5), recordCountOfGEN3);
+
+			// calculate gen3 Declined Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(6), recordCountOfGEN3);
+
+			// calculate gen3 Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfGEN3);
+
+			// calculate gen3 Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfGEN3);
+
+			// calculate gen3 Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfGEN3);
+
+			// calculate SOGO Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfSOGO);
+
+			// calculate SOGO Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfSOGO);
+
+			// calculate SOGO Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfSOGO);
+
+			// calculate SOGO Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfSOGO);
+
+			// calculate SOGO Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfSOGO);
+
+			// calculate SOGO Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfSOGO);
+
+			// calculate SOGO Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfSOGO);
+
+			// calculate Comp Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfComp);
+
+			// calculate Comp Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfComp);
+
+			// calculate Comp Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfComp);
+
+			// calculate Comp Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfComp);
+
+			// calculate Comp Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfComp);
+
+			// calculate Comp Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfComp);
+
+			// calculate Comp Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfComp);
+
+			// calculate GuestPass Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfGuestPass);
+
+			// calculate GuestPass Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfGuestPass);
+
+			// calculate GuestPass Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfGuestPass);
+
+			// calculate GuestPass Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfGuestPass);
+
+			// calculate GuestPass Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfGuestPass);
+
+			// calculate Special Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfSpecial);
+
+			// calculate Special Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfSpecial);
+
+			// calculate Special Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfSpecial);
+
+			// calculate Special Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfSpecial);
+
+			// calculate Special Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfSpecial);
+
+			// calculate Special Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfSpecial);
+
+			// calculate Special Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfSpecial);
+
+			// calculate Account Payment Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(1), recordCountOfAccount);
+
+			// calculate Account Payment Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(2), recordCountOfAccount);
+
+			// calculate Account Void Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(3), recordCountOfAccount);
+
+			// calculate Account Void Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(4), recordCountOfAccount);
+
+			// calculate Account Sales
+			ufsReport.calculateLocationSales(ufsReport.getTableHeaders().get(7), recordCountOfAccount);
+
+			// calculate Account Taxes
+			ufsReport.calculateLocationTax(ufsReport.getTableHeaders().get(8), recordCountOfAccount);
+
+			// calculate Account Total
+			ufsReport.calculateTotalsColumnData(ufsReport.getTableHeaders().get(13), recordCountOfAccount);
+
+			// calculate Totals Payment Counts
+			ufsReport.calculateCountsForTotals(ufsReport.getTableHeaders().get(1), recordCountOfTotals);
+
+			// calculate Totals Payment Amounts
+			ufsReport.calculateAmountsForTotals(ufsReport.getTableHeaders().get(2), recordCountOfTotals);
+
+			// calculate Totals Void Counts
+			ufsReport.calculateCountsForTotals(ufsReport.getTableHeaders().get(3), recordCountOfTotals);
+
+			// calculate Totals Void Amounts
+			ufsReport.calculateAmountsForTotals(ufsReport.getTableHeaders().get(4), recordCountOfTotals);
+
+			// calculate Totals Declined Counts
+			ufsReport.calculateCounts(ufsReport.getTableHeaders().get(5), recordCountOfTotals);
+
+			// calculate Totals Declined Amounts
+			ufsReport.calculateAmounts(ufsReport.getTableHeaders().get(6), recordCountOfTotals);
+
+			// calculate Totals Sales
+			ufsReport.calculateLocationSalesForTotals(ufsReport.getTableHeaders().get(7), recordCountOfTotals);
+
+			// calculate Totals Taxes
+			ufsReport.calculateLocationTaxForTotals(ufsReport.getTableHeaders().get(8), recordCountOfTotals);
+
+			// calculate Totals Total
+			ufsReport.calculateTotalsColumnDataForTotals(ufsReport.getTableHeaders().get(13), recordCountOfTotals);
+
+			// verify Report Data for Cash Flow
+			ufsReport.verifyReportRecords();
+
+			// Validations for Sales Time Details
+
+			ufsReport.decideTimeRange((String) ufsReport.getJsonData().get(Reports.TRANS_DATE));
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
+
+			// Updating Table data
+			ufsReport.TrasactionCount(ufsReport.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsReport.calculateAmount(ufsReport.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsReport.saleIncludingTaxes(ufsReport.getTableHeadersOfSalesTimeDetails().get(5), productPrice, tax,
+					discount);
+
+			// Updating Footer data
+			ufsReport.TrasactionCountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsReport.calculateAmountOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsReport.saleIncludingTaxesOfFooter(ufsReport.getTableHeadersOfSalesTimeDetails().get(5), productPrice,
+					tax, discount);
+
+			// verify report headers Validations for Sales Time Details
+			ufsReport.verifyReportHeadersOfSalesTimeDetails(columnNames.get(1));
+
+			// verify report dataValidations for Sales Time Details
+			ufsReport.verifyReportDataOfSalesTimeDetails();
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+
+	/**
+	 * UFS By Employee Device Report Data Validation
+	 * 
+	 * @author ravindhara, Date:02/11/2022
+	 */
+	@Test(description = "206489- UFS By Employee Device Report data validation")
+	public void UFSByEmployeeDeviceReportDataValidation() {
+		final String CASE_NUM = "206489";
+
+		// Reading Test Data from DB
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+		rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+		List<String> paymentType = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.COLUMN_VALUE).split(Constants.DELIMITER_HASH));
+		List<String> columnNames = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+		try {
+			// Navigate to ADM and Select Org
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// process sales API to generate data
+			ufsByEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			ufsByEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Report Data
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsByEmployeeDevice.getInitialReportsData().putAll(ufsByEmployeeDevice.reportsData);
+			ufsByEmployeeDevice.getInitialReportTotals().putAll(ufsByEmployeeDevice.getReportsTotalData());
+
+			// Read the Report the Data
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			ufsByEmployeeDevice.getIntialDataOfSalesTimeDetails().putAll(ufsByEmployeeDevice.getReportsDataOfSalesTimeDetails());
+			ufsByEmployeeDevice.getUpdatedTableFootersOfSalesTimeDetails().putAll(ufsByEmployeeDevice.getTableFootersOfSalesTimeDetails());
+
+			// process sales API to generate data
+			ufsByEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// navigate To Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			ufsByEmployeeDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DATE_RANGE), location);
+
+			// read Updated Report Data
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsByEmployeeDevice.getJsonSalesData();
+
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+
+			int recordCountOfCash = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(0));
+			int recordCountOfCreditCard = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(1));
+			int recordCountOfGEN3 = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(2));
+			int recordCountOfSOGO = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(3));
+			int recordCountOfComp = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(4));
+			int recordCountOfGuestPass = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(5));
+			int recordCountOfSpecial = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(6));
+			int recordCountOfAccount = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(7));
+			int recordCountOfTotals = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(8));
+
+			// verify Report Headers
+			ufsByEmployeeDevice.verifyReportHeaders(columnNames.get(0));
+
+			// calculate Credit Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfCash);
+
+			// calculate Credit Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfCash);
+
+			// calculate Credit Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfCash);
+
+			// calculate Credit Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfCash);
+
+			// calculate Credit Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfCash);
+
+			// calculate Credit Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfCash);
+
+			// calculate Credit Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfCash);
+
+			// calculate Credit Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfCreditCard);
+
+			// calculate Credit Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfCreditCard);
+
+			// calculate Credit Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfCreditCard);
+
+			// calculate Credit Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfCreditCard);
+
+			// calculate Credit Declined Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(5), recordCountOfCreditCard);
+
+			// calculate Credit Declined Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfCreditCard);
+
+			// calculate Credit Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfCreditCard);
+
+			// calculate Credit Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfCreditCard);
+
+			// calculate Credit Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfCreditCard);
+
+			// calculate gen3 Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfGEN3);
+
+			// calculate gen3 Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfGEN3);
+
+			// calculate gen3 Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfGEN3);
+
+			// calculate gen3 Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfGEN3);
+
+			// calculate gen3 Declined Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(5), recordCountOfGEN3);
+
+			// calculate gen3 Declined Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfGEN3);
+
+			// calculate gen3 Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfGEN3);
+
+			// calculate gen3 Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfGEN3);
+
+			// calculate gen3 Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfGEN3);
+
+			// calculate SOGO Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfSOGO);
+
+			// calculate SOGO Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfSOGO);
+
+			// calculate SOGO Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfSOGO);
+
+			// calculate SOGO Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfSOGO);
+
+			// calculate SOGO Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfSOGO);
+
+			// calculate SOGO Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfSOGO);
+
+			// calculate SOGO Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfSOGO);
+
+			// calculate Comp Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfComp);
+
+			// calculate Comp Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfComp);
+
+			// calculate Comp Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfComp);
+
+			// calculate Comp Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfComp);
+
+			// calculate Comp Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfComp);
+
+			// calculate Comp Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfComp);
+
+			// calculate Comp Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfComp);
+
+			// calculate GuestPass Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfGuestPass);
+
+			// calculate GuestPass Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfGuestPass);
+
+			// calculate GuestPass Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfGuestPass);
+
+			// calculate GuestPass Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfGuestPass);
+
+			// calculate GuestPass Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfGuestPass);
+
+			// calculate GuestPass Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfGuestPass);
+
+			// calculate Special Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfSpecial);
+
+			// calculate Special Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfSpecial);
+
+			// calculate Special Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfSpecial);
+
+			// calculate Special Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfSpecial);
+
+			// calculate Special Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfSpecial);
+
+			// calculate Special Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfSpecial);
+
+			// calculate Special Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfSpecial);
+
+			// calculate Account Payment Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfAccount);
+
+			// calculate Account Payment Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfAccount);
+
+			// calculate Account Void Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfAccount);
+
+			// calculate Account Void Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfAccount);
+
+			// calculate Account Sales
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfAccount);
+
+			// calculate Account Taxes
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfAccount);
+
+			// calculate Account Total
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfAccount);
+
+			// calculate Totals Payment Counts
+			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfTotals);
+
+			// calculate Totals Payment Amounts
+			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfTotals);
+
+			// calculate Totals Void Counts
+			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfTotals);
+
+			// calculate Totals Void Amounts
+			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfTotals);
+
+			// calculate Totals Declined Counts
+			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(5), recordCountOfTotals);
+
+			// calculate Totals Declined Amounts
+			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfTotals);
+
+			// calculate Totals Sales
+			ufsByEmployeeDevice.calculateLocationSalesForTotals(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfTotals);
+
+			// calculate Totals Taxes
+			ufsByEmployeeDevice.calculateLocationTaxForTotals(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfTotals);
+
+			// calculate Totals Total
+			ufsByEmployeeDevice.calculateTotalsColumnDataForTotals(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfTotals);
+
+			// verify Report Data for Cash Flow
+			ufsByEmployeeDevice.verifyReportRecords();
+
+			// Validations for Sales Time Details
+
+			ufsByEmployeeDevice.decideTimeRange((String) ufsByEmployeeDevice.getJsonData().get(Reports.TRANS_DATE));
+
+			// update the report date based on calculation
+			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
+			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
+			String discount = rstProductSummaryData.get(CNProductSummary.DISCOUNT);
+
+			// Updating Table data
+			ufsByEmployeeDevice.TrasactionCount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsByEmployeeDevice.saleIncludingTaxes(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5), productPrice, tax,
+					discount);
+
+			// Updating Footer data
+			ufsByEmployeeDevice.TrasactionCountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(1));
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3), discount);
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsByEmployeeDevice.saleIncludingTaxesOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5), productPrice,
+					tax, discount);
+
+			// verify report headers Validations for Sales Time Details
+			ufsByEmployeeDevice.verifyReportHeadersOfSalesTimeDetails(columnNames.get(1));
+
+			// verify report dataValidations for Sales Time Details
+			ufsByEmployeeDevice.verifyReportDataOfSalesTimeDetails();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

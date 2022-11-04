@@ -84,8 +84,8 @@ public class ReportList extends Factory {
 	private static final By TRANSACTION_CLOSE_ALL_LOCATIONS = By
 			.xpath("//span[@role='presentation'][normalize-space()='×']");
 	private static final By TRANSACTION_DPD_LOCATIONS = By.xpath("//input[@placeholder='Select Locations']");
-	private static final By SELECT_TRANSACTION_LOCATIONS = By
-			.cssSelector("#select2-loc-dropdown-results > li > ul > li");
+	private static final By SELECT_TRANSACTION_LOCATIONS = By.cssSelector("#select2-loc-dropdown-results > li > ul > li");
+	public static final By TODAYS_DATE_OF_TYPE2 = By.xpath("(//td[@class='today active start-date active end-date available'])[2] | //td[@class='today active start-date active end-date available']");
 
 	/*
 	 * public void logInToADM() { try { browser.navigateURL(
@@ -136,6 +136,7 @@ public class ReportList extends Factory {
 		}
 	}
 
+
 	/**
 	 * This method is to Select the Date
 	 * 
@@ -155,6 +156,16 @@ public class ReportList extends Factory {
 					break;
 				}
 			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	public void selectDateofType2(String optionName) {
+		try {
+			foundation.waitforElement(DPD_DATE, 1);
+			foundation.click(DPD_DATE);
+				foundation.click(TODAYS_DATE_OF_TYPE2);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
