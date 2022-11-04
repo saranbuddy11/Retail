@@ -271,7 +271,7 @@ public class CreatePromotions extends Factory {
 		if (foundation.isDisplayed(TXT_DISPLAY_NAME))
 			textBox.enterText(TXT_DISPLAY_NAME, displayName);
 		foundation.click(BTN_NEXT);
-		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.LONG_TIME);
 		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CHECKBOX_ORG);
@@ -281,11 +281,13 @@ public class CreatePromotions extends Factory {
 		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, locationName);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_LOC);
-		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
-		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
 	}
 	

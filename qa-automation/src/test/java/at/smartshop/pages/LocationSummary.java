@@ -50,6 +50,8 @@ public class LocationSummary extends Factory {
 	public static final By YES_BTN_PROMPT_AGEVERIFICATION = By.id("ageverificationpopupSaveBtn");
 	public static final By PANTRY_TYPE = By.xpath("//input[@name='readonlytype']");
 	public static final By BTN_SAVE = By.id("saveBtn");
+
+	public static final By CHECK_CHECKBOX = By.xpath("//input[@class='check_size']");
 	public static final By BTN_MANAGE_COLUMNS = By.id("manageProductGridColumnButton");
 	public static final By BUTTON_MANAGE_COLUMNS = By.id("managePromotionGridColumnButton");
 	public static final By POP_UP_BTN_APPLY = By.id("productDataGrid_hiding_modalDialog_footer_buttonok_lbl");
