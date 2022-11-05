@@ -1037,6 +1037,7 @@ public class LocationSummary extends Factory {
 		dropDown.selectItem(DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
 		dropDown.selectItem(DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
 		foundation.click(BTN_SYNC);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
