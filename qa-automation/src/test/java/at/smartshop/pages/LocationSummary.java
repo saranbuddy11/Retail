@@ -134,6 +134,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TOP_OFF_AMOUNT_NEWROW = By.id("topoffsubsidyamount1");
 	public static final By TXT_ROLL_OVER_AMOUNT_NEWROW = By.id("rolloversubsidyamount1");
 	public static final By BTN_REMOVE = By.xpath("//a[@id='previewremove']");
+	public static final By REMOVE_BTN=By.xpath("/html/body/div[3]/div[6]/div[3]/a[2]");
 	public static final By TXT_UPLOAD_STATUS = By.xpath("//span[@class='qq-upload-status-text']");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
@@ -895,9 +896,25 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(objTable(imageName));
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_REMOVE);
+		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
+		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+		foundation.refreshPage();
+	}
+	
+	public void removeHomeCommercials(String imageName) {
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		textBox.enterText(TXT_CMR_FILTER, imageName);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(objTable(imageName));
+		foundation.waitforElement(REMOVE_BTN, Constants.SHORT_TIME);
+		foundation.click(REMOVE_BTN);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LBL_SPINNER_MSG);
@@ -1093,6 +1110,7 @@ public class LocationSummary extends Factory {
 		foundation.click(objTaxCategory(taxCategory));
 		foundation.waitforElement(BTN_POPUP_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_POPUP_REMOVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(TAB_TAX_MAPPING);
 	}
 
