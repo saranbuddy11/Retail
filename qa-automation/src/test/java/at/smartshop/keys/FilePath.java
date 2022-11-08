@@ -31,6 +31,7 @@ public class FilePath {
 			+ "\\src\\test\\resources\\SalesCreationWithDepositandDiscount.json";
 	public static final String JSON_BAD_SCAN = PATH + "\\src\\test\\resources\\BadScan.json";
 	public static final String IMAGE_PATH = PATH + "\\src\\test\\resources\\lunch.jpg";
+	public static final String IMAGE_PATH_WORLD = PATH + "\\src\\test\\resources\\homecommercial.jpg";
 	public static final String EXCEL_PROD_SRC = HOME_PATH + "\\Downloads\\products.xlsx";
 	public static final String EXCEL_PROD_TAR = PATH + "\\src\\test\\resources\\products.xlsx";
 	public static final String EXCEL_LOCAL_PROD = HOME_PATH + "\\Downloads\\location-product-list.xlsx";
