@@ -2267,6 +2267,9 @@ public class Report extends TestInfra {
 			billingInformation.getTblRecordsUI();
 			billingInformation.getIntialData().putAll(billingInformation.getReportsData());
 			billingInformation.getRequiredRecord((String) billingInformation.getJsonData().get(Reports.TRANS_ID));
+			
+			// Re-read report
+			billingInformation.getTblRecordsUI();
 			// apply calculation and update data
 			billingInformation.updateData(billingInformation.getTableHeaders().get(0),
 					(String) billingInformation.getJsonData().get(Reports.TRANS_ID));

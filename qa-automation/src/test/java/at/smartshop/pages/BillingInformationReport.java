@@ -179,11 +179,11 @@ public class BillingInformationReport extends Factory {
 		try {
 			JsonObject sales = (JsonObject) jsonData.get(Reports.SALES);
 			String subTotal = sales.get(Reports.SUBTOTAL).getAsString();
-			requiredJsonData.add(subTotal);
+			requiredJsonData.add(Constants.DOLLAR_SYMBOL+subTotal);
 			String tax = sales.get(Reports.TAX).getAsString();
-			requiredJsonData.add(tax);
+			requiredJsonData.add(Constants.DOLLAR_SYMBOL+tax);
 			String total = sales.get(Reports.TOTAL).getAsString();
-			requiredJsonData.add(total);
+			requiredJsonData.add(Constants.DOLLAR_SYMBOL+total);
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			TestInfra.failWithScreenShot(exc.toString());
