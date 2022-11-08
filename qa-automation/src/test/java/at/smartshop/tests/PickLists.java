@@ -276,7 +276,7 @@ public class PickLists extends TestInfra {
 			// click on add product
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
-			foundation.waitforElementToBeVisible(PickList.TBL_ADD_PRODUCT,Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(PickList.TBL_ADD_PRODUCT, Constants.SHORT_TIME);
 			textBox.enterText(PickList.LBL_FILTER_TYPE, rstPickListData.get(CNPickList.PRODUCT_NAME));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)),
@@ -286,7 +286,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.TBL_NEED);
 			foundation.objectFocus(PickList.TXT_NEED);
 			foundation.click(PickList.TXT_NEED);
-			foundation.waitforElement(PickList.TXT_NEED, Constants.LONG_TIME); 
+			foundation.waitforElement(PickList.TXT_NEED, Constants.LONG_TIME);
 			textBox.enterText(PickList.TXT_NEED, rstPickListData.get(CNPickList.NEED));
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)));
 			foundation.click(PickList.LBL_PREVIEW);
@@ -1411,7 +1411,7 @@ public class PickLists extends TestInfra {
 //			foundation.threadWait(Constants.THREE_SECOND);
 //			foundation.click(PickList.BTN_CANCEL_COLUMN);
 
-			//Click on Manage Column button and verifying the headers present
+			// Click on Manage Column button and verifying the headers present
 			CustomisedAssert.assertTrue(columnChooser.equals(manageColumn));
 			foundation.scrollIntoViewElement(PickList.BTN_CANCEL_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_COLUMN_CHOOSER));
@@ -1631,7 +1631,6 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
 			foundation.click(PickList.BTN_CLOSE);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -1889,8 +1888,10 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.DELECT_ROW);
 			foundation.threadWait(3);
 			CustomisedAssert.assertFalse(foundation.getTextofListElement(PickList.TABLE_ROW).contains(product.get(0)));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+
 	}
 }

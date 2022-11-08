@@ -305,6 +305,7 @@ public class LocationSummary extends Factory {
 			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
 			.xpath("/html/body/div[7]/div[1]/table/thead/tr[1]/th[3]");
+
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
@@ -920,6 +921,26 @@ public class LocationSummary extends Factory {
 		foundation.refreshPage();
 	}
 
+	public void addHomeCommercials(String imagePath) {
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		foundation.click(BTN_ADD_HOME_COMMERCIAL);
+		foundation.waitforElementToBeVisible(SEARCH_TXT, Constants.THREE_SECOND);
+		textBox.enterText(SEARCH_TXT, imagePath);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CHECK_CHECKBOX);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(HAS_NO_END_DATE);
+		foundation.waitforElementToBeVisible(ADD_BTN, Constants.THREE_SECOND);
+		foundation.click(ADD_BTN);
+		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+		foundation.click(BTN_SAVE);
+	}
+
 	/**
 	 * Updating the Inventory of the product
 	 * 
@@ -1030,30 +1051,11 @@ public class LocationSummary extends Factory {
 		dropDown.selectItem(DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
 		dropDown.selectItem(DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
 		foundation.click(BTN_SYNC);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 		browser.close();
-	}
-
-	public void addHomeCommercials(String imagePath) {
-		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
-		foundation.click(BTN_HOME_COMMERCIAL);
-		foundation.click(BTN_ADD_HOME_COMMERCIAL);
-		foundation.waitforElementToBeVisible(SEARCH_TXT, Constants.THREE_SECOND);
-		textBox.enterText(SEARCH_TXT, imagePath);
-		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(CHECK_CHECKBOX);
-		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.THREE_SECOND);
-		foundation.click(BTN_NEXT);
-		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(HAS_NO_END_DATE);
-		foundation.waitforElementToBeVisible(ADD_BTN, Constants.THREE_SECOND);
-		foundation.click(ADD_BTN);
-		foundation.click(BTN_SYNC);
-		foundation.isDisplayed(LBL_SPINNER_MSG);
-		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
-		foundation.click(BTN_SAVE);
 	}
 
 	/**

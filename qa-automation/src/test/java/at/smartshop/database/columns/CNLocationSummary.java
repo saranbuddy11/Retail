@@ -31,6 +31,7 @@ public class CNLocationSummary {
 	public static final String PROMOTION_NAME = "PromotionName";
 	public static final String COLUMN_VALUE = "ColumnValue";
 	public static final String FILTER_RESULT = "FilterResult";
+	public static final String ADDRESS= "Address";
 	public static final String PRODUCT_MESSAGE = "ProductMessage";
 	public static final String DEVICE_STATUS = "DeviceStatus";
 	public static final String GMA_LOYALTY_POINTS = "GMALoyaltyPoints";
