@@ -55,6 +55,7 @@ public class CreatePromotions extends Factory {
 	public static final By SELECT_CAT_PRODUCT=By.xpath("/html/body/div[7]/div/div[2]/div[2]/div[2]/table/tbody/tr/th/span[2]");
 	public static final By CATEGORY_SEARCH_TXT=By.id("bundleCategorySearch");
 	public static final By SELECT_ITEM_PRODUCT=By.xpath("//*[@id='itemBundleTable']/tbody/tr/th/span[2]");
+	public static final By SELECTED_ITEM=By.cssSelector("#itemBundleTable > tbody");
 	public static final By ITEM_SEARCH_TXT=By.id("bundleItemSearch");
 	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
 	public static final By DPD_LOCATION = By.id("location-select");

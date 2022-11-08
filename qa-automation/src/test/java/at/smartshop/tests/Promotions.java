@@ -465,13 +465,21 @@ public class Promotions extends TestInfra {
 
 			String bundleOption = dropDown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
 			CustomisedAssert.assertEquals(bundleOption, requiredData.get(2));
-			String itemValue = foundation.getText(CreatePromotions.CAT_SELECTED);
+			foundation.waitforElementToBeVisible(CreatePromotions.ADD_CATEGORY, Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.ADD_CATEGORY);
+			textBox.enterText(CreatePromotions.CATEGORY_SEARCH_TXT, actualData.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			String itemValue = foundation.getText(CreatePromotions.CATEGORY_SELECTED);
 			CustomisedAssert.assertTrue(itemValue.contains(actualData.get(1)));
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_CAT_POPUP, Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_CANCEL_CAT_POPUP);
+			foundation.threadWait(Constants.THREE_SECOND);
 //			foundation.click(CreatePromotions.BTN_NEXT);
 //			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_CONTINUE);
 //			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_OK);
+			createPromotions.cancellingPromotion();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -571,19 +579,18 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 //			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 //			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
 //			foundation.threadWait(Constants.ONE_SECOND);
 //			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.ADD_ITEM);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, actualData.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			checkBox.check(CreatePromotions.SELECT_ITEM_PRODUCT);
-			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.THREE_SECOND);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_CREATE);
@@ -607,14 +614,22 @@ public class Promotions extends TestInfra {
 
 			String bundleOption = dropDown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
 			CustomisedAssert.assertEquals(bundleOption, requiredData.get(0));
-			String itemValue = foundation.getText(CreatePromotions.CAT_SELECTED);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.ADD_ITEM);
+			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, actualData.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
+			String itemValue = foundation.getText(CreatePromotions.SELECTED_ITEM);
 			CustomisedAssert.assertTrue(itemValue.contains(actualData.get(0)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 //			String itemValue = dropDown.getSelectedItem(EditPromotion.DPD_ITEM);
 //			CustomisedAssert.assertEquals(itemValue, actualData.get(0));
 //			foundation.click(CreatePromotions.BTN_NEXT);
 //			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_OK);
+			createPromotions.cancellingPromotion();
 
 		} catch (Exception exc) {
 

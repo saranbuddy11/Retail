@@ -106,6 +106,8 @@ public class PromotionList extends Factory {
 	}
 	
 	
+	
+	
 	/**
 	 * Expire the multiple promotion in promotion list page
 	 * 
