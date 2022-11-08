@@ -269,7 +269,6 @@ public class LocationSummary extends Factory {
 	public static final By CHK_DEFAULT_TOP_OFF = By.xpath("//input[@class='topoffsubsidy topoffdefaultcheckbox']");
 	public static final By CHK_DEFAULT_ROLL_OVER = By
 			.xpath("//input[@class='rolloversubsidy rolloverdefaultcheckbox']");
-	public static final By CHECK_CHECKBOX=By.xpath("//input[@class='check_size']");
 	public static final By CHK_ROLL_OVER_SUBSIDY = By
 			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By TXT_TOP_OFF_GROUP_NAME = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='groupname']");
@@ -310,10 +309,6 @@ public class LocationSummary extends Factory {
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION2 = By
 			.xpath("/html/body/div[7]/div[1]/table/thead/tr[1]/th[3]");
 
-	public static final By SEARCH_TXT = By.xpath("//input[@aria-controls='choosecmrhomedt']");
-	public static final By BTN_NEXT = By.id("home_cmr_selected_next");
-	public static final By HAS_NO_END_DATE = By.id("cmr_sc_no_end_date");
-	public static final By ADD_BTN = By.id("saveCmrhomeBtn");
 	public static final By ROLL_OVER_DATE_PICKER_NEXT_LOCATION1 = By
 			.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[3]");
 	public static final By TOP_OFF_WARNING_MSG = By.xpath(
@@ -1064,26 +1059,6 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 		browser.close();
-	}
-
-	public void addHomeCommercials(String imagePath) {
-		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
-		foundation.click(BTN_HOME_COMMERCIAL);
-		foundation.click(BTN_ADD_HOME_COMMERCIAL);
-		foundation.waitforElementToBeVisible(SEARCH_TXT, Constants.THREE_SECOND);
-		textBox.enterText(SEARCH_TXT, imagePath);
-		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(CHECK_CHECKBOX);
-		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.THREE_SECOND);
-		foundation.click(BTN_NEXT);
-		foundation.threadWait(Constants.THREE_SECOND);
-		foundation.click(HAS_NO_END_DATE);
-		foundation.waitforElementToBeVisible(ADD_BTN, Constants.THREE_SECOND);
-		foundation.click(ADD_BTN);
-		foundation.click(BTN_SYNC);
-		foundation.isDisplayed(LBL_SPINNER_MSG);
-		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
-		foundation.click(BTN_SAVE);
 	}
 
 	/**
