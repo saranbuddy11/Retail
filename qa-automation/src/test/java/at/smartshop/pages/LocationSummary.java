@@ -2140,9 +2140,10 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_ADD_PRODUCT));
 		foundation.click(BTN_ADD_PRODUCT);
-		foundation.waitforElement(LBL_ADD_PRODUCT, Constants.SHORT_TIME);
+		foundation.waitforElement(LBL_ADD_PRODUCT, Constants.LONG_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_ADD_PRODUCT));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_ADD_PRODUCT_SEARCH));
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_CANCEL_PRODUCT));
 	}
 
