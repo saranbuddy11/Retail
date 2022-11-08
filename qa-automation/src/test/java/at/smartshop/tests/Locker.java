@@ -1381,7 +1381,7 @@ public class Locker extends TestInfra {
 			// resetting the Data
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(lockerSystem.copyORDeleteSystem(systemName.get(1),
 					rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES)));
 			foundation.waitforElement(LockerSystem.BTN_YES_DELETE, Constants.SHORT_TIME);

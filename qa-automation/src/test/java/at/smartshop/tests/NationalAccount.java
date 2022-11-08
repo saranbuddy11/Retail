@@ -3,14 +3,12 @@ package at.smartshop.tests;
 import static org.junit.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import java.awt.AWTException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.bouncycastle.asn1.dvcs.Data;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -34,9 +32,6 @@ import at.smartshop.keys.FilePath;
 import at.smartshop.pages.AdminNationalAccounts;
 import at.smartshop.pages.CreateNewNationalAccountCategory;
 import at.smartshop.pages.CreateNewRule;
-import at.smartshop.pages.GlobalProduct;
-import at.smartshop.pages.GlobalProductChange;
-import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NationalAccountRules;
 import at.smartshop.pages.NationalAccounts;
 import at.smartshop.pages.NavigationBar;
@@ -65,9 +60,6 @@ public class NationalAccount extends TestInfra {
 	private Strings strings = new Strings();
 	private Numbers numbers = new Numbers();
 	private CreateNewNationalAccountCategory createNewNationalAccountsCategory = new CreateNewNationalAccountCategory();
-	private LocationSummary locationSummary = new LocationSummary();
-	private GlobalProductChange globalProductChange = new GlobalProductChange();
-	private GlobalProduct globalProduct = new GlobalProduct();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationSummaryData;
@@ -1312,6 +1304,7 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_SAVE);
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
@@ -1319,7 +1312,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT);
 
 			// Location field validation
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String expectedColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
@@ -2269,6 +2262,5 @@ public class NationalAccount extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	
+
 }
