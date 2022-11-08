@@ -682,9 +682,9 @@ public class SmokeTests extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
-			Assert.assertTrue(promotionName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
-			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
+
+			Assert.assertTrue(V5Data.get(2).equals(foundation.getText(Order.TXT_TENDER_DISCOUNT)));
+
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -797,37 +797,37 @@ public class SmokeTests extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verify Item correctly updated in Promotion Screen
-			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
-			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
-			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
-			foundation.click(PromotionList.BTN_SEARCH);
-			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
-			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.BTN_NEXT);
-
-			foundation.threadWait(Constants.TWO_SECOND);
-			String bundleOption = dropdown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
-			Assert.assertEquals(bundleOption, requiredData.get(1));
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.ADD_ITEM);
-			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, actualData.get(0));
-			foundation.threadWait(Constants.SHORT_TIME);
-			String itemValue = foundation.getText(EditPromotion.SELECTED_ITEM);
-			CustomisedAssert.assertTrue(itemValue.contains(actualData.get(0)));
-			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.THREE_SECOND);
-			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
-			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
-			foundation.click(CreatePromotions.BTN_OK);
+//			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.EXTRA_LONG_TIME);
+//			textBox.enterText(PromotionList.TXT_SEARCH_PROMONAME, promotionName);
+//			dropdown.selectItem(PromotionList.DRP_STATUS, statusType, Constants.TEXT);
+//			foundation.click(PromotionList.BTN_SEARCH);
+//			foundation.doubleClick(PromotionList.TBL_COLUMN_NAME);
+//			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			String bundleOption = dropdown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
+//			Assert.assertEquals(bundleOption, requiredData.get(1));
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.ADD_ITEM);
+//			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, actualData.get(0));
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			String itemValue = foundation.getText(EditPromotion.SELECTED_ITEM);
+//			CustomisedAssert.assertTrue(itemValue.contains(actualData.get(0)));
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.THREE_SECOND);
+//			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
+//			foundation.click(CreatePromotions.BTN_NEXT);
+//			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+//			foundation.click(CreatePromotions.BTN_OK);
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.DASHBOARD_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -862,18 +862,17 @@ public class SmokeTests extends TestInfra {
 
 			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_TOTAL_PRICE));
+			String priceTotal = foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount = foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
 
 			// verify the display of total section
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_PRODUCT_PRICE));
+			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
 			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
 			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
 			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
 			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
-
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
