@@ -682,6 +682,9 @@ public class SmokeTests extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
 			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
+			Assert.assertTrue(promotionName.equals(foundation.getText(Order.LBL_DISCOUNT_NAME)));
+			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
+			Assert.assertTrue(discountList.get(2).contains(onScreenDiscount));
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -857,19 +860,19 @@ public class SmokeTests extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			Assert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
-//			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
-//			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
+			Assert.assertTrue(displayName.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+			List<String> discountList = foundation.getTextofListElement(Order.LBL_ORDER_DISCOUNT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_TOTAL_PRICE));
-//			String bundleDiscount = foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
-//			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
+			String bundleDiscount = foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
+			Assert.assertTrue(discountList.get(2).equals(bundleDiscount));
 
 			// verify the display of total section
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.LBL_PRODUCT_PRICE));
-//			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
-////			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
-//			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
-//			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
-//			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
+			String discount = foundation.getText(Order.LBL_DEPOSIT).split(Constants.DOLLAR)[1];
+			Double expectedBalanceDue = Double.parseDouble(productPrice) - Double.parseDouble(discount);
+			assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(expectedBalanceDue)));
+			assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(priceTotal));
+			assertEquals(foundation.getText(Order.LBL_DISCOUNT), Constants.DELIMITER_HYPHEN + bundleDiscount);
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
