@@ -169,6 +169,7 @@ public class AccountFunding extends Factory {
 	public void verifyReportRecords() {
 		int coulumnCount = tableHeaders.size();
 		System.out.println(initialReportsData.get(0));
+		System.out.println(reportsData.get(0));
 		for (int iter = 0; iter < reportsData.size(); iter++) {
 			for (int val = 0; val < coulumnCount; val++) {
 				System.out.println(reportsData.get(iter).get(tableHeaders.get(val)) + "-"
@@ -202,7 +203,8 @@ public class AccountFunding extends Factory {
 		JsonObject gmatrans = (JsonObject) jsonData.get(Reports.GMA_TRANS);
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		double initialAmount = Double.parseDouble(initialReportsData.get(0).get(columnName));
-		double updatedAmount = initialAmount;// + Double.parseDouble(amount);
+		double updatedAmount = initialAmount + Double.parseDouble(amount);
+		updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 		initialReportsData.get(0).put(columnName, String.valueOf(updatedAmount));
 	}
 
@@ -212,6 +214,7 @@ public class AccountFunding extends Factory {
 	public void updateOperatorCredit() {
 		double initialOperatorCredit = Double.parseDouble(initialReportsData.get(0).get((tableHeaders.get(2))));
 		double updatedOperatorCredit = initialOperatorCredit + Double.parseDouble(admData.get(1));
+		updatedOperatorCredit = Math.round(updatedOperatorCredit * 100.0) / 100.0;
 		initialReportsData.get(0).put(tableHeaders.get(2), String.valueOf(updatedOperatorCredit));
 	}
 
@@ -222,8 +225,11 @@ public class AccountFunding extends Factory {
 		double accountSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(8)));
 		double creditSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(9)));
 		double kioskCash = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(5)));
-		double totalSales = kioskCash + 2 * accountSales + creditSales;
-		totalSales = Math.round(totalSales * 100.0) / 100.0;
+		double consumerCredits = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(4)));
+		double operatorCredit = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(3)));
+//		double totalSales = kioskCash + 2 * accountSales + creditSales;
+		double totalSales = kioskCash + accountSales + creditSales + consumerCredits + operatorCredit;
+		totalSales = Math.floor(totalSales);
 		initialReportsData.get(0).put(tableHeaders.get(10), String.valueOf(totalSales));
 	}
 

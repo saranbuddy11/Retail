@@ -46,6 +46,7 @@ public class TipDetailsReport extends Factory {
 	private static final By TBL_TIP_SUMMARY_GRID = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
@@ -74,6 +75,8 @@ public class TipDetailsReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+
+			System.out.println("reportsData : "+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -136,15 +139,15 @@ public class TipDetailsReport extends Factory {
 		try {
 			List<String> value = Arrays.asList(values.split(Constants.DELIMITER_HASH));
 			intialData.get(rowCount).put(tableHeaders.get(2), value.get(0));
-			intialData.get(rowCount).put(tableHeaders.get(3), tip);
-			intialData.get(rowCount).put(tableHeaders.get(4), value.get(1));
-			intialData.get(rowCount).put(tableHeaders.get(5), value.get(1));
-			intialData.get(rowCount).put(tableHeaders.get(6), requiredJsonData.get(0));
+			intialData.get(rowCount).put(tableHeaders.get(3), Constants.DOLLAR_SYMBOL + tip); 
+			intialData.get(rowCount).put(tableHeaders.get(4), Constants.DOLLAR_SYMBOL + value.get(1));
+			intialData.get(rowCount).put(tableHeaders.get(5), Constants.DOLLAR_SYMBOL + value.get(1));
+			intialData.get(rowCount).put(tableHeaders.get(6), Constants.DOLLAR_SYMBOL + requiredJsonData.get(0));
 			intialData.get(rowCount).put(tableHeaders.get(7),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			intialData.get(rowCount).put(tableHeaders.get(8), (String) jsonData.get(Reports.TRANS_ID));
 			intialData.get(rowCount).put(tableHeaders.get(9),
-					(String) jsonData.get(Reports.TRANS_DATE_TIME));
+					 String.valueOf((String) jsonData.get(Reports.TRANS_DATE_TIME)).toUpperCase());
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -176,6 +179,8 @@ public class TipDetailsReport extends Factory {
 
 	public void verifyReportData() {
 		try {
+			System.out.println("intialData : "+ intialData);
+			System.out.println("reportsData : "+ reportsData);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(rowCount).get(tableHeaders.get(iter))
 						.contains(intialData.get(rowCount).get(tableHeaders.get(iter))));

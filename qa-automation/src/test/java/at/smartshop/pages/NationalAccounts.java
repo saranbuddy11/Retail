@@ -272,6 +272,7 @@ public class NationalAccounts extends Factory {
 		textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, nationalAccountName);
 		dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT, options.get(1), Constants.TEXT);
 		foundation.click(AdminNationalAccounts.BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**

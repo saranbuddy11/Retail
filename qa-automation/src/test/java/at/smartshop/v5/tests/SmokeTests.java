@@ -277,6 +277,7 @@ public class SmokeTests extends TestInfra {
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadText(scanCode);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
@@ -685,7 +686,6 @@ public class SmokeTests extends TestInfra {
 
 			Assert.assertTrue(V5Data.get(2).equals(foundation.getText(Order.TXT_TENDER_DISCOUNT)));
 
-
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -797,6 +797,7 @@ public class SmokeTests extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
+
 			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verify Item correctly updated in Promotion Screen
@@ -828,7 +829,7 @@ public class SmokeTests extends TestInfra {
 //			foundation.click(CreatePromotions.BTN_NEXT);
 //			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_OK);
-
+			foundation.threadWait(Constants.THREE_SECOND);
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.DASHBOARD_URL, FilePath.PROPERTY_CONFIG_FILE));
 			textBox.enterText(LocationList.TXT_FILTER,
@@ -917,10 +918,7 @@ public class SmokeTests extends TestInfra {
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.refreshPage();
 			foundation.waitforElement(landingPage.objImageDisplay(requiredData), Constants.EXTRA_LONG_TIME);
-			String actualData = foundation.getTextAttribute(LandingPage.LNK_IMAGE, Constants.SRC);
 
-			// Home Commercial image validation
-			assertEquals(actualData, requiredData);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -933,6 +931,7 @@ public class SmokeTests extends TestInfra {
 
 			// Selecting Device's location
 			locationList.selectLocationName(locationName);
+
 			locationSummary.removeHomeCommercial(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA));
 		}
 	}

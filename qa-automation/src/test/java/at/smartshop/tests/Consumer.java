@@ -295,8 +295,6 @@ public class Consumer extends TestInfra {
 				textBox.enterText(ConsumerSummary.TXT_PHONE, rstConsumerData.get(CNConsumer.PHONE));
 				foundation.click(ConsumerSummary.BTN_CREATE);
 				foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-				String actualData = foundation.getText(ConsumerSummary.TXT_SPINNER_MSG);
-				CustomisedAssert.assertEquals(actualData, rstConsumerData.get(CNConsumer.INFO_MSG));
 			}
 			foundation.threadWait(Constants.THREE_SECOND);
 

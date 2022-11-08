@@ -136,6 +136,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_TOP_OFF_AMOUNT_NEWROW = By.id("topoffsubsidyamount1");
 	public static final By TXT_ROLL_OVER_AMOUNT_NEWROW = By.id("rolloversubsidyamount1");
 	public static final By BTN_REMOVE = By.xpath("//a[@id='previewremove']");
+	public static final By REMOVE_BTN=By.xpath("/html/body/div[3]/div[6]/div[3]/a[2]");
 	public static final By TXT_UPLOAD_STATUS = By.xpath("//span[@class='qq-upload-status-text']");
 	public static final By LINK_HOME_PAGE = By.xpath("//a[@id='sup-location']");
 	public static final By DPD_KIOSK_LANGUAGE = By.id("ksklanguage");
@@ -163,6 +164,8 @@ public class LocationSummary extends Factory {
 	public static final By BTN_YES = By.xpath("//button[text()='Yes']");
 	public static final By BTN_NO = By.xpath("//button[text()='No ']");
 	public static final By LBL_USER_KEY = By.xpath("//input[@id='vdiuserkey-added']");
+	public static final By SEARCH_TXT=By.xpath("//input[@aria-controls='choosecmrhomedt']");
+	public static final By ADD_BTN=By.id("saveCmrhomeBtn");
 	public static final By DPD_PRINTGROUP = By.cssSelector("select#printer");
 	public static final By LBL_PRINT_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_printer']");
 	public static final By LBL_PRINT_DOWN_ARROW = By
@@ -266,6 +269,7 @@ public class LocationSummary extends Factory {
 	public static final By CHK_DEFAULT_TOP_OFF = By.xpath("//input[@class='topoffsubsidy topoffdefaultcheckbox']");
 	public static final By CHK_DEFAULT_ROLL_OVER = By
 			.xpath("//input[@class='rolloversubsidy rolloverdefaultcheckbox']");
+	public static final By CHECK_CHECKBOX=By.xpath("//input[@class='check_size']");
 	public static final By CHK_ROLL_OVER_SUBSIDY = By
 			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By TXT_TOP_OFF_GROUP_NAME = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='groupname']");
@@ -326,6 +330,7 @@ public class LocationSummary extends Factory {
 	public static final By BTN_ADD_TOP_OFF = By.xpath("//i[@class='fa fa-plus-circle fa-2x primary-color addBtn']");
 	public static final By BTN_EXTRA_ADD_TOP_OFF = By
 			.xpath("(//i[@class='fa fa-plus-circle fa-2x primary-color addBtn'])[2]");
+	public static final By BTN_NEXT = By.id("home_cmr_selected_next");
 	public static final By BTN_EXTRA_ADD_ROLL_OVER = By
 			.xpath("(//I[@class='fa fa-plus-circle fa-2x primary-color addBtnrolloverSubsidy'])[2]");
 	public static final By DEVICE_NAME = By.xpath("(//*[@id='deviceDataGrid_table']/tbody/tr/td)[3]");
@@ -392,6 +397,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_CREDIT = By.xpath("//select[@id='creditrateuselocation']/option[@selected='selected']");
 	public static final By TXT_NANOCREDIT = By
 			.xpath("//select[@id='nanocreditrateuselocation']/option[@selected='selected']");
+	public static final By HAS_NO_END_DATE= By.id("cmr_sc_no_end_date");
 	public static final By TXT_LOCATION_GMR = By.id("gmaratepercent");
 	public static final By TXT_LOCATION_NANOGMR = By.id("nanogmaratepercent");
 	public static final By TXT_LOCATION_CREDIT = By.id("creditratepercent");
@@ -897,9 +903,25 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
 		textBox.enterText(TXT_CMR_FILTER, imageName);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(objTable(imageName));
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_REMOVE);
+		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
+		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+		foundation.refreshPage();
+	}
+	
+	public void removeHomeCommercials(String imageName) {
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		textBox.enterText(TXT_CMR_FILTER, imageName);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(objTable(imageName));
+		foundation.waitforElement(REMOVE_BTN, Constants.SHORT_TIME);
+		foundation.click(REMOVE_BTN);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LBL_SPINNER_MSG);
@@ -1044,6 +1066,26 @@ public class LocationSummary extends Factory {
 		browser.close();
 	}
 
+	public void addHomeCommercials(String imagePath) {
+		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
+		foundation.click(BTN_HOME_COMMERCIAL);
+		foundation.click(BTN_ADD_HOME_COMMERCIAL);
+		foundation.waitforElementToBeVisible(SEARCH_TXT, Constants.THREE_SECOND);
+		textBox.enterText(SEARCH_TXT, imagePath);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CHECK_CHECKBOX);
+		foundation.waitforElementToBeVisible(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(HAS_NO_END_DATE);
+		foundation.waitforElementToBeVisible(ADD_BTN, Constants.THREE_SECOND);
+		foundation.click(ADD_BTN);
+		foundation.click(BTN_SYNC);
+		foundation.isDisplayed(LBL_SPINNER_MSG);
+		foundation.waitforElement(Login.LBL_USER_NAME, Constants.SHORT_TIME);
+		foundation.click(BTN_SAVE);
+	}
+
 	/**
 	 * Get the Product Details
 	 * 
@@ -1096,6 +1138,7 @@ public class LocationSummary extends Factory {
 		foundation.click(objTaxCategory(taxCategory));
 		foundation.waitforElement(BTN_POPUP_REMOVE, Constants.SHORT_TIME);
 		foundation.click(BTN_POPUP_REMOVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(TAB_TAX_MAPPING);
 	}
 

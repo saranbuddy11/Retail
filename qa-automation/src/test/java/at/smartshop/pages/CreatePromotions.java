@@ -274,13 +274,13 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_NEXT);
 		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.LONG_TIME);
 		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_NEXT);
 		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
-		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_LOC_SEARCH, Constants.LONG_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, locationName);
 		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_LOC);
@@ -288,8 +288,9 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_NEXT);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
-		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_NEXT);
+		
 	}
 	
 	public void newPromotionUsingTenderDiscount(String promotionType, String promotionName, String orgName,

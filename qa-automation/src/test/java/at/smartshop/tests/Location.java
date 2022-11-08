@@ -303,12 +303,10 @@ public class Location extends TestInfra {
 //			textBox.enterText(LocationSummary.TXT_ADD_NAME,
 //					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 //			foundation.click(LocationSummary.BTN_ADD);
+			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.selectLocationName(locationName);
 
-			 locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
-			
-			// disabling location
-			 foundation.threadWait(Constants.THREE_SECOND);
-			 locationList.selectLocationName(locationName);
 			foundation.waitforElement(LocationSummary.DPD_DISABLED, Constants.SHORT_TIME);
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, locationDisabled_Yes, Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -2383,7 +2381,6 @@ public class Location extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// select Location
-
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			locationList.selectLocationName(location);
 
@@ -2395,7 +2392,6 @@ public class Location extends TestInfra {
 			foundation.waitforElementToBeVisible(LocationSummary.PRODUCT_NAME, Constants.SHORT_TIME);
 			String Column_Header = foundation.getText(LocationSummary.TBL_PRODUCT_HEADER);
 			CustomisedAssert.assertTrue(Column_Header.contains(product));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
