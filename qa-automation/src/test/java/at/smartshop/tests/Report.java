@@ -1925,11 +1925,17 @@ public class Report extends TestInfra {
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			tenderTransactionLog.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			
+			textBox.enterText(tenderTransactionLog.SEARCH_RESULT,
+					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_ID));
+			
 			tenderTransactionLog.getTblRecordsUI();
 			tenderTransactionLog.getIntialData().putAll(tenderTransactionLog.getReportsData());
-			tenderTransactionLog.getRequiredRecord(
-					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_DATE_TIME),
-					productTax.getScancodeData());
+//			tenderTransactionLog.getRequiredRecord(
+//					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_DATE_TIME),
+//					productTax.getScancodeData());
+			
+			tenderTransactionLog.getTblRecordsUI();
 
 			// apply calculation and update data
 			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(0),

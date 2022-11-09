@@ -19,6 +19,7 @@ public class CategorySummary {
 	public void updateName(String categoryName) {
 		textBox.enterText(TXT_NAME, categoryName);
 		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 	
 	public void addCategory(String categoryName,String categoryType) {
