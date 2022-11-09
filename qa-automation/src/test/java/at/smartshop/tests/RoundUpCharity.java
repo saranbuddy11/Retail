@@ -351,7 +351,6 @@ public class RoundUpCharity extends TestInfra {
 				foundation.threadWait(5);
 				adminRoundUpCharity.selectCharity(data.get(4));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
-				CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.GET_LOCATION).equals(data.get(14)));
 				foundation.click(adminRoundUpCharity.removeLocation(data.get(9)));
 				adminRoundUpCharity.selectLocationFromDropDown(data.get(5));
 				adminRoundUpCharity.selectLocationFromDropDown(data.get(6));
