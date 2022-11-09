@@ -979,7 +979,7 @@ public class LocationSummary extends Factory {
 
 	public String updateInventoryWithTimeOfTransacction(String scancode, String inventoryValue, String reasonCode,
 			String format, String requiredTimeZone) {
-		String updatedTime = String.valueOf(dateAndTime.getDateAndTime1(format, requiredTimeZone));
+		String updatedTime = String.valueOf(dateAndTime.getDateAndTime(format, requiredTimeZone));
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
 
