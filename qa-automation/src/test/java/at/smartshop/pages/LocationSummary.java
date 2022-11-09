@@ -850,9 +850,10 @@ public class LocationSummary extends Factory {
 	 */
 	public void addProduct(String scancode) {
 		foundation.click(BTN_ADD_PRODUCT);
-		foundation.waitforElement(TXT_ADD_PRODUCT_SEARCH, 3);
+		foundation.waitforElement(TXT_ADD_PRODUCT_SEARCH, Constants.SHORT_TIME);
 		textBox.enterText(TXT_ADD_PRODUCT_SEARCH, scancode);
-		foundation.click(By.xpath("//td[@aria-describedby='chooseprddt_scancode'][text()='" + scancode + "']"));
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(By.xpath("//td[@aria-describedby='chooseprddt_name'][text()='" + scancode + "']"));
 		foundation.click(BTN_ADD_PRODUCT_ADD);
 		foundation.waitforElement(BTN_SAVE, 3);
 	}
@@ -898,7 +899,7 @@ public class LocationSummary extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(objTable(imageName));
 		foundation.waitforElement(BTN_REMOVE, Constants.SHORT_TIME);
-		foundation.click(BTN_REMOVE);
+		foundation.objectClick(BTN_REMOVE);
 		foundation.waitforElement(BTN_SYNC, Constants.SHORT_TIME);
 		foundation.click(BTN_SYNC);
 		foundation.isDisplayed(LBL_SPINNER_MSG);
@@ -1547,7 +1548,7 @@ public class LocationSummary extends Factory {
 	 */
 	public void selectingProduct(String tab, String productName, String scanCode, String productPrice) {
 		selectTab(tab);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(TXT_PRODUCT_FILTER, productName);
 		foundation.threadWait(Constants.SHORT_TIME);
 		enterPrice(scanCode, productPrice);

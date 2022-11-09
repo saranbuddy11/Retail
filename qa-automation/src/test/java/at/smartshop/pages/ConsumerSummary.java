@@ -358,7 +358,8 @@ public class ConsumerSummary extends Factory {
 		foundation.click(BTN_SUBSIDY_ADJUST);
 		foundation.waitforElement(LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 		textBox.enterText(TXT_ADJUST_BALANCE, balance);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(REF_EFT));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(REF_EFT));
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_REASON_SAVE);
 		foundation.waitforElementToBeVisible(TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
@@ -392,7 +393,7 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSummary.BTN_SUBSIDY_ADJUST);
 		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
 		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.REF_EFT));
 		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 		foundation.waitforElementToBeVisible(ConsumerSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.click(ConsumerSummary.BTN_SAVE);

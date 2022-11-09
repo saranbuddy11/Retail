@@ -281,7 +281,7 @@ public class SmokeTests extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
-			assertEquals(foundation.getText(Order.TXT_PRODUCT), updatedProductName);
+			assertEquals(foundation.getText(Order.TXT_PRODUCT), productName);
 			assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), productPrice);
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
