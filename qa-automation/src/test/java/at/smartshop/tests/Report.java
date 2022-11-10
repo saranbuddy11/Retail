@@ -4744,8 +4744,7 @@ public class Report extends TestInfra {
 			Double totalAmount = salesSummaryAndCost.totalAmount(salesSummaryAndCost.getTableHeaders().get(5),
 					productPrice, tax, deposit, discount);
 			String totalCost = salesSummaryAndCost.calculateCost(salesSummaryAndCost.getTableHeaders().get(6), cost);
-			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7), totalCost,
-					totalAmount);
+//			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7));
 			salesSummaryAndCost.TrasactionCount(salesSummaryAndCost.getTableHeaders().get(8));
 			salesSummaryAndCost.itemCount(salesSummaryAndCost.getTableHeaders().get(9));
 
@@ -5657,7 +5656,7 @@ public class Report extends TestInfra {
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),

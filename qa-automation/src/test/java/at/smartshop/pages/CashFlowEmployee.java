@@ -108,8 +108,8 @@ public class CashFlowEmployee extends Factory {
 	public void verifyReportName(String reportName) {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
-			String reportTitle = foundation.getText(REPORT_NAME);
-			Assert.assertEquals(reportTitle, reportName);
+			String reportTitle = foundation.getText(LBL_REPORT_NAME);
+			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
