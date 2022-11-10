@@ -24,7 +24,11 @@ public class SOSHome extends Factory {
 	public static final By PAGE_HEADING = By.xpath("//li[contains(text(),'Load GMA User Parameters')]");
 	public static final By LBL_USER_NAME = By.xpath("//a[@id='drop5' and @class='dropdown-toggle']");
 	private static final By MUN_LOGOUT = By.xpath("//a[@title='Logout']");
-
+	public static final By LOGIN_USERNAME_ERROR = By.xpath("//label[@class='error']");
+	public static final By LOGIN_PASSWORD_ERROR = By.xpath("//div[@class='humane humane-libnotify-error']");
+	public static final By NAV_MENU = By.xpath("//div[@id='menu-container']//li[contains(@class,'navlink')]/a");
+	
+	
 	public void selectOrginazation(String selectText) {
 		try {
 			foundation.click(DPD_ORG);

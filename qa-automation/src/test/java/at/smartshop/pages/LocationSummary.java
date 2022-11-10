@@ -2720,4 +2720,6 @@ public class LocationSummary extends Factory {
 		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
 		selectDeviceName(deviceName);
 	}
+	
+	
 }
