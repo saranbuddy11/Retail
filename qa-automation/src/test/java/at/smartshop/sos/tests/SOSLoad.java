@@ -743,7 +743,7 @@ public class SOSLoad extends TestInfra {
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
 			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(delectExisting))
 			foundation.click(LoadProduct.BTN_SUBMIT);
-			foundation.threadWait(3);
+			foundation.threadWait(Constants.THREE_SECOND);
 			sosHome.logout();
 			
 			//log in ADM as super user
