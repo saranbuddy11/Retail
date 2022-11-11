@@ -54,7 +54,7 @@ public class FilePath {
 	public static final String NATIONAL_CAT_TEMPLATE_EXISTING = PATH
 			+ "\\src\\test\\resources\\national_category_import_template.xls";
 	public static final String PICK_LIST = HOME_PATH + "\\Downloads\\Pick List";
-	public static final String PRODUCT_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_Product_Template.xls";
+	public static final String PRODUCT_TEMPLATE = PATH + "\\src\\test\\resources\\SOSLOAD_ProductLoadTemplate.xls";
 	public static final String MIDDID_TEMPLATE = PATH + "\\src\\test\\resources\\testMID_DID.xls";
 
 

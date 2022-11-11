@@ -77,6 +77,52 @@ public class Excel {
 			}
 		}
 	}
+	public void writeInToExcel(String fileName, String workSheetName, String iterator, String cellValue) {
+		HSSFWorkbook wb = null;
+		try {
+			wb = new HSSFWorkbook();
+			File file = new File(fileName);
+			FileInputStream fis = new FileInputStream(file);
+			wb = new HSSFWorkbook(fis);
+			HSSFSheet workSheet = wb.getSheet(workSheetName);
+
+			List<String> iterationCount = Arrays.asList(iterator.split(Constants.DELIMITER_HASH));
+			int columnCount = workSheet.getRow(Integer.parseInt(iterationCount.get(0))).getFirstCellNum();
+			if (cellValue.contains("~")) {
+				List<String> reqValue = Arrays.asList(cellValue.split("~"));
+				int reqIter = reqValue.size();
+				for (int i = (Integer.parseInt(iterationCount.get(1))); i < reqIter + 1; i++) {
+					List<String> value = Arrays.asList(reqValue.get(i - 1).split(Constants.DELIMITER_HASH));
+					HSSFRow row = workSheet.getRow(i);
+					for (int j = 0; j < columnCount; j++) {
+						Cell cell = row.getCell(j);
+						cell.setCellValue(value.get(j));
+					}
+				}
+			} else {
+				List<String> reqValue = Arrays.asList(cellValue.split(Constants.DELIMITER_HASH));
+				for (int i = (Integer.parseInt(iterationCount.get(1))); i < Integer
+						.parseInt(iterationCount.get(2)); i++) {
+					HSSFRow row = workSheet.getRow(i);
+					for (int j = 0; j < columnCount; j++) {
+						Cell cell = row.getCell(j);
+						cell.setCellValue(reqValue.get(j));
+					}
+				}
+			}
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		} finally {
+			try {
+				FileOutputStream out = new FileOutputStream(new File(fileName));
+				wb.write(out);
+				out.close();
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+	}
+
 
 	public boolean verifyExcelData(List<String> uiList, String filePath, int rowNum) {
 		XSSFWorkbook workBook = null;

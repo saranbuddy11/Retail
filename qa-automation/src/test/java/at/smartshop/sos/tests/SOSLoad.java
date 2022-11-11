@@ -29,6 +29,7 @@ import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.CreatePromotions;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.Login;
@@ -700,17 +701,11 @@ public class SOSLoad extends TestInfra {
 					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_TILD));
 			String delectExisting =rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT);
 //			int requiredValue = numbers.generateRandomNumber(0, 999999);
-			String requiredData = strings.getRandomCharacter();
-			String requiredString = ( requiredData + "Milk" + Constants.DELIMITER_HASH + requiredData + Constants.DELIMITER_HASH + "milk" + Constants.DELIMITER_HASH
-					            + requiredData + "322" + Constants.DELIMITER_HASH + "juice" + Constants.DELIMITER_HASH + "drink" + Constants.DELIMITER_HASH 
-		                        + " " + Constants.DELIMITER_HASH + " " + Constants.DELIMITER_HASH + " " + Constants.DELIMITER_HASH 
-		                        + " " + Constants.DELIMITER_HASH + "25" + Constants.DELIMITER_HASH + "40" + Constants.DELIMITER_HASH + " "             
-		                        + Constants.DELIMITER_HASH + " " + Constants.DELIMITER_HASH  + " " + Constants.DELIMITER_HASH + " " 
-		                        + Constants.DELIMITER_HASH + " " + Constants.DELIMITER_HASH+ " " + Constants.DELIMITER_HASH + " " 
-		                        + Constants.DELIMITER_HASH + " " + Constants.DELIMITER_HASH + " " + Constants.DELIMITER_HASH + " " 
-		                        + Constants.DELIMITER_HASH + data.get(4) + Constants.DELIMITER_HASH + "49" + Constants.DELIMITER_HASH 
-		                        + "60" + Constants.DELIMITER_HASH + "17" + Constants.DELIMITER_HASH + "26" + Constants.DELIMITER_HASH 
-		                        + " ");
+//			String requiredData = strings.getRandomCharacter();
+			String requiredString = ("RoseMilk" + Constants.DELIMITER_HASH + "veg" + Constants.DELIMITER_HASH  
+					            + "23534" + Constants.DELIMITER_HASH + "Juice" + Constants.DELIMITER_HASH + "Drinks" + Constants.DELIMITER_HASH 
+		                        + "11" + Constants.DELIMITER_HASH + "13" + Constants.DELIMITER_HASH + "Below Maximum"+ Constants.DELIMITER_HASH
+		                        + "11"+ Constants.DELIMITER_HASH + "13" + Constants.DELIMITER_HASH);
 		try {
 			
 			// Login into SOS application with valid User
@@ -732,7 +727,7 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(location.get(2)));
 			foundation.click(LoadProduct.BTN_SELECTNONE);
 			CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(location.get(3)));
-			foundation.threadWait(3);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(loadProduct.clickLocation(location.get(0)));
 //			dropDown.selectItem(LoadProduct.DPD_LOCATION,location.get(0),Constants.TEXT);
 			
@@ -740,8 +735,8 @@ public class SOSLoad extends TestInfra {
 //			String requiredString = ( data.get(0) + Constants.DELIMITER_HASH + ); 
 //			String requiredString = (requiredData + "Milk" );
 			foundation.threadWait(3);
-			excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadProduct.SHEET,
-					"1", requiredString);
+			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + data.get(0));
+			excel.writeInToExcel(FilePath.PRODUCT_TEMPLATE,location.get(1),location.get(4), requiredStringData);
 //			excel.writeToExcel(FilePath.SOS_PRODUCT_TEMPLATE,location.get(1),
 //					rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
 			System.out.println(excel.getExcelData(FilePath.PRODUCT_TEMPLATE, location.get(1)));
@@ -760,19 +755,22 @@ public class SOSLoad extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
-			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData + "Milk" );
-			foundation.threadWait(5);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, data.get(0) );
+			foundation.threadWait(Constants.SHORT_TIME);
 			System.out.println(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID));
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
-			foundation.click(LocationSummary.TBL_PRODUCTS_GRID);
-			foundation.click(LocationSummary.EDIT_PRODUCT);
+			foundation.click(LocationSummary.PRODUCT_NAME);
+			foundation.waitforElement(LocationSummary.BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
+			foundation.click(LocationSummary.BTN_EDIT_PRODUCT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 			dropDown.selectItem(ProductSummary.DPD_IS_DISABLED, delectExisting, Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 		}
 	}
 	
