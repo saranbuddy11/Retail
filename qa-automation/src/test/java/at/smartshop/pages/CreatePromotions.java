@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.print.attribute.standard.JobKOctets;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -566,21 +568,24 @@ public class CreatePromotions extends Factory {
 	 * @param location
 	 */
 	public void selectOrgLoc(String org, String location) {
-		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.LONG_TIME);
 		textBox.enterText(TXT_SEARCH_ORGPAGE, org);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_NEXT);
-		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
+		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.waitforElement(TXT_LOC_SEARCH, Constants.LONG_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, location);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_LOC);
-		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
-	    foundation.threadWait(Constants.THREE_SECOND);
-	    foundation.objectClick(BTN_NEXT);
-	    foundation.waitforElementToBeVisible(LBL_BUILD_BUNDLE, Constants.TWO_SECOND);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
 	    
 	}
 
@@ -607,9 +612,11 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_ADD_GROUP);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
 		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GROUP_MODAL_SAVE);
@@ -628,15 +635,19 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
 		foundation.threadWait(Constants.TWO_SECOND);
 		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(CATEGORY_FILTER);
 		foundation.click(INPUT_CATEGORY_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GROUP_MODAL_SAVE);
@@ -659,12 +670,15 @@ public class CreatePromotions extends Factory {
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(CATEGORY_FILTER);
 		foundation.click(INPUT_CATEGORY_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GROUP_MODAL_SAVE);
