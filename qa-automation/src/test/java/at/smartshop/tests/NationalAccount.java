@@ -2647,25 +2647,12 @@ public class NationalAccount extends TestInfra {
 			//click on create new and enter name with apostrophe and Click on save
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_PAGE_TITLE));
-			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, data);
+			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT,strings.getRandomCharacter()+ data);
 			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT,client,Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			
-			//resetting
-			foundation.threadWait(3);
-			navigationBar.navigateToMenuItem(menu);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TXT_FILTER));
-			textBox.enterText(AdminNationalAccounts.TXT_FILTER,rstNationalAccountsData.get(CNNationalAccounts.LOCATION));
-			CustomisedAssert.assertTrue(foundation.getText(AdminNationalAccounts.NATIONAL_ACCOUNT_NAME).equals(data));
-			foundation.click(NationalAccounts.ICON_DELETE);
-			foundation.waitforElement(NationalAccounts.BTN_POP_UP_YES, Constants.SHORT_TIME);
-			foundation.click(NationalAccounts.BTN_POP_UP_YES);
 		}
 	}
 		
