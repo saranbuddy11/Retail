@@ -2126,7 +2126,8 @@ public class Promotions extends TestInfra {
 
 			// end promotion
 			createPromotions.cancellingPromotion();
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName, statusType, gridName);
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+					statusType, gridName);
 
 //			foundation.threadWait(Constants.TWO_SECOND);
 //			foundation.click(EditPromotion.BTN_CANCEL);
@@ -2141,28 +2142,27 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "141828-SOS-21458-Verify if category is correctly getting updated in Promotion screen - Onscreen Promotion")
 	public void verifyReplaceItemFieldtOptionWithCategory() {
-		
-			final String CASE_NUM = "141828";
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+		final String CASE_NUM = "141828";
 
-			// Reading test data from database
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+		login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			final String promotionName = strings.getRandomCharacter();
-			String displayName = strings.getRandomCharacter();
-			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
-			String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-			String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
 
-			List<String> requiredData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			try {
+		final String promotionName = strings.getRandomCharacter();
+		String displayName = strings.getRandomCharacter();
+		String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
+		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
+		String statusType = rstLocationData.get(CNLocation.COLUMN_VALUE);
+
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		try {
 			// Select Org,Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2263,10 +2263,10 @@ public class Promotions extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			
-			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName, statusType, gridName);
+		} finally {
+
+			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
+					statusType, gridName);
 
 		}
 	}
@@ -2305,7 +2305,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getText(EditPromotion.PAGE_TITLE).contains(title));
 			CustomisedAssert.assertTrue(checkBox.isChecked(EditPromotion.CHK_ACTIVE));
 			foundation.click(CreatePromotions.BTN_NEXT);
-			foundation.threadWait(Constants.SHORT_TIME);			
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Filter Page
 			foundation.waitforElement(CreatePromotions.TXT_SEARCH_ORGPAGE, Constants.LONG_TIME);
@@ -2320,8 +2320,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
-			
-			
+
 			foundation.waitforElement(CreatePromotions.TXT_LOC_SEARCH, Constants.LONG_TIME);
 			textBox.enterText(CreatePromotions.TXT_LOC_SEARCH, location.get(1));
 			foundation.threadWait(Constants.LONG_TIME);
@@ -2332,7 +2331,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			
+
 //			foundation.threadWait(Constants.ONE_SECOND);
 //			dropDown.selectItem(CreatePromotions.DPD_DESELECT_ORGANIZATION, org.get(0), Constants.TEXT);
 //			foundation.click(CreatePromotions.BTN_ORG_LEFT);
@@ -2421,8 +2420,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
-			
-			
+
 			foundation.waitforElement(CreatePromotions.TXT_LOC_SEARCH, Constants.LONG_TIME);
 			textBox.enterText(CreatePromotions.TXT_LOC_SEARCH, location.get(0));
 			foundation.threadWait(Constants.LONG_TIME);
@@ -2433,7 +2431,6 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			
 
 			// Details page
 			List<String> actualData = Arrays
@@ -2955,10 +2952,8 @@ public class Promotions extends TestInfra {
 		List<String> color = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
-
 		try {
-
-			// Select Org,Menu and Menu Item and click Create Promotion
+			// Select Org, Menu and Menu Item and click Create Promotion
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
@@ -2973,7 +2968,7 @@ public class Promotions extends TestInfra {
 			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
 
 			// Navigate to Choosing promotion filter and select organization
-			colour = foundation.getTextColor(PromotionList.CHOOSE_PROMOTION_FILTER);
+			colour = foundation.getTextColor(PromotionList.CHOOSE_ORG_FILTER);
 			CustomisedAssert.assertEquals(colour, color.get(0));
 			createPromotions.selectOrgLoc(org.get(0), org.get(1));
 
@@ -3013,16 +3008,15 @@ public class Promotions extends TestInfra {
 			// selecting a item&Category in build bundle
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BUNDLE_BUILD));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, product.get(0), Constants.TEXT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TXT_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ADD_ITEM));
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, product.get(1), Constants.TEXT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TXT_CATEGORY));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ADD_CATEGORY));
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
 			createPromotions.cancellingPromotion();
 			login.logout();
 			browser.close();
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -3062,7 +3056,7 @@ public class Promotions extends TestInfra {
 			createPromotions.createPromotion(requiredData.get(0), requiredData.get(1), requiredData.get(2));
 
 			// Navigate to Choosing promotion filter and select organization
-			colour = foundation.getTextColor(PromotionList.CHOOSE_PROMOTION_FILTER);
+			colour = foundation.getTextColor(PromotionList.CHOOSE_ORG_FILTER);
 			CustomisedAssert.assertEquals(colour, color.get(0));
 			createPromotions.selectOrgLoc(org.get(0), org.get(1));
 

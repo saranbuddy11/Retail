@@ -43,7 +43,7 @@ public class PromotionList extends Factory {
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	public static final By DPD_STATUS = By.id("status");
 	public static final By BASIC_PROMOTION_TITLE = By.xpath("//div[text()='Enter Promotion Basics']");
-	public static final By CHOOSE_PROMOTION_FILTER = By.xpath("//div[text()='Choose Promotion Filters']");
+	public static final By CHOOSE_ORG_FILTER = By.xpath("//div[text()='Choose Org Filters']");
 	public static final By PROMOTION_DETAILS = By.xpath("//div[text()='Promotion Details']");
 	
 	public static final By DPD_PROMOTYPE = By.id("promotype");
