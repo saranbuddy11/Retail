@@ -2536,6 +2536,7 @@ public class ConsumerSubsidy extends TestInfra {
 			// Verify the Subsidy group in Action>Export
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.BTN_EXPORT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_CONSUMER));
 			foundation.threadWait(Constants.SHORT_TIME);
 			Map<String, String> excelData = excel.getExcelData(FilePath.EXCEL_CONSUMER,
