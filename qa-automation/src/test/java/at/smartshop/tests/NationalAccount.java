@@ -2635,7 +2635,7 @@ public class NationalAccount extends TestInfra {
 		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
 		
 		String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		String data =rstNationalAccountsData.get(CNNationalAccounts.LOCATION)+"'s";
+		String data =strings.getRandomCharacter()+ rstNationalAccountsData.get(CNNationalAccounts.LOCATION);
 		String client = rstNationalAccountsData.get(CNNationalAccounts.CLIENT_NAME);
 		
 		try {
@@ -2647,9 +2647,15 @@ public class NationalAccount extends TestInfra {
 			//click on create new and enter name with apostrophe and Click on save
 			foundation.click(AdminNationalAccounts.BTN_CREATE_NEW_RULE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.NA_SUMMARY_PAGE_TITLE));
-			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT,strings.getRandomCharacter()+ data);
+			textBox.enterText(AdminNationalAccounts.NATIONAL_ACCOUNT_INPUT, data+"'s");
 			dropDown.selectItem(AdminNationalAccounts.DPD_CLIENT,client,Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
+			foundation.threadWait(3);
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TXT_FILTER));
+			textBox.enterText(AdminNationalAccounts.TXT_FILTER,data );
+			CustomisedAssert.assertTrue(foundation.getText(AdminNationalAccounts.NATIONAL_ACCOUNT_NAME).equals(data+"'s"));
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
