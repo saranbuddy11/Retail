@@ -1287,7 +1287,7 @@ public class GlobalProducts extends TestInfra {
 				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
 				foundation.click(GlobalProductChange.BTN_NEXT);
 			}
-			// Entering the datas in updated fields
+			// Entering the data in updated fields
 			foundation.threadWait(5);
 			globalProductChange.productFieldChangeInopc(requireddata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
