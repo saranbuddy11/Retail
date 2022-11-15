@@ -399,11 +399,12 @@ public class LocationSummary extends Factory {
 	public static final By GMR_ERROR = By.id("gmaratepercent-error");
 	public static final By CREDIT_ERROR = By.id("creditratepercent-error");
 	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
-
+	public static final By TBL_HOME_COMMERCIAL = By.xpath("//table[@id='cmrHomeGrid']//tbody//tr");
 	public static final By LBL_LOCATION_CREATE = By.id("Location Create");
 	public static final By DPD_OPTION_TYPE = By.xpath("//select[@id='type-id']//option");
 	public static final By TXT_STOCKWELL_STORE_ID = By
 			.xpath("//div[@id='stockwell-div-id']/dd/input[@id='stockwellstoreid']");
+	public static final By DPD_HOME_COMMERCIAL_FILTER = By.id("homeCommercialFilterValues");
 
 	public static final By INVENTORY_GRID_FIRST_CELL = By
 			.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");

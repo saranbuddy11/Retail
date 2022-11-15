@@ -91,8 +91,8 @@ public class Excel {
 			if (cellValue.contains("~")) {
 				List<String> reqValue = Arrays.asList(cellValue.split("~"));
 				int reqIter = reqValue.size();
-				for (int i = (Integer.parseInt(iterationCount.get(1))); i < reqIter + 1; i++) {
-					List<String> value = Arrays.asList(reqValue.get(i - 1).split(Constants.DELIMITER_HASH));
+				for (int i = (Integer.parseInt(iterationCount.get(1))); i < reqIter - 1; i++) {
+					List<String> value = Arrays.asList(reqValue.get(i + 1).split(Constants.DELIMITER_HASH));
 					HSSFRow row = workSheet.getRow(i);
 					for (int j = 0; j < columnCount; j++) {
 						Cell cell = row.getCell(j);
