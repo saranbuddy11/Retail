@@ -1712,7 +1712,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1721,7 +1721,7 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -2696,6 +2696,7 @@ public class ReportsSmokeTest extends TestInfra {
 			billingInformationReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Downloading the Report
+			foundation.waitforElement(reportList.TO_EXCEL_BUTTON, Constants.FIFTY_FIVE_SECONDS);
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
 			foundation.threadWait(Constants.TEN_SECOND);
@@ -2983,6 +2984,7 @@ public class ReportsSmokeTest extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Downloading the Report
+			foundation.waitforElement(reportList.TO_EXCEL_BUTTON, Constants.FIFTY_FIVE_SECONDS);
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -3128,6 +3130,7 @@ public class ReportsSmokeTest extends TestInfra {
 			financialCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Downloading the Report
+			foundation.waitforElement(reportList.TO_EXCEL_BUTTON, Constants.FIFTY_FIVE_SECONDS);
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
 			foundation.threadWait(Constants.TEN_SECOND);
@@ -5349,7 +5352,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -5358,13 +5361,14 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectCurrentDay();
 			reportList
-					.selectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					.selectOrg(propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			AVISubFeeReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Downloading the Report
+			foundation.waitforElement(reportList.TO_EXCEL_BUTTON, Constants.FIFTY_FIVE_SECONDS);
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
 			foundation.threadWait(Constants.TEN_SECOND);

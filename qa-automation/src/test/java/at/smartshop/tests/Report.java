@@ -3858,7 +3858,7 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
@@ -3890,7 +3890,7 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(InventoryAdjustmentDetail.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			inventoryAdjustmentDetail.verifyReportName(reportName);
-			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
+			textBox.enterText(InventoryAdjustmentDetail.TXT_SEARCH, String.valueOf(updatedTime.toUpperCase()));
 			inventoryAdjustmentDetail.getTblRecordsUI();
 
 			// Validating the Headers and Report data
@@ -4830,7 +4830,7 @@ public class Report extends TestInfra {
 			salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(10), productType);
 			salesItemDetailsReport.calculateAmount(salesItemDetailsReport.getTableHeaders().get(11), productPrice, tax);
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(12), requiredData.get(1));
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(13), date.toUpperCase());
+			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(13), (String) salesItemDetailsReport.getJsonData().get(Reports.TRANS_DATE_TIME));
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(14), requiredData.get(2));
 
 			salesItemDetailsReport.getTblRecordsUI();
@@ -5656,7 +5656,7 @@ public class Report extends TestInfra {
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
@@ -5953,6 +5953,7 @@ public class Report extends TestInfra {
 			price = price.replace("$", "");
 			price = price.replace(".", "");
 			price = price.replace("0", "");
+			System.out.println(columnName.get(9)+" : "+ price);
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
 
 			// Verifying the selection of defaults as Roll Over for GMA subsidy
@@ -7326,7 +7327,7 @@ public class Report extends TestInfra {
 	 * @date: 12-10-2022
 	 */
 
-	@Test(description = "168647 - Payroll Deduct Details data validation")
+	@Test(enabled = false, description = "168647 - Payroll Deduct Details data validation")
 	public void PayrollDeductDetailsReportDataValidation() {
 		final String CASE_NUM = "168647";
 
