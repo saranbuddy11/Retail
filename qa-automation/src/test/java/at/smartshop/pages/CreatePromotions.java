@@ -629,8 +629,8 @@ public class CreatePromotions extends Factory {
 	 */
 	public void creatingBundleGroupWithCategory(String groupName, String product, String category) {
 		foundation.click(BTN_ADD_GROUP);
-		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(TXT_GROUP_NAME, groupName);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(INPUT_ITEM_SEARCH);
@@ -638,7 +638,7 @@ public class CreatePromotions extends Factory {
 		textBox.enterText(INPUT_ITEM_SEARCH, product);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_FILTER);
 		foundation.click(INPUT_CATEGORY_SEARCH);
 		foundation.threadWait(Constants.SHORT_TIME);
@@ -646,9 +646,9 @@ public class CreatePromotions extends Factory {
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_CHECK_BOX);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(GROUP_MODAL_SAVE);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
