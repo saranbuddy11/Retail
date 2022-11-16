@@ -479,7 +479,7 @@ public class Promotions extends TestInfra {
 //			foundation.click(CreatePromotions.BTN_CONTINUE);
 //			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_OK);
-			createPromotions.cancellingPromotion();
+			createPromotions.cancelingPromotion();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -629,7 +629,7 @@ public class Promotions extends TestInfra {
 //			foundation.click(CreatePromotions.BTN_NEXT);
 //			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_OK);
-			createPromotions.cancellingPromotion();
+			createPromotions.cancelingPromotion();
 
 		} catch (Exception exc) {
 
@@ -2125,7 +2125,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
 
 			// end promotion
-			createPromotions.cancellingPromotion();
+			createPromotions.cancelingPromotion();
 			promotionList.expirePromotion(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM), promotionName,
 					statusType, gridName);
 
@@ -2259,7 +2259,7 @@ public class Promotions extends TestInfra {
 //			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 //			foundation.click(EditPromotion.BTN_END_PROMO);
 //			foundation.click(EditPromotion.BTN_CONTINUE);
-			createPromotions.cancellingPromotion();
+			createPromotions.cancelingPromotion();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2622,8 +2622,8 @@ public class Promotions extends TestInfra {
 			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_CATEGORY, requiredData.get(4));
 			CustomisedAssert.assertTrue(value == null);
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -2733,8 +2733,8 @@ public class Promotions extends TestInfra {
 			value = foundation.getAttribute(CreatePromotions.BUNDLE_OPTION_CATEGORY, requiredData.get(4));
 			CustomisedAssert.assertTrue(value == null);
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -2813,7 +2813,7 @@ public class Promotions extends TestInfra {
 			content = foundation.getText(CreatePromotions.BTN_PROMPT_CANCEL);
 			CustomisedAssert.assertEquals(content, requiredData.get(2));
 
-			// Cancelling the Delete Bundle Prompt
+			// Canceling the Delete Bundle Prompt
 			foundation.click(CreatePromotions.BTN_PROMPT_CANCEL);
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.DELETE_GROUP_HEADER));
@@ -2831,8 +2831,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.LBL_CREATED_GROUP));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.BUNDLE_GROUP_NAME));
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -2923,8 +2923,8 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -3014,7 +3014,7 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ADD_CATEGORY));
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
-			createPromotions.cancellingPromotion();
+			createPromotions.cancelingPromotion();
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {
@@ -3092,10 +3092,10 @@ public class Promotions extends TestInfra {
 			createPromotions.selectItemInBuildBundle(datas.get(2));
 			createPromotions.selectItemInBuildBundle(datas.get(3));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			createPromotions.selectCategoryInBuildBundle(datas.get(1));
-			String text = foundation.getText(CreatePromotions.PROD_CATE_SELECTED);
-			CustomisedAssert.assertEquals(text, datas.get(0));
+			// String text = foundation.getText(CreatePromotions.PROD_CATE_SELECTED);
+			// CustomisedAssert.assertEquals(text, datas.get(0));
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
@@ -3108,6 +3108,9 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.CANCEL_BTN);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(CreatePromotions.BTN_EXPIRE);
+			createPromotions.cancelingPromotion();
+			login.logout();
+			browser.close();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -3224,8 +3227,8 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -3364,8 +3367,8 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_EXPIRE);
 			foundation.threadWait(Constants.THREE_SECOND);
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -3755,7 +3758,6 @@ public class Promotions extends TestInfra {
 			foundation.click(EditPromotion.BTN_END_PROMO);
 			foundation.waitforElement(EditPromotion.BTN_CONTINUE, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_CONTINUE);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -3812,7 +3814,6 @@ public class Promotions extends TestInfra {
 			String text = foundation.getText(CreatePromotions.BUNDLE_GROUP_NAME);
 			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRICE_TAG));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -3886,8 +3887,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.BUNDLE_CRITERIA));
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -3951,7 +3952,6 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(groupname, requiredData.get(1));
 			groupname = foundation.getText(CreatePromotions.SUMMARY_GROUPNAME2);
 			CustomisedAssert.assertEquals(groupname, requiredData.get(2));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -4049,8 +4049,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(title, promoType.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ON_SCREEN_TENDER_DETAILS));
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -4099,8 +4099,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(title, promoType.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.ON_SCREEN_TENDER_DETAILS));
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -4149,8 +4149,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(title, promoType.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TENDER_DISCOUNT_DETAILS));
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -4199,8 +4199,8 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(title, promoType.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.TENDER_DISCOUNT_DETAILS));
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -4250,8 +4250,8 @@ public class Promotions extends TestInfra {
 			value = createPromotions.verifyGroupIsDisabledOrNot();
 			CustomisedAssert.assertEquals(value, requiredData.get(5));
 
-			// Cancelling the Promotion
-			createPromotions.cancellingPromotion();
+			// Canceling the Promotion
+			createPromotions.cancelingPromotion();
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -4375,7 +4375,6 @@ public class Promotions extends TestInfra {
 
 			// expire promotion
 			createPromotions.cancelingPromotionAndExpired();
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -683,9 +683,9 @@ public class CreatePromotions extends Factory {
 	}
 
 	/**
-	 * Cancelling the Created Promotion
+	 * Canceling the Created Promotion
 	 */
-	public void cancellingPromotion() {
+	public void cancelingPromotion() {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
 		foundation.scrollIntoViewElement(BTN_CANCEL_1);
@@ -697,6 +697,7 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_CANCEL_1);
 		foundation.alertAccept();
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	public void deselectOrgAndLoc() {
@@ -767,8 +768,9 @@ public class CreatePromotions extends Factory {
 		foundation.click(INPUT_CATEGORY_SEARCH);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_CHECK_BOX);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
