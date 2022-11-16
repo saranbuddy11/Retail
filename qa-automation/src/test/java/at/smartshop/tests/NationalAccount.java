@@ -2464,6 +2464,7 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(5));
 			
+			//bug SOS-35642:price value not updating
 			//navigate to product->Global Product Change and editable price value
 			navigationBar.navigateToMenuItem(menu.get(2));
 			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(9),data.get(11));
@@ -2542,6 +2543,7 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2),data.get(4),data.get(5));
 			
+			//bug SOS-35642:price value not updating
 			//navigate to product->Global Product Change and editable price value
 			navigationBar.navigateToMenuItem(menu.get(2));
 			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2),data.get(8),data.get(9),data.get(11));
@@ -2654,6 +2656,7 @@ public class NationalAccount extends TestInfra {
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.PAGE_TITLE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.TXT_FILTER));
+			foundation.waitforElementToBeVisible(AdminNationalAccounts.NATIONAL_ACCOUNT_NAME,5);
 			textBox.enterText(AdminNationalAccounts.TXT_FILTER,data );
 			CustomisedAssert.assertTrue(foundation.getText(AdminNationalAccounts.NATIONAL_ACCOUNT_NAME).equals(data+"'s"));
 		}
