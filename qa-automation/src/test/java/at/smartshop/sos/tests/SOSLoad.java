@@ -850,7 +850,7 @@ public class SOSLoad extends TestInfra {
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				foundation.click(SOSHome.MENU);
 
-				// construct string with no value for payroll id and payroll group
+				// construct string with invalid GMA Template
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.BTN_SUBMIT));
 				String requiredData = strings.getRandomCharacter();
 				String requiredString = (requiredData + "#" + " " + "#" + " " + "#" + " " + "#"
@@ -934,8 +934,10 @@ public class SOSLoad extends TestInfra {
 		 * @author sakthir 
 		 * Date:14-11-2022
 		 */
-		@Test(description = "152478-SOSLoad - Add Home Commercial")
-		public void verifyHomeCommercialInLocationSummaryWhileAddingUsingSOSLoad() {
+		@Test(description = "152478-SOSLoad - Add Home Commercial"
+				+"152480-SOSLoad - Remove Home Commercial"
+				+"152442-SOS-21268- Verify the upload is successful if same image is loaded for a different commercial name")
+		public void verifyAddAndRemoveHomeCommercialAndSameImageUploadWithDifferentNameSuccessfully() {
 			
 				final String CASE_NUM = "152478";
 
@@ -948,6 +950,7 @@ public class SOSLoad extends TestInfra {
 				String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
 				List<String> location =Arrays
 						.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+				String requiredString = ("c9fe79b15aedea1c5d957187573f2b6e");
 		try {
 			
 				// Login into SOS application
@@ -959,26 +962,26 @@ public class SOSLoad extends TestInfra {
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
-				//navigate to product
+				//navigate to home commercial
 				navigationBar.navigateToMenuItem(menu.get(0));
-				dropDown.selectItem(LoadAdvana.DPD_ACTION,location.get(0), Constants.TEXT);
-				textBox.enterText(LoadAdvana.TXT_NAME,location.get(1));
-				
+								
 				//Upload image and File writing excel with location Id
-				textBox.enterText(LoadAdvana.BTN_IMAGE_FILE, FilePath.IMAGE_PNG_PATH);
-				String requiredString = ("c9fe79b15aedea1c5d957187573f2b6e");
-				excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadAdvana.SHEET,location.get(2), requiredString);
-				textBox.enterText(LoadAdvana.BTN_CHOOSE_FILE, FilePath.HOME_COMMERCIAL_TEMPLATE);
-				if(foundation.getText(LoadAdvana.DPD_ADVANA_COMMERCIAL).equals(location.get(3)))
-				foundation.click(LoadAdvana.SELECT_START_DATE);
-				textBox.enterText(LoadAdvana.SELECT_START_DATE, currentDate);
-				textBox.enterText(LoadAdvana.SELECT_END_DATE, currentDate);
-				foundation.click(LoadAdvana.BTN_SAVE);
-				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.SUCESS_MSG).equals(location.get(5)));
+				loadAdvana.addHomeCommercial(location.get(0),location.get(1),location.get(2),requiredString,location.get(3),currentDate);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
 				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
-				System.out.println(foundation.getText(LoadQueue.TBL_DATA));
+				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
+
+				//navigate to home commercial
+				navigationBar.navigateToMenuItem(menu.get(0));
+				
+				//Upload same image and File with different commercial name
+				loadAdvana.addHomeCommercial(location.get(0),location.get(9),location.get(2),requiredString,location.get(3),currentDate);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
+				
+				//verify in Queue
+				navigationBar.navigateToMenuItem(menu.get(1));
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 				sosHome.logout();
 				
@@ -990,12 +993,11 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 				locationList.selectLocationName(location.get(6));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
-				foundation.scrollIntoViewElement(LocationSummary.BTN_HOME_COMMERCIAL);
-				foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
-				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_HOME_COMMERCIAL_FILTER));
-				dropDown.selectItem(LocationSummary.DPD_HOME_COMMERCIAL_FILTER, location.get(7),Constants.TEXT);
+				locationSummary.selectHomeCommercialTab(location.get(7));
 				textBox.enterText(LocationSummary.TXT_CMR_FILTER, location.get(1));
 				CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_HOME_COMMERCIAL).contains(location.get(1)));
+				textBox.enterText(LocationSummary.TXT_CMR_FILTER, location.get(9));
+				CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_HOME_COMMERCIAL).contains(location.get(9)));
 				login.logout();
 				
 				// Login into SOS application
@@ -1007,18 +1009,82 @@ public class SOSLoad extends TestInfra {
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
-				//navigate to product
+				//navigate to home commercial
 				navigationBar.navigateToMenuItem(menu.get(0));
-				dropDown.selectItem(LoadAdvana.DPD_ACTION,location.get(4), Constants.TEXT);
-				textBox.enterText(LoadAdvana.BTN_IMAGE_FILE, FilePath.IMAGE_PNG_PATH);
-				excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadAdvana.SHEET,location.get(2), requiredString);
-				textBox.enterText(LoadAdvana.BTN_CHOOSE_FILE, FilePath.HOME_COMMERCIAL_TEMPLATE);
-				foundation.click(LoadAdvana.BTN_SAVE);
-    		    CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.SUCESS_MSG).equals(location.get(5)));
+				loadAdvana.removeHomeCommercial(location.get(4),location.get(2), requiredString,location.get(5));
 				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
+				sosHome.logout();
+				
+				// Launch ADM as super
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				
+				//select commercial Added location and Click commercial Tab
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+				locationList.selectLocationName(location.get(6));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+				locationSummary.selectHomeCommercialTab(location.get(7));
+				textBox.enterText(LocationSummary.TXT_CMR_FILTER, location.get(1));
+				
+				//verify removed commercial
+				CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.TBL_HOME_COMMERCIAL));
+				
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
+		
+		/**
+		 * @author sakthir 
+		 * Date:16-11-2022
+		 */
+		@Test(description = "152479-SOSLoad - Add Home Commercial - Failure"
+				+"152481-SOSLoad - Remove Home Commercial - Failure")
+		public void verifyHomeCommercialUploadFailureWithInvalidDataWhileAddAndRemove() {
+			
+				final String CASE_NUM = "152479";
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstGmaUser = dataBase.getGmaUserData(Queries.GMA_USER, CASE_NUM);
+				
+				List<String> menu =Arrays
+						.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+				String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+				List<String> location =Arrays
+						.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+				String requiredString = ("c9fe79b15");
+		try {
+			
+				// Login into SOS application
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				sosHome.selectOrginazation(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+				
+				//navigate to home commercial
+				navigationBar.navigateToMenuItem(menu.get(0));
+								
+				//Upload image and File writing excel with Invalid location Id
+				loadAdvana.addHomeCommercial(location.get(0),location.get(1),location.get(2),requiredString,location.get(3),currentDate);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).contains(location.get(5)));
+				//verify in Queue
+				navigationBar.navigateToMenuItem(menu.get(1));
+				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
+				
+				//navigate to home commercial
+				navigationBar.navigateToMenuItem(menu.get(0));
+				loadAdvana.removeHomeCommercial(location.get(4),location.get(2), requiredString,location.get(5));
+				
+				//verify in Queue
+				navigationBar.navigateToMenuItem(menu.get(1));
+				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));			
 
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
