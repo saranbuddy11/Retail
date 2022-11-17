@@ -16,7 +16,9 @@ import at.smartshop.database.columns.CNSSODomain;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.PickList;
 import at.smartshop.pages.SSODomainList;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -181,4 +183,57 @@ public class SSODomain extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * @author sakthir Date:26-09-2022
+	 */
+	@Test(description = "204927-To verify show records number on SSO Domain")
+	public void verifyShowRecordsNumberOnSSODomain() {
+		final String CASE_NUM = "204927";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		
+		try {
+
+			// Launch ADM as super
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Navigate to SSO Domain page
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			//verify the Show Record label and match records
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SSODomainList.LAB_RECORD));
+			foundation.waitforElementToBeVisible(SSODomainList.DPD_RECORD,3);
+			foundation.click(SSODomainList.DPD_RECORD);	
+			foundation.click(ssoDomainList.selectRecord(data.get(1)));
+			foundation.scrollIntoViewElement(SSODomainList.MATCH_RECORD);
+			String record=foundation.getText(SSODomainList.MATCH_RECORD);
+			CustomisedAssert.assertTrue(record.contains(data.get(0)));
+			
+			//verify page navigation
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SSODomainList.LAB_PAGING));
+			String color1=foundation.getBGColor(ssoDomainList.objPage(data.get(2)));
+			String color2=foundation.getBGColor(ssoDomainList.objPage(data.get(3)));
+			CustomisedAssert.assertTrue(color1.equals(data.get(4)));
+			CustomisedAssert.assertTrue(color2.equals(data.get(5)));
+			foundation.click(ssoDomainList.objPage(data.get(3)));
+			color1=foundation.getBGColor(ssoDomainList.objPage(data.get(2)));
+			color2=foundation.getBGColor(ssoDomainList.objPage(data.get(3)));
+			CustomisedAssert.assertTrue(color1.equals(data.get(5)));
+			CustomisedAssert.assertTrue(color2.equals(data.get(4)));
+			
+			//change value and verify record
+			foundation.click(SSODomainList.DPD_RECORD);	
+			foundation.click(ssoDomainList.selectRecord(data.get(6)));
+			CustomisedAssert.assertTrue(foundation.getText(SSODomainList.MATCH_RECORD).contains(data.get(7)));
+			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+		
 }

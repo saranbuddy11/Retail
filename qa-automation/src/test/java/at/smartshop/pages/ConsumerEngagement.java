@@ -331,7 +331,7 @@ public class ConsumerEngagement extends Factory {
 	 * @param Role
 	 */
 	public void verifyRolePermissionNotPresent(String Role) {
-		CustomisedAssert.assertFalse(foundation.isDisplayed(getFeatureInRolePermission(Role)));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(getFeatureInRolePermission(Role)));
 
 	}
 

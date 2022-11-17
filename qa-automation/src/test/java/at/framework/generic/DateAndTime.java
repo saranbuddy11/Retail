@@ -45,13 +45,22 @@ public class DateAndTime {
 	public String getDateAndTime1(String format, String requiredTimeZone) {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		Date date = new Date();
-		try {
+//		try {
 			TimeZone timeZone = TimeZone.getTimeZone(requiredTimeZone);
 			formatter.setTimeZone(timeZone);
-		} catch (Exception exc) {
-			Assert.fail(exc.toString());
-		}
-		return (formatter.format(date));
+			
+			// Convert Date to Calendar
+	        Calendar c = Calendar.getInstance();
+	        c.setTime(date);
+
+	        // Perform addition/subtraction
+	        c.add(Calendar.MINUTE, 1);
+	        Date currentDateMinusOne = c.getTime();
+//		} catch (Exception exc) {
+//			Assert.fail(exc.toString());
+//		}
+
+		return (formatter.format(currentDateMinusOne));
 	}
 
 	/**

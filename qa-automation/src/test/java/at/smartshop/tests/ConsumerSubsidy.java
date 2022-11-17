@@ -2212,8 +2212,8 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyTopOffSubsidy(requiredData);
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
-			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
@@ -2256,10 +2256,10 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			foundation.click(Payments.EMAIL_ACCOUNT);
-			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
-			foundation.click(Payments.BTN_EMAIL_LOGIN);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL);
+			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.SHORT_TIME);
+			foundation.click(Payments.BTN_NEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -2381,10 +2381,10 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME));
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
-			foundation.click(Payments.EMAIL_ACCOUNT);
+			foundation.click(Payments.EMAIL);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
-			foundation.click(Payments.BTN_EMAIL_LOGIN);
-			foundation.threadWait(Constants.ONE_SECOND);
+//			foundation.click(Payments.BTN_EMAIL_LOGIN);
+//			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(AccountLogin.BTN_CAMELCASE);
 			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
 			foundation.click(AccountLogin.BTN_NEXT);
@@ -2482,9 +2482,11 @@ public class ConsumerSubsidy extends TestInfra {
 			// verify Grid in Consumer search
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.DPD_SUBSIDY_GROUP_NAME));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_READ_BALANCE));
 			foundation.click(ConsumerSummary.CANCEL_BTN);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

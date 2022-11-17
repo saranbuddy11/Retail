@@ -73,7 +73,7 @@ public class RoundUpCharity extends TestInfra {
 			// Select roundup dropDown value
 			adminRoundUpCharity.verifyCharityOptions(dropDownData.get(0));
 
-			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
+			// Navigate to Admin tab and verify RoundupCharity Sub Tab is not present
 			List<String> tabNames = navigationBar.getSubTabs(menu.get(1));
 			CustomisedAssert
 					.assertFalse(tabNames.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
@@ -123,6 +123,12 @@ public class RoundUpCharity extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.ROUND_UP_CHARITY));
 			String item = dropDown.getSelectedItem(AdminRoundUpCharity.DPD_CHARITY_ROUNDUP);
 			CustomisedAssert.assertEquals(item, datas.get(0));
+			
+			//Change country other than 'us' and verify rounupcharity
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_CREATE));
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, datas.get(2), Constants.TEXT);
+			foundation.waitforElementToBeVisible(OrgSummary.ROUND_UP_CHARITY, Constants.THREE_SECOND);
+			CustomisedAssert.assertFalse(foundation.isDisplayed(OrgSummary.ROUND_UP_CHARITY));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

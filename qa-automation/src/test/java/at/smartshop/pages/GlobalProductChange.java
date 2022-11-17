@@ -379,7 +379,7 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(INPUT_TEXT, "CONFIRM");
 		foundation.threadWait(1);
 		foundation.clickEnter();
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
 		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);
 
@@ -476,6 +476,7 @@ public class GlobalProductChange extends Factory {
 	 */
 	public void verifyTax2ValueInProductTab(String location,String product) {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+			foundation.threadWait(3);
 			foundation.click(objLocation(location));
 			foundation.waitforElementToBeVisible(GlobalProductChange.TAB_PRODUCT, 3);
 			foundation.threadWait(Constants.MEDIUM_TIME);

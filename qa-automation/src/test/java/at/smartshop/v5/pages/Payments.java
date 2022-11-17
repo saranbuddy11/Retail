@@ -10,26 +10,29 @@ import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
 public class Payments {
 	private Foundation foundation = new Foundation();
-	private Browser  browser = new Browser();
+	private Browser browser = new Browser();
 	private PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
 	private Order order= new Order();
 	
-
-	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
-	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
+//	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
+//	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
+	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
+	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.2.0']");
+	public static final By EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
 	public static final By EMAIL_lOGIN_BTN = By.id("email-login-btn-id");
+	public static final By BTN_NEXT = By.id("emaillogin-input-btn-go-id");
 	public static final By EMAIL_LOGIN_TXT = By.id("emailLoginInput");
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
-	public static final By BTN_TAB=By.xpath("//div[@data-reactid='.0.0.0.0.0']");
+	public static final By EMAIL_ACCOUNT_BTN = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
+	public static final By BTN_TAB = By.xpath("//div[@data-reactid='.0.0.0.0.0']");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
@@ -46,16 +49,18 @@ public class Payments {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(paymentPageData.get(4))));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(paymentPageData.get(5))));
 	}
-	
+
 	/**
 	 * launch v5 device and do transaction
+	 * 
 	 * @param product
 	 * @param email
 	 * @param pin
 	 * @param orderpage
 	 * @param payment
 	 */
-	public void launchV5DeviceAndDoTransaction(String product,String email,String pin,String orderpage,String payment) {
+	public void launchV5DeviceAndDoTransaction(String product, String email, String pin, String orderpage,
+			String payment) {
 		foundation.threadWait(Constants.THREE_SECOND);
 		browser.launch(Constants.REMOTE, Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
@@ -77,8 +82,7 @@ public class Payments {
 		textBox.enterPin(pin);
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
 		foundation.threadWait(Constants.SHORT_TIME);
-		CustomisedAssert
-				.assertTrue(foundation.isDisplayed(order.objText(payment)));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(payment)));
 		foundation.threadWait(Constants.THREE_SECOND);
 		browser.close();
 	}
@@ -93,5 +97,5 @@ public class Payments {
 //		foundation.click(BTN_TAB);
 //		
 //	}
-	
+
 }

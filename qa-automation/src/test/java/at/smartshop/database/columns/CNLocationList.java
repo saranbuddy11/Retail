@@ -12,4 +12,5 @@ public class CNLocationList {
 	public static final String SHOW_RECORDS = "ShowRecords";
 	public static final String PAY_CYCLE = "PayCycle";
 	public static final String PRODUCT_NAME = "ProductName";
+	
 }

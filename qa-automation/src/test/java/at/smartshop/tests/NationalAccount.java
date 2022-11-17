@@ -1304,6 +1304,7 @@ public class NationalAccount extends TestInfra {
 			dropDown.selectItem(NationalAccounts.DPD_CLIENT_NAME, clientName, Constants.TEXT);
 			foundation.click(NationalAccounts.BTN_SAVE);
 			foundation.waitforElement(NationalAccounts.DPD_ORGANIZATION, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_LOCATION, location, Constants.TEXT);
@@ -1311,7 +1312,7 @@ public class NationalAccount extends TestInfra {
 			foundation.click(NationalAccounts.BTN_ADD_NATIONAL_ACCOUNT);
 
 			// Location field validation
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			dropDown.selectItem(NationalAccounts.DPD_ORGANIZATION, org, Constants.TEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String expectedColour = rstNationalAccountsData.get(CNNationalAccounts.PROMPT_TITLE);
@@ -2261,4 +2262,5 @@ public class NationalAccount extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 }
