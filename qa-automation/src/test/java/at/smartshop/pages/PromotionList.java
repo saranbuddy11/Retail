@@ -104,7 +104,8 @@ public class PromotionList extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-
+	
+	
 	/**
 	 * Expire the multiple promotion in promotion list page
 	 * 

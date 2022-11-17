@@ -231,10 +231,12 @@ public class SalesSummaryAndCost extends Factory {
 		return totalSales;
 	}
 
-	public void calculateGrossMargin(String columnName, String cost, Double totalPrice) {
+	public void calculateGrossMargin(String columnName) {
 		try {
-			double margin = ((totalPrice
-					- Double.parseDouble(cost.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))) / totalPrice)
+			String totalPrice = reportsData.get(0).get(tableHeaders.get(5));
+			String cost = reportsData.get(0).get(tableHeaders.get(6));
+			double margin = ((Double.parseDouble(totalPrice.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))
+					- Double.parseDouble(cost.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING))) / Double.parseDouble(totalPrice.replaceAll(Reports.REPLACE_DOLLOR, Constants.EMPTY_STRING)))
 					* 100.0;
 			DecimalFormat df = new DecimalFormat(Constants.DECIMAL_FORMAT);
 			String d = df.format(margin);
@@ -280,6 +282,9 @@ public class SalesSummaryAndCost extends Factory {
 			foundation.threadWait(Constants.TWO_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+					if (iter == 7) {
+						continue;
+					}
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 				}
