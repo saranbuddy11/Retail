@@ -167,12 +167,6 @@ public class PickList extends Factory {
 
 	//public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
 	public static final By LIST_COLUMN_CHOOSER = By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']/li/span[@class='ui-iggrid-dialog-text']");
-
-	// public static final By LIST_COLUMN_CHOOSER =
-	// By.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']");
-	public static final By LIST_COLUMN_CHOOSER = By
-			.xpath("//ul[@class='ui-iggrid-columnchooser-listitems']/li/span[@class='ui-iggrid-dialog-text']");
-
 	public static final By BTN_APPLY_COLUMN = By
 			.xpath("//span[@id='filter-prd-grid_hiding_modalDialog_footer_buttonok_lbl']");
 	public static final By BTN_CANCEL_COLUMN = By.xpath(

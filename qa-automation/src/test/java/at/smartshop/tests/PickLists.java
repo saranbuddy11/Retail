@@ -1372,15 +1372,6 @@ public class PickLists extends TestInfra {
 		 
 
 
-		// Reading test data from DataBase
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-		List<String> data = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-		List<String> manageColumn = Arrays
-				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
-
-
 		try {
 //			browser.navigateURL(
 //					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
