@@ -3545,7 +3545,7 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select Organization
 			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.ORGANIZATION_OF_HSRLOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -3554,12 +3554,12 @@ public class ReportsSmokeTest extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectPriorMonthDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			ufsReport.verifyReportName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			// Downloading the Report
@@ -3570,7 +3570,7 @@ public class ReportsSmokeTest extends TestInfra {
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
 			reportList.verifyTheFileWithFullName(
-					propertyFile.readPropertyFile(Configuration.SECOND_LOC, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not

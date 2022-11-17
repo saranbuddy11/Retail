@@ -2,7 +2,6 @@ package at.smartshop.database.columns;
 
 public class CNLocationSummary {
 	private CNLocationSummary() {
-
 	}
 
 	public static final String ACTUAL_DATA = "ActualData";
@@ -31,10 +30,10 @@ public class CNLocationSummary {
 	public static final String PROMOTION_NAME = "PromotionName";
 	public static final String COLUMN_VALUE = "ColumnValue";
 	public static final String FILTER_RESULT = "FilterResult";
+	public static final String ADDRESS = "Address";
 	public static final String PRODUCT_MESSAGE = "ProductMessage";
 	public static final String DEVICE_STATUS = "DeviceStatus";
 	public static final String GMA_LOYALTY_POINTS = "GMALoyaltyPoints";
-	public static final String ADDRESS= "Address";
 	public static final String LOYALTY_MULTIPLIER_DEFAULT = "LoyaltyMultiplierDefault";
 	public static final String CONFIRMATION_MESSAGE = "ConfirmationMessage";
 	public static final String POPUP_NAME = "PopupName";

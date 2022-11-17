@@ -1680,7 +1680,7 @@ public class GlobalProducts extends TestInfra {
 	 */
 	@Test(description = "198583-ADM > Global Product Change > Operator Product Catalog Change > Not updating location level")
 	public void verifyUpdatedPriceOnGPC() {
-		final String CASE_NUM = "198583";
+		final String CASE_NUM = "";
 
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);

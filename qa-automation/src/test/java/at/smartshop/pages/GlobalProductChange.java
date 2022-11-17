@@ -150,7 +150,7 @@ public class GlobalProductChange extends Factory {
   public static final By TXT_EXACT=By.xpath("//input[@id='single-num']");
   public static final By TXT_START=By.id("start-num");
   public static final By TXT_END=By.id("end-num");
-  public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']");
+  public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']//td");
 	public static final By TABLE_PRODUCT=By.xpath("(//tbody//tr[@class='odd']/td)[2]");
 
 
@@ -379,7 +379,7 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(INPUT_TEXT, "CONFIRM");
 		foundation.threadWait(1);
 		foundation.clickEnter();
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
 		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);
 
@@ -441,11 +441,12 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.BTN_SUBMIT);
 		foundation.waitforElementToBeVisible(GlobalProductChange.POPUP_OK,3);
 		foundation.click(GlobalProductChange.POPUP_OK);
-		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_CONFIRM_POPUP,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_CONFIRM_POPUP,5);
 		foundation.click(GlobalProductChange.TXT_CONFIRM_POPUP);
 		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP,data);
 		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP,Keys.ENTER);
-		foundation.waitforElementToBeVisible(GlobalProductChange.REASONBOX_BTNOK,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.REASONBOX_BTNOK,5);
+		foundation.threadWait(10);
 		foundation.click(GlobalProductChange.REASONBOX_BTNOK);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 	}
@@ -596,6 +597,39 @@ public class GlobalProductChange extends Factory {
 		
 	}
 
+
+	/**
+	 * update Price For Selected Location and Save
+	 * @param location
+	 * @param product
+	 * @param option
+	 * @param range 
+	 */
+	public void updatePriceForSelectedLocationAndSaveInGlobalProductChange(String location,String product,String data,String option)  {
+	selectProductInGPC(location, product);
+	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRICE,3);
+	foundation.click(GlobalProductChange.TXT_PRICE);
+	textBox.enterText(GlobalProductChange.TXT_PRICE, data);
+	clickConfirmMsgInGPC(option);
+}
+
+	/**
+	 * verify Price For Updated Product
+	 * @param location
+	 * @param product
+	 * @param range
+	 */
+	public void verifyPriceForUpdatedProductInGlobalProductChange(String location,String product,String data) {
+	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+	foundation.threadWait(5);
+	foundation.click(objLocation(location));
+	foundation.click(GlobalProductChange.TAB_PRODUCT);
+	textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME,product);
+	foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+	System.out.println(foundation.getTextofListElement(GlobalProductChange.TABLE_ROW));
+	System.out.println(data);
+	CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProductChange.TABLE_ROW).contains(data));
+}
 }
 	
 

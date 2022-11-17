@@ -513,6 +513,7 @@ public class V5ReleaseTest extends TestInfra {
 			globalProduct.selectGlobalProduct(productName);
 			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, newTaxCat, Constants.TEXT);
 			foundation.click(ProductSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// edit tax category
 			navigationBar.navigateToMenuItem(menuItem.get(1));

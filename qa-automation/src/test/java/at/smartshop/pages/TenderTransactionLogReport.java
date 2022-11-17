@@ -45,6 +45,8 @@ public class TenderTransactionLogReport extends Factory {
 	private static final By TBL_TENDER_TRANSACTION_LOG_GRID = By.cssSelector("#datagridtendertranslog > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#datagridtendertranslog > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
+
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> priceData = new LinkedList<>();
@@ -74,6 +76,7 @@ public class TenderTransactionLogReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData :"+reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -184,6 +187,8 @@ public class TenderTransactionLogReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("reportsData :"+reportsData);
+			System.out.println("intialData :"+intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))

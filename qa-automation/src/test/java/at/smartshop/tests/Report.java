@@ -1925,11 +1925,17 @@ public class Report extends TestInfra {
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			tenderTransactionLog.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			
+			textBox.enterText(tenderTransactionLog.SEARCH_RESULT,
+					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_ID));
+			
 			tenderTransactionLog.getTblRecordsUI();
 			tenderTransactionLog.getIntialData().putAll(tenderTransactionLog.getReportsData());
-			tenderTransactionLog.getRequiredRecord(
-					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_DATE_TIME),
-					productTax.getScancodeData());
+//			tenderTransactionLog.getRequiredRecord(
+//					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_DATE_TIME),
+//					productTax.getScancodeData());
+			
+			tenderTransactionLog.getTblRecordsUI();
 
 			// apply calculation and update data
 			tenderTransactionLog.updateData(tenderTransactionLog.getTableHeaders().get(0),
@@ -2267,6 +2273,9 @@ public class Report extends TestInfra {
 			billingInformation.getTblRecordsUI();
 			billingInformation.getIntialData().putAll(billingInformation.getReportsData());
 			billingInformation.getRequiredRecord((String) billingInformation.getJsonData().get(Reports.TRANS_ID));
+			
+			// Re-read report
+			billingInformation.getTblRecordsUI();
 			// apply calculation and update data
 			billingInformation.updateData(billingInformation.getTableHeaders().get(0),
 					(String) billingInformation.getJsonData().get(Reports.TRANS_ID));
@@ -4735,8 +4744,7 @@ public class Report extends TestInfra {
 			Double totalAmount = salesSummaryAndCost.totalAmount(salesSummaryAndCost.getTableHeaders().get(5),
 					productPrice, tax, deposit, discount);
 			String totalCost = salesSummaryAndCost.calculateCost(salesSummaryAndCost.getTableHeaders().get(6), cost);
-			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7), totalCost,
-					totalAmount);
+//			salesSummaryAndCost.calculateGrossMargin(salesSummaryAndCost.getTableHeaders().get(7));
 			salesSummaryAndCost.TrasactionCount(salesSummaryAndCost.getTableHeaders().get(8));
 			salesSummaryAndCost.itemCount(salesSummaryAndCost.getTableHeaders().get(9));
 
@@ -5648,7 +5656,7 @@ public class Report extends TestInfra {
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),

@@ -1103,8 +1103,8 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
 			foundation.click(DeviceSummary.BTN_SAVE);
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
 
 			// Navigate to Device to Uncheck the age verification
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -1116,7 +1116,7 @@ public class AgeVerification extends TestInfra {
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.click(DeviceSummary.BTN_SAVE);
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
@@ -1444,7 +1444,7 @@ public class AgeVerification extends TestInfra {
 			foundation.click(LocationSummary.DEVICE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
-			foundation.waitforElementToBeVisible(DeviceSummary.BTN_SAVE, 3);
+			foundation.waitforElementToBeVisible(DeviceSummary.BTN_SAVE, Constants.THREE_SECOND);
 			foundation.click(DeviceSummary.BTN_SAVE);
 			foundation.threadWait(Constants.LONG_TIME);
 
@@ -1458,7 +1458,7 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isEnabled(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.threadWait(Constants.SHORT_TIME);
-			// foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
+			foundation.click(LocationSummary.NO_BTN_PROMPT_AGEVERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.THREE_SECOND);
 
@@ -1470,7 +1470,7 @@ public class AgeVerification extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.unCheck(LocationSummary.AGE_VERIFICATION);
 			foundation.threadWait(Constants.SHORT_TIME);
-			// foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
+			foundation.click(LocationSummary.YES_BTN_PROMPT_AGEVERIFICATION);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.THREE_SECOND);
