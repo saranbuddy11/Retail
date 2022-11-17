@@ -11,7 +11,7 @@ import at.smartshop.tests.TestInfra;
 
 public class CheckBox extends Factory {
 	
-	private Foundation foundation =new Foundation();
+
 
 	public void check(By object) {
 		try {

@@ -81,6 +81,7 @@ public class GlobalProduct extends Factory {
 	public static final By EXTEND_LOCATION = By.xpath("//td[@class=' sorting_1']");
 	public static final By TBL_HEADER = By.cssSelector("#dataGrid > tbody");
 	public static final By TBL_EXTEND = By.xpath("//tbody[@role='alert']//tr");
+	public static final By TBL_ROW_PRODUCT = By.xpath("//tbody[@role='rowgroup']//tr/td");
 	public static final By SEARCH_EXTEND = By.xpath("//input[@aria-controls='locdt']");
 	public static final By POPUP_SEARCH = By.id("productFilterType");
 	public static final By POPUP_SAVE = By.id("modalsave");
@@ -360,5 +361,31 @@ public class GlobalProduct extends Factory {
 		foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE, 3);
 		foundation.click(GlobalProduct.LBL_SAVE_DONE);
 	}
+
+	/**
+	 * update Price Value 
+	 * @param name
+	 * @param price
+	 */
+	public void updatePriceValueInGlobalProduct(String name, String price) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+		selectGlobalProduct(name);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+		textBox.enterText(ProductSummary.PRICE_FIELD,price);
+		foundation.scrollIntoViewElement(ProductSummary.BTN_SAVE);
+		foundation.click(ProductSummary.BTN_SAVE);
+}
+	
+	/**
+	 * verify Price Value 
+	 * @param name
+	 * @param price
+	 */
+	public void verifyUpdatedPriceValueInGlobalProduct(String name,String price) {
+	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+	    foundation.waitforElementToBeVisible(GlobalProduct.TBL_ROW_PRODUCT, 3);
+	    textBox.enterText(GlobalProduct.TXT_FILTER,name);
+	    CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProduct.TBL_ROW_PRODUCT).contains(price));
+}
 
 }

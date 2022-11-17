@@ -1361,13 +1361,16 @@ public class PickLists extends TestInfra {
 	public void verifyManageColumnsOnFilteredPickList() {
 		final String CASE_NUM = "196848";
 
+		
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-		List<String> data = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-		List<String> manageColumn = Arrays
-				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+		List<String> data =Arrays
+					.asList( rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> manageColumn =Arrays
+					.asList( rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+		 
+
 
 		try {
 //			browser.navigateURL(
@@ -1403,6 +1406,9 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_MANAGE_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LIST_COLUMN_CHOOSER));
 			List<String> columnChooser = foundation.getTextofListElement(PickList.LIST_COLUMN_CHOOSER);
+
+		    CustomisedAssert.assertTrue(columnChooser.equals(manageColumn));
+
 //			System.out.println(manageColumn);
 //			System.out.println(columnChooser);
 //			CustomisedAssert.assertTrue(columnChooser.contains(uiListHeaders));
@@ -1413,6 +1419,7 @@ public class PickLists extends TestInfra {
 
 			// Click on Manage Column button and verifying the headers present
 			CustomisedAssert.assertTrue(columnChooser.equals(manageColumn));
+
 			foundation.scrollIntoViewElement(PickList.BTN_CANCEL_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_COLUMN_CHOOSER));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_COLUMN));
@@ -1553,33 +1560,37 @@ public class PickLists extends TestInfra {
 	public void verifySelectMoreProductAndExportFile() {
 		try {
 			final String CASE_NUM = "203683";
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			List<String> location = Arrays
+			String  menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String>location = Arrays
 					.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
-			String filename = rstPickListData.get(CNPickList.RECORDS);
-			String date = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
-
+			String  filename =rstPickListData.get(CNPickList.RECORDS);
+			String  date =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to Product->PickList
+			
+			//navigate to Product->PickList
 			navigationBar.navigateToMenuItem(menu);
 			pickList.selectLocationAndPicklistBtn(location.get(0));
 			foundation.click(PickList.TBL_ROW_DATA);
 			foundation.clickShiftAndDown();
-			int value = foundation.getSizeofListElement(PickList.SELECTED_ROW);
-
-			// Export Excel File
+			
+			int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
+		
+			
+			//Export Excel File
 			foundation.click(PickList.EXPORT_BTN);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert
-					.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePathWithDateAndDay(filename, date)));
-			foundation.threadWait(3);
-			int excelCount = excel.getExcelRowCount(FilePath.pickListFilePathWithDateAndDay(filename, date));
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
+					pickListFilePathWithDateAndDay(filename,date)));	
+			int excelCount = excel.getExcelRowCount(FilePath.
+					pickListFilePathWithDateAndDay(filename,date));
+		
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
