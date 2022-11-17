@@ -1361,6 +1361,17 @@ public class PickLists extends TestInfra {
 	public void verifyManageColumnsOnFilteredPickList() {
 		final String CASE_NUM = "196848";
 
+		
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		List<String> data =Arrays
+					.asList( rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> manageColumn =Arrays
+					.asList( rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+		 
+
+
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
@@ -1368,6 +1379,7 @@ public class PickLists extends TestInfra {
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> manageColumn = Arrays
 				.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
+
 
 		try {
 //			browser.navigateURL(
@@ -1403,6 +1415,9 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_MANAGE_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LIST_COLUMN_CHOOSER));
 			List<String> columnChooser = foundation.getTextofListElement(PickList.LIST_COLUMN_CHOOSER);
+
+		    CustomisedAssert.assertTrue(columnChooser.equals(manageColumn));
+
 //			System.out.println(manageColumn);
 //			System.out.println(columnChooser);
 //			CustomisedAssert.assertTrue(columnChooser.contains(uiListHeaders));
@@ -1413,6 +1428,7 @@ public class PickLists extends TestInfra {
 
 			// Click on Manage Column button and verifying the headers present
 			CustomisedAssert.assertTrue(columnChooser.equals(manageColumn));
+
 			foundation.scrollIntoViewElement(PickList.BTN_CANCEL_COLUMN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_COLUMN_CHOOSER));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_COLUMN));
