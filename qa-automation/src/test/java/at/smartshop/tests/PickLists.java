@@ -1553,33 +1553,37 @@ public class PickLists extends TestInfra {
 	public void verifySelectMoreProductAndExportFile() {
 		try {
 			final String CASE_NUM = "203683";
+
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
-			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			List<String> location = Arrays
+			String  menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String>location = Arrays
 					.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
-			String filename = rstPickListData.get(CNPickList.RECORDS);
-			String date = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
-
+			String  filename =rstPickListData.get(CNPickList.RECORDS);
+			String  date =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+			
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to Product->PickList
+			
+			//navigate to Product->PickList
 			navigationBar.navigateToMenuItem(menu);
 			pickList.selectLocationAndPicklistBtn(location.get(0));
 			foundation.click(PickList.TBL_ROW_DATA);
 			foundation.clickShiftAndDown();
-			int value = foundation.getSizeofListElement(PickList.SELECTED_ROW);
-
-			// Export Excel File
+			
+			int value=foundation.getSizeofListElement(PickList.SELECTED_ROW);
+		
+			
+			//Export Excel File
 			foundation.click(PickList.EXPORT_BTN);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert
-					.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePathWithDateAndDay(filename, date)));
-			foundation.threadWait(3);
-			int excelCount = excel.getExcelRowCount(FilePath.pickListFilePathWithDateAndDay(filename, date));
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.
+					pickListFilePathWithDateAndDay(filename,date)));	
+			int excelCount = excel.getExcelRowCount(FilePath.
+					pickListFilePathWithDateAndDay(filename,date));
+		
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
