@@ -27,6 +27,9 @@ public class LoadGMA extends Factory {
 	private static final By RADIO_NO = By.id("delete-n");
 	private static final By LBL_RADIO_YES = By.xpath("//label[text()='Yes']");
 	public static final By BTN_CONFIRM = By.xpath("//button[contains(text(),'CONFIRM')]");
+	public static final By LBL_ERROR_MSG = By.xpath("//p[text()='Input file had errors. The users listed below were not loaded.']");
+	public static final By LBL_TITLE_ERROR_PAGE= By.xpath("//li[text()='Load GMA User Results']");
+	public static final By LBL_SUBTITLE_ERROR_PAGE = By.xpath("//h3[text()='User Load Error Results']");
 
 	public final String SHEET = "Sheet1";
 

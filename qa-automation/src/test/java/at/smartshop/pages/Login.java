@@ -41,6 +41,8 @@ public class Login extends Factory {
 	public static final By PASSWORD_ERROR = By.id("passwordError");
 	public static final By ERROR_MSG = By.xpath("//div[@class='humane humane-libnotify-error']");
 	public static final By OUTLOOK_LOGOUT = By.id("aLogOff");
+	public static final By SOS_LOG_OUT = By.xpath("//a[@title='Logout']/i");
+	public static final By DPD_ORG = By.xpath("//span[@class='select2-results']/ul/li");
 
 	public void insertLoginFields(String userName, String password) {
 		try {
@@ -179,4 +181,5 @@ public class Login extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 }

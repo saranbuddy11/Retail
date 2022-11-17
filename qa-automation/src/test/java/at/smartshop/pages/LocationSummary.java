@@ -398,11 +398,12 @@ public class LocationSummary extends Factory {
 	public static final By GMR_ERROR = By.id("gmaratepercent-error");
 	public static final By CREDIT_ERROR = By.id("creditratepercent-error");
 	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
-
+	public static final By TBL_HOME_COMMERCIAL = By.xpath("//table[@id='cmrHomeGrid']//tbody//tr");
 	public static final By LBL_LOCATION_CREATE = By.id("Location Create");
 	public static final By DPD_OPTION_TYPE = By.xpath("//select[@id='type-id']//option");
 	public static final By TXT_STOCKWELL_STORE_ID = By
 			.xpath("//div[@id='stockwell-div-id']/dd/input[@id='stockwellstoreid']");
+	public static final By DPD_HOME_COMMERCIAL_FILTER = By.id("homeCommercialFilterValues");
 
 	public static final By INVENTORY_GRID_FIRST_CELL = By
 			.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
@@ -2723,6 +2724,18 @@ public class LocationSummary extends Factory {
 		selectDeviceName(deviceName);
 	}
 	
+
+	/*
+	 * Select Home Commercial Tab 
+	 * @param locationName
+	 */
+	public void selectHomeCommercialTab(String location) {
+	foundation.scrollIntoViewElement(LocationSummary.BTN_HOME_COMMERCIAL);
+	foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_HOME_COMMERCIAL_FILTER));
+	dropDown.selectItem(LocationSummary.DPD_HOME_COMMERCIAL_FILTER, location,Constants.TEXT); 
+	}
+
 	/**
 	 * Verify update price value in location
 	 * 
@@ -2742,5 +2755,4 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.TAB_PRODUCTS);
 		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE),price);
 	}
-	
 }
