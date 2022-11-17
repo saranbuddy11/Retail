@@ -2722,4 +2722,25 @@ public class LocationSummary extends Factory {
 		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
 		selectDeviceName(deviceName);
 	}
+	
+	/**
+	 * Verify update price value in location
+	 * 
+	 * @param location
+	 * @param product
+	 * @param price
+	 */
+	public void updatePriceAndVerifyPriceInLocation(String location, String product, String price) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		locationList.selectLocationName(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER, Constants.SHORT_TIME);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER,product);
+		foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE, 5);
+		enterPrice(product, price);
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE),price);
+	}
+	
 }
