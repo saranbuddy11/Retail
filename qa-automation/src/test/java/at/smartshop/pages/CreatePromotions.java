@@ -62,7 +62,7 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_LOCATION = By.id("location-select");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
-	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By BTN_EXPIRE = By.xpath("(//button[@class='ajs-button ajs-ok'])[2]");
 	public static final By BTN_PROMPT_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By CHOOSE_ROLE_DEVICE_FILTER = By.xpath("//div[text()='Choose Role and Device Filters']");
 	public static final By CHOOSE_LOCATION = By.xpath("//div[text()='Choose Location Filters']");
@@ -218,7 +218,7 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 	public static final By BUNDLE_PROMO_ALERT = By.className("ajs-header");
-	public static final By CONTENT_POPUP = By.xpath("//div[@class='ajs-content']");
+	public static final By CONTENT_POPUP = By.cssSelector(".ajs-content");
 	public static final By SUMMARY_GROUPNAME1 = By.xpath("//div[@id='bundlesummary']/div");
 	public static final By SUMMARY_GROUPNAME2 = By.xpath("//div[@id='bundlesummary']/div[2]");
 	public static final By BUNDLE_SUMMARY = By.id("bundlesummary");
