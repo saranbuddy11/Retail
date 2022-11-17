@@ -3575,7 +3575,6 @@ public class Promotions extends TestInfra {
 		List<String> org = Arrays.asList(rstLocationData.get(CNLocation.LOCATION_NAME).split(Constants.DELIMITER_TILD));
 		List<String> product = Arrays
 				.asList(rstLocationData.get(CNLocation.COLUMN_NAME).split(Constants.DELIMITER_TILD));
-
 		try {
 			// Launch Browser and Login to ADM with Operator account
 			navigationBar.launchBrowserAndSelectOrg(
@@ -3635,7 +3634,6 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
 			String cateprod = foundation.getText(CreatePromotions.RECORD);
 			CustomisedAssert.assertEquals(cateprod, product.get(5));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -3698,7 +3696,6 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			textBox.enterText(CreatePromotions.INPUT_ITEM_SEARCH, Datas.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BIRTHDAY_GRID));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
