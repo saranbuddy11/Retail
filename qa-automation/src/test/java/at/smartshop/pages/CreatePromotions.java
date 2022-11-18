@@ -41,41 +41,44 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_CANCEL = By.id("cancelBtn");
 	public static final By BTN_CANCEL_1 = By.xpath("//button[@id='cancelBtn']");
 	public static final By DPD_PROMO_TYPE = By.id("promotype");
-	public static final By PROMO_TYPE=By.id("discountBy");
+	public static final By PROMO_TYPE = By.id("discountBy");
 	public static final By DELETE_BUILD = By.xpath("//a[@title='Delete']");
-	public static final By LOCATION_DISABLED=By.id("locTable_scroll");
+	public static final By LOCATION_DISABLED = By.id("locTable_scroll");
 	public static final By TXT_PROMO_NAME = By.id("name");
-	public static final By LOCATION_DROPDOWN=By.xpath("//input[@class='select2-search__field']");
-	public static final By ALL_LOCATION=By.id("allLocCheck");
-	public static final By CATEGORY_SELECTED=By.cssSelector("#categoryBundleTable > tbody");
+	public static final By LOCATION_DROPDOWN = By.xpath("//input[@class='select2-search__field']");
+	public static final By ALL_LOCATION = By.id("allLocCheck");
+	public static final By CATEGORY_SELECTED = By.cssSelector("#categoryBundleTable > tbody");
 	public static final By TXT_DISPLAY_NAME = By.id("displayname");
-	public static final By BTN_CANCEL_CAT_POPUP=By.id("bundleCategoryModalCancel");
-	public static final By CAT_SELECTED=By.xpath("//div[@class='bundle-item']");
-	public static final By BTN_CANCEL_ITEM_POPUP=By.id("bundleItemModalCancel");
-	public static final By SELECT_CAT_PRODUCT=By.xpath("/html/body/div[7]/div/div[2]/div[2]/div[2]/table/tbody/tr/th/span[2]");
-	public static final By CATEGORY_SEARCH_TXT=By.id("bundleCategorySearch");
-	public static final By SELECT_ITEM_PRODUCT=By.xpath("//*[@id='itemBundleTable']/tbody/tr/th/span[2]");
-	public static final By ITEM_SEARCH_TXT=By.id("bundleItemSearch");
+	public static final By BTN_CANCEL_CAT_POPUP = By.id("bundleCategoryModalCancel");
+	public static final By CAT_SELECTED = By.xpath("//div[@class='bundle-item']");
+	public static final By BTN_CANCEL_ITEM_POPUP = By.id("bundleItemModalCancel");
+	public static final By SELECT_CAT_PRODUCT = By
+			.xpath("/html/body/div[7]/div/div[2]/div[2]/div[2]/table/tbody/tr/th/span[2]");
+	public static final By CATEGORY_SEARCH_TXT = By.id("bundleCategorySearch");
+	public static final By SELECT_ITEM_PRODUCT = By.xpath("//*[@id='itemBundleTable']/tbody/tr/th/span[2]");
+	public static final By SELECTED_ITEM = By.cssSelector("#itemBundleTable > tbody");
+	public static final By ITEM_SEARCH_TXT = By.id("bundleItemSearch");
 	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
 	public static final By DPD_LOCATION = By.id("location-select");
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
-	public static final By BTN_EXPIRE = By.xpath("//button[@class='ajs-button ajs-ok']");
+	public static final By BTN_EXPIRE = By.xpath("(//button[@class='ajs-button ajs-ok'])[2]");
+	public static final By BTN_EXPIRE_1 = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By BTN_PROMPT_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
-	public static final By CHOOSE_ROLE_DEVICE_FILTER=By.xpath("//div[text()='Choose Role and Device Filters']");
-	public static final By CHOOSE_LOCATION=By.xpath("//div[text()='Choose Location Filters']");
+	public static final By CHOOSE_ROLE_DEVICE_FILTER = By.xpath("//div[text()='Choose Role and Device Filters']");
+	public static final By CHOOSE_LOCATION = By.xpath("//div[text()='Choose Location Filters']");
 	public static final By MULTI_SELECT_TENDER_TYPES = By.id("tendertypes");
 	public static final By BTN_OK = By.xpath("//button[text()='OK']");
-	public static final By TXT_SEARCH_ORGPAGE=By.id("orgFilterType");
-	public static final By TXT_LOC_SEARCH=By.id("locFilterType");
+	public static final By TXT_SEARCH_ORGPAGE = By.id("orgFilterType");
+	public static final By TXT_LOC_SEARCH = By.id("locFilterType");
 	public static final By LBL_PAGE_TITLE = By.id("pagesubtitle");
 	public static final By DPD_DISCOUNT_TIME = By.id("timing");
 	public static final By DPD_DISCOUNT_TYPE = By.id("discounttype");
-	public static final By PRICING=By.id("totalprice");
+	public static final By PRICING = By.id("totalprice");
 	public static final By ALL_CATEGORY = By.id("allcategories");
 	public static final By BTN_CREATE = By.id("submitBtnContainer");
-	public static final By CHECKBOX_ORG=By.xpath("//span[@name='chk']");
-	public static final By CHECKBOX_LOC=By.xpath("//td[@aria-describedby='locTable_activeCheckBox']");
+	public static final By CHECKBOX_ORG = By.xpath("//span[@name='chk']");
+	public static final By CHECKBOX_LOC = By.xpath("//td[@aria-describedby='locTable_activeCheckBox']");
 	public static final By TXT_AMOUNT = By.id("amount");
 	public static final By TXT_START_DATE = By.id("startdate");
 	public static final By TXT_END_DATE = By.id("enddate");
@@ -97,8 +100,8 @@ public class CreatePromotions extends Factory {
 	public static final By DPD_DURATION = By.id("duration");
 	public static final By DPD_CATEGORY = By.id("categorySelectInput");
 	public static final By SEARCH_CATEGORY = By.xpath("//input[@placeholder='Search for a Category']");
-	public static final By ADD_CATEGORY=By.xpath("//button[@onclick='showBundleCategoryModal()']");
-	public static final By ADD_ITEM=By.xpath("//button[@onclick='showBundleItemModal()']");
+	public static final By ADD_CATEGORY = By.xpath("//button[@onclick='showBundleCategoryModal()']");
+	public static final By ADD_ITEM = By.xpath("//button[@onclick='showBundleItemModal()']");
 	public static final By TXT_SEARCH = By.xpath("//input[@class='select2-search__field valid']");
 	public static final By LBL_BASIC_INFORMATION = By.xpath("//h4[text()='Basic Information']");
 	public static final By BTN_CONTINUE = By.xpath("//button[text()='Continue']");
@@ -121,10 +124,10 @@ public class CreatePromotions extends Factory {
 	public static final By CHK_BUNDLE_OVERFLOW = By.id("hasoverflow");
 	public static final By DPD_DEVICE = By.id("device-select");
 	public static final By RB_BUNDLE_PRICE = By.id("bundlePriceCheckbox");
-	public static final By SELECTED_LOCATION=By.xpath("//td[@aria-describedby='locTable_locName']");
+	public static final By SELECTED_LOCATION = By.xpath("//td[@aria-describedby='locTable_locName']");
 	public static final By DPD_LOCATION_REMOVE = By
 			.xpath("//select[@id='location-select']//..//span[@class='select2-selection__clear']");
-	public static final By SELECTED_ORG=By.cssSelector("#orgTable > tbody >tr >td");
+	public static final By SELECTED_ORG = By.cssSelector("#orgTable > tbody >tr >td");
 	public static final By DPD_DESELECT_ORGANIZATION = By.id("multiselectId");
 	public static final By DPD_DESELECT_LOCATION = By.id("multiselectIdLoc");
 	public static final By BTN_ORG_LEFT = By.id("singleSelectRtoL");
@@ -216,7 +219,7 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 	public static final By BUNDLE_PROMO_ALERT = By.className("ajs-header");
-	public static final By CONTENT_POPUP = By.xpath("//div[@class='ajs-content']");
+	public static final By CONTENT_POPUP = By.cssSelector(".ajs-content");
 	public static final By SUMMARY_GROUPNAME1 = By.xpath("//div[@id='bundlesummary']/div");
 	public static final By SUMMARY_GROUPNAME2 = By.xpath("//div[@id='bundlesummary']/div[2]");
 	public static final By BUNDLE_SUMMARY = By.id("bundlesummary");
@@ -234,7 +237,6 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_CREATE_PROMOTION = By.id("submitBtn");
 	public static final By TXT_PROMO_ERROR = By.xpath("//label[@id='hasdiscountby-error']");
 	public static final By BTN_SELECT_ORG = By.xpath("//select[@id='org-select']//option[text()='AutomationOrg']");
-	
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -277,9 +279,9 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
-		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		// dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_NEXT);
-		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		// dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.waitforElement(TXT_LOC_SEARCH, Constants.LONG_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, locationName);
 		foundation.threadWait(Constants.LONG_TIME);
@@ -290,9 +292,9 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_NEXT);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_NEXT);
-		
+
 	}
-	
+
 	public void newPromotionUsingTenderDiscount(String promotionType, String promotionName, String orgName,
 			String locationName) {
 		dropDown.selectItem(DPD_PROMO_TYPE, promotionType, Constants.TEXT);
@@ -303,9 +305,9 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
-		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		// dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_NEXT);
-		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		// dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, locationName);
 		foundation.threadWait(Constants.TWO_SECOND);
@@ -315,7 +317,6 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
 		foundation.click(BTN_NEXT);
 	}
-	
 
 	/**
 	 * Getting the Popup Data
@@ -508,9 +509,9 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
-		//dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
+		// dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_NEXT);
-		//dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		// dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, locationName);
 		foundation.threadWait(Constants.LONG_TIME);
@@ -565,22 +566,25 @@ public class CreatePromotions extends Factory {
 	 * @param location
 	 */
 	public void selectOrgLoc(String org, String location) {
-		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.SHORT_TIME);
+		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.LONG_TIME);
 		textBox.enterText(TXT_SEARCH_ORGPAGE, org);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		// dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_NEXT);
-		foundation.waitforElement(TXT_LOC_SEARCH, Constants.SHORT_TIME);
+		// dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.waitforElement(TXT_LOC_SEARCH, Constants.LONG_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, location);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_LOC);
-		foundation.waitforElement(BTN_NEXT, Constants.THREE_SECOND);
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
-	    foundation.threadWait(Constants.THREE_SECOND);
-	    foundation.objectClick(BTN_NEXT);
-	    foundation.waitforElementToBeVisible(LBL_BUILD_BUNDLE, Constants.TWO_SECOND);
-	    
+		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(BTN_NEXT);
+
 	}
 
 	/**
@@ -606,9 +610,11 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_ADD_GROUP);
 		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
 		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GROUP_MODAL_SAVE);
@@ -624,22 +630,26 @@ public class CreatePromotions extends Factory {
 	 */
 	public void creatingBundleGroupWithCategory(String groupName, String product, String category) {
 		foundation.click(BTN_ADD_GROUP);
-		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, 5);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.waitforElementToBeVisible(LBL_BUNDLE_GROUP, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(TXT_GROUP_NAME, groupName);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_FILTER);
 		foundation.click(INPUT_CATEGORY_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_CHECK_BOX);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(GROUP_MODAL_SAVE);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -658,12 +668,15 @@ public class CreatePromotions extends Factory {
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(CATEGORY_FILTER);
 		foundation.click(INPUT_CATEGORY_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GROUP_MODAL_SAVE);
@@ -671,9 +684,9 @@ public class CreatePromotions extends Factory {
 	}
 
 	/**
-	 * Cancelling the Created Promotion
+	 * Canceling the Created Promotion
 	 */
-	public void cancellingPromotion() {
+	public void cancelingPromotion() {
 		foundation.objectClick(BTN_CANCEL_1);
 		foundation.waitforElementToBeVisible(LBL_FILTER, 5);
 		foundation.scrollIntoViewElement(BTN_CANCEL_1);
@@ -685,6 +698,7 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_CANCEL_1);
 		foundation.alertAccept();
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	public void deselectOrgAndLoc() {
@@ -697,9 +711,9 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_CANCEL_1);
 		foundation.threadWait(Constants.SHORT_TIME);
-		
+
 	}
-	
+
 	/**
 	 * back to edit promotion and expire promotion
 	 */
@@ -719,7 +733,8 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(BTN_EXPIRE, 3);
 		foundation.click(BTN_EXPIRE);
 		foundation.waitforElementToBeVisible(PromotionList.PAGE_TITLE, 3);
-		}
+	}
+
 	/**
 	 * Delete Bundle Group
 	 */
@@ -740,6 +755,7 @@ public class CreatePromotions extends Factory {
 		foundation.click(INPUT_ITEM_SEARCH);
 		textBox.clearText(INPUT_ITEM_SEARCH);
 		textBox.enterText(INPUT_ITEM_SEARCH, item);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ITEM_CHECK_BOX);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
@@ -753,8 +769,9 @@ public class CreatePromotions extends Factory {
 		foundation.click(INPUT_CATEGORY_SEARCH);
 		textBox.clearText(INPUT_CATEGORY_SEARCH);
 		textBox.enterText(INPUT_CATEGORY_SEARCH, category);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CATEGORY_CHECK_BOX);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -767,8 +784,8 @@ public class CreatePromotions extends Factory {
 		dropDown.selectItem(DPD_DISCOUNT_BY, discountType, Constants.TEXT);
 		foundation.waitforElementToBeVisible(SELECTION_CATEGORY, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_CATEGORY));
-		checkBox.check(ALL_CATEGORY);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
+//		checkBox.check(ALL_CATEGORY);
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
 	}
 
 	/**
@@ -781,8 +798,8 @@ public class CreatePromotions extends Factory {
 		dropDown.selectItem(DPD_DISCOUNT_BY, discountType, Constants.TEXT);
 		foundation.waitforElementToBeVisible(SELECTION_ITEM, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_ITEM));
-		checkBox.check(ALL_ITEMS);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
+//		checkBox.check(ALL_ITEMS);
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
 	}
 
 	/**
@@ -829,9 +846,10 @@ public class CreatePromotions extends Factory {
 		}
 		return value;
 	}
-	
+
 	/**
 	 * verify price in promotion details page
+	 * 
 	 * @param price
 	 */
 	public void verifyPriceInPromotionDetails(String price) {
@@ -843,11 +861,12 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(BTN_OK, 2);
 		foundation.click(BTN_OK);
 		foundation.isDisplayed(PromotionList.PAGE_TITLE);
-		
+
 	}
-	
+
 	/**
 	 * navigate to promotion details page and verify price
+	 * 
 	 * @param price
 	 */
 	public void navigateToPromotionDetailsPageAndVerifyPrice(String price) {
