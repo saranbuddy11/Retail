@@ -167,7 +167,7 @@ public class CreatePromotions extends Factory {
 	public static final By CATEGORY_UPC_GRID = By.id("categorydatatable_upc");
 	public static final By PRICE_TAG = By.xpath("//table[@id='bundletable']//tr[2]/td[2]");
 	public static final By QUANTITY_FIELD = By.xpath("//table[@id='bundletable']//tr[1]/th[3]");
-	public static final By QTY = By.xpath("//input[@class='smallInput valid']");
+	public static final By QTY = By.xpath("(//input[@min='1'])[3]");
 //	public static final By QTY = By.id("bundleItem0");
 	public static final By LBL_PROMO_TYPE = By.xpath("//dt[text()='Promotion Type']");
 	public static final By LBL_PROMO_NAME = By.xpath("//dt[text()='Promotion Name']");

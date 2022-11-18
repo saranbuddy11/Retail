@@ -3751,8 +3751,9 @@ public class Promotions extends TestInfra {
 
 			// verify quantity field
 			foundation.waitforElement(CreatePromotions.QTY, Constants.SHORT_TIME);
-//			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.QTY));
-//			textBox.enterText(CreatePromotions.QTY, requiredData.get(3));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.QTY));
+			String text = foundation.getAttributeValue(CreatePromotions.QTY);
+			CustomisedAssert.assertEquals(text, requiredData.get(4));
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
@@ -3761,7 +3762,6 @@ public class Promotions extends TestInfra {
 			// verify the created promotion
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
 			promotionList.clickSelectedRow(requiredData.get(5), requiredData.get(1));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(EditPromotion.PRICING));
 			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_END_PROMO);
 			foundation.waitforElement(EditPromotion.BTN_CONTINUE, Constants.SHORT_TIME);
@@ -3939,7 +3939,7 @@ public class Promotions extends TestInfra {
 
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
-			foundation.waitforElementToBeVisible(CreatePromotions.PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(CreatePromotions.PRODUCT_FILTER, Constants.LONG_TIME);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
 			createPromotions.selectItemInBuildBundle(requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
