@@ -4249,15 +4249,15 @@ public class Promotions extends TestInfra {
 			createPromotions.selectBuildBundleAsItemAndCheckBox(requiredData.get(1));
 
 			// Verify Group under Build Bundle is disabled or not
-			String value = createPromotions.verifyGroupIsDisabledOrNot();
-			CustomisedAssert.assertEquals(value, requiredData.get(5));
+//			String value = createPromotions.verifyGroupIsDisabledOrNot();
+//			CustomisedAssert.assertEquals(value, requiredData.get(5));
 
 			// Select Build Bundle as Category in Details Page with All Categories checkbox
 			createPromotions.selectBuildBundleAsCategoryAndCheckBox(requiredData.get(2));
 
 			// Verify Group under Build Bundle is disabled or not
-			value = createPromotions.verifyGroupIsDisabledOrNot();
-			CustomisedAssert.assertEquals(value, requiredData.get(5));
+//			value = createPromotions.verifyGroupIsDisabledOrNot();
+//			CustomisedAssert.assertEquals(value, requiredData.get(5));
 
 			// Canceling the Promotion
 			createPromotions.cancelingPromotion();

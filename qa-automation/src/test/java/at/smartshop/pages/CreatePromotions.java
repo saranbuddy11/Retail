@@ -798,8 +798,8 @@ public class CreatePromotions extends Factory {
 		dropDown.selectItem(DPD_DISCOUNT_BY, discountType, Constants.TEXT);
 		foundation.waitforElementToBeVisible(SELECTION_ITEM, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(SELECTION_ITEM));
-		checkBox.check(ALL_ITEMS);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
+//		checkBox.check(ALL_ITEMS);
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(ALL_SELECTION));
 	}
 
 	/**
