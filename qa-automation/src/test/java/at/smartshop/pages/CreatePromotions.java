@@ -63,6 +63,7 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_CREATE_PROMOTION = By.xpath("//li[text()='Create Promotion']");
 	public static final By BTN_END_PROMO = By.id("disablepromotion");
 	public static final By BTN_EXPIRE = By.xpath("(//button[@class='ajs-button ajs-ok'])[2]");
+	public static final By BTN_EXPIRE_1 = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By BTN_PROMPT_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By CHOOSE_ROLE_DEVICE_FILTER = By.xpath("//div[text()='Choose Role and Device Filters']");
 	public static final By CHOOSE_LOCATION = By.xpath("//div[text()='Choose Location Filters']");

@@ -3737,12 +3737,12 @@ public class Promotions extends TestInfra {
 			// Select Bundle Group in Details Page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
-			foundation.waitforElementToBeVisible(CreatePromotions.ALL_CATEGORY, 5);
+			foundation.waitforElementToBeVisible(CreatePromotions.ADD_CATEGORY, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SEARCH_CATEGORY));
 
 			// Check all categories checkbox and verify the price
 			checkBox.check(CreatePromotions.ALL_CATEGORY);
-			foundation.waitforElementToBeVisible(CreatePromotions.PRICING_GRID, 5);
+			foundation.waitforElementToBeVisible(CreatePromotions.PRICING_GRID, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRICE_TAG));
 
 			// verify quantity field
@@ -3873,7 +3873,7 @@ public class Promotions extends TestInfra {
 			// Select Bundle Group in Details Page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
-			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, 5);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_ADD_GROUP, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.BTN_ADD_GROUP));
 
 			// Creating the Group and validating the Icons
@@ -3889,7 +3889,11 @@ public class Promotions extends TestInfra {
 			CustomisedAssert.assertEquals(String.valueOf(value), requiredData.get(2));
 
 			// Deleting the Bundle Group and validating the Prompt
-			createPromotions.deleteBundleGroup();
+			foundation.click(CreatePromotions.DELETE_GROUP);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.DELETE_GROUP_HEADER));
+			foundation.click(CreatePromotions.BTN_EXPIRE_1);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertFalse(foundation.isDisplayed(CreatePromotions.BUNDLE_CRITERIA));
 			foundation.scrollIntoViewElement(CreatePromotions.BTN_ADD_GROUP);
 
@@ -3898,7 +3902,7 @@ public class Promotions extends TestInfra {
 
 			// Navigating to Location
 			navigationBar.navigateToMenuItem(menu.get(1));
-			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, 5);
+			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
 			login.logout();
 			browser.close();
 		} catch (Exception exc) {
