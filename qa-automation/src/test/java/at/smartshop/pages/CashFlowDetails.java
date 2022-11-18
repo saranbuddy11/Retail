@@ -107,6 +107,7 @@ public class CashFlowDetails extends Factory {
 		try {
 			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
 			String reportTitle = foundation.getText(LBL_REPORT_NAME);
+			System.out.println(reportTitle +" :"+ reportName);
 			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -456,7 +457,7 @@ public class CashFlowDetails extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ReportList.BTN_RUN_REPORT);
 		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
-		verifyReportName(reportName);
+		verifyReportName(location);
 	}
 
 	public Map<Integer, Map<String, String>> getCashFlowDetailsTotal() {

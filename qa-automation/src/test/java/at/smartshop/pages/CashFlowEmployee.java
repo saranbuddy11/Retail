@@ -511,7 +511,7 @@ public class CashFlowEmployee extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ReportList.BTN_RUN_REPORT);
 		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
-		verifyReportName(reportName);
+		verifyReportName(location);
 	}
 
 	public Map<Integer, Map<String, String>> getCashFlowDetailsTotal() {
