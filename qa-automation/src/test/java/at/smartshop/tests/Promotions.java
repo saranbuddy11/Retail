@@ -4320,6 +4320,7 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_BACK);
+			foundation.threadWait(Constants.SHORT_TIME);
 			createPromotions.deselectOrgAndLoc();
 //			foundation.waitforElementToBeVisible(CreatePromotions.CHOOSE_ROLE_DEVICE_FILTER, 3);
 //			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
@@ -4348,8 +4349,9 @@ public class Promotions extends TestInfra {
 //			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// click on create button and validate the err
-			foundation.click(CreatePromotions.BTN_CREATE_PROMOTION);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PromotionList.NEXT);
 			CustomisedAssert.assertTrue(foundation.getText(CreatePromotions.TXT_PROMO_ERROR)
 					.equals(rstLocationData.get(CNLocation.SHOW_RECORDS)));
 
@@ -4381,17 +4383,14 @@ public class Promotions extends TestInfra {
 			createPromotions.selectBuildBundleAsCategoryAndCheckBox(promoName.get(4));
 
 			// verify price in promotion details page
-			createPromotions.verifyPriceInPromotionDetails(promoName.get(5));
-
-			// search with same promotion
-			promotionList.searchPromotion(promoName.get(1), promoName.get(6));
-			promotionList.clickSelectedRow(promoName.get(7), promoName.get(1));
+//			createPromotions.deselectOrgAndLoc();
+//			createPromotions.verifyPriceInPromotionDetails(promoName.get(5));
 
 			// verify price in promotion details page
-			createPromotions.navigateToPromotionDetailsPageAndVerifyPrice(promoName.get(5));
+//			createPromotions.navigateToPromotionDetailsPageAndVerifyPrice(promoName.get(5));
 
 			// expire promotion
-			createPromotions.cancelingPromotionAndExpired();
+//			createPromotions.cancelingPromotionAndExpired();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
