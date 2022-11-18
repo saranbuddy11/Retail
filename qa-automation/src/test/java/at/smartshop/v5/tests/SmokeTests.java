@@ -276,6 +276,7 @@ public class SmokeTests extends TestInfra {
 
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterKeypadText(scanCode);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ProductSearch.BTN_PRODUCT);
@@ -313,6 +314,7 @@ public class SmokeTests extends TestInfra {
 			foundation.waitforElement(LocationSummary.BTN_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_REMOVE);
 			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.threadWait(Constants.THREE_SECOND);
 		}
 	}
 
@@ -1019,7 +1021,7 @@ public class SmokeTests extends TestInfra {
 			foundation.click(LocationSummary.BTN_EDIT_PRODUCT);
 			dropDown.selectItem(LocationSummary.TXT_CATEGORY, requiredData.get(3), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 
 			// launching v5 Device
@@ -1035,7 +1037,8 @@ public class SmokeTests extends TestInfra {
 
 			landingPage.changeLanguage(language.get(2), language.get(0), language.get(3));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(scanCode);
+			textBox.enterKeypadText(productName);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			assertEquals(foundation.getText(Order.TXT_HEADER), productHeader);
