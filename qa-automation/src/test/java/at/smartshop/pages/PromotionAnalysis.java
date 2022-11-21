@@ -48,6 +48,7 @@ public class PromotionAnalysis extends Factory {
 	private Map<Integer, Map<String, String>> intialData = new LinkedHashMap<>();
 	private Map<String, String> promoActualData = new LinkedHashMap<>();
 	private Map<String, String> PromoExpectedData = new LinkedHashMap<>();
+	private Map<String, String> PromoExpectedDataGroupbyLocations = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportsDataForGroupByrLocation = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> intialDataForGroupByrLocation = new LinkedHashMap<>();
 
@@ -138,8 +139,8 @@ public class PromotionAnalysis extends Factory {
 	public void getRequiredRecord(String promotionName) {
 		try {
 			recordCount=0;
-			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
-				if (intialData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
+			for (int rowCount = 0; rowCount < reportsData.size(); rowCount++) {
+				if (reportsData.get(rowCount).get(tableHeaders.get(1)).equals(promotionName)) {
 					recordCount = rowCount;
 					break;
 				}
@@ -201,6 +202,13 @@ public class PromotionAnalysis extends Factory {
 		}
 	}
 	
+	public void updateDataGroupbyLocations(String columnName, String values) {
+		try {
+			PromoExpectedDataGroupbyLocations.put(columnName, values);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 	public void updateDiscount(String discountAmount) {
 		try {
 			String initialAmount = intialData.get(recordCount).get(tableHeaders.get(8)).replaceAll(Reports.REPLACE_DOLLOR,
@@ -208,7 +216,7 @@ public class PromotionAnalysis extends Factory {
 //			String discountAmount = (String) jsonData.get("discount");
 			double updatedAmount = Double.parseDouble(initialAmount) + Double.parseDouble(discountAmount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
-			PromoExpectedData.put(tableHeaders.get(8), Constants.DOLLAR_SYMBOL+String.valueOf(updatedAmount));
+			PromoExpectedDataGroupbyLocations.put(tableHeaders.get(8), Constants.DOLLAR_SYMBOL+String.valueOf(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -220,7 +228,7 @@ public class PromotionAnalysis extends Factory {
 //			String Redemptions = (String) jsonData.get("redeemcount");
 			int updatedRedemptions = Integer.parseInt(initialRedemptions) + (Integer.parseInt(redemptions));
 //			updatedRedemptions = Math.round(updatedAmount * 100.0) / 100.0;
-			PromoExpectedData.put(tableHeaders.get(7), String.valueOf(updatedRedemptions));
+			PromoExpectedDataGroupbyLocations.put(tableHeaders.get(7), String.valueOf(updatedRedemptions));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -259,6 +267,16 @@ public class PromotionAnalysis extends Factory {
 		return PromoExpectedData;
 	}
 
+	public Map<String, String> PromotionExpectedDataGroupbyLocations() {
+		try {
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
+				PromoExpectedDataGroupbyLocations.putAll(PromoExpectedData);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return PromoExpectedData;
+	}
 	public void verifyReportData() {
 		try {
 			System.out.println("promoActualData : "+ promoActualData);
