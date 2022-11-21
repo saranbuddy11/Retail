@@ -398,11 +398,12 @@ public class LocationSummary extends Factory {
 	public static final By GMR_ERROR = By.id("gmaratepercent-error");
 	public static final By CREDIT_ERROR = By.id("creditratepercent-error");
 	public static final By NANOCREDIT_ERROR = By.id("nanocreditratepercent-error");
-
+	public static final By TBL_HOME_COMMERCIAL = By.xpath("//table[@id='cmrHomeGrid']//tbody//tr");
 	public static final By LBL_LOCATION_CREATE = By.id("Location Create");
 	public static final By DPD_OPTION_TYPE = By.xpath("//select[@id='type-id']//option");
 	public static final By TXT_STOCKWELL_STORE_ID = By
 			.xpath("//div[@id='stockwell-div-id']/dd/input[@id='stockwellstoreid']");
+	public static final By DPD_HOME_COMMERCIAL_FILTER = By.id("homeCommercialFilterValues");
 
 	public static final By INVENTORY_GRID_FIRST_CELL = By
 			.cssSelector("#inventoryDataGrid > tbody > tr:nth-child(1) > td:nth-child(1)");
@@ -980,7 +981,7 @@ public class LocationSummary extends Factory {
 
 	public String updateInventoryWithTimeOfTransacction(String scancode, String inventoryValue, String reasonCode,
 			String format, String requiredTimeZone) {
-		String updatedTime = String.valueOf(dateAndTime.getDateAndTime(format, requiredTimeZone));
+		String updatedTime = String.valueOf(dateAndTime.getDateAndTime1(format, requiredTimeZone));
 		foundation.waitforElement(By.xpath("//td[@aria-describedby='inventoryDataGrid_scancode'][text()='" + scancode
 				+ "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']"), Constants.SHORT_TIME);
 
@@ -2721,5 +2722,37 @@ public class LocationSummary extends Factory {
 		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
 		selectDeviceName(deviceName);
+	}
+	
+
+	/*
+	 * Select Home Commercial Tab 
+	 * @param locationName
+	 */
+	public void selectHomeCommercialTab(String location) {
+	foundation.scrollIntoViewElement(LocationSummary.BTN_HOME_COMMERCIAL);
+	foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_HOME_COMMERCIAL_FILTER));
+	dropDown.selectItem(LocationSummary.DPD_HOME_COMMERCIAL_FILTER, location,Constants.TEXT); 
+	}
+
+	/**
+	 * Verify update price value in location
+	 * 
+	 * @param location
+	 * @param product
+	 * @param price
+	 */
+	public void updatePriceAndVerifyPriceInLocation(String location, String product, String price) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		locationList.selectLocationName(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER, Constants.SHORT_TIME);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER,product);
+		foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE, 5);
+		enterPrice(product, price);
+		foundation.click(LocationSummary.TAB_PRODUCTS);
+		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE),price);
 	}
 }

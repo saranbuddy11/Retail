@@ -1113,7 +1113,7 @@ public class Location extends TestInfra {
 							+ uiList.get(iter).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 				}
 			}
-
+			
 			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
 				if (uiListHeaders.get(iter).equals("Deposit")) {
 					expectedValues.put(uiListHeaders.get(iter),
@@ -1401,6 +1401,7 @@ public class Location extends TestInfra {
 			// Update Prices.
 			locationSummary.selectingProduct(tabName, product, product, price.get(0));
 			foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG);
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
 			login.logout();
 			browser.close();
 

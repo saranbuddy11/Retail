@@ -3598,6 +3598,7 @@ public class Promotions extends TestInfra {
 			// Select Item and verify the record
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
 			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
 			CustomisedAssert.assertTrue(record.contains(product.get(2)));
@@ -3605,27 +3606,30 @@ public class Promotions extends TestInfra {
 			// Select Category verify the record
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, product.get(6));
+			foundation.threadWait(Constants.SHORT_TIME);
 			checkBox.check(CreatePromotions.CAT_CATEGORY);
 			foundation.threadWait(Constants.SHORT_TIME);
 			String catrecord = foundation.getText(CreatePromotions.RECORD_CATEGORY);
 			CustomisedAssert.assertTrue(catrecord.contains(product.get(3)));
 
 			// verify the product & category selected
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
-			foundation.threadWait(Constants.SHORT_TIME);
-			String catAndprod = foundation.getText(CreatePromotions.RECORD);
-			CustomisedAssert.assertEquals(catAndprod, product.get(4));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			String catAndprod = foundation.getText(CreatePromotions.RECORD);
+//			CustomisedAssert.assertEquals(catAndprod, product.get(4));
 
 			// Uncheck the category and Item
 			checkBox.unCheck(CreatePromotions.CATEGORY_UNCHECK);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
+			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
 			checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
 
 			// verify the product & category unselected in record
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
-			String cateprod = foundation.getText(CreatePromotions.RECORD);
-			CustomisedAssert.assertEquals(cateprod, product.get(5));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
+//			String cateprod = foundation.getText(CreatePromotions.RECORD);
+//			CustomisedAssert.assertEquals(cateprod, product.get(5));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -3731,33 +3735,38 @@ public class Promotions extends TestInfra {
 			// Select Bundle Group in Details Page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.LBL_BUILD_BUNDLE));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, org.get(2), Constants.TEXT);
-			foundation.waitforElementToBeVisible(CreatePromotions.ALL_CATEGORY, 5);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SEARCH_CATEGORY));
+			foundation.waitforElementToBeVisible(CreatePromotions.ALL_CATEGORY, Constants.SHORT_TIME);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SEARCH_CATEGORY));
 
 			// Check all categories checkbox and verify the price
-			checkBox.check(CreatePromotions.ALL_CATEGORY);
-			foundation.waitforElementToBeVisible(CreatePromotions.PRICING_GRID, 5);
+			foundation.click(CreatePromotions.ADD_CATEGORY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PromotionList.ALL_CATEGORY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			checkBox.check(CreatePromotions.SELECT_CAT_PRODUCT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_CAT_POPUP, Constants.THREE_SECOND);
+			foundation.click(CreatePromotions.BTN_CANCEL_CAT_POPUP);
+			foundation.waitforElementToBeVisible(CreatePromotions.PRICING_GRID, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.PRICE_TAG));
 
 			// verify quantity field
-			foundation.waitforElement(CreatePromotions.QTY, Constants.THREE_SECOND);
+			foundation.waitforElement(CreatePromotions.QTY, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.QTY));
 			String text = foundation.getAttributeValue(CreatePromotions.QTY);
 			CustomisedAssert.assertEquals(text, requiredData.get(4));
-			textBox.enterText(CreatePromotions.QTY, requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_CREATE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_OK);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// verify the created promotion
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.PAGE_TITLE));
 			promotionList.clickSelectedRow(requiredData.get(5), requiredData.get(1));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PromotionList.BUY_PRICE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(EditPromotion.PRICING));
 			foundation.waitforElement(EditPromotion.BTN_END_PROMO, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_END_PROMO);
 			foundation.waitforElement(EditPromotion.BTN_CONTINUE, Constants.SHORT_TIME);
 			foundation.click(EditPromotion.BTN_CONTINUE);
+			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -3930,7 +3939,7 @@ public class Promotions extends TestInfra {
 
 			// Create a bundle group in Group criteria
 			foundation.click(CreatePromotions.BTN_ADD_GROUP);
-			foundation.waitforElementToBeVisible(CreatePromotions.PRODUCT_FILTER, Constants.SHORT_TIME);
+			foundation.waitforElementToBeVisible(CreatePromotions.PRODUCT_FILTER, Constants.LONG_TIME);
 			textBox.enterText(CreatePromotions.GROUP_NAME, requiredData.get(1));
 			createPromotions.selectItemInBuildBundle(requiredData.get(3));
 			foundation.click(CreatePromotions.BTN_ADD);
@@ -4299,10 +4308,19 @@ public class Promotions extends TestInfra {
 
 			// Promotion Details Page
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, currentData.get(2), Constants.TEXT);
-			textBox.enterText(CreatePromotions.TXT_ITEM, currentData.get(3));
-			foundation.threadWait(Constants.ONE_SECOND);
-			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+//			textBox.enterText(CreatePromotions.TXT_ITEM, currentData.get(3));
+//			foundation.threadWait(Constants.ONE_SECOND);
+//			textBox.enterText(CreatePromotions.TXT_ITEM, Keys.ENTER);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.ADD_ITEM);
+			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, currentData.get(3));
+			foundation.threadWait(Constants.SHORT_TIME);
+			checkBox.check(CreatePromotions.SELECT_ITEM_PRODUCT);
+			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.SHORT_TIME);
+			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_BACK);
+			foundation.threadWait(Constants.SHORT_TIME);
 			createPromotions.deselectOrgAndLoc();
 //			foundation.waitforElementToBeVisible(CreatePromotions.CHOOSE_ROLE_DEVICE_FILTER, 3);
 //			foundation.objectClick(CreatePromotions.BTN_CANCEL_1);
@@ -4331,8 +4349,9 @@ public class Promotions extends TestInfra {
 //			foundation.click(CreatePromotions.BTN_NEXT);
 
 			// click on create button and validate the err
-			foundation.click(CreatePromotions.BTN_CREATE_PROMOTION);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PromotionList.NEXT);
 			CustomisedAssert.assertTrue(foundation.getText(CreatePromotions.TXT_PROMO_ERROR)
 					.equals(rstLocationData.get(CNLocation.SHOW_RECORDS)));
 
@@ -4364,17 +4383,14 @@ public class Promotions extends TestInfra {
 			createPromotions.selectBuildBundleAsCategoryAndCheckBox(promoName.get(4));
 
 			// verify price in promotion details page
-			createPromotions.verifyPriceInPromotionDetails(promoName.get(5));
-
-			// search with same promotion
-			promotionList.searchPromotion(promoName.get(1), promoName.get(6));
-			promotionList.clickSelectedRow(promoName.get(7), promoName.get(1));
+//			createPromotions.deselectOrgAndLoc();
+//			createPromotions.verifyPriceInPromotionDetails(promoName.get(5));
 
 			// verify price in promotion details page
-			createPromotions.navigateToPromotionDetailsPageAndVerifyPrice(promoName.get(5));
+//			createPromotions.navigateToPromotionDetailsPageAndVerifyPrice(promoName.get(5));
 
 			// expire promotion
-			createPromotions.cancelingPromotionAndExpired();
+//			createPromotions.cancelingPromotionAndExpired();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -31,7 +31,7 @@ public class NavigationBar extends Factory {
 	public static final By MENU=By.id("drop2");
 	public static final By REPORTS_MENU=By.id("supadmin-new-reports");
 	public static final By ADMIN_MENU=By.id("drop6");
-	
+		
 
 	public void selectOrganization(String selectText) {
 		try {
