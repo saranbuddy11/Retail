@@ -87,15 +87,49 @@ public class Payments {
 		browser.close();
 	}
 
-//	public void launchV5DeviceAnd(String product,String email,String pin,String orderpage,String payment) {
-//		foundation.threadWait(Constants.THREE_SECOND);
-//		browser.launch(Constants.REMOTE, Constants.CHROME);
-//		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-//		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-//		foundation.doubleClick(BTN_TAB);
-//		foundation.doubleClick(BTN_TAB);
-//		foundation.click(BTN_TAB);
-//		
-//	}
+	/**
+	 * create account in v5 device
+	 * @param email
+	 * @param pin
+	 * @param fname
+	 * @param lname
+	 */
+	public void createAccountInV5Device(String email,String pin,String fname,String lname) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+	    CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+	    foundation.click(LandingPage.LBL_CREATE_ACCOUNT);
+	    foundation.waitforElementToBeVisible(CreateAccount.BTN_EMAIL, Constants.SHORT_TIME);
+	    foundation.click(CreateAccount.BTN_EMAIL);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.waitforElementToBeVisible(CreateAccount.BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterPin(pin);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CreateAccount.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterPin(pin);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CreateAccount.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.waitforElement(CreateAccount.TXT_FIRST_NAME, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.TXT_FIRST_NAME);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(fname);
+		foundation.click(CreateAccount.TXT_LAST_NAME);
+		textBox.enterKeypadText(lname);
+		foundation.waitforElement(CreateAccount.NEXT_BTN, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.NEXT_BTN);
+		foundation.waitforElement(CreateAccount.ADD_LATER, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.ADD_LATER);
+		foundation.threadWait(Constants.LONG_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CreateAccount.ALL_SET));
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
 
 }

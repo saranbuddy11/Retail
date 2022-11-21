@@ -389,4 +389,23 @@ public class ConsumerSearch extends Factory {
 		}
 		return tableData;
 	}
+	
+	/**
+	 * verify created consumer in consumer summary page
+	 * @param searchby
+	 * @param search
+	 * @param status
+	 */
+	public void verifyCreatedConsumerInConsumerPage(String searchby,String search,String status) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+		enterSearchField(searchby,search,status);
+		foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.SHORT_TIME);
+		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+		String value = foundation.getAttributeValue(ConsumerSummary.TXT_FIRSTNAME);
+		System.out.println(value);
+		
+		
+	}
 }
