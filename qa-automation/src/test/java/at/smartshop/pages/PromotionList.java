@@ -72,6 +72,7 @@ public class PromotionList extends Factory {
 		textbox.enterText(TXT_SEARCH_PROMONAME, promoName);
 		dropdown.selectItem(DRP_STATUS, statusType, Constants.TEXT);
 		foundation.click(BTN_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	public void verifyPromotionName(String promotionName) {

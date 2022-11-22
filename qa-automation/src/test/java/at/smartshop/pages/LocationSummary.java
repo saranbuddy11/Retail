@@ -2723,17 +2723,17 @@ public class LocationSummary extends Factory {
 		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, deviceName);
 		selectDeviceName(deviceName);
 	}
-	
 
 	/*
-	 * Select Home Commercial Tab 
+	 * Select Home Commercial Tab
+	 * 
 	 * @param locationName
 	 */
 	public void selectHomeCommercialTab(String location) {
-	foundation.scrollIntoViewElement(LocationSummary.BTN_HOME_COMMERCIAL);
-	foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_HOME_COMMERCIAL_FILTER));
-	dropDown.selectItem(LocationSummary.DPD_HOME_COMMERCIAL_FILTER, location,Constants.TEXT); 
+		foundation.scrollIntoViewElement(LocationSummary.BTN_HOME_COMMERCIAL);
+		foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_HOME_COMMERCIAL_FILTER));
+		dropDown.selectItem(LocationSummary.DPD_HOME_COMMERCIAL_FILTER, location, Constants.TEXT);
 	}
 
 	/**
@@ -2749,10 +2749,11 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
 		foundation.click(LocationSummary.TAB_PRODUCTS);
 		foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_HEADER, Constants.SHORT_TIME);
-		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER,product);
-		foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE, 5);
+		textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, product);
+		foundation.waitforElementToBeVisible(LocationSummary.COL_PRICE, Constants.SHORT_TIME);
 		enterPrice(product, price);
 		foundation.click(LocationSummary.TAB_PRODUCTS);
-		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE),price);
+		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 }

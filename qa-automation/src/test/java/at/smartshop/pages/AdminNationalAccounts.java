@@ -106,33 +106,33 @@ public class AdminNationalAccounts extends Factory {
 	public static final By NA_SUMMARY_PAGE_TITLE = By.id("National Account Summary");
 	public static final By LBL_NATIONAL_ACCOUNTS_ARAMARK = By.xpath("//span[text()='National Accounts: Aramark']");
 	public static final By TBL_HEADER = By.xpath("//tbody//thead//tr[@role='row']//th/span");
-	public static final By SELECT_STATE= By.xpath("//tbody/tr/td[contains(@aria-describedby,'child_state')]");
-	public static final By NAVIGATION_MENU= By.xpath("//ul[@class='nav']/li/a");
-	public static final By NATIONAL_ACCOUNT_NAME=By.xpath("//td[@aria-describedby='dataGrid_nationalaccountname']");
-	
+	public static final By SELECT_STATE = By.xpath("//tbody/tr/td[contains(@aria-describedby,'child_state')]");
+	public static final By NAVIGATION_MENU = By.xpath("//ul[@class='nav']/li/a");
+	public static final By NATIONAL_ACCOUNT_NAME = By.xpath("//td[@aria-describedby='dataGrid_nationalaccountname']");
+
 	private Foundation foundation = new Foundation();
 
 	public void clickManageRule(String nationalAccountName, String gridName) {
 		getDriver().findElement(By.xpath("//td[@aria-describedby='" + gridName + "'][text()='" + nationalAccountName
 				+ "']//..//td[@aria-describedby='national-account-grid_manageRules']//a")).click();
 	}
-	
+
 	public By selectPriceLock(String index) {
-		return By.xpath("//tbody/tr[@tabindex='"+index+"']/td[contains(@aria-describedby,'child_priceLock')]");
+		return By.xpath("//tbody/tr[@tabindex='" + index + "']/td[contains(@aria-describedby,'child_priceLock')]");
 	}
 
 	public By selectOption(String data) {
-		return By.xpath("//ul/li[text()='"+data+"']");
-}
-	
+		return By.xpath("//ul/li[text()='" + data + "']");
+	}
+
 	public By clickExpand(String data) {
-		return By.xpath("//tr[@data-row-idx='"+data+"']//span[@title='Expand Row']");
-}
-	
+		return By.xpath("//tr[@data-row-idx='" + data + "']//span[@title='Expand Row']");
+	}
+
 	public void clickCategory(String category) {
 		getDriver().findElement(By.xpath("//li[contains(text(),'" + category + "')]")).click();
 	}
-		
+
 	public void deleteCategory(int index) {
 		List<WebElement> element = getDriver().findElements(CATEGORY_CHOICE_DELETE);
 		for (int i = 0; i < element.size(); i++) {
@@ -336,21 +336,20 @@ public class AdminNationalAccounts extends Factory {
 		CustomisedAssert.assertTrue(table.getTblRowCount(TBL_DATA_ROW) == 1);
 		table.selectRow(ruleName);
 	}
-	
+
 	/**
 	 * select Lock Option
+	 * 
 	 * @param index
 	 * @param data
 	 */
-	public void selectLockOption(String index,String data) {
-	if(!(foundation.getText(selectPriceLock(index)).equals(data))) {
-		CustomisedAssert.assertFalse(foundation.getText(selectPriceLock(index)).equals(data));
-		foundation.doubleClick(selectPriceLock(index));
-		foundation.click(selectOption(data));
-		foundation.click(AdminNationalAccounts.SELECT_STATE);
-		CustomisedAssert.assertTrue(foundation.getText(selectPriceLock(index)).equals(data));
-	    }
+	public void selectLockOption(String index, String data) {
+		if (!(foundation.getText(selectPriceLock(index)).equals(data))) {
+			CustomisedAssert.assertFalse(foundation.getText(selectPriceLock(index)).equals(data));
+			foundation.doubleClick(selectPriceLock(index));
+			foundation.click(selectOption(data));
+			foundation.click(AdminNationalAccounts.SELECT_STATE);
+			CustomisedAssert.assertTrue(foundation.getText(selectPriceLock(index)).equals(data));
+		}
 	}
-	
-
 }
