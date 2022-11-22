@@ -528,13 +528,15 @@ public class V5ReleaseTest extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, editedTaxCat);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(locationSummary.objTaxCategory(editedTaxCat)));
 			foundation.click(locationSummary.objTaxCategory(editedTaxCat));
-			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, "AutomationTax", Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_TAX_RATE_EDIT, "AutomationTaxRate", Constants.TEXT);
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			foundation.click(LocationSummary.BTN_SAVE_MAPPING);
 
 			// set language and sync machine
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationSummary.kiosklanguageSetting(location, language.get(0), language.get(1));
+			foundation.threadWait(600);
 			browser.close();
 
 			// launch v5 application

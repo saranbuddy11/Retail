@@ -116,7 +116,6 @@ public class GlobalProductChange extends Factory {
 	public static final By POP_UP_HEADER = By.cssSelector("div.ajs-header");
 	public static final By REASONBOX_TITLE = By.cssSelector("h4.modal-title");
 	public static final By REASONBOX_BODY = By.cssSelector("div.modal1-body>p");
-
 	public static final By LBL_GPC = By.id("Global Product Change");
 	public static final By GPC_CHECK_BOX = By.id("global-prd");
 	public static final By OPC_CHECK_BOX = By.id("operator-prd");
