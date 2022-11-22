@@ -59,7 +59,9 @@ public class LoadAdvana extends Factory {
 		dropDown.selectItem(LoadAdvana.DPD_ADVANA_COMMERCIAL, option, Constants.TEXT);
 	}
 	foundation.click(LoadAdvana.SELECT_START_DATE);
+	foundation.threadWait(3);
 	textBox.enterText(LoadAdvana.SELECT_START_DATE, date);
+	foundation.threadWait(3);
 	textBox.enterText(LoadAdvana.SELECT_END_DATE, date);
 	foundation.click(LoadAdvana.BTN_SAVE);
 

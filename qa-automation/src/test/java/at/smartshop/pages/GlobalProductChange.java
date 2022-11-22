@@ -41,8 +41,8 @@ public class GlobalProductChange extends Factory {
 	public static final By TXT_MIN = By.id("prd-min");
 	public static final By TXT_MAX = By.id("prd-max");
 	public static final By TBL_ROW_RECORD = By.xpath("//tbody[@role='alert']");
-	public static final By TXT_TAX2=By.id("prd-tax-2");
-	public static final By TAX2_CHECKED=By.id("prd-tax-2-checked");
+	public static final By TXT_TAX2 = By.id("prd-tax-2");
+	public static final By TAX2_CHECKED = By.id("prd-tax-2-checked");
 	public static final By BTN_INCREMENT = By.xpath("//*[@id='increment-radio-btn']/..");
 	public static final By TXT_PRICE = By.id("prd-price");
 	public static final By TXT_PRODUCT_NAME = By.id("filter-name");
@@ -71,15 +71,15 @@ public class GlobalProductChange extends Factory {
 	public static final By OPS_DESELECT_ALL = By.id("prd-deselect-all");
 	public static final By ROUNDING = By.id("prd-rounding");
 	public static final By PRICE_CHECKBOX = By.id("prd-price-checked");
-	public static final By INPUT_TEXT=By.xpath("//input[@class='ajs-input']");
-	public static final By BUTTON_OK=By.id("gpcUpdateokbtn");
+	public static final By INPUT_TEXT = By.xpath("//input[@class='ajs-input']");
+	public static final By BUTTON_OK = By.id("gpcUpdateokbtn");
 	public static final By MIN_CHECKEDBOX = By.id("prd-min-checked");
 	public static final By MAX_CHECKEDBOX = By.id("prd-max-checked");
 	public static final By ACTION_CHECKEDBOX = By.id("prd-pick-list-action-checked");
 	public static final By LOYALITY_CHECKEDBOX = By.id("prd-loyalty-multiplier-checked");
 	public static final By DISPLAY_CHECKBOX = By.id("prd-display-need-by");
 	public static final By TBL_GRID_PRODUCTS = By.cssSelector("#filtered-prd-dt > tbody > tr");
-	public static final By TAX1_CHECKED=By.id("prd-tax-1-checked");
+	public static final By TAX1_CHECKED = By.id("prd-tax-1-checked");
 	public static final By ROUNDING_CHECKBOX = By.id("prd-display-need-by");
 	public static final By TXT_PROMPT_MSG = By.xpath("//div[text()='Confirm Global Product Change for Location(s)']");
 	public static final By PROMT_OPERATOR_PRODUCT = By.xpath("//div[text()='Confirm Operator Product Catalog Change']");
@@ -87,8 +87,8 @@ public class GlobalProductChange extends Factory {
 	public static final By BTN_CANCEL = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By PRODUCT_FIELD = By.id("prd-name");
 	public static final By PRODUCT_CHECKOUT = By.id("prd-name-checked");
-	public static final By PROMPT_MESSAGE=By.id("gpc-UpdatepopupBody");
-	public static final By BUTTON_CANCEL=By.id("gpcUpdateCancelbtn");
+	public static final By PROMPT_MESSAGE = By.id("gpc-UpdatepopupBody");
+	public static final By BUTTON_CANCEL = By.id("gpcUpdateCancelbtn");
 	public static final By COST_FIELD = By.id("prd-cost");
 	public static final By COST_CHECKOUT = By.id("prd-cost-checked");
 	public static final By CATEGORY_ONE = By.id("prd-cate-1");
@@ -116,7 +116,6 @@ public class GlobalProductChange extends Factory {
 	public static final By POP_UP_HEADER = By.cssSelector("div.ajs-header");
 	public static final By REASONBOX_TITLE = By.cssSelector("h4.modal-title");
 	public static final By REASONBOX_BODY = By.cssSelector("div.modal1-body>p");
-	
 	public static final By LBL_GPC = By.id("Global Product Change");
 	public static final By GPC_CHECK_BOX = By.id("global-prd");
 	public static final By OPC_CHECK_BOX = By.id("operator-prd");
@@ -137,22 +136,22 @@ public class GlobalProductChange extends Factory {
 	public static final By CHECK_ALL_LOC = By.xpath("//input[@name='all-locs']");
 	public static final By CONFIRM_SUMITTED = By.xpath("//h4[contains(text(),'Change Submitted')]");
 	public static final By CONFIRM_CHANGE_OPC = By.xpath("//div[contains(text(),' Product Catalog Change')]");
-	public static final By DPD_REMOVE=By.xpath("//select[@id='prd-remove-product-loc']");
-	public static final By CHK_GREENCIRCLE=By.id("prd-remove-product-loc-checked");
-	public static final By TXT_CONFIRM_POPUP=By.xpath("//input[@class='ajs-input']");
-	public static final By POPUP_OK=By.xpath("//button[@class='btn btn-light']");
-	public static final By TXT_TAX2_PRODUCT=By.xpath("//input[@id='tax-2']");
-	public static final By COL_TAX2_PRODUCT=By.xpath("(//tr[@class='odd']//td)[11]");
-	public static final By TABLE_TAX2_COL=By.xpath("//table[@id='filtered-prd-dt']//tbody//td[11]");
-	public static final By ERROR_MSG=By.xpath("//div[text()='Min value should be less than or equal to Max value  ']");
-  public static final By TXT_UPC=By.xpath("//input[@id='single-num']");
-  public static final By CLOUMN_PRODUCT=By.xpath("//tbody[@aria-relevant='all']");
-  public static final By TXT_EXACT=By.xpath("//input[@id='single-num']");
-  public static final By TXT_START=By.id("start-num");
-  public static final By TXT_END=By.id("end-num");
-  public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']//td");
-	public static final By TABLE_PRODUCT=By.xpath("(//tbody//tr[@class='odd']/td)[2]");
-
+	public static final By DPD_REMOVE = By.xpath("//select[@id='prd-remove-product-loc']");
+	public static final By CHK_GREENCIRCLE = By.id("prd-remove-product-loc-checked");
+	public static final By TXT_CONFIRM_POPUP = By.xpath("//input[@class='ajs-input']");
+	public static final By POPUP_OK = By.xpath("//button[@class='btn btn-light']");
+	public static final By TXT_TAX2_PRODUCT = By.xpath("//input[@id='tax-2']");
+	public static final By COL_TAX2_PRODUCT = By.xpath("(//tr[@class='odd']//td)[11]");
+	public static final By TABLE_TAX2_COL = By.xpath("//table[@id='filtered-prd-dt']//tbody//td[11]");
+	public static final By ERROR_MSG = By
+			.xpath("//div[text()='Min value should be less than or equal to Max value  ']");
+	public static final By TXT_UPC = By.xpath("//input[@id='single-num']");
+	public static final By CLOUMN_PRODUCT = By.xpath("//tbody[@aria-relevant='all']");
+	public static final By TXT_EXACT = By.xpath("//input[@id='single-num']");
+	public static final By TXT_START = By.id("start-num");
+	public static final By TXT_END = By.id("end-num");
+	public static final By TABLE_ROW = By.xpath("//tbody//tr[@class='odd']//td");
+	public static final By TABLE_PRODUCT = By.xpath("(//tbody//tr[@class='odd']/td)[2]");
 
 	public By objTableRow(String location) {
 		return By.xpath("//table[@id='filtered-prd-dt']//tbody//span[text()='" + location + "']");
@@ -174,7 +173,7 @@ public class GlobalProductChange extends Factory {
 	public By objProductName(String productName) {
 		return By.xpath("//span[text()='" + productName + "']");
 
-	}	
+	}
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -289,13 +288,14 @@ public class GlobalProductChange extends Factory {
 		}
 		return tableData;
 	}
-   
+
 	/**
 	 * verify the records data in UI
+	 * 
 	 * @param header
 	 * @param value
 	 */
-	public void verifyRecordData(String header,String value) {
+	public void verifyRecordData(String header, String value) {
 		// verify the print group field
 		Map<Integer, Map<String, String>> uiTableData = getTablelRecordsUI();
 		Map<String, String> innerMap = new HashMap<>();
@@ -335,7 +335,6 @@ public class GlobalProductChange extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
-
 	/**
 	 * select location and click on products
 	 */
@@ -349,13 +348,14 @@ public class GlobalProductChange extends Factory {
 	}
 
 	/**
-	 * update deposite and tax field 
+	 * update deposite and tax field
+	 * 
 	 * @param deposit
 	 * @param tax1
 	 * @param tax2
-	 * @throws AWTException 
+	 * @throws AWTException
 	 */
-	public void updateDepositeAndTaxField(String deposit,String tax1,String tax2) throws AWTException {
+	public void updateDepositeAndTaxField(String deposit, String tax1, String tax2) throws AWTException {
 		foundation.waitforElementToBeVisible(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE, 5);
 		textBox.enterText(GlobalProductChange.DEPOSIT_CAT, deposit);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.DEPOSITE_CHECKED));
@@ -368,9 +368,10 @@ public class GlobalProductChange extends Factory {
 		verifyButtonOkayInGPC();
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 3);
 	}
-	
+
 	/**
 	 * verify Button okay in GPC
+	 * 
 	 * @throws AWTException
 	 */
 	public void verifyButtonOkayInGPC() throws AWTException {
@@ -385,124 +386,129 @@ public class GlobalProductChange extends Factory {
 
 	}
 
-
 	/**
 	 * update price value
 	 * 
 	 * @param price
 	 */
 	public void updatePriceInAllLocation(String price) {
-		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRICE,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRICE, 3);
 		foundation.click(GlobalProductChange.TXT_PRICE);
 		textBox.enterText(GlobalProductChange.TXT_PRICE, price);
-		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
 		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
-		
+
 	}
+
 	/**
-	 * Select Operator product catalog change 
+	 * Select Operator product catalog change
 	 *
 	 * @param product
 	 * @param price
 	 */
 	public void selectProductOPC(String product) {
-	if (!checkBox.isChecked(GlobalProductChange.OPC_CHECK_BOX))
-		checkBox.check(GlobalProductChange.OPC_CHECK_BOX);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
-	foundation.threadWait(Constants.SHORT_TIME);
-	foundation.waitforElementToBeVisible(objTableDataOperatorProduct(product),3);
-	foundation.click(objTableDataOperatorProduct(product));
-	foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT,3);
-	foundation.click(GlobalProductChange.BTN_NEXT);
+		if (!checkBox.isChecked(GlobalProductChange.OPC_CHECK_BOX))
+			checkBox.check(GlobalProductChange.OPC_CHECK_BOX);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(objTableDataOperatorProduct(product), 3);
+		foundation.click(objTableDataOperatorProduct(product));
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
+		foundation.click(GlobalProductChange.BTN_NEXT);
 	}
+
 	/**
 	 * Click confirmation buttons in OPC
 	 */
 	public void clickConfirmMsgInOPC() {
-		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT,5);
-	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
-	    foundation.click(GlobalProductChange.BTN_SUBMIT);
-	    foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_CHANGE_OPC,3);
-	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_CHANGE_OPC));
-	    foundation.click(GlobalProductChange.BTN_OK);
-	    foundation.waitforElementToBeVisible(GlobalProductChange.REASON_BTNOK,Constants.LONG_TIME);
-	    foundation.click(GlobalProductChange.REASON_BTNOK);
-	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT, 5);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
+		foundation.click(GlobalProductChange.BTN_SUBMIT);
+		foundation.waitforElementToBeVisible(GlobalProductChange.CONFIRM_CHANGE_OPC, 3);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CONFIRM_CHANGE_OPC));
+		foundation.click(GlobalProductChange.BTN_OK);
+		foundation.waitforElementToBeVisible(GlobalProductChange.REASON_BTNOK, Constants.LONG_TIME);
+		foundation.click(GlobalProductChange.REASON_BTNOK);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 	}
-	
+
 	/**
 	 * Click confirmation buttons in GPC
+	 * 
 	 * @param data
 	 */
 	public void clickConfirmMsgInGPC(String data) {
-		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT,5);
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_SUBMIT));
 		foundation.click(GlobalProductChange.BTN_SUBMIT);
-		foundation.waitforElementToBeVisible(GlobalProductChange.POPUP_OK,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.POPUP_OK, Constants.SHORT_TIME);
 		foundation.click(GlobalProductChange.POPUP_OK);
-		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_CONFIRM_POPUP,5);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_CONFIRM_POPUP, Constants.SHORT_TIME);
 		foundation.click(GlobalProductChange.TXT_CONFIRM_POPUP);
-		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP,data);
-		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP,Keys.ENTER);
-		foundation.waitforElementToBeVisible(GlobalProductChange.REASONBOX_BTNOK,5);
-		foundation.threadWait(10);
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP, data);
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP, Keys.ENTER);
+		foundation.waitforElementToBeVisible(GlobalProductChange.REASONBOX_BTNOK, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.MEDIUM_TIME);
 		foundation.click(GlobalProductChange.REASONBOX_BTNOK);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+		foundation.threadWait(Constants.MEDIUM_TIME);
+		// CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 	}
-	
+
 	/**
-	 * select product in global product change 
+	 * select product in global product change
 	 * 
 	 * @param location
 	 * @param product
 	 */
-	public void selectProductInGPC(String location,String product) {
+	public void selectProductInGPC(String location, String product) {
 
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
 		foundation.click(objLocation(location));
 		foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
-		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRODUCT_SEARCH,5);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRODUCT_SEARCH, Constants.SHORT_TIME);
 		textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product);
 		foundation.click(objTableDataProduct(product));
-		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(GlobalProductChange.BTN_NEXT);
-		}
-	
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
 	/**
 	 * verify Tax2 value in ProductsTab
 	 * 
 	 * @param location
 	 * @param product
 	 */
-	public void verifyTax2ValueInProductTab(String location,String product) {
-			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
-			foundation.threadWait(3);
-			foundation.click(objLocation(location));
-			foundation.waitforElementToBeVisible(GlobalProductChange.TAB_PRODUCT, 3);
-			foundation.threadWait(Constants.MEDIUM_TIME);
-			foundation.click(GlobalProductChange.TAB_PRODUCT);
-			foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2_PRODUCT, 3);
-			foundation.click(GlobalProductChange.TXT_TAX2_PRODUCT);
-			textBox.enterText(GlobalProductChange.TXT_TAX2_PRODUCT,product);
-			foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-			foundation.waitforElementToBeVisible(GlobalProductChange.COL_TAX2_PRODUCT,5);
-			foundation.scrollIntoViewElement(GlobalProductChange.COL_TAX2_PRODUCT);
-			String value=foundation.getText(GlobalProductChange.COL_TAX2_PRODUCT);
-			CustomisedAssert.assertTrue(value.contains(product));	
-}
+	public void verifyTax2ValueInProductTab(String location, String product) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
+		foundation.threadWait(3);
+		foundation.click(objLocation(location));
+		foundation.waitforElementToBeVisible(GlobalProductChange.TAB_PRODUCT, 3);
+		foundation.threadWait(Constants.MEDIUM_TIME);
+		foundation.click(GlobalProductChange.TAB_PRODUCT);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2_PRODUCT, 3);
+		foundation.click(GlobalProductChange.TXT_TAX2_PRODUCT);
+		textBox.enterText(GlobalProductChange.TXT_TAX2_PRODUCT, product);
+		foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+		foundation.waitforElementToBeVisible(GlobalProductChange.COL_TAX2_PRODUCT, 5);
+		foundation.scrollIntoViewElement(GlobalProductChange.COL_TAX2_PRODUCT);
+		String value = foundation.getText(GlobalProductChange.COL_TAX2_PRODUCT);
+		CustomisedAssert.assertTrue(value.contains(product));
+	}
+
 	/**
 	 * remove product in GPC
 	 * 
 	 * @param product
 	 */
 	public void removeProductInGPC(String product) {
-		foundation.waitforElementToBeVisible(GlobalProductChange.DPD_REMOVE,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.DPD_REMOVE, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.DPD_REMOVE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHK_GREENCIRCLE));
 		foundation.click(GlobalProductChange.DPD_REMOVE);
 		dropDown.selectItem(GlobalProductChange.DPD_REMOVE, product, Constants.TEXT);
-		
+
 	}
 
 	/**
@@ -512,124 +518,126 @@ public class GlobalProductChange extends Factory {
 	 * 
 	 */
 	public void updateTax2Value(String product) {
-	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2, 3);
-	foundation.click(GlobalProductChange.TXT_TAX2);
-	textBox.enterText(GlobalProductChange.TXT_TAX2, product);
-	
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_TAX2, 3);
+		foundation.click(GlobalProductChange.TXT_TAX2);
+		textBox.enterText(GlobalProductChange.TXT_TAX2, product);
+
 	}
+
 	/**
-
-	 * verify Min, Max have checkmarks for  values
-
+	 * 
+	 * verify Min, Max have checkmarks for values
+	 * 
 	 * verify Min, Max have checkmarks for negative values
-
+	 * 
 	 * 
 	 * @param min
 	 * @param max
 	 */
-	public void verifyCheckmarksInGPC(String min,String max) {
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MIN));
-	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MIN, 3);
-	foundation.click(GlobalProductChange.TXT_MIN);
-	textBox.enterText(GlobalProductChange.TXT_MIN, min);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MIN_CHECKEDBOX));
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MAX));
-	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MAX, 3);
-	foundation.click(GlobalProductChange.TXT_MAX);
-	textBox.enterText(GlobalProductChange.TXT_MAX, max);
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
+	public void verifyCheckmarksInGPC(String min, String max) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MIN));
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MIN, 3);
+		foundation.click(GlobalProductChange.TXT_MIN);
+		textBox.enterText(GlobalProductChange.TXT_MIN, min);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MIN_CHECKEDBOX));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_MAX));
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MAX, 3);
+		foundation.click(GlobalProductChange.TXT_MAX);
+		textBox.enterText(GlobalProductChange.TXT_MAX, max);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
 	}
+
 	/**
-
-	 * verify Min, Max have checkmarks for  values
-
+	 * 
+	 * verify Min, Max have checkmarks for values
+	 * 
 	 * verify Min, Max have checkmarks for negative values
-
+	 * 
 	 * 
 	 * @param min
 	 * @param max
 	 * @param count
 	 */
-	public void verifyCheckmarksInOPC(String min,String max,String count) {
+	public void verifyCheckmarksInOPC(String min, String max, String count) {
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MIN, 3);
 		foundation.click(GlobalProductChange.TXT_MIN);
 		textBox.enterText(GlobalProductChange.TXT_MIN, min);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MIN_CHECKEDBOX));
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_MAX, 3);
 		foundation.click(GlobalProductChange.TXT_MAX);
-		textBox.enterText(GlobalProductChange.TXT_MAX,max);
+		textBox.enterText(GlobalProductChange.TXT_MAX, max);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.MAX_CHECKEDBOX));
 		foundation.waitforElementToBeVisible(GlobalProductChange.CASE_COUNT, 3);
 		foundation.click(GlobalProductChange.CASE_COUNT);
-		textBox.enterText(GlobalProductChange.CASE_COUNT,count);
+		textBox.enterText(GlobalProductChange.CASE_COUNT, count);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CASE_COUNT_CHECKBOX));
-		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC,3);
+		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
 		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
 	}
-	
+
 	/**
-	 *verify Start And End range values
+	 * verify Start And End range values
+	 * 
 	 * @param option
 	 * @param start
 	 * @param end
 	 */
-	public void verifyStartAndEnd(String option,String start,String end) {
-	dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY,option, Constants.TEXT);
-	foundation.click(GlobalProductChange.TXT_START);
-	textBox.enterText(GlobalProductChange.TXT_START,start);
-	foundation.click(GlobalProductChange.TXT_END);
-	textBox.enterText(GlobalProductChange.TXT_END,end);
-	foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-	
-}
-	
+	public void verifyStartAndEnd(String option, String start, String end) {
+		dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY, option, Constants.TEXT);
+		foundation.click(GlobalProductChange.TXT_START);
+		textBox.enterText(GlobalProductChange.TXT_START, start);
+		foundation.click(GlobalProductChange.TXT_END);
+		textBox.enterText(GlobalProductChange.TXT_END, end);
+		foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+
+	}
+
 	/**
 	 * verify Exact Match value
+	 * 
 	 * @param option
 	 * @param range
 	 */
-	public void verifyExactMatch(String option,String range) {
-		dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY,option, Constants.TEXT);
+	public void verifyExactMatch(String option, String range) {
+		dropDown.selectItem(GlobalProductChange.DPD_FILTER_BY, option, Constants.TEXT);
 		foundation.click(GlobalProductChange.TXT_EXACT);
-		textBox.enterText(GlobalProductChange.TXT_EXACT,range);
+		textBox.enterText(GlobalProductChange.TXT_EXACT, range);
 		foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-		
-	}
 
+	}
 
 	/**
 	 * update Price For Selected Location and Save
+	 * 
 	 * @param location
 	 * @param product
 	 * @param option
-	 * @param range 
+	 * @param range
 	 */
-	public void updatePriceForSelectedLocationAndSaveInGlobalProductChange(String location,String product,String data,String option)  {
-	selectProductInGPC(location, product);
-	foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRICE,3);
-	foundation.click(GlobalProductChange.TXT_PRICE);
-	textBox.enterText(GlobalProductChange.TXT_PRICE, data);
-	clickConfirmMsgInGPC(option);
-}
+	public void updatePriceForSelectedLocationAndSaveInGlobalProductChange(String location, String product, String data,
+			String option) {
+		selectProductInGPC(location, product);
+		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRICE, 3);
+		foundation.click(GlobalProductChange.TXT_PRICE);
+		textBox.enterText(GlobalProductChange.TXT_PRICE, data);
+		clickConfirmMsgInGPC(option);
+	}
 
 	/**
 	 * verify Price For Updated Product
+	 * 
 	 * @param location
 	 * @param product
 	 * @param range
 	 */
-	public void verifyPriceForUpdatedProductInGlobalProductChange(String location,String product,String data) {
-	CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_GPC));
-	foundation.threadWait(5);
-	foundation.click(objLocation(location));
-	foundation.click(GlobalProductChange.TAB_PRODUCT);
-	textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME,product);
-	foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
-	System.out.println(foundation.getTextofListElement(GlobalProductChange.TABLE_ROW));
-	System.out.println(data);
-	CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProductChange.TABLE_ROW).contains(data));
+	public void verifyPriceForUpdatedProductInGlobalProductChange(String location, String product, String data) {
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(objLocation(location));
+		foundation.click(GlobalProductChange.TAB_PRODUCT);
+		textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
+		foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertFalse(foundation.getTextofListElement(GlobalProductChange.TABLE_ROW).contains(data));
+	}
 }
-}
-	
-

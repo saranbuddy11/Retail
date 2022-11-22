@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -80,7 +79,7 @@ public class Promotions extends TestInfra {
 
 			String promotionName = strings.getRandomCharacter();
 			String promotionType = rstLocationData.get(CNLocation.PROMOTION_TYPE);
-			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
+//			String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 			String displayName = strings.getRandomCharacter();
 
 			List<String> requiredData = Arrays
@@ -3508,22 +3507,32 @@ public class Promotions extends TestInfra {
 			createPromotions.selectCategoryInBuildBundle(requiredData.get(4));
 
 			// verify the popup message and click on yes
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.HEADER_POPUP));
-			String text = foundation.getText(CreatePromotions.CONTENT_POPUP);
-			CustomisedAssert.assertTrue(text.contains(contentpopup.get(0)));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.HEADER_POPUP));
+			String popupFieldValues = foundation.getText(CreatePromotions.CONTENT_POPUP);
+			CustomisedAssert.assertTrue(popupFieldValues.contains(contentpopup.get(0)));
 			foundation.click(CreatePromotions.BTN_YES);
-			foundation.click(CreatePromotions.BTN_ADD);
+			foundation.click(CreatePromotions.INPUT_CATEGORY_SEARCH);
+			textBox.clearText(CreatePromotions.INPUT_CATEGORY_SEARCH);
+			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, requiredData.get(4));
+			foundation.threadWait(Constants.SHORT_TIME);
+			checkBox.unCheck(CreatePromotions.CAT_CATEGORY);
+			foundation.threadWait(Constants.THREE_SECOND);
+			textBox.clearText(CreatePromotions.GROUP_NAME);
+			foundation.click(CreatePromotions.CANCEL_BTN);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// verify the selected product after updated a product
-			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP_EDIT, 5);
+			foundation.waitforElementToBeVisible(CreatePromotions.LBL_BUNDLE_GROUP_EDIT, Constants.SHORT_TIME);
 			String groupname = foundation.getText(CreatePromotions.LBL_CREATED_GROUP);
-			CustomisedAssert.assertTrue(groupname.contains(requiredData.get(2)));
+			CustomisedAssert.assertTrue(groupname.contains(requiredData.get(1)));
 			foundation.click(CreatePromotions.LBL_BUNDLE_GROUP_EDIT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CATEGORY_FILTER));
 			foundation.click(CreatePromotions.CATEGORY_FILTER);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_PROMO_GRID));
+			createPromotions.selectCategoryInBuildBundle(requiredData.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// removing the group bundle promotion
 			createPromotions.deleteBundleGroup();
@@ -3541,10 +3550,10 @@ public class Promotions extends TestInfra {
 			createPromotions.selectCategoryInBuildBundle(requiredData.get(4));
 
 			// verify the popup message
-			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_POPUP_HEADER));
-			text = foundation.getText(CreatePromotions.CONTENT_POPUP);
-			CustomisedAssert.assertTrue(text.contains(contentpopup.get(1)));
-			foundation.click(CreatePromotions.BTN_GOTIT);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.CAT_POPUP_HEADER));
+//			text = foundation.getText(CreatePromotions.CONTENT_POPUP);
+//			CustomisedAssert.assertTrue(text.contains(contentpopup.get(1)));
+//			foundation.click(CreatePromotions.BTN_GOTIT);
 			foundation.click(CreatePromotions.BTN_ADD);
 
 		} catch (Exception exc) {
@@ -4295,9 +4304,8 @@ public class Promotions extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem);
 			List<String> currentData = Arrays
 					.asList(rstLocationData.get(CNLocation.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-
-			List<String> newData = Arrays
-					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//			List<String> newData = Arrays
+//					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Basic Information Page
 			foundation.click(PromotionList.BTN_CREATE);
