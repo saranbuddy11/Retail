@@ -2739,6 +2739,9 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
 			foundation.click(LocationSummary.TXT_TOP_OFF_AMOUNT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(9));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(10));
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.THREE_SECOND);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
@@ -2846,6 +2849,9 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
 			foundation.click(LocationSummary.TXT_TOP_OFF_AMOUNT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(9));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(8));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
@@ -2899,6 +2905,8 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
 			foundation.click(LocationSummary.TXT_TOP_OFF_AMOUNT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(9));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(10));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
@@ -3060,6 +3068,9 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
 			foundation.click(LocationSummary.TXT_TOP_OFF_AMOUNT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(9));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, requiredData.get(10));
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.THREE_SECOND);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
@@ -3167,6 +3178,9 @@ public class ConsumerSubsidy extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
 			foundation.click(LocationSummary.TXT_TOP_OFF_AMOUNT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_AMOUNT, requiredData.get(9));
+			foundation.threadWait(Constants.SHORT_TIME);
+			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.SHORT_TIME);
