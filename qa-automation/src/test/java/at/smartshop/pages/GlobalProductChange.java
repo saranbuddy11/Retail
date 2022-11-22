@@ -151,7 +151,7 @@ public class GlobalProductChange extends Factory {
   public static final By TXT_START=By.id("start-num");
   public static final By TXT_END=By.id("end-num");
   public static final By TABLE_ROW=By.xpath("//tbody//tr[@class='odd']//td");
-	public static final By TABLE_PRODUCT=By.xpath("(//tbody//tr[@class='odd']/td)[2]");
+	public static final By TABLE_PRODUCT=By.xpath("//tbody//tr[@class='odd']/td");
 
 
 	public By objTableRow(String location) {
