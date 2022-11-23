@@ -444,7 +444,6 @@ public class CreatePromotions extends Factory {
 			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 			foundation.click(By.xpath("//div[@id='recurringInput']//input[" + dayOfWeek + "]"));
 			ExtFactory.getInstance().getExtent().log(Status.INFO, "selected day of week as [ " + dayOfWeek + " ]");
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
