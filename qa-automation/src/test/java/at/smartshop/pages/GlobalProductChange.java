@@ -638,6 +638,6 @@ public class GlobalProductChange extends Factory {
 		textBox.enterText(GlobalProductChange.TXT_PRODUCT_NAME, product);
 		foundation.click(GlobalProductChange.BTN_PRODUCT_APPLY);
 		foundation.threadWait(Constants.SHORT_TIME);
-		CustomisedAssert.assertFalse(foundation.getTextofListElement(GlobalProductChange.TABLE_ROW).contains(data));
+		CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProductChange.TABLE_ROW).contains(data));
 	}
 }
