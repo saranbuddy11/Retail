@@ -32,6 +32,8 @@ public class InventoryVariance extends Factory {
 	public static final By DATA_EXISTING_DATE = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td.available");
 
+	public static final By DATA_EXISTING_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(3)");
 	// body > div:nth-child(25) > div.drp-calendar.right > div.calendar-table >
 	// table > tbody > tr:nth-child(4) > td.in-range.available
 
@@ -119,6 +121,8 @@ public class InventoryVariance extends Factory {
 	public void verifyReportData(String expectedData) {
 		try {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
+			System.out.println("reportsData :" + reportsData);
+			System.out.println("expectedDataList :" + expectedDataList);
 			for (int iter = 0; iter < tableHeaders.size() - 1; iter++) {
 				Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter)));
 			}

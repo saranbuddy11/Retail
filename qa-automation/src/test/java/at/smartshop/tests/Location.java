@@ -1079,7 +1079,8 @@ public class Location extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
 			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_EXPORT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
+
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
 
 			// foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);

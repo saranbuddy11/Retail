@@ -992,7 +992,7 @@ public class Consumer extends TestInfra {
 			String emailID = consumerSearch.createConsumer(location);
 			// CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE),
 			// paycycle);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// login as super and delete pay-cycle
 			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);

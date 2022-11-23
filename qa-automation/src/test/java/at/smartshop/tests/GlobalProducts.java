@@ -1680,7 +1680,7 @@ public class GlobalProducts extends TestInfra {
 	 */
 	@Test(description = "198583-ADM > Global Product Change > Operator Product Catalog Change > Not updating location level")
 	public void verifyUpdatedPriceOnGPC() {
-		final String CASE_NUM = "";
+		final String CASE_NUM = "198583";
 
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -2512,19 +2512,23 @@ catch (Exception exc) {
 			foundation.click(globalProductChange.objLocation(location.get(0)));
 			foundation.click(GlobalProductChange.TAB_PRODUCT);
 			globalProductChange.verifyExactMatch(data.get(0),data.get(2));
-			String UPC=foundation.getText(GlobalProductChange.TABLE_ROW);
+			foundation.threadWait(3);
+			List<String> UPC=foundation.getTextofListElement(GlobalProductChange.TABLE_ROW);
 			
 			//verify UPCRange
 			globalProductChange.verifyStartAndEnd(data.get(3),data.get(4),data.get(5));
-			String UPCRange=foundation.getText(GlobalProductChange.TABLE_PRODUCT);
+			foundation.threadWait(3);
+			List<String> UPCRange=foundation.getTextofListElement(GlobalProductChange.TABLE_PRODUCT);
 			
 			//verify ProductIDRange
 			globalProductChange.verifyStartAndEnd(data.get(6),data.get(8),data.get(9));
-			String ProductIDRange=foundation.getText(GlobalProductChange.TABLE_PRODUCT);
+			foundation.threadWait(3);
+			List<String> ProductIDRange=foundation.getTextofListElement(GlobalProductChange.TABLE_PRODUCT);
 			
 			//verify ProductID
 			globalProductChange.verifyExactMatch(data.get(7),data.get(10));
-			String ProductID=foundation.getText(GlobalProductChange.TABLE_PRODUCT);
+			foundation.threadWait(3);
+			List<String> ProductID=foundation.getTextofListElement(GlobalProductChange.TABLE_PRODUCT);
 			
 		   //Navigate to location and select product
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -2539,12 +2543,12 @@ catch (Exception exc) {
 			CustomisedAssert.assertTrue(UPC.contains(UPC_Product));
 			
 			//verify UPCRange in location
-			locationSummary.SearchProduct(data.get(1));
+			locationSummary.SearchProduct(data.get(2));
 			String UPCRange_Product=foundation.getText(LocationSummary.PRODUCT_NAME);
-			CustomisedAssert.assertTrue(UPCRange_Product.equals(UPCRange));
+			CustomisedAssert.assertTrue(UPCRange.contains(UPCRange_Product));
 			
 			//verify ProductID location Summary into Product Summary
-			locationSummary.verifyProductID(ProductID);
+			locationSummary.verifyProductID(data.get(11));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.GUID_PRODUCTID));
 			
 			//verify ProductID Range location Summary into Product Summary
@@ -2553,7 +2557,7 @@ catch (Exception exc) {
 			locationList.selectLocationName(location.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
-			locationSummary.verifyProductID(ProductIDRange);
+			locationSummary.verifyProductID(data.get(11));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.GUID_PRODUCTIDRANGE));
 			
 }

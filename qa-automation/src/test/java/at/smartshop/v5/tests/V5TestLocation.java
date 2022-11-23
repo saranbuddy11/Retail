@@ -537,6 +537,7 @@ public class V5TestLocation extends TestInfra {
 			locationList.selectLocationName(requiredData.get(2));
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.showHideManageColumn(requiredData.get(3), requiredData.get(4));
 			foundation.click(LocationSummary.BTN_APPLY);
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -569,16 +570,16 @@ public class V5TestLocation extends TestInfra {
 		// Reading test data from DataBase
 		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 
 		List<String> requiredDataV5Device = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menuItem = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredDataLocationSummary = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
 		try {
-			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
-			List<String> requiredDataLocationSummary = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -605,14 +606,14 @@ public class V5TestLocation extends TestInfra {
 			categoryList.selectCategory(requiredDataV5Device.get(2));
 			categorySummary.updateName(requiredDataV5Device.get(5));
 
-			// -verify categories edits applied on location summary page-
+			// verify categories edits applied on location summary page-
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			locationList.selectLocationName(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			// select show categories
 			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0),
 					requiredDataLocationSummary.get(1));
 			locationSummary.showHideManageColumn(requiredDataLocationSummary.get(0),

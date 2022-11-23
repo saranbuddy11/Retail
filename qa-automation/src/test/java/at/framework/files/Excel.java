@@ -178,6 +178,60 @@ public class Excel {
 		return isTest;
 
 	}
+	public boolean verifyInExcelData(List<String> uiList, String filePath, int rowNum) {
+		HSSFWorkbook workBook = null;
+		Boolean isTest = false;
+		try {
+			File file = new File(filePath);
+			FileInputStream fis = new FileInputStream(file);
+
+			workBook = new HSSFWorkbook(fis);
+			HSSFSheet sheet = workBook.getSheetAt(0);
+			HSSFRow row = sheet.getRow(rowNum);
+
+			for (String uiCelldata : uiList) {
+				isTest = false;
+				String.valueOf(uiCelldata);
+				String uiRecord = uiCelldata.trim();
+
+				for (Cell cell : row) {
+					String cellValue;
+					if (cell.getCellType() == 0) {
+						double cellVal = cell.getNumericCellValue();
+						cellValue = "$" + String.valueOf(cellVal) + 0;
+
+					} else if (cell.getCellType() == 4) {
+						cellValue = String.valueOf(cell.getBooleanCellValue());
+					} else {
+						cellValue = String.valueOf(cell.getStringCellValue());
+					}
+					if (uiRecord.equals(cellValue)) {
+						isTest = true;
+						ExtFactory.getInstance().getExtent().log(Status.INFO,
+								"UI record [" + uiRecord + "] is available in excel");
+						break;
+					}
+				}
+				if (isTest.equals(false)) {
+					ExtFactory.getInstance().getExtent().log(Status.INFO,
+							"UI record [" + uiRecord + "] is not available in excel");
+					return false;
+				}
+			}
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		} finally {
+			try {
+
+				workBook.close();
+			} catch (Exception exc) {
+				Assert.fail(exc.toString());
+			}
+		}
+
+		return isTest;
+
+	}
 
 	public boolean verifyFirstCellData(String uiList, String filePath, int rowNum) {
 		XSSFWorkbook workBook = null;
