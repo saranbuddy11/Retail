@@ -266,6 +266,7 @@ public class LocationSummary extends Factory {
 	public static final By CHK_DEFAULT_ROLL_OVER = By
 			.xpath("//input[@class='rolloversubsidy rolloverdefaultcheckbox']");
 	public static final By CHECK_CHECKBOX = By.xpath("//input[@class='check_size']");
+	public static final By ROLL_OVER_CHECKBOX=By.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By CHK_ROLL_OVER_SUBSIDY = By
 			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By TXT_TOP_OFF_GROUP_NAME = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='groupname']");
@@ -477,6 +478,10 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarMonthAutoLocation1(String month) {
 		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
+	
+	public By objectRollOverCalendarMonthAutoLocation1(String month) {
+		return By.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[2][contains(text(),'"+ month + "')]");
+	}
 
 	public By objectTopOffCalendarMonthAutoLocation2(String month) {
 		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
@@ -504,6 +509,10 @@ public class LocationSummary extends Factory {
 
 	public By objectTopOffCalendarDayAutoLocation1(String day) {
 		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+	}
+	
+	public By objectRollOverCalendarDayAutoLocation1(String day) {
+		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class='day  active']");
 	}
 
 	public By objectTopOffCalendarNewDayAutoLocation2(String day) {
@@ -1644,7 +1653,27 @@ public class LocationSummary extends Factory {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		}
 	}
-
+	
+	/**
+	 * Setting rollover Start date for AutomationLocation1
+	 * @param value
+	 */
+	public void verifyRollOverDateAutoLocation1(String value) {
+		String dateArray[] = value.split("/");
+		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
+		int month = Integer.parseInt(dateArray[0]);
+		String monthName = getMonthName(month);
+		foundation.threadWait(Constants.THREE_SECOND);
+		if (foundation.isDisplayed(objectRollOverCalendarMonthAutoLocation1(monthName))) {
+			foundation.click(objectRollOverCalendarDayAutoLocation1(date));
+		} else {
+			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
+			foundation.waitforElement(objectRollOverCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthAutoLocation1(monthName)));
+			foundation.click(objectRollOverCalendarDayAutoLocation1(date));
+		}
+	}
+	
 	/**
 	 * Setting Topoff Start Date as Past date for AutoLocation1
 	 * 

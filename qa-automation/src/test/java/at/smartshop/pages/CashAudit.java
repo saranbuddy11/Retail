@@ -256,9 +256,9 @@ public class CashAudit extends Factory {
 		int count = getRowCount(getRequiredGMAJsonData().get(0), reportsData, tableHeaders.get(0), tableHeaders.get(4));
 		gmaData.putAll(reportsData.get(count));
 		gmaData.put(tableHeaders.get(1), requiredCashOutJsonData.get(1));
-		// gmaData.put(tableHeaders.get(2), consumerName);
-		gmaData.put(tableHeaders.get(3), requiredGMAJsonData.get(1));
-		// gmaData.put(tableHeaders.get(6), "-5");
+//		gmaData.put(tableHeaders.get(2), consumerName);
+		// gmaData.put(tableHeaders.get(3), requiredGMAJsonData.get(1));
+//		gmaData.put(tableHeaders.get(6), "-5");
 	}
 
 	/**
