@@ -47,11 +47,100 @@ public class V5TestPromotion extends TestInfra {
 
 	/**
 	 * @author karthikr
-	 * @date - 24/11/2022
+	 * @date - 23/11/2022
 	 */
 	@Test(description = "208975 - Verify the Promotion is reflected in V5 device - Create/Expire Promotion for Tender Type Promotion with Discount Timing as Recurrence.")
 	public void verifyTenderDiscountWithDiscountTimingAsRecurrence() {
 		final String CASE_NUM = "208975";
+
+		// Reading test data from database
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationData = dataBase.getLocationData(Queries.LOCATION, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+		List<String> navigationMenu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> orderPageData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.ORDER_PAGE).split(Constants.DELIMITER_TILD));
+		List<String> actualData = Arrays
+				.asList(rstLocationData.get(CNLocation.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
+		final String promotionName = string.getRandomCharacter();
+		String displayName = string.getRandomCharacter();
+		try {
+			// Login to ADM application as Operator user and select org
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(navigationMenu.get(0));
+
+			// Navigate to Creation of Promotion page
+			foundation.waitforElement(PromotionList.BTN_CREATE, Constants.SHORT_TIME);
+			foundation.click(PromotionList.BTN_CREATE);
+			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
+
+			// Create new promotion as tender discount
+			createPromotions.newPromotion(rstLocationData.get(CNLocation.PROMOTION_TYPE), promotionName, displayName,
+					requiredData.get(0),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.click(CreatePromotions.BTN_NEXT);
+
+			// enter tender discount details with discounting type as recurrence
+			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
+					requiredData.get(7), requiredData.get(8));
+			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.recurringDay();
+			foundation.click(CreatePromotions.TXT_AMOUNT);
+			foundation.click(CreatePromotions.BTN_NEXT);
+			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
+			CustomisedAssert.assertEquals(foundation.getText(CreatePromotions.POPUP_HEADER), requiredData.get(9));
+			foundation.click(CreatePromotions.BTN_OK);
+			foundation.waitforElement(PromotionList.TXT_SEARCH_PROMONAME, Constants.SHORT_TIME);
+
+			// Selecting location and do Full Sync
+			locationList.syncDevice(navigationMenu.get(1),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// login into Kiosk Device
+			String price = landingPage.launchV5AndSelectProduct(requiredData.get(4));
+
+			// verify the tender discount applies on order page
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(price));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.SAVINGS));
+			CustomisedAssert.assertEquals(foundation.getText(Order.SAVINGS), actualData.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			foundation.objectFocus(order.objText(orderPageData.get(1)));
+
+			// complete transaction with verified Email
+			payments.paymentUsingGMAVerifiedAccount(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			browser.close();
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Again Login to ADM application with Operator user to expire the promotion
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			navigationBar.launchBrowserAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Resetting the data
+			promotionList.expirePromotion(navigationMenu.get(0), promotionName, actualData.get(1),
+					rstLocationData.get(CNLocation.TAB_NAME));
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @date - 24/11/2022
+	 */
+	@Test(description = "209084 - Verify the Promotion is reflected in V5 device - Create/Expire Promotion for Tender Type Promotion with Discount Timing as Schedule.")
+	public void verifyTenderDiscountWithDiscountTimingAsSchedule() {
+		final String CASE_NUM = "209084";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
