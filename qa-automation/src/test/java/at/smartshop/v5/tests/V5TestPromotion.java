@@ -45,6 +45,10 @@ public class V5TestPromotion extends TestInfra {
 	private Map<String, String> rstLocationData;
 	private Map<String, String> rstV5DeviceData;
 
+	/**
+	 * @author karthikr
+	 * @date - 24/11/2022
+	 */
 	@Test(description = "208975 - Verify the Promotion is reflected in V5 device - Create/Expire Promotion for Tender Type Promotion with Discount Timing as Recurrence.")
 	public void verifyTenderDiscountWithDiscountTimingAsRecurrence() {
 		final String CASE_NUM = "208975";
