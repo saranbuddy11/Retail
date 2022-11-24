@@ -7,6 +7,7 @@ import at.framework.browser.Browser;
 import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -15,6 +16,7 @@ public class LandingPage {
 
 	public Browser browser = new Browser();
 	public PropertyFile propertyFile = new PropertyFile();
+	private TextBox textBox = new TextBox();
 
 	public static final By IMG_LOGO = By.xpath("//span[@class='logoImg']");
 	public static final By LBL_HEADER = By.xpath("//h1[@id='instructionText']");
@@ -82,9 +84,30 @@ public class LandingPage {
 		foundation.click(objText(button));
 	}
 
+	/**
+	 * Launch V5 device with URL and set the language as English
+	 */
 	public void launchV5AndSelectLanguageEnglish() {
 		browser.launch(Constants.REMOTE, Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		changeLanguage(Constants.LANGUAGE, Constants.ENGLISH, Constants.CONTINUE);
+	}
+
+	/**
+	 * Launch V5 device and select product for transaction
+	 * 
+	 * @param product
+	 * @return
+	 */
+	public String launchV5AndSelectProduct(String product) {
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		foundation.click(IMG_SEARCH_ICON);
+		textBox.enterKeypadText(product);
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
+		CustomisedAssert.assertTrue(product.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
+		String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+		return productPrice;
 	}
 }

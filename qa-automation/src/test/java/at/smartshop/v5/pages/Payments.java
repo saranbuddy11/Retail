@@ -19,8 +19,8 @@ public class Payments {
 	private Browser browser = new Browser();
 	private PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
-	private Order order= new Order();
-	
+	private Order order = new Order();
+
 //	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
 //	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
 	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
@@ -98,4 +98,26 @@ public class Payments {
 //		
 //	}
 
+	/**
+	 * Do Payment using GMA verified account to purchase
+	 * 
+	 * @param email
+	 * @param pin
+	 * @param status
+	 */
+	public void paymentUsingGMAVerifiedAccount(String email, String pin, String status) {
+		foundation.click(EMAIL);
+		foundation.waitforElement(EMAIL_LOGIN_TXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(status)));
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+	}
 }

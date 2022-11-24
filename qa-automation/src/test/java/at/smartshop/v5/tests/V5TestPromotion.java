@@ -12,7 +12,6 @@ import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
 import at.framework.generic.Strings;
 import at.framework.ui.Foundation;
-import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocation;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
@@ -24,11 +23,9 @@ import at.smartshop.pages.LocationList;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.PromotionList;
 import at.smartshop.tests.TestInfra;
-import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Order;
 import at.smartshop.v5.pages.Payments;
-import at.smartshop.v5.pages.ProductSearch;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5TestPromotion extends TestInfra {
@@ -39,9 +36,10 @@ public class V5TestPromotion extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private CreatePromotions createPromotions = new CreatePromotions();
 	private LocationList locationList = new LocationList();
-	private TextBox textBox = new TextBox();
 	private Order order = new Order();
 	private PromotionList promotionList = new PromotionList();
+	private Payments payments = new Payments();
+	private LandingPage landingPage = new LandingPage();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLocationData;
@@ -101,39 +99,19 @@ public class V5TestPromotion extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
 
 			// login into Kiosk Device
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(4));
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
-			CustomisedAssert.assertTrue(requiredData.get(4).equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
-			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
+			String price = landingPage.launchV5AndSelectProduct(requiredData.get(4));
 
 			// verify the tender discount applies on order page
-			CustomisedAssert
-					.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(productPrice)));
-			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(productPrice));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(price));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.SAVINGS));
 			CustomisedAssert.assertEquals(foundation.getText(Order.SAVINGS), actualData.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
 			foundation.objectFocus(order.objText(orderPageData.get(1)));
 
 			// complete transaction with verified Email
-			foundation.click(Payments.EMAIL);
-			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.SHORT_TIME);
-			foundation.click(Payments.BTN_NEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(AccountLogin.BTN_CAMELCASE);
-			textBox.enterKeypadText(rstV5DeviceData.get(CNV5Device.EMAIL_ID));
-			foundation.click(AccountLogin.BTN_NEXT);
-			foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-			foundation.threadWait(Constants.THREE_SECOND);
-			textBox.enterPin(rstV5DeviceData.get(CNV5Device.PIN));
-			foundation.click(AccountLogin.BTN_PIN_NEXT);
-			CustomisedAssert
-					.assertTrue(foundation.isDisplayed(order.objText(rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE))));
-			foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+			payments.paymentUsingGMAVerifiedAccount(rstV5DeviceData.get(CNV5Device.EMAIL_ID),
+					rstV5DeviceData.get(CNV5Device.PIN), rstV5DeviceData.get(CNV5Device.PAYMENTS_PAGE));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
