@@ -239,6 +239,7 @@ public class CreatePromotions extends Factory {
 	public static final By TXT_PROMO_ERROR = By.id("promotype-error");
 	public static final By BTN_SELECT_ORG = By.xpath("//select[@id='org-select']//option[text()='AutomationOrg']");
 	public static final By ITEM_BUNDLE_ALL_CHECKBOX = By.id("itemBundleAllCheckbox");
+	public static final By POPUP_HEADER = By.cssSelector(".ajs-header");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -278,15 +279,14 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_NEXT);
 		foundation.waitforElement(TXT_SEARCH_ORGPAGE, Constants.LONG_TIME);
 		textBox.enterText(TXT_SEARCH_ORGPAGE, orgName);
-		foundation.threadWait(Constants.LONG_TIME);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CHECKBOX_ORG);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
-		// dropDown.selectItem(DPD_ORG, orgName, Constants.TEXT);
 		foundation.click(BTN_NEXT);
-		// dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforElement(TXT_LOC_SEARCH, Constants.LONG_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, locationName);
-		foundation.threadWait(Constants.LONG_TIME);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CHECKBOX_LOC);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
@@ -468,7 +468,6 @@ public class CreatePromotions extends Factory {
 				textBox.enterText(TXT_AMOUNT, discountAmount);
 			else
 				textBox.enterText(TXT_DISCOUNT_PERCENTAGE, discountAmount);
-
 			textBox.enterText(TXT_TRANSACTION_MIN, transactionAmount);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -585,7 +584,6 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_NEXT);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_NEXT);
-
 	}
 
 	/**
@@ -715,7 +713,6 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.alertAccept();
 		foundation.threadWait(Constants.SHORT_TIME);
-
 	}
 
 	public void deselectOrgAndLocation() {
@@ -729,7 +726,6 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_CANCEL_1);
 		foundation.threadWait(Constants.SHORT_TIME);
-
 	}
 
 	/**
@@ -880,7 +876,6 @@ public class CreatePromotions extends Factory {
 		foundation.waitforElementToBeVisible(BTN_OK, 2);
 		foundation.click(BTN_OK);
 		foundation.isDisplayed(PromotionList.PAGE_TITLE);
-
 	}
 
 	/**
