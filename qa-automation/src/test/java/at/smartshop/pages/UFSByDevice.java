@@ -49,6 +49,9 @@ public class UFSByDevice extends Factory {
 	public static final By LBL_REPORTS_LIST = By.cssSelector("#nav-panel> div> div.title-row");
 	public static final By TABLE_CASH_FLOW_DETAILS_TOTAL = By.id("cashflow-Totals");
 	public static final By TABLE_SALES_TIME_DETAILS_TOTAL = By.id("salestime-Totals");
+	
+	public static final By DATE_OF_EXISTING_DATA = By.cssSelector("body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(6) > td:nth-child(3)");
+	public static final String MONTH_OF_EXISTING_DATA= "May 2022";
 
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportsTotalData = new LinkedHashMap<>();
