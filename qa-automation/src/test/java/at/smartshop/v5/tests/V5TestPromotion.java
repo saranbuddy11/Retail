@@ -49,8 +49,8 @@ public class V5TestPromotion extends TestInfra {
 	 * @author karthikr
 	 * @date - 23/11/2022
 	 */
-	@Test(description = "208975 - Verify the Promotion is reflected in V5 device - Create/Expire Promotion for Tender Type Promotion with Discount Timing as Recurrence.")
-	public void verifyTenderDiscountWithDiscountTimingAsRecurrence() {
+	@Test(description = "208975 - Verify the Promotion is reflected in V5 device - Create/Expire Promotion for Tender Type Promotion with Discount Timing as Recurrence for Line Items.")
+	public void verifyTenderDiscountWithDiscountTimingAsRecurrenceForLineItems() {
 		final String CASE_NUM = "208975";
 
 		// Reading test data from database
@@ -138,8 +138,8 @@ public class V5TestPromotion extends TestInfra {
 	 * @author karthikr
 	 * @date - 24/11/2022
 	 */
-	@Test(description = "209084 - Verify the Promotion is reflected in V5 device - Create/Expire Promotion for Tender Type Promotion with Discount Timing as Schedule.")
-	public void verifyTenderDiscountWithDiscountTimingAsSchedule() {
+	@Test(description = "209084 - Verify the Promotion is reflected in V5 device - Create/Expire Promotion for Tender Type Promotion with Discount Timing as Schedule for Line Items.")
+	public void verifyTenderDiscountWithDiscountTimingAsScheduleForLineItems() {
 		final String CASE_NUM = "209084";
 
 		// Reading test data from database
