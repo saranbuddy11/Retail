@@ -32,6 +32,7 @@ public class Payments {
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
 	public static final By EMAIL_ACCOUNT_BTN = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
+	public static final By BTN_EMAIL=By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.2.1']");
 	public static final By BTN_TAB = By.xpath("//div[@data-reactid='.0.0.0.0.0']");
 
 	public By objText(String text) {
@@ -66,13 +67,14 @@ public class Payments {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
 		textBox.enterKeypadText(product);
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderpage)));
-		foundation.click(Payments.EMAIL_ACCOUNT);
+		foundation.click(Payments.BTN_EMAIL);
 		foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
-		foundation.click(Payments.BTN_EMAIL_LOGIN);
+//		foundation.click(Payments.BTN_EMAIL_LOGIN);
 		foundation.threadWait(Constants.ONE_SECOND);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
 		textBox.enterKeypadText(email);
