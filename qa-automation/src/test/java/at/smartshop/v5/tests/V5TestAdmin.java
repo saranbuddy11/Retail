@@ -10,12 +10,15 @@ import org.testng.annotations.Test;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.LocationList;
@@ -32,6 +35,8 @@ public class V5TestAdmin extends TestInfra {
 	private TransactionSearchPage transactionSearchPage = new TransactionSearchPage();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
 	private Foundation foundation= new Foundation();
+	private CheckBox checkBox=new CheckBox();
+	private TextBox textBox=new TextBox();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;
@@ -168,6 +173,22 @@ public class V5TestAdmin extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(menu.get(0));
+			
+			//Search with created campus and link campus location
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.SEARCH_BOX));
+			textBox.enterText(Campus.SEARCH_BOX, requiredData.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.SELECT_GRID));
+			foundation.click(Campus.SELECT_GRID);
+			foundation.waitforElementToBeVisible(Campus.LBL_CAMPUSSHOW_HEADING, Constants.THREE_SECOND);
+			String text = foundation.getText(Campus.DRP_PAYROLL);
+			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
+			foundation.waitforElementToBeVisible(Campus.PD_COMPLETE_PURCHASE, Constants.THREE_SECOND);
+			checkBox.isChecked(Campus.PD_COMPLETE_PURCHASE);
+			foundation.waitforElementToBeVisible(Campus.USE_PAYROLL_DEDUCT, Constants.THREE_SECOND);
+			checkBox.isChecked(Campus.USE_PAYROLL_DEDUCT);
+			foundation.waitforElementToBeVisible(Campus.ALLOW_FOR_OFFLINE_PD, Constants.THREE_SECOND);
+			checkBox.isChecked(Campus.ALLOW_FOR_OFFLINE_PD);
 			
 		}
 		catch (Exception exc) {
