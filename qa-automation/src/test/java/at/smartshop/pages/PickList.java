@@ -217,6 +217,8 @@ public class PickList extends Factory {
 	public static final By DPD_SHOW_RECORD = By.xpath("//div[@id='dataGridPickListManager_editor_list']//span");
 	public static final By DPD_SHOW_RECORD_PICKLIST = By.xpath("//div[@id='filter-prd-grid_editor_list']//span");
 	public static final By GET_ROW_NUMBER = By.xpath("//tbody[@role='rowgroup']//tr");
+	public static final By BTN_SCHEDULE_CANCEL=By.id("schedule-cancel");
+	public static final By TXT_SECHEDULE_SEARCH=By.id("loc-search");
 
 	public By selectShowRecordCount(String data) {
 		return By.xpath("//div[@id='dataGridPickListManager_editor_list']//span[text()='" +data+ "']");
@@ -939,111 +941,110 @@ public class PickList extends Factory {
 	/**
 	 * clear Popup Functionality In FilteredLocation
 	 * 
-	 * @param data
-	 * @param data1
-	 * @param data2
-	 * @param data3
+	 * @param header
+	 * @param content
+	 * @param higlighted
+	 * @param dehiglighted
 	 */
-	public void clearPopupFunctionalityInFilteredLocation(String data3,String data, String data1, String data2){
+	public void clearPopupFunctionalityInFilteredLocation(String header,String content, String higlighted, String dehiglighted){
 		foundation.click(PickList.BTN_CLEAR);
 		//verify header clear popup
 		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
-		CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(data3));
+		CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(header));
 		//verify content message on clear popup
 		foundation.waitforElementToBeVisible(PickList.TXT_CLEAR_POPUP_MESSAGE, 5);
-		CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).equals(data));	
+		CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).equals(content));	
 		//verify x button
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_X_CLEAR));
 		foundation.click(PickList.BTN_X_CLEAR);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
-		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data1));	
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));	
 		//verify cancel button
 		foundation.threadWait(3);
 		foundation.click(PickList.BTN_CLEAR);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
 		foundation.click(PickList.BTN_CANCEL);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
-		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data1));				
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));				
 		//verify Yes button and verify the selected locations deselected
 		foundation.threadWait(3);
 		foundation.click(PickList.BTN_CLEAR);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_YES));
 		foundation.click(PickList.BTN_YES );
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
-		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data2));
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(dehiglighted));
 	
 }
 	/**
 	 * clear Popup Functionality In FilteredPickList
 	 * 
-	 * @param data
-	 * @param data1
-	 * @param data2
-	 * @param data3
+	 * @param header
+	 * @param content
+	 * @param higlighted
+	 * @param dehiglighted
 	 */
-	public void clearPopupFunctionalityInFilteredPickList(String data, String data1, String data2,String data3){
+	public void clearPopupFunctionalityInFilteredPickList(String header, String content, String higlighted,String dehiglighted){
 	//verify header clear popup
 	foundation.threadWait(3);
 	foundation.click(PickList.BTN_FILTER_CANCEL);
 	foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
-	CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(data));
+	CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(header));
 	//verify content message on clear popup
 	foundation.waitforElementToBeVisible(PickList.TXT_CLEAR_POPUP_MESSAGE, 5);
-	CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).equals(data1));
+	CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).equals(content));
 	//verify x button
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_X_CLEAR));
 	foundation.click(PickList.BTN_X_CLEAR);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
-	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(data2));	
+	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));	
 	//verify cancel button
 	foundation.threadWait(3);
 	foundation.click(PickList.BTN_FILTER_CANCEL);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
 	foundation.click(PickList.BTN_CANCEL);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
-	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(data2));				
+	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));				
 	//verify Yes button and verify the selected locations deselected
 	foundation.threadWait(3);
 	foundation.click(PickList.BTN_FILTER_CANCEL);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_YES));
 	foundation.click(PickList.BTN_YES );
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
-	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED).equals(data3));
+	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED).equals(dehiglighted));
 }
 
 	/**
 	 * refresh Popup Functionality In FilteredLocation
 	 * 
-	 * @param data
-	 * @param data1
-	 * @param data2
-	 * @param data3
+	 * @param higlighted
+	 * @param header
+	 * @param content
 	 */
-	public void refreshPopupFunctionalityInFilteredLocation(String data, String data1, String data2){
+	public void refreshPopupFunctionalityInFilteredLocation(String higlighted, String header, String content){
 		//verify header refresh popup
 		foundation.threadWait(3);
 		foundation.click(PickList.BTN_SELECT_ALL);
-		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data));
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_REFRESH));
 		foundation.click(PickList.BTN_REFRESH);
 		foundation.threadWait(3);
 		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
-		CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(data1));
+		CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(header));
 		//verify content message on clear popup
 		foundation.waitforElementToBeVisible(PickList.TXT_CLEAR_POPUP_MESSAGE, 5);
-		CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).contains(data2));
+		CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).contains(content));
 		//verify x button
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_X_CLEAR));
 		foundation.click(PickList.BTN_X_CLEAR);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
-		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data));
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));
 		//verify cancel button
 		foundation.threadWait(3);
 		foundation.click(PickList.BTN_REFRESH);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
 		foundation.click(PickList.BTN_CANCEL);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
-		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data));
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));
 		//verify Yes button and verify the selected locations deselected
 		foundation.threadWait(3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_REFRESH));
@@ -1057,34 +1058,34 @@ public class PickList extends Factory {
 	/**
 	 * refresh Popup Functionality In FilteredPickList
 	 * 
-	 * @param data
-	 * @param data1
-	 * @param data2
-	 * @param data3
+	 * @param higlighted
+	 * @param header
+	 * @param content
+	 * @param dehiglighted
 	 */
-	public void refreshPopupFunctionalityInFilteredPickList(String data, String data1, String data2,String data3){
+	public void refreshPopupFunctionalityInFilteredPickList(String higlighted, String header, String content,String dehiglighted){
 	 //verify header refresh popup
 	foundation.threadWait(3);
 	foundation.click(PickList.LBL_SELECT_ALL);
-	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(data));
+	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.REFRESH_BTN));
 	foundation.click(PickList.REFRESH_BTN);
 	foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
-	CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(data1));
+	CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(header));
 	//verify content message on clear popup
 	foundation.waitforElementToBeVisible(PickList.TXT_CLEAR_POPUP_MESSAGE, 5);
-	CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).contains(data2));
+	CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).contains(content));
 	//verify x button
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_X_CLEAR));
 	foundation.click(PickList.BTN_X_CLEAR);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
-	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(data));
+	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));
 	//verify cancel button
 	foundation.click(PickList.REFRESH_BTN);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
 	foundation.click(PickList.BTN_CANCEL);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
-	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(data));
+	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));
 	//verify Yes button and verify the selected locations deselected
 	foundation.threadWait(3);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.REFRESH_BTN));
@@ -1093,7 +1094,44 @@ public class PickList extends Factory {
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_YES));
 	foundation.click(PickList.BTN_YES );
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
-	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED).equals(data3));
+	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED).equals(dehiglighted));
 }
 
+	/**
+	 * clear Popup Functionality In FilteredLocation
+	 * 
+	 * @param header
+	 * @param content
+	 * @param higlighted
+	 * @param dehiglighted
+	 */
+	public void clearPopupFunctionalityInScheduling(String header,String content, String higlighted, String dehiglighted){
+		foundation.click(PickList.BTN_CLEAR);
+		//verify header clear popup
+		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+		CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(header));
+		//verify content message on clear popup
+		foundation.waitforElementToBeVisible(PickList.TXT_CLEAR_POPUP_MESSAGE, 5);
+		CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).equals(content));	
+		//verify x button
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_X_CLEAR));
+		foundation.click(PickList.BTN_X_CLEAR);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));	
+		//verify cancel button
+		foundation.threadWait(3);
+		foundation.click(PickList.BTN_CLEAR);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
+		foundation.click(PickList.BTN_CANCEL);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));				
+		//verify Yes button and verify the selected locations deselected
+		foundation.threadWait(3);
+		foundation.click(PickList.BTN_CLEAR);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_YES));
+		foundation.click(PickList.BTN_YES );
+		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(dehiglighted));
+	
+}
 }
