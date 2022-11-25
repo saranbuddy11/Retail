@@ -28,6 +28,7 @@ public class ProductPricingReport extends Factory {
 	private static final By TBL_PRODUCT_PRICING_GRID = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
@@ -109,6 +110,7 @@ public class ProductPricingReport extends Factory {
 		try {
 			int rowCount = getRequiredRecord(value);
 			Map<Integer, Map<String, String>> productsData = locationSummary.getProductsRecords(value);
+			System.out.println("productsData : "+ productsData);
 			int recordCount = 0;
 			for(recordCount = 0; recordCount < productsData.size(); recordCount++) {
 				if((productsData.get(recordCount).get(tableHeaders.get(4))).equals(value)) {
@@ -145,6 +147,8 @@ public class ProductPricingReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("intialData :"+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))

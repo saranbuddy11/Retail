@@ -219,7 +219,7 @@ public class CreatePromotions extends Factory {
 	public static final By BUNDLE_LIST_DELETE = By.xpath("//a[@title='Delete']");
 	public static final By BUNDLE_GROUP_CLOSE_BTN = By.id("groupmodalcross");
 	public static final By BUNDLE_PROMO_ALERT = By.className("ajs-header");
-	public static final By CONTENT_POPUP = By.xpath("//div[@class='ajs-content']");
+	public static final By CONTENT_POPUP = By.cssSelector(".ajs-content");
 	public static final By SUMMARY_GROUPNAME1 = By.xpath("//div[@id='bundlesummary']/div");
 	public static final By SUMMARY_GROUPNAME2 = By.xpath("//div[@id='bundlesummary']/div[2]");
 	public static final By BUNDLE_SUMMARY = By.id("bundlesummary");
@@ -294,7 +294,7 @@ public class CreatePromotions extends Factory {
 		foundation.click(BTN_NEXT);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_NEXT);
-
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	public void newPromotionUsingTenderDiscount(String promotionType, String promotionName, String orgName,
@@ -718,7 +718,7 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 
 	}
-	
+
 	public void deselectOrgAndLocation() {
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.objectClick(BTN_CANCEL_1);
@@ -730,7 +730,6 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_CANCEL_1);
 		foundation.threadWait(Constants.SHORT_TIME);
-		
 
 	}
 

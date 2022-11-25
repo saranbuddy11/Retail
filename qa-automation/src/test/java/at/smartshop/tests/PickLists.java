@@ -405,6 +405,7 @@ public class PickLists extends TestInfra {
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElementToBeVisible(PickList.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_ORDER));
 
@@ -440,8 +441,11 @@ public class PickLists extends TestInfra {
 			locationList.selectLocationName(location);
 
 			// Navigating to products tab
+			
 			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.isDisplayed(LocationSummary.TBL_PRODUCTS_GRID);
 			foundation.click(LocationSummary.BTN_EXPORT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
@@ -450,7 +454,8 @@ public class PickLists extends TestInfra {
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
 					LocationSummary.TBL_PRODUCTS_HEADER);
 			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
-			CustomisedAssert.assertTrue(excel.verifyExcelData(uiListHeaders, FilePath.EXCEL_LOCAL_PROD, 0));
+			System.out.println(uiListHeaders);
+			CustomisedAssert.assertTrue(excel.verifyInExcelData(uiListHeaders, FilePath.EXCEL_LOCAL_PROD, 0));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

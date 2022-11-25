@@ -303,6 +303,7 @@ public class ConsumerSearch extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.scrollIntoViewElement(ConsumerSummary.TXT_SUBSIDY_TOP_OFF);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_TOP_OFF));
 		String balance = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);

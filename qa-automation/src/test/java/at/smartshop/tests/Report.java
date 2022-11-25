@@ -493,6 +493,7 @@ public class Report extends TestInfra {
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			productPricing.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(ProductPricingReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			productPricing.getTblRecordsUI();
 			productPricing.getIntialData().putAll(productPricing.getReportsData());
 
@@ -503,6 +504,9 @@ public class Report extends TestInfra {
 			locationSummary.selectTab(rstLocationSummaryData.get(CNLocationSummary.TAB_NAME));
 			locationSummary.manageColumn(rstLocationSummaryData.get(CNLocationSummary.COLUMN_NAME));
 
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER,
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			
 			// apply calculation and update data
 			productPricing.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
 					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
@@ -4288,8 +4292,8 @@ public class Report extends TestInfra {
 			reportList.selectReport(reportName);
 			reportList.selectLocationForSecondTypeDropdown(locationData.get(0));
 			foundation.threadWait(Constants.TWO_SECOND);
-			reportList.selectDateRangeDateofType2(locationData.get(1), InventoryVariance.DATA_EXISTING_DATE,
-					InventoryVariance.DATA_EXISTING_DATE);
+			reportList.selectDateRangeDateofType2(locationData.get(1), InventoryVariance.DATA_EXISTING_DATE_STAGING,
+					InventoryVariance.DATA_EXISTING_DATE_STAGING);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(InventoryVariance.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			inventoryVariance.verifyReportName(reportName);
@@ -6591,8 +6595,8 @@ public class Report extends TestInfra {
 
 			financialCanned.calculateGrossMargin(financialCanned.getTableHeaders().get(10), ProductCostPercentage,
 					spoilPercentage, shortPercentage);
-			financialCanned.updateLastYearAmount(financialCanned.getTableHeaders().get(11));
-			financialCanned.updateLastYearPercent(financialCanned.getTableHeaders().get(12));
+			double updatedLastYearAmount = financialCanned.updateLastYearAmount(financialCanned.getTableHeaders().get(11));
+			financialCanned.updateLastYearPercent(financialCanned.getTableHeaders().get(12), updatedLastYearAmount);
 
 			// verify report headers
 			financialCanned.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
