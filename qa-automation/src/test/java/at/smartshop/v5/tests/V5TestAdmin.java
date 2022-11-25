@@ -9,11 +9,20 @@ import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
+import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
+import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.Campus;
+import at.smartshop.pages.ConsumerSearch;
+import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.tests.TestInfra;
@@ -25,13 +34,16 @@ public class V5TestAdmin extends TestInfra {
 	private NavigationBar navigationBar = new NavigationBar();
 	private Payments payments = new Payments();
 	private TransactionSearchPage transactionSearchPage = new TransactionSearchPage();
+	private ConsumerSearch consumerSearch = new ConsumerSearch();
+	private Foundation foundation= new Foundation();
+	private CheckBox checkBox=new CheckBox();
+	private TextBox textBox=new TextBox();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;
 
 	/**
-	 * @author afrosean
-	 * Date:06-10-2022
+	 * @author afrosean Date:06-10-2022
 	 */
 	@Test(description = "178410-ADM - Admin - Transaction - Transaction Search")
 	public void verifyAdminTransaction() {
@@ -66,8 +78,7 @@ public class V5TestAdmin extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	
+
 //	@Test(description = "205036-ADM > Update inventory from adm and verify in kiosk inventory from driver login")
 //	public void updateInventoryFromAdmAndVerrifyInKioskFromDriverlogin() {
 //		final String CASE_NUM = "205036";
@@ -109,4 +120,6 @@ public class V5TestAdmin extends TestInfra {
 //			browser.close();		
 //		}
 //	}
+
+	
 }
