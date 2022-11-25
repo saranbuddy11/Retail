@@ -178,8 +178,7 @@ public class V5TestPromotion extends TestInfra {
 			// enter tender discount details with discounting type as recurrence
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
-			createPromotions.recurringDay();
+			createPromotions.selectBundlePromotionTimes(requiredData.get(6), Constants.DELIMITER_SPACE);
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
