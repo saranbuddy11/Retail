@@ -149,9 +149,9 @@ public class V5TestAdmin extends TestInfra {
 	}
 	
 	
-	@Test(description = "208792-V5 Kiosk - Create Account On Kiosk - Using Email")
-	public void verifyPDEBalance() {
-		final String CASE_NUM = "208792";
+	@Test(description = "208804- V5 Kiosk - PDE Purchase - Campus Location - Using Email")
+	public void verifyPDEBalanceAfterTransaction() {
+		final String CASE_NUM = "208804";
 
 		// Reading test data from DataBase
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -159,11 +159,16 @@ public class V5TestAdmin extends TestInfra {
 
 		List<String> requiredData = Arrays
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> datas = Arrays.asList(rstV5DeviceData.get(CNV5Device.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
-
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		
 		try {
 
-			// Launch v5 device and create consumer
+			// Login ADM & navigate to super > campus
+			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
