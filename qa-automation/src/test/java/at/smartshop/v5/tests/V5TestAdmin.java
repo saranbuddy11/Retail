@@ -22,6 +22,7 @@ import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
 import at.smartshop.pages.LocationList;
+import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.tests.TestInfra;
@@ -120,6 +121,7 @@ public class V5TestAdmin extends TestInfra {
 //		}
 //	}
 
+
 	@Test(description = "208792-V5 Kiosk - Create Account On Kiosk - Using Email")
 	public void verify() {
 		final String CASE_NUM = "208792";
@@ -195,4 +197,5 @@ public class V5TestAdmin extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 }
