@@ -1905,4 +1905,376 @@ public class PickLists extends TestInfra {
 		}
 
 	}
+	
+	/**
+	 * @author sakthir Date:21-11-2022
+	 */
+	@Test(description = "208979-verify Filter location grid without selecting location"
+			+"208980-verify clear button Popup label in pick list manager page"
+			+"208981-verify clear popup 'x' button in pick list manager "
+			+"208982-verify clear popup 'cancel' button in pick list manager page"
+			+"208983-verify clear button Popup message in pick list manager page"
+			+"209074-verify clear popup 'yes' button in pick list manager page"
+			+"208996-verify Refresh button Popup label in picklist manager page"
+			+"208997-verify Refresh popup 'x' button in picklist manager page"
+			+"208998-verify Refresh popup 'cancel' button in picklist manager page"
+			+"208999-verify Refresh button Popup message in picklist manager page"
+			+"209087-verify Refresh popup 'yes' button in plan picklist manager page")
+	public void verifyWithoutSelectingLocationAndClearAndRefreshPopupFunctionalityInFilterLocationGrid() {
+		final String CASE_NUM = "208979";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product->PickList
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+					
+			//Verify the filtered location grid
+			foundation.threadWait(5);
+			CustomisedAssert.assertTrue(foundation.getText(PickList.FILTERLOCATION_GRID).equals(data.get(0)));
+			
+			//select location and click on clear
+			foundation.click(PickList.BTN_SELECT_ALL);
+			CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data.get(3)));
+
+			//verify clear popup functionality
+			pickList.clearPopupFunctionalityInFilteredLocation(data.get(1),data.get(2), data.get(3), data.get(4));
+			
+			//verify Refresh popup functionality
+			pickList.refreshPopupFunctionalityInFilteredLocation(data.get(3),data.get(5), data.get(6));
+
+		}
+		    catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+	}
+	
+	/**
+	 * @author sakthir Date-23-11-2022
+	 */
+	@Test(description ="208990-verify Refresh button Popup label in plan picklist page"
+						+"208991-verify Refresh popup 'x' button in plan picklist page"
+						+"208992-verify Refresh popup 'cancel' button in plan picklist page"
+						+"209086-verify Refresh popup 'yes' button in plan picklist page"
+						+"208993-verify Refresh button Popup message in plan picklist page"
+						+"208986-verify clear button Popup label in plan picklist page"
+						+"208987-verify clear popup 'x' button in plan picklist page"
+						+"208988-verify clear popup 'cancel' button in plan picklist page"
+						+"209085-verify clear popup 'yes' button in pick list page"
+						+"208989-verify clear button Popup message in plan picklist page")
+	public void verifyClearAndRefreshPopupFunctionalityInFilterPickListGrid() {
+		final String CASE_NUM = "208990";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
+				.split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays
+				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product->PickList and select location
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+			foundation.click(pickList.selectLocationFromList(location.get(0)));
+			foundation.click(pickList.selectLocationFromList(location.get(1)));
+			foundation.click(pickList.selectLocationFromList(location.get(2)));
+			foundation.click(PickList.BTN_APPLY);
+				
+			//select one location and click 'plan pick list' button
+			foundation.click(pickList.objPickList(location.get(1)));
+			foundation.click(PickList.BTN_PICKLIST_PLAN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
+									
+			//select location and click on clear
+			foundation.click(PickList.LBL_SELECT_ALL);
+			CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(data.get(0)));
+						
+			//verify clear popup functionality
+			pickList.clearPopupFunctionalityInFilteredPickList(data.get(4),data.get(5),data.get(0),data.get(1));
+
+		    //verify refresh popup functionality
+			pickList.refreshPopupFunctionalityInFilteredPickList(data.get(0),data.get(2),data.get(3),data.get(1));
+
+			
+		}catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+  }
+	
+	/**
+	 * @author sakthir Date-24-11-2022
+	 */
+	@Test(description = "209005-Verify selected locations at the top right corner by selecting a Locations filtered location grid"
+						+"209006-Verify selected locations at the top right corner by selecting more then one Locations filtered location grid"
+						+"209007-Verify selected locations at the top right corner by without selecting a Locations filtered location grid"
+						+"208984-verify 'Select All' button in Filtered location Grid"
+						+"208985-verify 'Deselect All' button in Filtered location Grid"
+						+"208994-verify 'Select All' button in filter picklist grid"
+						+"208995-verify 'Deselect All' button in filter picklist grid"
+						+"209083-verify Selected location display in filtered location grid")
+	public void verifySelectAllAndDeselectAllLocationFunctionalityInFilteredLocationAndFilteredPickListGrid() {
+		final String CASE_NUM = "209005";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
+				.split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays
+				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+		List<String> record =Arrays
+				.asList(rstPickListData.get(CNPickList.RECORDS).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Select Org & Menu
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to product->PickList and select location
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+			foundation.click(pickList.selectLocationFromList(location.get(0)));
+			foundation.click(pickList.selectLocationFromList(location.get(1)));
+			foundation.click(pickList.selectLocationFromList(location.get(2)));
+			foundation.click(PickList.BTN_APPLY);
+			
+			//verify selected location on grid
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_FILTERED_LOCATION_GRID).equals(location));
+			
+			//verify Filtered location table header
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_HEADER).equals(record));
+			
+			//verify without selected location on top corner message
+			CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(0)));
+			
+			//Select one location and verify the selected location on top corner message
+			foundation.waitforElement(pickList.objPickList(location.get(0)), Constants.SHORT_TIME);
+			foundation.click(pickList.objPickList(location.get(0)));
+			CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(1)));
+			
+			//Select 'Select All' location and verify the selected location on top corner message
+			foundation.click(PickList.BTN_SELECTALL);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SELECT_LOCATION));
+			CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(2)));
+			
+			//verify Deselect All functionality
+			foundation.click(PickList.BTN_DESELECTALL);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.DESELECT_LOCATION));
+			
+			
+			//select one location and click 'plan pick list' button
+			foundation.click(pickList.objPickList(location.get(1)));
+			foundation.click(PickList.BTN_PICKLIST_PLAN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
+						
+			//verify select all button
+			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.THREE_SECOND);
+			foundation.click(PickList.LBL_SELECT_ALL);
+			CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(data.get(3)));
+			
+			//verify deselect all button
+			foundation.click(PickList.LBL_DESELECT_ALL);
+			CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED).equals(data.get(4)));
+									
+			
+			
+		}catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+     }
+	
+			/**
+			 * @author sakthir Date-25-11-2022
+			 */
+			@Test(description = "209008-Verify selected locations at the top right corner by selecting one Location and one product filtered pick list grid"
+								+"209009-Verify selected locations at the top right corner by without selecting a Locations filtered pick list grid"
+								+"209010-Verify selected locations at the top right corner by selecting same location with different product filtered pick list grid"
+								+"209011-Verify selected locations at the top right corner by selecting different location with same product filtered pick list grid"
+								+"209012-Verify selected locations at the top right corner by selecting different location and different product filtered pick list grid")
+			public void verifySelectedLocationAtTheTopRightCornerInFilteredPickListGrid() {
+					final String CASE_NUM = "209008";
+			
+					// Reading test data from DataBase
+					rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+					rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+			
+					String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+					List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
+							.split(Constants.DELIMITER_TILD));
+					List<String> location = Arrays
+							.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+					List<String> product = Arrays
+							.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			
+					try {
+						// Select Org & Menu
+						navigationBar.launchBrowserAsSuperAndSelectOrg(
+								propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			
+						// Navigate to product->PickList and select location
+						navigationBar.navigateToMenuItem(menu);
+						CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+						foundation.click(pickList.selectLocationFromList(location.get(0)));
+						foundation.click(pickList.selectLocationFromList(location.get(1)));
+						foundation.click(PickList.BTN_APPLY);
+						
+						//select one location and click 'plan pick list' button
+						foundation.waitforElementToBeVisible(PickList.BTN_SELECTALL, 5);
+						foundation.click(PickList.BTN_SELECTALL);
+						foundation.click(PickList.BTN_PICKLIST_PLAN);
+						CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
+								
+					    //verify without selected location on top corner message
+						System.out.println(foundation.getText(PickList.SELECT_COUNT));
+						CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(0)));
+						
+						
+						//Select '1 location and 1 Product' and verify the selected location on top corner message
+						foundation.waitforElement(pickList.objPickList(location.get(0)), Constants.SHORT_TIME);
+						foundation.click(pickList.objPickList(product.get(0)));
+						System.out.println(foundation.getText(PickList.SELECT_COUNT));
+						CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(1)));
+						
+						//Select '2 location and 1 Product' and verify the selected location on top corner message
+						pickList.selectProductToVerifySelectedMessage(product.get(2), data.get(2));
+				
+						//Select '1 location and 2 Product' and verify the selected location on top corner message
+						pickList.selectProductToVerifySelectedMessage(product.get(4), data.get(4));
+						
+						//Select '2 location and 2 Product' and verify the selected location on top corner message
+						pickList.selectProductToVerifySelectedMessage(product.get(4), data.get(3));
+										
+					}catch (Exception exc) {
+						TestInfra.failWithScreenShot(exc.toString());
+					}
+			     }
+		
+		/**
+		 * @author sakthir Date-25-11-2022
+		 */
+		@Test(description = "209000-verify Show record dropdown on picklist manager grid"
+		                    +"209001-verify Show record functionality on picklist manager grid"
+							+"209002-verify Show record dropdown on picklist grid"
+							+"209003-verify Show record functionality on picklist grid")
+		public void verifyShowRecordFunctionalityInFilteredLocationAndPickListGrid() {
+					final String CASE_NUM = "209000";
+		
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		
+				String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
+						.split(Constants.DELIMITER_TILD));
+				List<String> location =Arrays
+						.asList( rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+		
+				try {
+					// Select Org & Menu
+					navigationBar.launchBrowserAsSuperAndSelectOrg(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		
+					// Navigate to product->PickList and select location
+					navigationBar.navigateToMenuItem(menu);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+					foundation.click(PickList.BTN_SELECT_ALL);
+					foundation.click(PickList.BTN_APPLY);
+					
+					//verify show record and Dropdown options in filtered location grid
+					foundation.scrollIntoViewElement(PickList.LBL_SHOW_RECORD);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_SHOW_RECORD));
+					foundation.click(PickList.BTN_SHOW_RECORD);
+					CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.DPD_SHOW_RECORD).equals(data));
+					
+					//select option and verify list in filtered location grid
+					foundation.click(pickList.selectShowRecordCount(data.get(1)));
+					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.GET_ROW_NUMBER), 10);
+					
+					//select location and plan pick list button
+					foundation.click(pickList.objPickList(location.get(0)));
+					foundation.click(PickList.BTN_PICKLIST_PLAN);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
+					
+					//verify show record and Dropdown options in filtered location grid
+					foundation.scrollIntoViewElement(PickList.LBL_SHOW_RECORD);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_SHOW_RECORD));
+					foundation.click(PickList.BTN_SHOW_RECORD);
+					CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.DPD_SHOW_RECORD_PICKLIST).equals(data));
+					
+					//select option and verify list in filtered location grid
+					foundation.click(pickList.selectShowRecordCountInPickListPage(data.get(0)));;
+					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.GET_ROW_NUMBER),5);		
+					
+				}catch (Exception exc) {
+					TestInfra.failWithScreenShot(exc.toString());
+				}
+		     }
+		
+		/**
+		 * @author sakthir Date-25-11-2022
+		 */
+		@Test(description = "209066-ADM > Pick List > verify DeSelect All Button Under Schedule Route"
+		                    +""
+							+""
+							+"")
+		public void verify() {
+					final String CASE_NUM = "209066";
+		
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		
+				String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
+						.split(Constants.DELIMITER_TILD));
+				List<String> location =Arrays
+						.asList( rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+		
+				try {
+					// Select Org & Menu
+					navigationBar.launchBrowserAsSuperAndSelectOrg(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		
+					// Navigate to product->PickList and select location
+					navigationBar.navigateToMenuItem(menu);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+				
+					//click scheduling button
+					foundation.click(PickList.BTN_SCHEDULING);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+					
+					//verify Select All
+					foundation.click(PickList.BTN_SELECT_ALL);
+					
+					
+				}catch (Exception exc) {
+					TestInfra.failWithScreenShot(exc.toString());
+				}
+		     }
+			
 }
