@@ -2619,5 +2619,41 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
 		}
 	}
+	
+	/**
+	 * @author vikneshwaranm Date:13-10-2022
+	 */
+	@Test(description = "205030-Verify when both Self-Service and Order Ahead Kiosk is selected,checkbox “Order Ahead Kiosk” will be selected"
+	      +"205031-Verify remote Checkbox will appear when both Self-Service and Order Ahead Kiosk is selected in device summary page & also verify the State of cafeAPI URL")  
+	
+	public void verifyServiceCheckBoxOrderAheadAndRemote() {
+		final String CASE_NUM = "205030";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		rstLocationSummaryData    = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+		
+		try {
+			// Launch ADM as super and select org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			//navigate to Location Menu
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			//select Location 
+			locationList.selectLocationName(rstLocationSummaryData.get(CNLocationSummary.NAME));
+			CustomisedAssert.assertTrue(foundation.getText(locationSummary.VALIDATE_HEADING).contains(rstLocationSummaryData.get(CNLocationSummary.NAME)));
+			
+			locationSummary.selectDeviceName(rstLocationSummaryData.get(CNLocationSummary.DEVICE_NAME));
+			
+			deviceSummary.verifySelfService();
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		
+		}
+	}
+
 
 }
