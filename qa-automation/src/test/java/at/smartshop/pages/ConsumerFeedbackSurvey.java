@@ -39,6 +39,11 @@ public class ConsumerFeedbackSurvey extends Factory {
 	public static final By CONSUMER_FEEDBACK_QUESTION = By.xpath("//input[@id='question']");
 //	public static final By FEEDBACK_QUESTION = By.id("feedback-question");
 	public static final By FEEDBACK_QUESTION = By.cssSelector("#feedback-question > h3");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(6)");
+
 
 	private static final By TBL_CONSUMER_FEEDBACK_SUMMARY = By.id("consumerFeedbackLocationLevel");
 	private static final By TBL_CONSUMER_FEEDBACK_SUMMARY_GRID = By

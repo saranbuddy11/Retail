@@ -51,6 +51,11 @@ public class CashFlowDevice extends Factory {
 	public static final String ID_TABLE_CASH_FLOW_DETAILS_TOTAL = "Totals";
 	public static final String ID_LBL_REPORT_NAME = "#report-container > script + style + div > div > label";
 	public static final By REPORT_NAME = By.id("reportId");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(6)");
+
 
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> initialReportsData = new HashMap<>();
