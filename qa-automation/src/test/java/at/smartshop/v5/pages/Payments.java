@@ -32,7 +32,7 @@ public class Payments {
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
 	public static final By EMAIL_ACCOUNT_BTN = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
-	public static final By BTN_EMAIL=By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.2.1']");
+	public static final By BTN_EMAIL = By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.2.1']");
 	public static final By BTN_TAB = By.xpath("//div[@data-reactid='.0.0.0.0.0']");
 
 	public By objText(String text) {
@@ -108,7 +108,9 @@ public class Payments {
 	 * @param status
 	 */
 	public void paymentUsingGMAVerifiedAccount(String email, String pin, String status) {
-		foundation.click(EMAIL);
+		foundation.click(Order.LBL_MY_ACCOUNT);
+		foundation.waitforElement(EMAIL_lOGIN_BTN, Constants.SHORT_TIME);
+		foundation.click(EMAIL_lOGIN_BTN);
 		foundation.waitforElement(EMAIL_LOGIN_TXT, Constants.SHORT_TIME);
 		foundation.click(BTN_NEXT);
 		foundation.threadWait(Constants.THREE_SECOND);
