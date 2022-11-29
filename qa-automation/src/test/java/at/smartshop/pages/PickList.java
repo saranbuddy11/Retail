@@ -606,6 +606,7 @@ public class PickList extends Factory {
 	 */
 	public void searchProductAndExport(String productname, String validate, String location, String record,
 			String dateformat) {
+		foundation.threadWait(5);
 		textBox.enterText(PickList.TXT_PRODUCT_NAME, productname);
 		foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 5);
 		foundation.click(PickList.BTN_FILTER_APPLY);
