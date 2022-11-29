@@ -377,7 +377,7 @@ public class LocationSummary extends Factory {
 	public static final By DPD_PRODUCT_RECORD = By.id("productDataGrid_editor_dropDownButton");
 	public static final By MATCH_PRODUCT_RECORD = By.id("productDataGrid_pager_label");
 	public static final By MATCH_INVENTORY_RECORD = By.id("inventoryDataGrid_pager_label");
-	public static final By BTN_TAX2 = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[13]");
+	public static final By BTN_TAX2 = By.xpath("(//span[@class='ui-iggrid-columnchooser-hidebutton'])[29]");
 	public static final By LBL_TAX2_COLUMN = By.xpath("//tbody/tr/td[@aria-describedby='productDataGrid_taxrate2']");
 	public static final By TBL_PRODUCT_HEADER = By.xpath("//table[@id='productDataGrid']//thead//tr[@role='row']");
 	public static final By DPD_GMR = By.id("gmarateuselocation");
@@ -2645,6 +2645,7 @@ public class LocationSummary extends Factory {
 		foundation.scrollIntoViewElement(LocationSummary.BTN_TAX2);
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_TAX2, Constants.MEDIUM_TIME);
 		foundation.click(LocationSummary.BTN_TAX2);
+		foundation.threadWait(5);
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_APPLY);
 	}
