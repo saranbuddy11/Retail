@@ -2295,7 +2295,7 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.LONG_TIME);
 			String orgExistValue = foundation.getText(CreatePromotions.SELECTED_ORG);
 			CustomisedAssert.assertEquals(orgExistValue, org.get(0));
-			foundation.click(CreatePromotions.CHECKBOX_ORG);
+			foundation.click(CreatePromotions.CHECKBOX_ORG_CHECKED);
 			textBox.enterText(CreatePromotions.TXT_SEARCH_ORGPAGE, org.get(1));
 			foundation.threadWait(Constants.LONG_TIME);
 			foundation.click(CreatePromotions.CHECKBOX_ORG);
@@ -2395,7 +2395,7 @@ public class Promotions extends TestInfra {
 			foundation.waitforElement(CreatePromotions.TXT_SEARCH_ORGPAGE, Constants.LONG_TIME);
 			textBox.enterText(CreatePromotions.TXT_SEARCH_ORGPAGE, org.get(1));
 			foundation.threadWait(Constants.LONG_TIME);
-			foundation.click(CreatePromotions.CHECKBOX_ORG);
+			foundation.click(CreatePromotions.CHECKBOX_ORG_CHECKED);
 			textBox.enterText(CreatePromotions.TXT_SEARCH_ORGPAGE, org.get(0));
 			foundation.threadWait(Constants.LONG_TIME);
 			foundation.click(CreatePromotions.CHECKBOX_ORG);
