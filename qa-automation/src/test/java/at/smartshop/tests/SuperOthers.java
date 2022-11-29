@@ -2681,7 +2681,7 @@ public class SuperOthers extends TestInfra {
 			locationList.selectLocationName(locations.get(1));
 			locationSummary.selectTab(tab);
 			textBox.enterText(LocationSummary.FILTER_HOME_CMMRCIAL, product[0]);
-			Assert.assertTrue(foundation.getText(LocationSummary.HOME_CMMRCIAL_NAME).equals(product[0]));
+			Assert.assertTrue(foundation.getText(LocationSummary.HOME_CMMRCIAL_NAME).contains(product[0]));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
