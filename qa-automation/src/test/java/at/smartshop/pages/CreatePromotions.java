@@ -14,7 +14,6 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
-import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -28,7 +27,6 @@ public class CreatePromotions extends Factory {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
-	private CheckBox checkBox = new CheckBox();
 	private NavigationBar navigationBar = new NavigationBar();
 
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
@@ -76,8 +74,9 @@ public class CreatePromotions extends Factory {
 	public static final By PRICING = By.id("totalprice");
 	public static final By ALL_CATEGORY = By.id("allcategories");
 	public static final By BTN_CREATE = By.id("submitBtnContainer");
-	public static final By CHECKBOX_ORG = By.xpath("//span[@name='chk']");
-	public static final By CHECKBOX_LOC = By.xpath("//td[@aria-describedby='locTable_activeCheckBox']");
+	public static final By CHECKBOX_ORG = By.cssSelector("span[name='chk']>span.ui-igcheckbox-normal-off");
+	public static final By CHECKBOX_ORG_CHECKED = By.cssSelector("span[name='chk']>span.ui-igcheckbox-normal-on");
+	public static final By CHECKBOX_LOC = By.cssSelector("td[aria-describedby='locTable_activeCheckBox']>input");
 	public static final By TXT_AMOUNT = By.id("amount");
 	public static final By TXT_START_DATE = By.id("startdate");
 	public static final By TXT_END_DATE = By.id("enddate");
@@ -286,6 +285,7 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforElement(TXT_LOC_SEARCH, Constants.LONG_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, locationName);
+		foundation.threadWait(Constants.LONG_TIME);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(CHECKBOX_LOC);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
