@@ -2217,7 +2217,7 @@ public class PickLists extends TestInfra {
 					
 					//select option and verify list in filtered location grid
 					foundation.click(pickList.selectShowRecordCount(data.get(1)));
-					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.GET_ROW_NUMBER), 10);
+					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.TBL_ROW_DATA), 10);
 					
 					//select location and plan pick list button
 					foundation.click(pickList.objPickList(location.get(0)));
@@ -2232,7 +2232,7 @@ public class PickLists extends TestInfra {
 					
 					//select option and verify list in filtered location grid
 					foundation.click(pickList.selectShowRecordCountInPickListPage(data.get(0)));;
-					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.GET_ROW_NUMBER),5);		
+					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.TBL_ROW_DATA),5);		
 					
 			}catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
@@ -2240,25 +2240,29 @@ public class PickLists extends TestInfra {
 	     }	
 		
 		/**
-		 * @author sakthir Date-25-11-2022
+		 * @author sakthir Date-29-11-2022
 		 */
 		@Test(description = "209066-ADM > Pick List > verify DeSelect All Button Under Schedule Route"
 		                    +"209067-ADM > Pick List > verify Clear Button Under Location Tab"
 							+"209068-ADM > Pick List > verify Cancel Button"
-							+"")
-		public void verify() {
+							+"209126-ADM > Pick List > Schedule Location Tab search functionality"
+							+"209072-ADM > Pick List > verify service Schedule header"
+							+"209127-verify Selected location display in service schedule grid")
+		public void verifySearchCancelClearAndSelectedButtonFunctionalityinSchedulePage() {
 					final String CASE_NUM = "209066";
 		
 				// Reading test data from DataBase
 				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-//				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 		
 				String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 				List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
 						.split(Constants.DELIMITER_TILD));
-//				List<String> location =Arrays
-//						.asList( rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
-		
+				List<String> location =Arrays
+						.asList( rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+				List<String> header =Arrays
+						.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+
 				try {
 					// Select Org & Menu
 					navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -2280,7 +2284,6 @@ public class PickLists extends TestInfra {
 					//verify Deselect All in location tab
 					foundation.click(PickList.TXT_DESELECT_ALL);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.VALIDATE_DESELECTED_LOCATION));
-					
 					//verify clear popup functionality
 					foundation.click(PickList.BTN_SELECT_ALL);
 					pickList.clearPopupFunctionalityInScheduling(data.get(1),data.get(2), data.get(0), data.get(3));
@@ -2288,11 +2291,95 @@ public class PickLists extends TestInfra {
 					//verify cancel button
 					foundation.click(PickList.BTN_SCHEDULE_CANCEL);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+										
+
+					foundation.click(PickList.BTN_SCHEDULING);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+					foundation.click(pickList.selectLocationFromList(location.get(0)));
+					foundation.click(pickList.selectLocationFromList(location.get(1)));
+					foundation.click(pickList.selectLocationFromList(location.get(2)));
+					foundation.click(PickList.BTN_APPLY);
 					
+					//verify table header
+					CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_HEADER).equals(header));
 					
+					//verify selected location on grid
+					CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_SERVICE_SCHEDULE_GRID).equals(location));
+					
+					//verify search text in location tab
+					textBox.enterText(PickList.TXT_SECHEDULE_SEARCH,location.get(0));
+					CustomisedAssert.assertTrue(foundation.getText(PickList.LBL_LOCATION).equals(location.get(0)));
+					foundation.clearText();
+					textBox.enterText(PickList.TXT_SECHEDULE_SEARCH,location.get(1));
+					CustomisedAssert.assertTrue(foundation.getText(PickList.LBL_LOCATION).equals(location.get(1)));
+					foundation.clearText();
+					
+										
 				}catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
 				}
 		     }
 			
+		/**
+		 * @author sakthir Date-29-11-2022
+		 */
+		@Test(description = "209073-ADM > Pick List > Schedule FilterBy Tab"
+		                    +"209069-ADM > Pick List > verify Service Date Drop Down"
+							+"209070-ADM > Pick List > verify Service Date Drop Down by selecting some location"
+							+"209071-ADM > Pick List > verify Route and Driver Drop Down")
+		public void verifyRouteScheduleFilterByTabFunctionality() {
+					final String CASE_NUM = "209073";
+		
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
+		
+				String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+//				List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
+//						.split(Constants.DELIMITER_TILD));
+				List<String> location =Arrays
+						.asList( rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
+				List<String> record =Arrays
+						.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+
+				try {
+					// Select Org & Menu
+					navigationBar.launchBrowserAsSuperAndSelectOrg(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		
+					// Navigate to product->PickList and select location
+					navigationBar.navigateToMenuItem(menu);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
+				
+					//click scheduling button
+					foundation.click(PickList.BTN_SCHEDULING);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
+					
+	                //select location and click filter tab
+					foundation.click(pickList.selectLocationFromList(location.get(0)));
+					foundation.click(pickList.selectLocationFromList(location.get(1)));
+					foundation.click(PickList.CLICK_FILTER_TAB);
+					dropDown.selectItem(PickList.DPD_SERVICE_DAYS,record.get(0),Constants.TEXT);
+					foundation.click(PickList.BTN_APPLY_FILTERBY_TAB);
+					
+					//verify the selected date on grid
+					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_SERVICE_DAY_MONDAY));
+					foundation.click(PickList.REMOVE_SELECTED_DAY);
+										
+					//select Driver and Route and verify in table
+					foundation.threadWait(10);
+					foundation.click(PickList.DRP_DRIVER);
+					dropDown.selectItem(PickList.DPD_DRIVER_OPTION,record.get(1),Constants.TEXT);
+					foundation.click(PickList.DRP_ROUTE);
+					dropDown.selectItem(PickList.DPD_ROUTE_OPTION,record.get(2),Constants.TEXT);
+					foundation.click(PickList.BTN_APPLY_FILTERBY_TAB);
+					System.out.println(foundation.getText(PickList.TBL_ROW_DATA));
+					CustomisedAssert.assertTrue(foundation.getText(PickList.TBL_ROW_DATA).contains(record.get(1)));
+					CustomisedAssert.assertTrue(foundation.getText(PickList.TBL_ROW_DATA).contains(record.get(2)));
+										
+				}catch (Exception exc) {
+					TestInfra.failWithScreenShot(exc.toString());
+				}
+		     }
 }

@@ -216,9 +216,17 @@ public class PickList extends Factory {
 	public static final By BTN_SHOW_RECORD = By.xpath("//div[@class='ui-iggrid-results']//div[contains(@class,'ui-igedit-buttonimage')]");
 	public static final By DPD_SHOW_RECORD = By.xpath("//div[@id='dataGridPickListManager_editor_list']//span");
 	public static final By DPD_SHOW_RECORD_PICKLIST = By.xpath("//div[@id='filter-prd-grid_editor_list']//span");
-	public static final By GET_ROW_NUMBER = By.xpath("//tbody[@role='rowgroup']//tr");
 	public static final By BTN_SCHEDULE_CANCEL=By.id("schedule-cancel");
 	public static final By TXT_SECHEDULE_SEARCH=By.id("loc-search");
+	public static final By TBL_SERVICE_SCHEDULE_GRID = By.xpath("//tbody/tr/td[@aria-describedby='dataGrid_location']");
+	public static final By DPD_SERVICE_DAYS=By.id("weekDays");
+	public static final By REMOVE_SELECTED_DAY = By.xpath("//li//span[@class='select2-selection__choice__remove']");
+	public static final By CLICK_FILTER_TAB = By.xpath("//li[@id='li2']//a");
+	public static final By TXT_SERVICE_DAYS=By.xpath("//ul[@class='select2-selection__rendered']");
+	public static final By BTN_APPLY_FILTERBY_TAB=By.id("route-filter-apply");
+	public static final By TXT_SERVICE_DAY_MONDAY=By.xpath("//td[@aria-describedby='dataGrid_m']//span[@aria-checked='true']");
+	public static final By DPD_DRIVER_OPTION=By.xpath("//select[@id='driver']//option");
+	public static final By DPD_ROUTE_OPTION=By.xpath("//select[@id='route']//option");
 
 	public By selectShowRecordCount(String data) {
 		return By.xpath("//div[@id='dataGridPickListManager_editor_list']//span[text()='" +data+ "']");
@@ -1119,7 +1127,7 @@ public class PickList extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
 		CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(higlighted));	
 		//verify cancel button
-		foundation.threadWait(3);
+		foundation.threadWait(5);
 		foundation.click(PickList.BTN_CLEAR);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
 		foundation.click(PickList.BTN_CANCEL);
