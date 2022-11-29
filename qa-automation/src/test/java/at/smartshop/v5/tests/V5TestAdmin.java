@@ -7,12 +7,16 @@ import java.util.Map;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import at.framework.browser.Browser;
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.DateAndTime;
 import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -35,9 +39,14 @@ public class V5TestAdmin extends TestInfra {
 	private Payments payments = new Payments();
 	private TransactionSearchPage transactionSearchPage = new TransactionSearchPage();
 	private ConsumerSearch consumerSearch = new ConsumerSearch();
-	private Foundation foundation= new Foundation();
-	private CheckBox checkBox=new CheckBox();
-	private TextBox textBox=new TextBox();
+	private Foundation foundation = new Foundation();
+	private CheckBox checkBox = new CheckBox();
+	private TextBox textBox = new TextBox();
+	private Browser browser = new Browser();
+	private LocationList locationList = new LocationList();
+	private Campus campus = new Campus();
+	private Dropdown dropdown = new Dropdown();
+	private DateAndTime dateAndTime = new DateAndTime();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;
@@ -121,7 +130,6 @@ public class V5TestAdmin extends TestInfra {
 //		}
 //	}
 
-
 	@Test(description = "208792-V5 Kiosk - Create Account On Kiosk - Using Email")
 	public void verify() {
 		final String CASE_NUM = "208792";
@@ -137,11 +145,13 @@ public class V5TestAdmin extends TestInfra {
 		try {
 
 			// Launch v5 device and create consumer
-			payments.createAccountInV5Device(requiredData.get(0), requiredData.get(1), requiredData.get(2), requiredData.get(3));
+			payments.createAccountInV5Device(requiredData.get(0), requiredData.get(1), requiredData.get(2),
+					requiredData.get(3));
 
 			// Check same consumer is reflected in Adm or not
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			consumerSearch.verifyCreatedConsumerInConsumerPage(datas.get(0), datas.get(1), datas.get(2));
@@ -154,8 +164,7 @@ public class V5TestAdmin extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	
+
 	@Test(description = "208804- V5 Kiosk - PDE Purchase - Campus Location - Using Email")
 	public void verifyPDEBalanceAfterTransaction() {
 		final String CASE_NUM = "208804";
@@ -168,15 +177,19 @@ public class V5TestAdmin extends TestInfra {
 				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 		List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		
+		List<String> datas = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_SEARCH_PAGE).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+
 		try {
 
 			// Login ADM & navigate to super > campus
-			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(menu.get(0));
-			
-			//Search with created campus and link campus location
+
+			// Search with created campus and link campus location
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.SEARCH_BOX));
 			textBox.enterText(Campus.SEARCH_BOX, requiredData.get(0));
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -191,10 +204,67 @@ public class V5TestAdmin extends TestInfra {
 			checkBox.isChecked(Campus.USE_PAYROLL_DEDUCT);
 			foundation.waitforElementToBeVisible(Campus.ALLOW_FOR_OFFLINE_PD, Constants.THREE_SECOND);
 			checkBox.isChecked(Campus.ALLOW_FOR_OFFLINE_PD);
+			foundation.click(Campus.START_DATE_PICKER);
+			campus.verifyPdeDate(currentDate);
+			dropdown.selectItem(Campus.DPD_PAY_CYCLE, requiredData.get(2), Constants.TEXT);
+			textBox.enterText(Campus.GROUP_NAME, requiredData.get(3));
+			textBox.enterText(Campus.SPEED_LIMIT, requiredData.get(4));
+			foundation.waitforElementToBeVisible(Campus.BTN_SAVE, Constants.THREE_SECOND);
+			foundation.click(Campus.BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Remove device from location
+			foundation.threadWait(Constants.SHORT_TIME);
+			locationList.removeDevice(menu.get(1), requiredData.get(8));
+
+			// deploy device in new location
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.deployDevice(requiredData.get(5), requiredData.get(7));
+
+			// Navigate to AutomationLocation1 and full sync
+//			foundation.refreshPage();
+//			foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
+//			foundation.click(LocationSummary.BTN_FULL_SYNC);
+//			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Launch v5 device and do transaction
+			browser.close();
+			payments.v5Transaction(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME),
+					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
+
+			// Navigate to Super > Campus
+			browser.close();
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.navigateToMenuItem(menu.get(2));
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Enter fields in Consumer Search Page
+			consumerSearch.enterSearchFields(datas.get(0), datas.get(1), datas.get(2), datas.get(3));
 			
-		}
-		catch (Exception exc) {
+			//Navigate to consumer summary page and verify pde balance
+			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.THREE_SECOND);
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.THREE_SECOND);
+		    text = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);
+		    CustomisedAssert.assertEquals(text, requiredData.get(9));
+		    foundation.threadWait(Constants.THREE_SECOND);
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+
+			// Remove device from location
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
+			locationList.removeDevice(menu.get(1), requiredData.get(5));
+
+			// deploy device in new location
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationList.deployDevice(requiredData.get(8), requiredData.get(7));
+
 		}
 	}
 

@@ -34,6 +34,7 @@ public class Payments {
 	public static final By EMAIL_ACCOUNT_BTN = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
 	public static final By BTN_EMAIL=By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.2.1']");
 	public static final By BTN_TAB = By.xpath("//div[@data-reactid='.0.0.0.0.0']");
+	public static final By EMAIL_ACC=By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.4.1']");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
@@ -132,6 +133,38 @@ public class Payments {
 		foundation.threadWait(Constants.LONG_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(CreateAccount.ALL_SET));
 		foundation.threadWait(Constants.THREE_SECOND);
+	}
+	
+	/**
+	 * v5 transaction
+	 * @param product
+	 * @param email
+	 * @param pin
+	 */
+	public void v5Transaction(String product,String email,String pin) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(product);
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		foundation.waitforElementToBeVisible(Payments.EMAIL_ACC, Constants.THREE_SECOND);
+		foundation.click(Payments.EMAIL_ACC);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(Payments.BTN_EMAIL_LOGIN);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.LONG_TIME);
+		browser.close();
 	}
 
 }

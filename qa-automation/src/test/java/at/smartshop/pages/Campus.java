@@ -38,6 +38,19 @@ public class Campus extends Factory {
 	public static final By PD_COMPLETE_PURCHASE = By.id("payrolldeductautocomplete");
 	public static final By ALLOW_FOR_OFFLINE_PD = By.id("allowofflinepd");
 	public static final By START_DATE_PICKER = By.xpath("//input[@name='payrolldeductstartdate']");
+	public static final By DPD_PAY_CYCLE=By.id("frequency1");
+	public static final By GROUP_NAME=By.id("groupname1");
+	public static final By SPEED_LIMIT=By.id("spendlimit1");
+	public static final By PDE_DATE_PICKER_NEXT = By
+			.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[3]");
+	
+	public By objectPdeCalendarMonth(String month) {
+		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[2][contains(text(),'" + month +"')]");
+	}
+	
+	public By objectPdeCalendarDay(String day) {
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='"+day +"' and @class='day  active']");
+	}
 
 	private Foundation foundation = new Foundation();
 
@@ -66,19 +79,19 @@ public class Campus extends Factory {
 		return output;
 	}
 
-	public void verifyTopOffDateAutoLocation1(String value) {
+	public void verifyPdeDate(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
 		foundation.threadWait(Constants.ONE_SECOND);
-		if (foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName))) {
-			foundation.click(objectTopOffCalendarDayAutoLocation1(date));
+		if (foundation.isDisplayed(objectPdeCalendarMonth(monthName))) {
+			foundation.click(objectPdeCalendarDay(date));
 		} else {
-			foundation.click(TOP_OFF_DATE_PICKER_NEXT_LOCATION1);
-			foundation.waitforElement(objectTopOffCalendarMonthAutoLocation1(monthName), Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutoLocation1(monthName)));
-			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
+			foundation.click(PDE_DATE_PICKER_NEXT);
+			foundation.waitforElement(objectPdeCalendarMonth(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectPdeCalendarMonth(monthName)));
+			foundation.click(objectPdeCalendarDay(date));
 		}
 	}
 }
