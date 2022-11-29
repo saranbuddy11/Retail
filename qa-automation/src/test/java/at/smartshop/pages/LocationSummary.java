@@ -1367,7 +1367,7 @@ public class LocationSummary extends Factory {
 					.contains(payCycle)) {
 				textBox.enterText(By.xpath("(//input[contains(@class,'paycycle-grpname')])[" + i + "]"),
 						updatedPaycycle);
-				foundation.threadWait(Constants.ONE_SECOND);
+				foundation.threadWait(Constants.THREE_SECOND);
 			}
 		}
 		foundation.click(BTN_SAVE);

@@ -1559,6 +1559,7 @@ public class Location extends TestInfra {
 			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.selectTab(tabName);
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
