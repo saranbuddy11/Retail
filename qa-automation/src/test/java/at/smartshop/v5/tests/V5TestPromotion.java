@@ -131,6 +131,22 @@ public class V5TestPromotion extends TestInfra {
 			// Resetting the data
 			promotionList.expirePromotion(navigationMenu.get(0), promotionName, actualData.get(1),
 					rstLocationData.get(CNLocation.TAB_NAME));
+
+			// Selecting location and do Full Sync
+			locationList.syncDevice(navigationMenu.get(1),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// login into Kiosk Device
+			String price = landingPage.launchV5AndSelectProduct(requiredData.get(4));
+
+			// verify the tender discount applies on order page
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(price));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.SAVINGS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			foundation.objectFocus(Order.LBL_MY_ACCOUNT);
+			browser.close();
+			foundation.threadWait(Constants.SHORT_TIME);
 		}
 	}
 
@@ -219,6 +235,22 @@ public class V5TestPromotion extends TestInfra {
 			// Resetting the data
 			promotionList.expirePromotion(navigationMenu.get(0), promotionName, actualData.get(1),
 					rstLocationData.get(CNLocation.TAB_NAME));
+
+			// Selecting location and do Full Sync
+			locationList.syncDevice(navigationMenu.get(1),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// login into Kiosk Device
+			String price = landingPage.launchV5AndSelectProduct(requiredData.get(4));
+
+			// verify the tender discount applies on order page
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(price));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.SAVINGS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			foundation.objectFocus(Order.LBL_MY_ACCOUNT);
+			browser.close();
+			foundation.threadWait(Constants.SHORT_TIME);
 		}
 	}
 
@@ -308,6 +340,22 @@ public class V5TestPromotion extends TestInfra {
 			// Resetting the data
 			promotionList.expirePromotion(navigationMenu.get(0), promotionName, actualData.get(1),
 					rstLocationData.get(CNLocation.TAB_NAME));
+
+			// Selecting location and do Full Sync
+			locationList.syncDevice(navigationMenu.get(1),
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+			// login into Kiosk Device
+			String price = landingPage.launchV5AndSelectProduct(requiredData.get(4));
+
+			// verify the tender discount applies on order page
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_BALANCE_DUE).contains(String.valueOf(price)));
+			CustomisedAssert.assertTrue(foundation.getText(Order.LBL_SUB_TOTAL).contains(price));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(Order.SAVINGS));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPageData.get(0))));
+			foundation.objectFocus(Order.LBL_MY_ACCOUNT);
+			browser.close();
+			foundation.threadWait(Constants.SHORT_TIME);
 		}
 	}
 }
