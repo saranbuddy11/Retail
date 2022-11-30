@@ -2161,13 +2161,16 @@ public class PickLists extends TestInfra {
 					CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(1)));
 					
 					//Select '2 location and 1 Product' and verify the selected location on top corner message
+					foundation.threadWait(Constants.SHORT_TIME);
 					pickList.selectProductToVerifySelectedMessage(product.get(2), data.get(2));
 			
 					//Select '1 location and 2 Product' and verify the selected location on top corner message
+					foundation.threadWait(Constants.SHORT_TIME);
 					pickList.selectProductToVerifySelectedMessage(product.get(4), data.get(4));
 					
 					//Select '2 location and 2 Product' and verify the selected location on top corner message
-					pickList.selectProductToVerifySelectedMessage(product.get(4), data.get(3));
+					foundation.threadWait(Constants.SHORT_TIME);
+					pickList.selectProductToVerifySelectedMessage(product.get(5), data.get(3));
 									
 				}catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
@@ -2308,6 +2311,7 @@ public class PickLists extends TestInfra {
 					textBox.enterText(PickList.TXT_SECHEDULE_SEARCH,location.get(0));
 					CustomisedAssert.assertTrue(foundation.getText(PickList.LBL_LOCATION).equals(location.get(0)));
 					foundation.clearText();
+					foundation.threadWait(Constants.THREE_SECOND);
 					textBox.enterText(PickList.TXT_SECHEDULE_SEARCH,location.get(1));
 					CustomisedAssert.assertTrue(foundation.getText(PickList.LBL_LOCATION).equals(location.get(1)));
 					foundation.clearText();
