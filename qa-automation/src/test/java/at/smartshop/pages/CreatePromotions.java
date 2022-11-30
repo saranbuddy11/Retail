@@ -578,6 +578,7 @@ public class CreatePromotions extends Factory {
 		// dropDown.selectItem(DPD_LOC, locationName, Constants.TEXT);
 		foundation.waitforElement(TXT_LOC_SEARCH, Constants.LONG_TIME);
 		textBox.enterText(TXT_LOC_SEARCH, location);
+		foundation.waitforElement(CHECKBOX_LOC, Constants.LONG_TIME);
 		foundation.threadWait(Constants.LONG_TIME);
 		foundation.click(CHECKBOX_LOC);
 		foundation.waitforElement(BTN_NEXT, Constants.SHORT_TIME);
