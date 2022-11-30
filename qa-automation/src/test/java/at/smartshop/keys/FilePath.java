@@ -32,11 +32,14 @@ public class FilePath {
 	public static final String JSON_BAD_SCAN = PATH + "\\src\\test\\resources\\BadScan.json";
 	public static final String IMAGE_PATH = PATH + "\\src\\test\\resources\\lunch.jpg";
 	public static final String IMAGE_PATH_WORLD = PATH + "\\src\\test\\resources\\homecommercial.jpg";
-	public static final String EXCEL_PROD_SRC = HOME_PATH + "\\Downloads\\products.xlsx";
+//	public static final String EXCEL_PROD_SRC = HOME_PATH + "\\Downloads\\products.xlsx";
+	public static final String EXCEL_PROD_SRC = HOME_PATH + "\\Downloads\\products.xls";
 	public static final String EXCEL_PROD_TAR = PATH + "\\src\\test\\resources\\products.xlsx";
+//	public static final String EXCEL_PROD_TAR = PATH + "\\src\\test\\resources\\products.xlsx";
 //	public static final String EXCEL_LOCAL_PROD = HOME_PATH + "\\Downloads\\location-product-list.xlsx";
 	public static final String EXCEL_LOCAL_PROD = HOME_PATH + "\\Downloads\\location-product-list.xls";
-	public static final String EXCEL_PROD = PATH + "\\src\\test\\resources\\location-product-list.xlsx";
+	public static final String EXCEL_PROD = PATH + "\\src\\test\\resources\\location-product-list.xls";
+//	public static final String EXCEL_PROD = PATH + "\\src\\test\\resources\\location-product-list.xlsx";
 	public static final String IMAGE_PNG_PATH = PATH + "\\src\\test\\resources\\fruits.png";
 	public static final String IMAGE_SIZE_MORE = PATH + "\\src\\test\\resources\\Earth.jpg";
 	public static final String IMAGE_TEXT_PATH = PATH + "\\src\\test\\resources\\Capture.txt";
