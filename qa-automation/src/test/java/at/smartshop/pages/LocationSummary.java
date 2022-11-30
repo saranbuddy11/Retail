@@ -61,7 +61,7 @@ public class LocationSummary extends Factory {
 	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
 	public static final By DPD_TYPE = By.xpath("//select[@id='type-id']");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
-	public static final By TBL_PRODUCTS_GRID = By.cssSelector("#productDataGrid > tbody");
+	public static final By TBL_PRODUCTS_GRID = By.xpath("//table[@id='productDataGrid']/tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
 	public static final By TAB_CONTAINER_GRID = By.cssSelector("#tabcontainer > ul");
 	public static final By TXT_PRODUCT_FILTER = By.cssSelector("input#productFilterType");
