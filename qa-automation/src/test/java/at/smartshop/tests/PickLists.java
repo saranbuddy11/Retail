@@ -454,17 +454,20 @@ public class PickLists extends TestInfra {
 			foundation.click(LocationSummary.BTN_EXPORT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
-
+			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// verifying UI headers is same as on excel data
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
 					LocationSummary.TBL_PRODUCTS_HEADER);
 			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
-			CustomisedAssert.assertTrue(excel.verifyInExcelData(uiListHeaders, FilePath.EXCEL_LOCAL_PROD, 0));
+			CustomisedAssert.assertTrue(excel.verifyExcelData(uiListHeaders, FilePath.EXCEL_PROD, 0));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+		finally {
 			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
+			foundation.deleteFile(FilePath.EXCEL_PROD);
 		}
 	}
 
@@ -1340,25 +1343,24 @@ public class PickLists extends TestInfra {
 			// search product and export
 			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
 					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-
+		
 			// Delete the product
 			foundation.click(pickList.selectRoutes(requiredData.get(1), requiredData.get(4)));
 			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
 			foundation.click(PickList.DELETE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));
-			
-			
-		} catch (Exception exc) {
+} catch (Exception exc) {			
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 			finally {
+							
 			// Navigate to Admin-->Routes to enable the routes
 			navigationBar.navigateToMenuItem(menu.get(0));
 			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
 					"check");
 
 			// delete downloaded file
-			foundation.deleteFile(FilePath.pickListFilePath(requiredData.get(7),
+			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
 	}
