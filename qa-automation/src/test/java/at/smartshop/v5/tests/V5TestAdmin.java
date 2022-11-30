@@ -130,8 +130,12 @@ public class V5TestAdmin extends TestInfra {
 //		}
 //	}
 
+	/**
+	 * @author afrosean
+	 * Date:14-11-2022
+	 */
 	@Test(description = "208792-V5 Kiosk - Create Account On Kiosk - Using Email")
-	public void verify() {
+	public void verifyCreatedAccountOnKiosk() {
 		final String CASE_NUM = "208792";
 
 		// Reading test data from DataBase
@@ -165,6 +169,11 @@ public class V5TestAdmin extends TestInfra {
 		}
 	}
 
+	
+	/**
+	 * @author afrosean
+	 * Date:21-11-2022
+	 */
 	@Test(description = "208804- V5 Kiosk - PDE Purchase - Campus Location - Using Email")
 	public void verifyPDEBalanceAfterTransaction() {
 		final String CASE_NUM = "208804";
