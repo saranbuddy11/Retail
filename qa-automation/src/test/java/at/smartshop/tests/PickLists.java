@@ -1845,7 +1845,6 @@ public class PickLists extends TestInfra {
 		List<String> location = Arrays
 				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
 		List<String> button = Arrays.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
-		String count = rstPickListData.get(CNPickList.ROW_VALUES);
 
 		try {
 			// Select Org & Menu
@@ -2153,14 +2152,12 @@ public class PickLists extends TestInfra {
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
 							
 				    //verify without selected location on top corner message
-					System.out.println(foundation.getText(PickList.SELECT_COUNT));
 					CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(0)));
 					
 					
 					//Select '1 location and 1 Product' and verify the selected location on top corner message
 					foundation.waitforElement(pickList.objPickList(location.get(0)), Constants.SHORT_TIME);
 					foundation.click(pickList.objPickList(product.get(0)));
-					System.out.println(foundation.getText(PickList.SELECT_COUNT));
 					CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(1)));
 					
 					//Select '2 location and 1 Product' and verify the selected location on top corner message
@@ -2284,6 +2281,7 @@ public class PickLists extends TestInfra {
 					//verify Deselect All in location tab
 					foundation.click(PickList.TXT_DESELECT_ALL);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.VALIDATE_DESELECTED_LOCATION));
+					
 					//verify clear popup functionality
 					foundation.click(PickList.BTN_SELECT_ALL);
 					pickList.clearPopupFunctionalityInScheduling(data.get(1),data.get(2), data.get(0), data.get(3));
@@ -2335,8 +2333,6 @@ public class PickLists extends TestInfra {
 				rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 		
 				String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-//				List<String> data = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)
-//						.split(Constants.DELIMITER_TILD));
 				List<String> location =Arrays
 						.asList( rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
 				List<String> record =Arrays
@@ -2368,13 +2364,10 @@ public class PickLists extends TestInfra {
 					foundation.click(PickList.REMOVE_SELECTED_DAY);
 										
 					//select Driver and Route and verify in table
-					foundation.threadWait(10);
-					foundation.click(PickList.DRP_DRIVER);
-					dropDown.selectItem(PickList.DPD_DRIVER_OPTION,record.get(1),Constants.TEXT);
-					foundation.click(PickList.DRP_ROUTE);
-					dropDown.selectItem(PickList.DPD_ROUTE_OPTION,record.get(2),Constants.TEXT);
+					dropDown.selectItem(PickList.DRP_ROUTE_DRIVER, record.get(2), Constants.TEXT);
+                    dropDown.selectItem(PickList.DRP_ROUTE,record.get(1),Constants.TEXT);
 					foundation.click(PickList.BTN_APPLY_FILTERBY_TAB);
-					System.out.println(foundation.getText(PickList.TBL_ROW_DATA));
+					foundation.threadWait(Constants.SHORT_TIME);
 					CustomisedAssert.assertTrue(foundation.getText(PickList.TBL_ROW_DATA).contains(record.get(1)));
 					CustomisedAssert.assertTrue(foundation.getText(PickList.TBL_ROW_DATA).contains(record.get(2)));
 										

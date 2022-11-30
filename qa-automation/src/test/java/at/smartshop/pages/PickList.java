@@ -225,9 +225,7 @@ public class PickList extends Factory {
 	public static final By TXT_SERVICE_DAYS=By.xpath("//ul[@class='select2-selection__rendered']");
 	public static final By BTN_APPLY_FILTERBY_TAB=By.id("route-filter-apply");
 	public static final By TXT_SERVICE_DAY_MONDAY=By.xpath("//td[@aria-describedby='dataGrid_m']//span[@aria-checked='true']");
-	public static final By DPD_DRIVER_OPTION=By.xpath("//select[@id='driver']//option");
-	public static final By DPD_ROUTE_OPTION=By.xpath("//select[@id='route']//option");
-
+	
 	public By selectShowRecordCount(String data) {
 		return By.xpath("//div[@id='dataGridPickListManager_editor_list']//span[text()='" +data+ "']");
 }
