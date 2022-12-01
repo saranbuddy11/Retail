@@ -75,6 +75,7 @@ public class Configuration {
 	
 	public static final String STAGING_SUPPORT_US_365="365Support_US";
 	public static final String STAGING_SUPPORT_US_365_LOCATION="365Support_US_Location";
+	public static final String STAGING_SUPPORT_US_365_PERFORMANCE_LOCATION="365Support_US_PerformanceLocation"; 
 	
 	public static final String ROYALVENDING="RoyalVending";
 	public static final String AVIFOODSYSTEMS_ORGANIZATION = "AVIfoodsystems_organization";
