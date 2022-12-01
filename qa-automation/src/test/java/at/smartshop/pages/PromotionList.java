@@ -97,7 +97,7 @@ public class PromotionList extends Factory {
 			navigationBar.navigateToMenuItem(menuItem);
 			foundation.threadWait(Constants.TWO_SECOND);
 			searchPromotion(promotionName, statusType);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// assertTrue(foundation.getText(TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
 			foundation.waitforElement(PAGE_TITLE, Constants.SHORT_TIME);
