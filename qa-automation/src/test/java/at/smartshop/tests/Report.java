@@ -496,6 +496,7 @@ public class Report extends TestInfra {
 			textBox.enterText(ProductPricingReport.TXT_SEARCH, rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			productPricing.getTblRecordsUI();
 			productPricing.getIntialData().putAll(productPricing.getReportsData());
+			productPricing.getTblRecordsUI();
 
 			// get Location Data
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -3008,6 +3009,7 @@ public class Report extends TestInfra {
 			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(4), cashFlow.getRequiredJsonData().get(0));
 			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(5), cashFlow.getRequiredJsonData().get(0));
 			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(6), cashFlow.getRequiredJsonData().get(0));
+			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(7), cashFlow.getRequiredJsonData().get(0));
 			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(9), cashFlow.getRequiredJsonData().get(0));
 			cashFlow.calculateAmount(cashFlow.getTableHeaders().get(11), cashFlow.getRequiredJsonData().get(0));
 
@@ -3995,7 +3997,7 @@ public class Report extends TestInfra {
 			foundation.threadWait(Constants.FIFTY_FIVE_SECONDS);
 
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 			
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
