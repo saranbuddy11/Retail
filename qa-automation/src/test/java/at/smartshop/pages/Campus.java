@@ -8,10 +8,16 @@ import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.ui.CheckBox;
+import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
 
 public class Campus extends Factory {
+	private TextBox textBox = new TextBox();
+	private CheckBox checkBox = new CheckBox();
+	private Dropdown dropdown = new Dropdown();
 
 	public static final By LBL_CAMPUSLIST_HEADING = By.id("Campus List");
 	public static final By BTN_CREATE_NEW = By.id("newBtn");
@@ -79,7 +85,11 @@ public class Campus extends Factory {
 		return output;
 	}
 
-	public void verifyPdeDate(String value) {
+	/**
+	 * Select Date in pde date Picker
+	 * @param value
+	 */
+	public void selectPdeDateInDatePicker(String value) {
 		String dateArray[] = value.split("/");
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
 		int month = Integer.parseInt(dateArray[0]);
@@ -93,5 +103,39 @@ public class Campus extends Factory {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectPdeCalendarMonth(monthName)));
 			foundation.click(objectPdeCalendarDay(date));
 		}
+	}
+	
+	/**
+	 * search with created campus and adjust pde balance
+	 * @param campusname
+	 * @param onandoff
+	 * @param currentDate
+	 * @param dpdpaycycle
+	 * @param groupname
+	 * @param speedlimit
+	 */
+	public void searchWithCreatedCampusAndAdjustPDEBalanc(String campusname,String onandoff, String currentDate,String dpdpaycycle,String groupname,String speedlimit) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.SEARCH_BOX));
+		textBox.enterText(Campus.SEARCH_BOX, campusname);
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.SELECT_GRID));
+		foundation.click(Campus.SELECT_GRID);
+		foundation.waitforElementToBeVisible(Campus.LBL_CAMPUSSHOW_HEADING, Constants.THREE_SECOND);
+		String text = foundation.getText(Campus.DRP_PAYROLL);
+		CustomisedAssert.assertTrue(text.contains(onandoff));
+		foundation.waitforElementToBeVisible(Campus.PD_COMPLETE_PURCHASE, Constants.THREE_SECOND);
+		checkBox.isChecked(Campus.PD_COMPLETE_PURCHASE);
+		foundation.waitforElementToBeVisible(Campus.USE_PAYROLL_DEDUCT, Constants.THREE_SECOND);
+		checkBox.isChecked(Campus.USE_PAYROLL_DEDUCT);
+		foundation.waitforElementToBeVisible(Campus.ALLOW_FOR_OFFLINE_PD, Constants.THREE_SECOND);
+		checkBox.isChecked(Campus.ALLOW_FOR_OFFLINE_PD);
+		foundation.click(Campus.START_DATE_PICKER);
+		selectPdeDateInDatePicker(currentDate);
+		dropdown.selectItem(Campus.DPD_PAY_CYCLE, dpdpaycycle, Constants.TEXT);
+		textBox.enterText(Campus.GROUP_NAME, groupname);
+		textBox.enterText(Campus.SPEED_LIMIT, speedlimit);
+		foundation.waitforElementToBeVisible(Campus.BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(Campus.BTN_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 }

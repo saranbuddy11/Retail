@@ -415,4 +415,26 @@ public class ConsumerSummary extends Factory {
 		foundation.waitforElementToBeVisible(BTN_REASON_CANCEL, 3);
 		foundation.click(BTN_REASON_CANCEL);
 	}
+	
+	/**
+	 * change pde balance in consumer summary page
+	 * @param balance
+	 * @param reason
+	 */
+	public void searchWithConsumerAndChangePDEBalance(String balance,String reason) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+		foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.PAYROLL_BTN_ADJUST));
+		foundation.click(ConsumerSummary.PAYROLL_BTN_ADJUST);
+		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
+		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_REASON_SAVE, Constants.THREE_SECOND);
+		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(ConsumerSummary.BTN_SAVE);
+		foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.THREE_SECOND);
+
+	}
 }

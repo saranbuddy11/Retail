@@ -47,6 +47,7 @@ public class V5TestAdmin extends TestInfra {
 	private Campus campus = new Campus();
 	private Dropdown dropdown = new Dropdown();
 	private DateAndTime dateAndTime = new DateAndTime();
+	private ConsumerSummary consumerSummary = new ConsumerSummary();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;
@@ -131,8 +132,7 @@ public class V5TestAdmin extends TestInfra {
 //	}
 
 	/**
-	 * @author afrosean
-	 * Date:14-11-2022
+	 * @author afrosean Date:14-11-2022
 	 */
 	@Test(description = "208792-V5 Kiosk - Create Account On Kiosk - Using Email")
 	public void verifyCreatedAccountOnKiosk() {
@@ -169,10 +169,8 @@ public class V5TestAdmin extends TestInfra {
 		}
 	}
 
-	
 	/**
-	 * @author afrosean
-	 * Date:21-11-2022
+	 * @author afrosean Date:21-11-2022
 	 */
 	@Test(description = "208804- V5 Kiosk - PDE Purchase - Campus Location - Using Email")
 	public void verifyPDEBalanceAfterTransaction() {
@@ -198,29 +196,15 @@ public class V5TestAdmin extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 			navigationBar.navigateToMenuItem(menu.get(0));
 
-			// Search with created campus and link campus location
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.SEARCH_BOX));
-			textBox.enterText(Campus.SEARCH_BOX, requiredData.get(0));
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(Campus.SELECT_GRID));
-			foundation.click(Campus.SELECT_GRID);
-			foundation.waitforElementToBeVisible(Campus.LBL_CAMPUSSHOW_HEADING, Constants.THREE_SECOND);
-			String text = foundation.getText(Campus.DRP_PAYROLL);
-			CustomisedAssert.assertTrue(text.contains(requiredData.get(1)));
-			foundation.waitforElementToBeVisible(Campus.PD_COMPLETE_PURCHASE, Constants.THREE_SECOND);
-			checkBox.isChecked(Campus.PD_COMPLETE_PURCHASE);
-			foundation.waitforElementToBeVisible(Campus.USE_PAYROLL_DEDUCT, Constants.THREE_SECOND);
-			checkBox.isChecked(Campus.USE_PAYROLL_DEDUCT);
-			foundation.waitforElementToBeVisible(Campus.ALLOW_FOR_OFFLINE_PD, Constants.THREE_SECOND);
-			checkBox.isChecked(Campus.ALLOW_FOR_OFFLINE_PD);
-			foundation.click(Campus.START_DATE_PICKER);
-			campus.verifyPdeDate(currentDate);
-			dropdown.selectItem(Campus.DPD_PAY_CYCLE, requiredData.get(2), Constants.TEXT);
-			textBox.enterText(Campus.GROUP_NAME, requiredData.get(3));
-			textBox.enterText(Campus.SPEED_LIMIT, requiredData.get(4));
-			foundation.waitforElementToBeVisible(Campus.BTN_SAVE, Constants.THREE_SECOND);
-			foundation.click(Campus.BTN_SAVE);
-			foundation.threadWait(Constants.THREE_SECOND);
+			// Search with created campus and adjust pde balance
+			campus.searchWithCreatedCampusAndAdjustPDEBalanc(requiredData.get(0), requiredData.get(1), currentDate,
+					requiredData.get(2), requiredData.get(3), requiredData.get(4));
+
+			// Navigate to Admin > Consumer and make pde balance as Zero
+			navigationBar.navigateToMenuItem(menu.get(2));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			consumerSearch.enterSearchFields(datas.get(0), datas.get(1), datas.get(2), datas.get(3));
+			consumerSummary.searchWithConsumerAndChangePDEBalance(requiredData.get(11), requiredData.get(10));
 
 			// Remove device from location
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -230,36 +214,30 @@ public class V5TestAdmin extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.deployDevice(requiredData.get(5), requiredData.get(7));
 
-			// Navigate to AutomationLocation1 and full sync
-//			foundation.refreshPage();
-//			foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
-//			foundation.click(LocationSummary.BTN_FULL_SYNC);
-//			foundation.threadWait(Constants.SHORT_TIME);
-
 			// Launch v5 device and do transaction
 			browser.close();
 			payments.v5Transaction(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME),
 					rstV5DeviceData.get(CNV5Device.EMAIL_ID), rstV5DeviceData.get(CNV5Device.PIN));
 
-			// Navigate to Super > Campus
+			// Login to ADM as super
 			browser.close();
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+
+			// Navigate to Admin > Consumer and Seach with consumer
 			navigationBar.navigateToMenuItem(menu.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
-
-			// Enter fields in Consumer Search Page
 			consumerSearch.enterSearchFields(datas.get(0), datas.get(1), datas.get(2), datas.get(3));
-			
-			//Navigate to consumer summary page and verify pde balance
+
+			// Navigate to consumer summary page and verify pde balance
 			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.THREE_SECOND);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.THREE_SECOND);
-		    text = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);
-		    CustomisedAssert.assertEquals(text, requiredData.get(9));
-		    foundation.threadWait(Constants.THREE_SECOND);
+			String text = foundation.getText(ConsumerSummary.SUBSIDY_READ_BALANCE);
+			CustomisedAssert.assertEquals(text, requiredData.get(9));
+			foundation.threadWait(Constants.THREE_SECOND);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -273,8 +251,8 @@ public class V5TestAdmin extends TestInfra {
 			// deploy device in new location
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.deployDevice(requiredData.get(8), requiredData.get(7));
-
 		}
 	}
+	
 
 }
