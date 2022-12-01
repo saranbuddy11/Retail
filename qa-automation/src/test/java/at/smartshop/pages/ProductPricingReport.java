@@ -54,6 +54,7 @@ public class ProductPricingReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData 11111 : "+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -118,16 +119,16 @@ public class ProductPricingReport extends Factory {
 				}
 			}
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			intialData.get(rowCount).put(tableHeaders.get(0), productsData.get(recordCount).get(columnName.get(0)));
-			intialData.get(rowCount).put(tableHeaders.get(1), productsData.get(recordCount).get(columnName.get(1)));
-			intialData.get(rowCount).put(tableHeaders.get(2), productsData.get(recordCount).get(columnName.get(2)));
-			intialData.get(rowCount).put(tableHeaders.get(3), productsData.get(recordCount).get(columnName.get(3)));
-			intialData.get(rowCount).put(tableHeaders.get(4), productsData.get(recordCount).get(columnName.get(4)));
-			intialData.get(rowCount).put(tableHeaders.get(5), productsData.get(recordCount).get(columnName.get(5)));
-			intialData.get(rowCount).put(tableHeaders.get(6), productsData.get(recordCount).get(columnName.get(6)));
-			intialData.get(rowCount).put(tableHeaders.get(7), productsData.get(recordCount).get(columnName.get(7)));
-			intialData.get(rowCount).put(tableHeaders.get(8), productsData.get(recordCount).get(columnName.get(8)));
-			intialData.get(rowCount).put(tableHeaders.get(9), productsData.get(recordCount).get(columnName.get(8)));
+			intialData.get(0).put(tableHeaders.get(0), productsData.get(0).get(columnName.get(0)));
+			intialData.get(0).put(tableHeaders.get(1), productsData.get(0).get(columnName.get(1)));
+			intialData.get(0).put(tableHeaders.get(2), productsData.get(0).get(columnName.get(2)));
+			intialData.get(0).put(tableHeaders.get(3), productsData.get(0).get(columnName.get(3)));
+			intialData.get(0).put(tableHeaders.get(4), productsData.get(0).get(columnName.get(4)));
+			intialData.get(0).put(tableHeaders.get(5), productsData.get(0).get(columnName.get(5)));
+			intialData.get(0).put(tableHeaders.get(6), productsData.get(0).get(columnName.get(6)));
+			intialData.get(0).put(tableHeaders.get(7), productsData.get(0).get(columnName.get(7)));
+//			intialData.get(0).put(tableHeaders.get(8), productsData.get(0).get(columnName.get(8)));
+			intialData.get(0).put(tableHeaders.get(9), productsData.get(0).get(columnName.get(8)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

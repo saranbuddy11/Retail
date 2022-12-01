@@ -1077,6 +1077,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_EXPORT);
 			foundation.threadWait(Constants.SHORT_TIME);
@@ -2646,7 +2647,6 @@ public class Location extends TestInfra {
 					.contains(rstLocationSummaryData.get(CNLocationSummary.NAME)));
 
 			locationSummary.selectDeviceName(rstLocationSummaryData.get(CNLocationSummary.DEVICE_NAME));
-
 			deviceSummary.verifySelfService();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

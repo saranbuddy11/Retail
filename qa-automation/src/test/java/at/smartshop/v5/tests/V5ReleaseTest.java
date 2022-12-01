@@ -536,10 +536,10 @@ public class V5ReleaseTest extends TestInfra {
 			navigationBar.navigateToMenuItem(menuItem.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationSummary.kiosklanguageSetting(location, language.get(0), language.get(1));
-			foundation.threadWait(600);
 			browser.close();
 
 			// launch v5 application
+			foundation.threadWait(800);
 			foundation.threadWait(Constants.TWO_SECOND);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));

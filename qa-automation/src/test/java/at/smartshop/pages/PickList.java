@@ -649,7 +649,7 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(PickList.EXPORT_BTN, 5);
 		foundation.click(PickList.EXPORT_BTN);
 		foundation.threadWait(Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePath(record, dateformat)));
+		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePathWithDateAndDay(record, dateformat)));
 	}
 
 	/**

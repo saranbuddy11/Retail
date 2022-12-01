@@ -35,11 +35,9 @@ public class FilePath {
 //	public static final String EXCEL_PROD_SRC = HOME_PATH + "\\Downloads\\products.xlsx";
 	public static final String EXCEL_PROD_SRC = HOME_PATH + "\\Downloads\\products.xls";
 	public static final String EXCEL_PROD_TAR = PATH + "\\src\\test\\resources\\products.xlsx";
-//	public static final String EXCEL_PROD_TAR = PATH + "\\src\\test\\resources\\products.xlsx";
 //	public static final String EXCEL_LOCAL_PROD = HOME_PATH + "\\Downloads\\location-product-list.xlsx";
 	public static final String EXCEL_LOCAL_PROD = HOME_PATH + "\\Downloads\\location-product-list.xls";
-	public static final String EXCEL_PROD = PATH + "\\src\\test\\resources\\location-product-list.xls";
-//	public static final String EXCEL_PROD = PATH + "\\src\\test\\resources\\location-product-list.xlsx";
+	public static final String EXCEL_PROD = PATH + "\\src\\test\\resources\\location-product-list.xlsx";
 	public static final String IMAGE_PNG_PATH = PATH + "\\src\\test\\resources\\fruits.png";
 	public static final String IMAGE_SIZE_MORE = PATH + "\\src\\test\\resources\\Earth.jpg";
 	public static final String IMAGE_TEXT_PATH = PATH + "\\src\\test\\resources\\Capture.txt";
@@ -102,8 +100,8 @@ public class FilePath {
 		Date day = calendar.getTime();
 		String date = reportList.getTodaysDate(formate);
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());
-		System.out.println(HOME_PATH + "\\Downloads\\" + filename + currentDay + " " + date + ".xls");
-		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + currentDay + " " + date + ".xls";
+		System.out.println(HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls");
+		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls";
 		return EXCEL_REPORT;
 	}
 
