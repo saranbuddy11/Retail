@@ -268,8 +268,6 @@ public class CashAudit extends Factory {
 		int counter = getRowCount(getRequiredGMAJsonData().get(0), reportsData, tableHeaders.get(0),
 				tableHeaders.get(4));
 		int count = tableHeaders.size();
-		System.out.println("reportsData.get(counter) : "+ reportsData.get(counter));
-		System.out.println("gmaData : "+ gmaData);
 		for (int iter = 0; iter < count; iter++) {
 			CustomisedAssert.assertTrue(
 					reportsData.get(counter).get(tableHeaders.get(iter)).contains(gmaData.get(tableHeaders.get(iter))));
