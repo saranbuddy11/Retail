@@ -674,9 +674,7 @@ public class SOSLoad extends TestInfra {
 			List<String> ADMOrg=foundation.getTextofListElement(Login.DPD_ORG);
 			
 			//verify SOS org and ADM org
-			System.out.println(ADMOrg);
-			System.out.println(SOSOrg);
-//			CustomisedAssert.assertTrue(SOSOrg.equals(ADMOrg));
+			CustomisedAssert.assertTrue(SOSOrg.equals(ADMOrg));
 			
 			
 		}

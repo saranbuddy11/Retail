@@ -939,8 +939,8 @@ public class PickList extends Factory {
 	foundation.click(PickList.BTN_YES );
 	foundation.threadWait(5);
 	foundation.click(objPickList(product));
-	foundation.threadWait(5);
 	foundation.clickShiftAndDown();
+	foundation.threadWait(5);
 	System.out.println(foundation.getText(PickList.SELECT_COUNT));
 	CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data));
 }
