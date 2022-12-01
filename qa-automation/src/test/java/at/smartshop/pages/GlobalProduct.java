@@ -1,14 +1,19 @@
 package at.smartshop.pages;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.management.loading.PrivateClassLoader;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.Numbers;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -21,15 +26,21 @@ public class GlobalProduct extends Factory {
 	private TextBox textBox = new TextBox();
 	private Dropdown dropDown = new Dropdown();
 	private NavigationBar navigationBar = new NavigationBar();
+	private Numbers number = new Numbers();
+	private Strings strings = new Strings();
 
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By ICON_FILTER = By.id("dataGrid_dd_enabled_button");
 	public static final By TBL_GRID = By.id("dataGrid");
 	public static final By BTN_EXPORT = By.xpath("//button[text()='Export']");
+	public static final By LBL_Inches = By.xpath("//b[text()='(In Inches)']");
 	public static final By TXT_RECORD_COUNT = By.cssSelector("#dataGrid_pager_label");
 	public static final By TBL_ROW = By.xpath("//*[@id='dataGrid']/tbody");
 	public static final By BTN_CREATE = By.cssSelector("button#createNewBtn");
 	public static final By TXT_PRODUCTNAME = By.xpath("//dd//input[@id='name']");
+	public static final By TXT_Product_HEIGHT = By.id("prodheight");
+	public static final By TXT_Product_WIDTH = By.id("prodwidth");
+	public static final By TXT_Product_DEPTH = By.id("proddepth");
 	public static final By TXT_SCAN_CODE = By.xpath("//input[@name='scancode']");
 	public static final By SCANCODE = By.xpath("//dt[text()='Scancode(s)']");
 	public static final By BUTTON_ADD = By.xpath("//button[text()='Add']");
@@ -224,6 +235,52 @@ public class GlobalProduct extends Factory {
 		CustomisedAssert.assertTrue(record.contains(dbData));
 	}
 
+	public void validateProductDimension(String height, String width, String depth) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_PRODUCT_SUMMARY));
+		validateProductDimensionVisibleOrNot();
+		// Enter value in product dimension
+		textBox.enterText(TXT_Product_HEIGHT, height);
+		textBox.enterText(TXT_Product_WIDTH, width);
+		textBox.enterText(TXT_Product_DEPTH, depth);
+		foundation.click(LBL_Inches);
+		// verify height product dimension contains only 4 digit and only numeric data
+		String expectedHeight = foundation.getAttribute(TXT_Product_HEIGHT, "value");
+		boolean heightStatus = number.fetchNumberOfDecimalPoints(expectedHeight) == 4
+				&& strings.verifyOnlyNumberAndDot(expectedHeight);
+		CustomisedAssert.assertTrue(heightStatus);
+		// verify width product dimension contains only 4 digit and only numeric data
+		String expectedWidth = foundation.getAttribute(TXT_Product_WIDTH, "value");
+		boolean widthStatus = number.fetchNumberOfDecimalPoints(expectedWidth) == 4
+				&& strings.verifyOnlyNumberAndDot(expectedWidth);
+		CustomisedAssert.assertTrue(widthStatus);
+		// verify depth product dimension contains only 4 digit and only numeric data
+		String expectedDepth = foundation.getAttribute(TXT_Product_DEPTH, "value");
+		boolean depthStatus = number.fetchNumberOfDecimalPoints(expectedDepth) == 4
+				&& strings.verifyOnlyNumberAndDot(expectedDepth);
+		CustomisedAssert.assertTrue(depthStatus);
+		// clear dimension value
+		textBox.clearText(TXT_Product_HEIGHT);
+		textBox.clearText(TXT_Product_WIDTH);
+		textBox.clearText(TXT_Product_DEPTH);
+		validateProductDimensionVisibleOrNot();
+		// click save button without entering dimension
+		foundation.click(BTN_SAVE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_GLOBAL_PRODUCT));
+
+		// verify for dimension for new global product
+		foundation.click(BTN_CREATE);
+		validateProductDimensionVisibleOrNot();
+	}
+
+	public void validateProductDimensionVisibleOrNot() {
+		// verify product dimension is Available or not
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_Product_HEIGHT));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_Product_WIDTH));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_Product_DEPTH));
+	}
+
+	
+
 	/**
 	 * search product and edit product name and save
 	 * 
@@ -363,7 +420,8 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
-	 * update Price Value 
+	 * update Price Value
+	 * 
 	 * @param name
 	 * @param price
 	 */
@@ -371,21 +429,22 @@ public class GlobalProduct extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 		selectGlobalProduct(name);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
-		textBox.enterText(ProductSummary.PRICE_FIELD,price);
+		textBox.enterText(ProductSummary.PRICE_FIELD, price);
 		foundation.scrollIntoViewElement(ProductSummary.BTN_SAVE);
 		foundation.click(ProductSummary.BTN_SAVE);
-}
-	
+	}
+
 	/**
-	 * verify Price Value 
+	 * verify Price Value
+	 * 
 	 * @param name
 	 * @param price
 	 */
-	public void verifyUpdatedPriceValueInGlobalProduct(String name,String price) {
-	    CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
-	    foundation.waitforElementToBeVisible(GlobalProduct.TBL_ROW_PRODUCT, 3);
-	    textBox.enterText(GlobalProduct.TXT_FILTER,name);
-	    CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProduct.TBL_ROW_PRODUCT).contains(price));
-}
+	public void verifyUpdatedPriceValueInGlobalProduct(String name, String price) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+		foundation.waitforElementToBeVisible(GlobalProduct.TBL_ROW_PRODUCT, 3);
+		textBox.enterText(GlobalProduct.TXT_FILTER, name);
+		CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProduct.TBL_ROW_PRODUCT).contains(price));
+	}
 
 }

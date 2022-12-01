@@ -606,6 +606,7 @@ public class PickList extends Factory {
 	 */
 	public void searchProductAndExport(String productname, String validate, String location, String record,
 			String dateformat) {
+		foundation.threadWait(5);
 		textBox.enterText(PickList.TXT_PRODUCT_NAME, productname);
 		foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 5);
 		foundation.click(PickList.BTN_FILTER_APPLY);
@@ -616,7 +617,7 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(PickList.EXPORT_BTN, 5);
 		foundation.click(PickList.EXPORT_BTN);
 		foundation.threadWait(Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePath(record, dateformat)));
+		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePathWithDateAndDay(record, dateformat)));
 	}
 
 	/**

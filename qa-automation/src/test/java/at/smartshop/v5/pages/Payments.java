@@ -19,8 +19,8 @@ public class Payments {
 	private Browser browser = new Browser();
 	private PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
-	private Order order= new Order();
-	
+	private Order order = new Order();
+
 //	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
 //	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
 	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
@@ -32,6 +32,7 @@ public class Payments {
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
 	public static final By EMAIL_ACCOUNT_BTN = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
+	public static final By BTN_EMAIL = By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.2.1']");
 	public static final By BTN_TAB = By.xpath("//div[@data-reactid='.0.0.0.0.0']");
 
 	public By objText(String text) {
@@ -66,13 +67,14 @@ public class Payments {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
 		textBox.enterKeypadText(product);
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderpage)));
-		foundation.click(Payments.EMAIL_ACCOUNT);
+		foundation.click(Payments.BTN_EMAIL);
 		foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
-		foundation.click(Payments.BTN_EMAIL_LOGIN);
+//		foundation.click(Payments.BTN_EMAIL_LOGIN);
 		foundation.threadWait(Constants.ONE_SECOND);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
 		textBox.enterKeypadText(email);
@@ -98,4 +100,28 @@ public class Payments {
 //		
 //	}
 
+	/**
+	 * Do Payment using GMA verified account to purchase
+	 * 
+	 * @param email
+	 * @param pin
+	 * @param status
+	 */
+	public void paymentUsingGMAVerifiedAccount(String email, String pin, String status) {
+		foundation.click(Order.LBL_MY_ACCOUNT);
+		foundation.waitforElement(EMAIL_lOGIN_BTN, Constants.SHORT_TIME);
+		foundation.click(EMAIL_lOGIN_BTN);
+		foundation.waitforElement(EMAIL_LOGIN_TXT, Constants.SHORT_TIME);
+		foundation.click(BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(status)));
+		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
+	}
 }

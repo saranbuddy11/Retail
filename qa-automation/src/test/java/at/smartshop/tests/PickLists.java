@@ -388,6 +388,11 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_CONFIRM_REFRESH);
 
 			// Click on Send to Lightspeed button
+			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.click(PickList.BTN_APPLY);
+			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)),
+					Constants.SHORT_TIME);
+			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.waitforElement(PickList.BTN_SEND_TO_LIGHTSPEED, 3);
 			foundation.click(PickList.BTN_SEND_TO_LIGHTSPEED);
 
@@ -405,6 +410,7 @@ public class PickLists extends TestInfra {
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElementToBeVisible(PickList.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_ORDER));
 
@@ -440,22 +446,28 @@ public class PickLists extends TestInfra {
 			locationList.selectLocationName(location);
 
 			// Navigating to products tab
+			
 			foundation.waitforElement(LocationSummary.TAB_PRODUCTS, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.isDisplayed(LocationSummary.TBL_PRODUCTS_GRID);
 			foundation.click(LocationSummary.BTN_EXPORT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
-
+			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// verifying UI headers is same as on excel data
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
 					LocationSummary.TBL_PRODUCTS_HEADER);
 			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
-			CustomisedAssert.assertTrue(excel.verifyExcelData(uiListHeaders, FilePath.EXCEL_LOCAL_PROD, 0));
+			CustomisedAssert.assertTrue(excel.verifyExcelData(uiListHeaders, FilePath.EXCEL_PROD, 0));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+		finally {
 			foundation.deleteFile(FilePath.EXCEL_LOCAL_PROD);
+			foundation.deleteFile(FilePath.EXCEL_PROD);
 		}
 	}
 
@@ -1331,22 +1343,24 @@ public class PickLists extends TestInfra {
 			// search product and export
 			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
 					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
-
+		
 			// Delete the product
 			foundation.click(pickList.selectRoutes(requiredData.get(1), requiredData.get(4)));
 			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
 			foundation.click(PickList.DELETE_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));
-		} catch (Exception exc) {
+} catch (Exception exc) {			
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		}
+			finally {
+							
 			// Navigate to Admin-->Routes to enable the routes
 			navigationBar.navigateToMenuItem(menu.get(0));
 			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
 					"check");
 
 			// delete downloaded file
-			foundation.deleteFile(FilePath.pickListFilePath(requiredData.get(7),
+			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
 	}

@@ -43,9 +43,9 @@ public class PromotionList extends Factory {
 	public static final By DPD_LOCATION = By.id("loc-dropdown");
 	public static final By DPD_STATUS = By.id("status");
 	public static final By BASIC_PROMOTION_TITLE = By.xpath("//div[text()='Enter Promotion Basics']");
-	public static final By CHOOSE_PROMOTION_FILTER = By.xpath("//div[text()='Choose Promotion Filters']");
+	public static final By CHOOSE_ORG_FILTER = By.xpath("//div[text()='Choose Org Filters']");
 	public static final By PROMOTION_DETAILS = By.xpath("//div[text()='Promotion Details']");
-	
+	public static final By ALL_CATEGORY = By.cssSelector("#categoryBundleTable > thead > tr >th >span >span");
 	public static final By DPD_PROMOTYPE = By.id("promotype");
 	public static final By LBL_SEARCH = By.xpath("//input[@id='search']//..//..//dt");
 	public static final By LBL_CALENDER_DATE_RANGE = By.xpath("//input[@id='startdate']//..//..//dt");
@@ -72,6 +72,7 @@ public class PromotionList extends Factory {
 		textbox.enterText(TXT_SEARCH_PROMONAME, promoName);
 		dropdown.selectItem(DRP_STATUS, statusType, Constants.TEXT);
 		foundation.click(BTN_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	public void verifyPromotionName(String promotionName) {
@@ -96,16 +97,15 @@ public class PromotionList extends Factory {
 			navigationBar.navigateToMenuItem(menuItem);
 			foundation.threadWait(Constants.TWO_SECOND);
 			searchPromotion(promotionName, statusType);
-			foundation.threadWait(Constants.THREE_SECOND);
-			//assertTrue(foundation.getText(TBL_COLUMN_NAME).equals(promotionName));
+			foundation.threadWait(Constants.SHORT_TIME);
+			// assertTrue(foundation.getText(TBL_COLUMN_NAME).equals(promotionName));
 			editPromotion.expirePromotion(gridName, promotionName);
 			foundation.waitforElement(PAGE_TITLE, Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
-	
+
 	/**
 	 * Expire the multiple promotion in promotion list page
 	 * 

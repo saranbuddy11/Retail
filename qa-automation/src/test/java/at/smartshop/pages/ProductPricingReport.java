@@ -28,6 +28,7 @@ public class ProductPricingReport extends Factory {
 	private static final By TBL_PRODUCT_PRICING_GRID = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
@@ -53,6 +54,7 @@ public class ProductPricingReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData 11111 : "+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -109,6 +111,7 @@ public class ProductPricingReport extends Factory {
 		try {
 			int rowCount = getRequiredRecord(value);
 			Map<Integer, Map<String, String>> productsData = locationSummary.getProductsRecords(value);
+			System.out.println("productsData : "+ productsData);
 			int recordCount = 0;
 			for(recordCount = 0; recordCount < productsData.size(); recordCount++) {
 				if((productsData.get(recordCount).get(tableHeaders.get(4))).equals(value)) {
@@ -116,16 +119,16 @@ public class ProductPricingReport extends Factory {
 				}
 			}
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			intialData.get(rowCount).put(tableHeaders.get(0), productsData.get(recordCount).get(columnName.get(0)));
-			intialData.get(rowCount).put(tableHeaders.get(1), productsData.get(recordCount).get(columnName.get(1)));
-			intialData.get(rowCount).put(tableHeaders.get(2), productsData.get(recordCount).get(columnName.get(2)));
-			intialData.get(rowCount).put(tableHeaders.get(3), productsData.get(recordCount).get(columnName.get(3)));
-			intialData.get(rowCount).put(tableHeaders.get(4), productsData.get(recordCount).get(columnName.get(4)));
-			intialData.get(rowCount).put(tableHeaders.get(5), productsData.get(recordCount).get(columnName.get(5)));
-			intialData.get(rowCount).put(tableHeaders.get(6), productsData.get(recordCount).get(columnName.get(6)));
-			intialData.get(rowCount).put(tableHeaders.get(7), productsData.get(recordCount).get(columnName.get(7)));
-			intialData.get(rowCount).put(tableHeaders.get(8), productsData.get(recordCount).get(columnName.get(8)));
-			intialData.get(rowCount).put(tableHeaders.get(9), productsData.get(recordCount).get(columnName.get(8)));
+			intialData.get(0).put(tableHeaders.get(0), productsData.get(0).get(columnName.get(0)));
+			intialData.get(0).put(tableHeaders.get(1), productsData.get(0).get(columnName.get(1)));
+			intialData.get(0).put(tableHeaders.get(2), productsData.get(0).get(columnName.get(2)));
+			intialData.get(0).put(tableHeaders.get(3), productsData.get(0).get(columnName.get(3)));
+			intialData.get(0).put(tableHeaders.get(4), productsData.get(0).get(columnName.get(4)));
+			intialData.get(0).put(tableHeaders.get(5), productsData.get(0).get(columnName.get(5)));
+			intialData.get(0).put(tableHeaders.get(6), productsData.get(0).get(columnName.get(6)));
+			intialData.get(0).put(tableHeaders.get(7), productsData.get(0).get(columnName.get(7)));
+//			intialData.get(0).put(tableHeaders.get(8), productsData.get(0).get(columnName.get(8)));
+			intialData.get(0).put(tableHeaders.get(9), productsData.get(0).get(columnName.get(8)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -145,6 +148,8 @@ public class ProductPricingReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("intialData :"+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					Assert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
