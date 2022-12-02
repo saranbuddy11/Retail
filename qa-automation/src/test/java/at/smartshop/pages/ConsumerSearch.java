@@ -404,8 +404,8 @@ public class ConsumerSearch extends Factory {
 		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-		String value = foundation.getAttributeValue(ConsumerSummary.TXT_FIRSTNAME);
-		System.out.println(value);
+		String value = foundation.getAttributeValue(ConsumerSummary.PENDING_EMAIL);
+		CustomisedAssert.assertEquals(value, search);
 		
 		
 	}

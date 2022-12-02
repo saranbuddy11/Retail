@@ -29,12 +29,14 @@ public class ConsumerSummary extends Factory {
 	public static final By PAYROLL_BTN_ADJUST = By.cssSelector("#mainform > div > dd:nth-child(5) > a");
 	//public static final By BTN_ADJUST2=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dd[1]/a");
 	public static final By BTN_SUBSIDY_ADJUST = By.xpath("(//a[@class='adjustBalanceBtn'])[2]");
+	public static final By SUBSIDY_ADJUST=By.cssSelector("#mainform > div > dd:nth-child(7) > a");
 	public static final By STRIKE_ADJUST = By.xpath("//a[@balanceid='3b1cb67f9533314380072e373ca2ba02']");
 	public static final By PAYROLL_DEDUCT=By.xpath("//a[@balanceid='c9dd6add3acb48ea84e1c0bc1e189db4']");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public static final By PENDING_EMAIL=By.id("uvemail");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By DPD_LOCATION = By.cssSelector("select#loc-dropdown");
@@ -176,6 +178,7 @@ public class ConsumerSummary extends Factory {
 		dropdown.selectItem(DPD_REASON, reasonCode, Constants.TEXT);
 		foundation.click(BTN_REASON_SAVE);
 		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -236,6 +239,21 @@ public class ConsumerSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableHeaders;
+	}
+
+	
+	/**
+	 * Adjust the balance in Consumer Summary Page
+	 * 
+	 * @param newBalance
+	 * @param reasonCode
+	 */
+	public void adjustBalanceInAllAccount(By option,String newBalance, String reasonCode) {
+		foundation.click(option);
+		textBox.enterText(TXT_ADJUST_BALANCE, newBalance);
+		dropdown.selectItem(DPD_REASON, reasonCode, Constants.TEXT);
+		foundation.click(BTN_REASON_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -434,7 +452,7 @@ public class ConsumerSummary extends Factory {
 		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SAVE, Constants.THREE_SECOND);
 		foundation.click(ConsumerSummary.BTN_SAVE);
-		foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 
 	}
 }

@@ -126,6 +126,7 @@ public class LocationList extends Factory {
 
 	public void removeDevice(String menu, String location) {
 		navigationBar.navigateToMenuItem(menu);
+		foundation.threadWait(Constants.SHORT_TIME);
 		selectLocationName(location);
 		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 		foundation.threadWait(Constants.SHORT_TIME);

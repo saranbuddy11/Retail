@@ -17,6 +17,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
+import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
@@ -30,7 +31,10 @@ import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.tests.TestInfra;
+import at.smartshop.v5.pages.AccountLogin;
+import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.Payments;
+import at.smartshop.v5.pages.ProductSearch;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5TestAdmin extends TestInfra {
@@ -42,7 +46,10 @@ public class V5TestAdmin extends TestInfra {
 	private Foundation foundation = new Foundation();
 	private CheckBox checkBox = new CheckBox();
 	private TextBox textBox = new TextBox();
+	private AccountLogin accountLogin = new AccountLogin();
 	private Browser browser = new Browser();
+	private LandingPage landingPage = new LandingPage();
+	private LocationSummary locationSummary = new LocationSummary();
 	private LocationList locationList = new LocationList();
 	private Campus campus = new Campus();
 	private Dropdown dropdown = new Dropdown();
@@ -135,7 +142,7 @@ public class V5TestAdmin extends TestInfra {
 	 * @author afrosean Date:14-11-2022
 	 */
 	@Test(description = "208792-V5 Kiosk - Create Account On Kiosk - Using Email")
-	public void verifyCreatedAccountOnKiosk() {
+	public void verifyCreatedAccountOnKioskReflectedInADM() {
 		final String CASE_NUM = "208792";
 
 		// Reading test data from DataBase
@@ -253,6 +260,110 @@ public class V5TestAdmin extends TestInfra {
 			locationList.deployDevice(requiredData.get(8), requiredData.get(7));
 		}
 	}
-	
+
+	/**
+	 * @author afrosean
+	 * Date:01-12-2022
+	 */
+	@Test(description = "208816-V5 Kiosk - Purchase uses balance in correct order (Subsidy > Consumer balance > PDE > Insufficient funds prompt) - Email")
+	public void verifyPurchaseUsingSubsidyConsumerBalancePDEInOrderAndThenInsufficientBalancePageViaEmail() {
+		final String CASE_NUM = "208816";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+
+		try {
+			// Login to ADM Application
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(requiredData.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+
+			// Enable GMA Subsidy and set topoff subsidy balance
+			locationSummary.enableGMASubsidyAndUpdateTopOffBalance(requiredData.get(1), currentDate,
+					requiredData.get(2), requiredData.get(3), requiredData.get(4), requiredData.get(5));
+
+			// Navigate to Consumer Summary page and update all balance
+			navigationBar.navigateToMenuItem(menu.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
+			consumerSearch.enterSearchField(datas.get(0), datas.get(1), datas.get(2));
+			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+
+			// Update Consumer account balance
+			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_ADJUST, Constants.SHORT_TIME);
+			consumerSummary.adjustBalanceInAllAccount(ConsumerSummary.BTN_ADJUST, datas.get(3), datas.get(4));
+
+			// update Pde balance
+			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.SHORT_TIME);
+			consumerSummary.adjustBalanceInAllAccount(ConsumerSummary.SUBSIDY_ADJUST, datas.get(3), datas.get(4));
+			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
+
+			// Navigate to location summary page and click on full sync
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(requiredData.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Login to V5 Device and verify balance
+			browser.close();
+			foundation.threadWait(Constants.THREE_SECOND);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Verify account balance in v5
+			accountLogin.verifyAccountBalanceInV5(datas.get(1), rstV5DeviceData.get(CNV5Device.PIN), datas.get(5),
+					datas.get(5));
+
+			// Transaction using subsidy balance
+			landingPage.transactionInV5Device(datas.get(6), datas.get(1), rstV5DeviceData.get(CNV5Device.PIN));
+
+			// verify subsidy balance got decreased
+			accountLogin.verifyAccountBalanceInV5(datas.get(1), rstV5DeviceData.get(CNV5Device.PIN), datas.get(5),
+					datas.get(7));
+
+			// Transaction using Consumer Account balance
+			landingPage.transactionInV5Device(datas.get(6), datas.get(1), rstV5DeviceData.get(CNV5Device.PIN));
+
+			// verify subsidy balance got decreased
+			accountLogin.verifyAccountBalanceInV5(datas.get(1), rstV5DeviceData.get(CNV5Device.PIN), datas.get(7),
+					datas.get(7));
+
+			// Transaction using pde Account balance
+			landingPage.transactionInV5Device(datas.get(6), datas.get(1), rstV5DeviceData.get(CNV5Device.PIN));
+
+			// Transaction for insufficient balance
+			landingPage.transactionInV5Device(datas.get(6), datas.get(1), rstV5DeviceData.get(CNV5Device.PIN));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(Payments.LBL_INSUFFICIENT_FUND));
+			foundation.waitforElementToBeVisible(Payments.LBL_INSUFFICIENT_FUND, Constants.SHORT_TIME);
+			String text = foundation.getText(Payments.LBL_INSUFFICIENT_FUND);
+			CustomisedAssert.assertEquals(text, datas.get(8));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// resetting test data
+			foundation.threadWait(Constants.SHORT_TIME);
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			locationSummary.subsidyResettingValidationOff(menu.get(0), requiredData.get(0), requiredData.get(6));
+		}
+
+	}
 
 }
