@@ -2173,13 +2173,13 @@ public class PickLists extends TestInfra {
 					foundation.threadWait(Constants.SHORT_TIME);
 					pickList.selectProductToVerifySelectedMessage(product.get(2), data.get(2));
 			
-					//Select '2 location and 2 Product' and verify the selected location on top corner message
-					foundation.threadWait(Constants.SHORT_TIME);
-					pickList.selectProductToVerifySelectedMessage(product.get(4), data.get(3));
-					
 					//Select '1 location and 2 Product' and verify the selected location on top corner message
 					foundation.threadWait(Constants.SHORT_TIME);
-					pickList.selectProductToVerifySelectedMessage(product.get(6), data.get(4));
+					pickList.selectProductToVerifySelectedMessage(product.get(4), data.get(4));
+					
+					//Select '2 location and 2 Product' and verify the selected location on top corner message
+					foundation.threadWait(Constants.SHORT_TIME);
+					pickList.selectProductToVerifySelectedMessage(product.get(6), data.get(3));
 									
 				}catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
