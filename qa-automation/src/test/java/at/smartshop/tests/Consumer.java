@@ -992,7 +992,7 @@ public class Consumer extends TestInfra {
 			String emailID = consumerSearch.createConsumer(location);
 			// CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE),
 			// paycycle);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// login as super and delete pay-cycle
 			foundation.waitforElementToDisappear(ConsumerSummary.TXT_SPINNER_MSG, Constants.LONG_TIME);
@@ -1808,7 +1808,7 @@ public class Consumer extends TestInfra {
 
 			// add pay-cycle group in location summary page
 			navigationBar.navigateToMenuItem(menuItem.get(0));
-			locationSummary.editPaycylenew(location, paycycle.get(0), paycycle.get(1), onandoff.get(1));
+			locationSummary.editPaycylenew(location, paycycle.get(1), paycycle.get(0), onandoff.get(1));
 
 			// login as operator
 			login.logout();
@@ -1825,7 +1825,7 @@ public class Consumer extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_PAY_CYCLE, paycycle.get(1), Constants.TEXT);
 			consumerSearch.createConsumer(location);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle.get(1));
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// delete consumer
 			foundation.click(ConsumerSummary.BTN_PAYOUT_CLOSE);
@@ -1836,7 +1836,7 @@ public class Consumer extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// login as super and delete pay-cycle
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
@@ -2889,7 +2889,7 @@ public class Consumer extends TestInfra {
 			consumerSearch.verifyEditConsumerAndClickOnPayoutAndClose(inputs.get(6));
 
 			// Search with same user
-			consumerSearch.enterSearchField(inputs.get(7), inputs.get(1), inputs.get(8));
+			consumerSearch.enterSearchFields(inputs.get(7), inputs.get(1),inputs.get(0), inputs.get(8));
 
 			// verify consumer not there
 			String text = foundation.getText(ConsumerSearch.TXT_NO_CONSUMER_FOUND);

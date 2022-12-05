@@ -40,7 +40,7 @@ public class Order {
 	public static final By LBL_EMAIL = By.xpath("(//h3[text()='My Account']//.)[2]//..//..//img");
 	// public static final By LBL_EMAIL = By.xpath("//h3[text()='Email']//..");
 	public static final By LBL_TAX_1 = By.xpath("//div[text()='Tax 1:']//..//div[@class='total-value']");
-	public static final By TAX=By.xpath("//div[text()='1']//..//div[@class='total-value']");
+	public static final By TAX = By.xpath("//div[text()='1']//..//div[@class='total-value']");
 	public static final By LBL_TAX_2 = By.xpath("//div[text()='Tax 2:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_3 = By.xpath("//div[text()='Tax 3:']//..//div[@class='total-value']");
 	public static final By LBL_TAX_4 = By.xpath("//div[text()='Tax 4:']//..//div[@class='total-value']");
@@ -52,6 +52,7 @@ public class Order {
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By TXT_TENDER_DISCOUNT = By.xpath("//div[@class='content-promotions']//div//div//div");
 	public static final By LBL_BUNDLE_ITEM = By.className("bundle-item-list");
+	public static final By SAVINGS = By.xpath("//div[@data-reactid='.0.2.0.0.0.2.0.0.1.0.0.0']");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
@@ -82,7 +83,6 @@ public class Order {
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
 		// foundation.click(objText(email));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(objText(purchaseComplete)));
-
 		foundation.click(objText(yesButton));
 		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 	}

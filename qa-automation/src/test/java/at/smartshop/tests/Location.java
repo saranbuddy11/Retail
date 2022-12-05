@@ -1077,20 +1077,20 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_SEARCH, product);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(locationSummary.objProductPrice(product), Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_EXPORT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
+
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
 
-			// foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
-			// int excelCount = excel.getExcelRowCount(FilePath.EXCEL_PROD);
-
-			// int excelCount = excel.getExcelRowCount(FilePath.EXCEL_LOCAL_PROD);
-			// record count validation
-			// CustomisedAssert.assertEquals(String.valueOf(excelCount), requiredData);
+//			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
+		    foundation.threadWait(Constants.LONG_TIME);
+		
 
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
 					LocationSummary.TBL_PRODUCTS_GRID);
+			System.out.println(uidata);
 			uidata.remove(expectedData.get(0));
 			uidata.remove(expectedData.get(1));
 			uidata.remove(expectedData.get(2));
@@ -1113,7 +1113,7 @@ public class Location extends TestInfra {
 							+ uiList.get(iter).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
 				}
 			}
-			
+
 			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
 				if (uiListHeaders.get(iter).equals("Deposit")) {
 					expectedValues.put(uiListHeaders.get(iter),
@@ -1415,7 +1415,7 @@ public class Location extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
-			
+
 			// verify the display of product price
 			CustomisedAssert.assertTrue(productPrice.contains(price.get(1)));
 			browser.close();
@@ -1558,6 +1558,7 @@ public class Location extends TestInfra {
 			String tabName = rstLocationData.get(CNLocation.TAB_NAME);
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.selectTab(tabName);
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
@@ -2616,6 +2617,40 @@ public class Location extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_DISABLED, location.get(6), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.click(LocationSummary.POP_UP_BTN_SAVE);
+		}
+	}
+
+	/**
+	 * @author vikneshwaranm Date:13-10-2022
+	 */
+	@Test(description = "205030-Verify when both Self-Service and Order Ahead Kiosk is selected,checkbox “Order Ahead Kiosk” will be selected"
+			+ "205031-Verify remote Checkbox will appear when both Self-Service and Order Ahead Kiosk is selected in device summary page & also verify the State of cafeAPI URL")
+
+	public void verifyServiceCheckBoxOrderAheadAndRemote() {
+		final String CASE_NUM = "205030";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		try {
+			// Launch ADM as super and select org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to Location Menu
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// select Location
+			locationList.selectLocationName(rstLocationSummaryData.get(CNLocationSummary.NAME));
+			CustomisedAssert.assertTrue(foundation.getText(locationSummary.VALIDATE_HEADING)
+					.contains(rstLocationSummaryData.get(CNLocationSummary.NAME)));
+
+			locationSummary.selectDeviceName(rstLocationSummaryData.get(CNLocationSummary.DEVICE_NAME));
+			deviceSummary.verifySelfService();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+
 		}
 	}
 

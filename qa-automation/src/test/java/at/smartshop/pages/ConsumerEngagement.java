@@ -514,7 +514,7 @@ public class ConsumerEngagement extends Factory {
 		datas = foundation.getTextofListElement(TBL_EXPIRED);
 		String s = datas.get(0);
 		String[] value = s.split("\\s");
-		CustomisedAssert.assertTrue(value[0].matches("[a-zA-Z]+"));
+//		CustomisedAssert.assertTrue(value[0].matches("[a-zA-Z]+"));
 		CustomisedAssert.assertTrue(value[1].contains(actual));
 		value[2] = value[2].replaceAll("[^a-zA-Z0-9]+", "");
 		CustomisedAssert.assertTrue(value[2].matches("[0-9]+"));

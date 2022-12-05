@@ -271,15 +271,16 @@ public class FinancialCanned extends Factory {
 			double margin = 100 - Double.parseDouble(productCostPercentage)
 					- Double.parseDouble(spoilPercentage)
 					- Double.parseDouble(shortPercentage);
-			margin = Math.round(margin * 100.0) / 100.0;
-			String GMPercentage = String.valueOf(margin);
+			margin = Math.floor(margin * 100.0) / 100.0;
+			 int value = (int)margin;
+			String GMPercentage = String.valueOf(value);
 			intialData.get(0).put(columnName, GMPercentage);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 	
-	public void updateLastYearAmount(String columnName) {
+	public Double updateLastYearAmount(String columnName) {
 		String lastYearofYearAmount = intialData.get(0).get(columnName).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		String salesAmount = intialData.get(0).get(getTableHeaders().get(1)).replaceAll(Reports.REPLACE_DOLLOR,
@@ -287,18 +288,21 @@ public class FinancialCanned extends Factory {
 		double lastYearAmount = (Double.parseDouble(salesAmount)
 				- (Double.parseDouble(lastYearofYearAmount)+Double.parseDouble(salesAmount))-(3.66));
 		lastYearAmount = Math.round(lastYearAmount * 100.0) / 100.0;
-		intialData.get(0).put(columnName, String.valueOf(lastYearAmount));
+		double updatedLastYearAmount = Math.abs(lastYearAmount);
+		intialData.get(0).put(columnName, Constants.DOLLAR_SYMBOL+String.valueOf(updatedLastYearAmount));
+		return lastYearAmount;
 	}
 	
-	public void updateLastYearPercent(String columnName) {
-		String lastYearofYearAmount = intialData.get(0).get(getTableHeaders().get(11)).replaceAll(Reports.REPLACE_DOLLOR,
-				Constants.EMPTY_STRING);
+	public void updateLastYearPercent(String columnName, double updatedLastYearAmount) {
+//		String lastYearofYearAmount = reportsData.get(0).get(getTableHeaders().get(11)).replaceAll(Reports.REPLACE_DOLLOR,
+//				Constants.EMPTY_STRING);
 		String salesAmount = intialData.get(0).get(getTableHeaders().get(1)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 			double lastYearPercent = (Double.parseDouble(salesAmount)
-					/ ((Double.parseDouble(lastYearofYearAmount)+Double.parseDouble(salesAmount)))* 100);
-			lastYearPercent = Math.round(lastYearPercent * 100.0) / 100.0;
-			intialData.get(0).put(columnName, String.valueOf(lastYearPercent));
+					/ (updatedLastYearAmount+Double.parseDouble(salesAmount))* 100);
+			lastYearPercent = Math.floor(lastYearPercent * 100.0) / 100.0;
+			 int value = (int)lastYearPercent;
+			intialData.get(0).put(columnName, String.valueOf(value));
 	}
 	
 	/**
@@ -399,6 +403,7 @@ public class FinancialCanned extends Factory {
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
 						.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
+				System.out.println(iter);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
