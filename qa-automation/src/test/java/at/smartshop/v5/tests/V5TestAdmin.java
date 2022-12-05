@@ -262,8 +262,7 @@ public class V5TestAdmin extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:01-12-2022
+	 * @author afrosean Date:01-12-2022
 	 */
 	@Test(description = "208816-V5 Kiosk - Purchase uses balance in correct order (Subsidy > Consumer balance > PDE > Insufficient funds prompt) - Email")
 	public void verifyPurchaseUsingSubsidyConsumerBalancePDEInOrderAndThenInsufficientBalancePageViaEmail() {
@@ -360,10 +359,98 @@ public class V5TestAdmin extends TestInfra {
 			// resetting test data
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.LOCAL, Constants.CHROME);
-			navigationBar.launchBrowserAsSuperAndSelectOrg(propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			locationSummary.subsidyResettingValidationOff(menu.get(0), requiredData.get(0), requiredData.get(6));
 		}
 
 	}
 
+	
+	/**
+	 * @author afrosean
+	 * Date:05-12-2022
+	 */
+	@Test(description = "208808-V5 Kiosk - PDE Purchase -Non- Campus Location - Using Email")
+	public void verifyPDEBalanceAfterTransactionInNonCampusLocation() {
+		final String CASE_NUM = "208808";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> datas = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_MM_DD_YYYY, Constants.TIME_ZONE_INDIA);
+
+		try {
+
+			// Login ADM & navigate to Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(requiredData.get(4));
+
+			// Set Payroll "on" and save in location summary page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.DATE_PICKER_PAY_ROLL);
+			locationSummary.verifyRollOverDateAutoLocation1(currentDate);
+			foundation.click(LocationSummary.TXT_PAYROLL);
+			dropdown.selectItem(LocationSummary.DPD_PAY_CYCLE_RECURRENCE, requiredData.get(0), Constants.TEXT);
+			textBox.enterText(LocationSummary.TXT_PAY_CYCLE_GROUP_NAME, requiredData.get(1));
+			textBox.enterText(LocationSummary.TXT_PAY_ROLL_SPEND_LIMIT, requiredData.get(2));
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Navigate to Consumer summary page and set payroll detect
+			navigationBar.navigateToMenuItem(menu.get(1));
+			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
+			consumerSearch.enterSearchField(datas.get(0), datas.get(1), datas.get(2));
+			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+
+			// Update Consumer account balance
+			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_ADJUST, Constants.SHORT_TIME);
+			consumerSummary.adjustBalanceInAllAccount(ConsumerSummary.BTN_ADJUST, datas.get(3), datas.get(4));
+
+			// Update subsidy balance
+			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.SHORT_TIME);
+			consumerSummary.adjustBalanceInAllAccount(ConsumerSummary.SUBSIDY_ADJUST, datas.get(3), datas.get(4));
+
+			// update pde balance
+			foundation.waitforElementToBeVisible(ConsumerSummary.PAYROLL_BTN_ADJUST, Constants.SHORT_TIME);
+			consumerSummary.adjustBalanceInAllAccount(ConsumerSummary.PAYROLL_BTN_ADJUST, datas.get(3), datas.get(4));
+			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SAVE, Constants.THREE_SECOND);
+			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Navigate to location summary page and click on full sync
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(requiredData.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
+			foundation.click(LocationSummary.BTN_FULL_SYNC);
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Login to V5 Device and verify balance
+			browser.close();
+			foundation.threadWait(Constants.THREE_SECOND);
+			browser.launch(Constants.REMOTE, Constants.CHROME);
+			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Transaction using "pde" Account balance
+			landingPage.transactionInV5Device(requiredData.get(5), datas.get(1), requiredData.get(6));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }

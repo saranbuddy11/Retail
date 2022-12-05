@@ -38,7 +38,7 @@ public class RoundUpCharity extends TestInfra {
 	private Map<String, String> rstRoundUpCharityData;
 
 	/**
-	 * @author afrosean Date:14-1 0-2022
+	 * @author afrosean Date:14-10-2022
 	 */
 	@Test(description = "204839-To Verify 'Charity Round-Up' Dropdown"
 			+ "204842-To Verify Admin menu when 'Disabled' Option is selected under Charity Round-Up"
