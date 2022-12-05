@@ -7175,7 +7175,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 12-10-2022
 	 */
-	@Test(priority = 1, description = "206251-Verifying and Validating the Consumer Feedback Survey Report Data")
+	@Test(priority = 1, description = "206251-Verifying and Validating the Consumer Feedback Survey Report Data for Sad Feedback")
 	public void consumerFeedbackSurveyReportDataValidationForSadFeedback() {
 		final String CASE_NUM = "206251";
 
@@ -7317,7 +7317,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 12-10-2022
 	 */
-	@Test(priority = 1, description = "206251-Verifying and Validating the Consumer Feedback Survey Report Data Neutral Feedback")
+	@Test(priority = 1, description = "206252-Verifying and Validating the Consumer Feedback Survey Report Data Neutral Feedback")
 	public void consumerFeedbackSurveyReportDataValidationForNeutralFeedback() {
 		final String CASE_NUM = "206252";
 
@@ -9201,7 +9201,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara, Date:28-10-2022
 	 */
-	@Test(description = "206324- UFS Report data validation")
+	@Test(description = "206411- UFS Report data validation")
 	public void UFSReportDataValidation() {
 		final String CASE_NUM = "206411";
 

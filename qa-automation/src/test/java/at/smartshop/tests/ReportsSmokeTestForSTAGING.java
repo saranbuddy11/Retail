@@ -52,6 +52,12 @@ import at.smartshop.pages.FinancialCanned;
 import at.smartshop.pages.FinancialRecapReport;
 import at.smartshop.pages.FolioBillingReport;
 import at.smartshop.pages.ICEReport;
+import at.smartshop.pages.IntegrationPaymentReport;
+import at.smartshop.pages.InventoryAdjustmentDetail;
+import at.smartshop.pages.InventoryList;
+import at.smartshop.pages.InventoryTotals;
+import at.smartshop.pages.InventoryValueSummary;
+import at.smartshop.pages.InventoryVariance;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.ReportList;
 import at.smartshop.pages.UFSReport;
@@ -103,6 +109,12 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 	private FinancialRecapReport financialRecapReport = new FinancialRecapReport();
 	private FolioBillingReport folioBillingReport = new FolioBillingReport();
 	private ICEReport iceReport = new ICEReport();
+	private IntegrationPaymentReport integrationPaymentReport = new IntegrationPaymentReport();
+	private InventoryAdjustmentDetail inventoryAdjustmentDetail = new InventoryAdjustmentDetail();
+	private InventoryList inventoryList = new InventoryList();
+	private InventoryVariance inventoryVariance = new InventoryVariance();
+	private InventoryTotals inventoryTotals = new InventoryTotals();
+	private InventoryValueSummary inventoryValueSummary = new InventoryValueSummary();
 
 
 	private Map<String, String> rstNavigationMenuData;
@@ -1763,9 +1775,11 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 			reportList.selectDateRangeDate(DateRange_Existing.get(0),
 								DateRange_Existing.get(1), EntrySummaryReport.DATA_EXISTING_START_DATE_STAGING,
 								EntrySummaryReport.DATA_EXISTING_END_DATE_STAGING);
+			//STAGING_SUPPORT_US_365_PERFORMANCE_LOCATION
 			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365_PERFORMANCE_LOCATION, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			entrySummaryReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -1919,20 +1933,22 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 								FinancialRecapReport.DATA_EXISTING_END_DATE_STAGING);
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365_LOCATION, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
 			financialRecapReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-
-			// Downloading the Report
-			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
-
+			
 			foundation.threadWait(Constants.MEDIUM_TIME);
-
-			// Verifying the Report name with with the Name in the exported file,
-			// Verified file existence and deleted the file.
-			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+			// Downloading the Report
+//			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+//
+//			foundation.threadWait(Constants.MEDIUM_TIME);
+//
+//			// Verifying the Report name with with the Name in the exported file,
+//			// Verified file existence and deleted the file.
+//			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+//					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
 
 			// Verifying, whether the Report data available or not
 			financialRecapReport.checkForDataAvailabilyInResultTable();
@@ -1975,7 +1991,7 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
 
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 
 			// Verifying the Report name with with the Name in the exported file,
 			// Verified file existence and deleted the file.
@@ -2038,5 +2054,254 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 		}
 	}
 
+	@Test(description = "167025- This test validates Data existance and Excel file exportaion of Integration Payments Report in Staging Environment")
+	public void integrationPayments_Staging() {
+		try {
+			final String CASE_NUM = "167025";
 
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365,
+					FilePath.PROPERTY_CONFIG_FILE));
+			
+			List<String> DateRange_Existing = Arrays.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			
+			reportList.selectDateRangeDate(DateRange_Existing.get(0),
+								DateRange_Existing.get(1), IntegrationPaymentReport.DATA_EXISTING_START_DATE_STAGING,
+								IntegrationPaymentReport.DATA_EXISTING_END_DATE_STAGING);
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365_NOODLE_HUT, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			integrationPaymentReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.SHORT_TIME);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			integrationPaymentReport.checkForDataAvailabilyInResultTable();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	@Test(description = "220387- This test validates Data existance and Excel file exportaion of Inventory Adjustment Detail Report in Staging Environment")
+	public void inventoryAdjustmentDetail_Staging() {
+		try {
+			final String CASE_NUM = "220387";
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			// Select Organization
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365, FilePath.PROPERTY_CONFIG_FILE));
+
+			List<String> DateRange_Existing = Arrays.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+
+			// Navigate to Reports
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			reportList.selectDateRangeDate(DateRange_Existing.get(0),
+								DateRange_Existing.get(1), InventoryAdjustmentDetail.DATA_EXISTING_START_DATE_STAGING,
+								InventoryAdjustmentDetail.DATA_EXISTING_END_DATE_STAGING);
+			reportList.selectLocation(
+					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+			// Verifying the Report name with with the displayed name on the Front end
+			inventoryAdjustmentDetail.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			// Downloading the Report
+			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+			foundation.threadWait(Constants.TEN_SECOND);
+
+			// Verifying the Report name with with the Name in the exported file,
+			// Verified file existence and deleted the file.
+			reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+					rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+			// Verifying, whether the Report data available or not
+			inventoryAdjustmentDetail.checkForDataAvailabilyInResultTable();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+		
+		/**
+		 * No Data, Hence Not Completed
+		 */
+	
+		@Test(enabled = false, description = "220388- This test validates Data existance and Excel file exportaion of Inventory List Report in Staging Environment")
+		public void inventoryList_Staging() {
+			try {
+				final String CASE_NUM = "220388";
+
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+				String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
+				// Select Organization
+				navigationBar.selectOrganization(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+				// Navigate to Reports
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+				// Select the Report Date range and Location
+				reportList.selectReport(reportName);
+				reportList.selectLocation(
+						propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1, FilePath.PROPERTY_CONFIG_FILE));
+
+				foundation.click(ReportList.BTN_RUN_REPORT);
+				foundation.threadWait(Constants.TWO_SECOND);
+				inventoryList.verifyReportName(reportName);
+
+				// Downloading the Report
+				reportList.clickOnToExcelButton(reportList.TO_EXCEL_EXPORTBUTTON);
+
+				foundation.threadWait(Constants.SHORT_TIME);
+
+				// Verified file existence and deleted the file.
+				reportList.verifyTheFileExistanceWithDateAndWithoutDataValidation(
+						rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+						rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+				// Verifying, whether the Report data available or not
+				inventoryList.checkForDataAvailabilyInResultTable();
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
+		
+		@Test(description = "220389- This test validates Data existance and Excel file exportaion of Inventory Totals Report in Staging Environment")
+		public void inventoryTotals_Staging() {
+			try {
+				final String CASE_NUM = "220389";
+
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+				// Select Organization
+				navigationBar.selectOrganization(
+						propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365, FilePath.PROPERTY_CONFIG_FILE));
+
+				// Navigate to Reports
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+				// Select the Report and Run Report
+				reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+				foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+				// Verifying the Report name with with the displayed name on the Front end
+				inventoryTotals.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+				// Downloading the Report
+				reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+				foundation.threadWait(Constants.SHORT_TIME);
+
+				// Verifying the Report name with with the Name in the exported file,
+				// Verified file existence and deleted the file.
+				reportList.verifyTheFileWithFullName(rstReportListData.get(CNReportList.REPORT_NAME),
+						rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME));
+
+				// Verifying, whether the Report data available or not
+				inventoryTotals.checkForDataAvailabilyInResultTable();
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
+
+		@Test(description = "220390- This test validates Data existance and Excel file exportaion of Inventory Value Summary Report in Staging Environment")
+		public void inventoryValueSummary_Staging() {
+			try {
+				final String CASE_NUM = "220390";
+
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+				// Select Organization
+				navigationBar.selectOrganization(
+						propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365, FilePath.PROPERTY_CONFIG_FILE));
+
+				// Navigate to Reports
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+				// Select the Report Date range and Location
+				reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+				reportList.selectLocation(
+						propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365_PERFORMANCE_LOCATION, FilePath.PROPERTY_CONFIG_FILE));
+				foundation.objectClick(ReportList.BTN_RUN_REPORT);
+
+				// Verifying the Report name with with the displayed name on the Front end
+				inventoryValueSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+
+				// Downloading the Report
+				reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
+
+				foundation.threadWait(Constants.MEDIUM_TIME);
+
+				// Verifying the Report name with with the Name in the exported file,
+				// verified file existence and deleted the file
+				reportList.verifyTheFileContainsNameWithDateWithoutSpace(rstReportListData.get(CNReportList.REPORT_NAME),
+						rstReportListData.get(CNReportList.DOWNLOADED_FILE_NAME),
+						rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+				// Verifying, whether the Report data available or not
+				inventoryValueSummary.checkForDataAvailabilyInResultTable();
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
 }

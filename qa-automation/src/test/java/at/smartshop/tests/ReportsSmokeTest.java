@@ -2854,7 +2854,7 @@ public class ReportsSmokeTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "167022- This test validates Data existance and Excel file exportaion of Alcohol Sold Details Report")
+	@Test(description = "167022- This test validates Data existance and Excel file exportaion of Inventory Adjustment Detail Report")
 	public void inventoryAdjustmentDetail() {
 		try {
 			final String CASE_NUM = "167022";
