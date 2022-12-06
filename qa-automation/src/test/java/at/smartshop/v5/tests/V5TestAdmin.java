@@ -425,7 +425,7 @@ public class V5TestAdmin extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.SHORT_TIME);
 			consumerSummary.adjustBalanceInAllAccount(ConsumerSummary.SUBSIDY_ADJUST, datas.get(3), datas.get(4));
 
-			// update pde balance
+			// update "PDE" balance
 			foundation.waitforElementToBeVisible(ConsumerSummary.PAYROLL_BTN_ADJUST, Constants.SHORT_TIME);
 			consumerSummary.adjustBalanceInAllAccount(ConsumerSummary.PAYROLL_BTN_ADJUST, datas.get(3), datas.get(4));
 			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SAVE, Constants.THREE_SECOND);
@@ -446,7 +446,7 @@ public class V5TestAdmin extends TestInfra {
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Transaction using "pde" Account balance
+			// Transaction using "PDE" Account balance
 			landingPage.transactionInV5Device(requiredData.get(5), datas.get(1), requiredData.get(6));
 
 		} catch (Exception exc) {
