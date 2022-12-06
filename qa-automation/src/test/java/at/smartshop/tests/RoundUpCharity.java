@@ -109,7 +109,7 @@ public class RoundUpCharity extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// navigate to super>automation Org
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -199,13 +199,13 @@ public class RoundUpCharity extends TestInfra {
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// navigate to super>automation Org
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
-			
-			//verify country Fields as United States and verify roundup charity Field Enable
-			adminRoundUpCharity.verifyCountryAndSelectCharityOption(data.get(0),data.get(1));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
+//			// navigate to super>automation Org
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+//			
+//			//verify country Fields as United States and verify roundup charity Field Enable
+//			adminRoundUpCharity.verifyCountryAndSelectCharityOption(data.get(0),data.get(1));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 			
 			//Navigate to Admin->Round Up Charity and verify page
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -253,19 +253,19 @@ public class RoundUpCharity extends TestInfra {
 					.asList(rstRoundUpCharityData.get(CNRoundUpCharity.NAME).split(Constants.DELIMITER_TILD));
 
 			try {
-			// Select Menu and Menu Item
-				navigationBar.launchBrowserAsSuperAndSelectOrg(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to super>automation Org
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
-			
-			//verify country Fields as United States and verify roundup charity Field Enable
-			adminRoundUpCharity.verifyCountryAndSelectCharityOption(data.get(0),data.get(1));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
-			foundation.waitforElement(AdminRoundUpCharity.LBL_ROUNDUPCHARITY,3);
-			login.logout();
+//			// Select Menu and Menu Item
+//				navigationBar.launchBrowserAsSuperAndSelectOrg(
+//						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			// navigate to super>automation Org
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+//			
+//			//verify country Fields as United States and verify roundup charity Field Enable
+//			adminRoundUpCharity.verifyCountryAndSelectCharityOption(data.get(0),data.get(1));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
+//			foundation.waitforElement(AdminRoundUpCharity.LBL_ROUNDUPCHARITY,3);
+//			login.logout();
 			
 			// login as Operator
 			navigationBar.launchBrowserAndSelectOrg(
