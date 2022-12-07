@@ -44,7 +44,11 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By BTN_DELECT_CHARITY_DELECT = By.xpath("//button[@class='ajs-button ajs-ok']");
 	public static final By GET_LOCATION = By.xpath("//ul//li[@class='select2-selection__choice']");
 	public static final By TBL_HEADER_CHARITY = By.xpath("//table[@id='dt']/thead//th");
-	public static final By SELECT_ROW = By.xpath("//tbody[@role='alert']//tr//td");
+	public static final By SELECT_ROW = By.xpath("//tbody[@role='alert']//td");
+	public static final By ERROR_DISPLAY_NAME = By.id("displayName-error");
+	public static final By ERROR_BTN_SEARCH = By.id("einErrorText");
+	public static final By STYLE_DISPLAY_NAME= By.xpath("//textarea[@placeholder='OUR LADY OF VICTORY CHURCH']");
+	public static final By DISABLE_LOCATION= By.xpath("//span[contains(@class,'select2-container--disabled')]");
 
 	public By removeLocation(String location) {
 		return By.xpath("//ul//li[text()='"+location+"']/span[@class='select2-selection__choice__remove']"); }
@@ -112,5 +116,16 @@ public class AdminRoundUpCharity extends Factory {
 	foundation.threadWait(3);
 	textBox.enterText(AdminRoundUpCharity.LBL_LOCATION, location);
 	foundation.click(selectLocation(location));
+}
+	/**
+	 * enter EIN And Search
+	 * @param EIN
+	 */
+	public void enterEINAndSearch(String EIN) {
+	textBox.enterText(AdminRoundUpCharity.TXT_EIN_SEARCH,EIN);
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SEARCH));
+	foundation.click(AdminRoundUpCharity.BTN_SEARCH);
+	foundation.threadWait(3);
+	
 }
 }

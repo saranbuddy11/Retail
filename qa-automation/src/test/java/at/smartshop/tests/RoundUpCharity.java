@@ -1,5 +1,6 @@
 package at.smartshop.tests;
 
+import java.awt.AWTException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class RoundUpCharity extends TestInfra {
 	private Map<String, String> rstRoundUpCharityData;
 
 	/**
-	 * @author afrosean Date:14-1 0-2022
+	 * @author afrosean Date:14-10-2022
 	 */
 	@Test(description = "204839-To Verify 'Charity Round-Up' Dropdown"
 			+ "204842-To Verify Admin menu when 'Disabled' Option is selected under Charity Round-Up"
@@ -375,5 +376,197 @@ public class RoundUpCharity extends TestInfra {
 			}
 	}
 	
+	/**
+	 * SOS-34022
+	 * @author sakthir 
+	 * Date:05-12-2022
+	 */
+	@Test(description = "205038-To Verify \"Display Name\" is mandatory field"
+			+"205039-To Verify \"Locations\" is Optional field"
+			+"205040-To Verify \"EIN Search\" field by providing valid EIN and without searching and saving it")
+	public void verifyMandatoryAndNotMandatoryFieldWhileCreatingCharity() {
+		final String CASE_NUM = "205038";
+			
+		    // Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstRoundUpCharityData = dataBase.getRoundUpCharity(Queries.ROUNDUP_CHARITY, CASE_NUM);
+
+			List<String> menu = Arrays.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> data =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			List<String> value= Arrays
+					.asList(rstRoundUpCharityData.get(CNRoundUpCharity.REQUIRED_OPTIONS).split(Constants.DELIMITER_TILD));
+			List<String> Name= Arrays
+					.asList(rstRoundUpCharityData.get(CNRoundUpCharity.NAME).split(Constants.DELIMITER_TILD));
+			try {
+			// Select Menu and Menu Item
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//Navigate to Admin->Round Up Charity and verify page
+			navigationBar.navigateToMenuItem(menu.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+			
+			//Click on Add Charity and enter EIN fields and click on save
+			foundation.click(AdminRoundUpCharity.BTN_ADDCHARITY);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADD_CHARITY));
+			textBox.enterText(AdminRoundUpCharity.TXT_EIN_SEARCH, value.get(3));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SAVE));
+			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+			
+			//verify the error message for button search
+			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.ERROR_BTN_SEARCH).equals(Name.get(1)));
+			
+			//Click on Add Charity and enter EIN fields and click on save
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SEARCH));
+			foundation.click(AdminRoundUpCharity.BTN_SEARCH);
+			foundation.threadWait(3);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SAVE));
+			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+			
+			//verify the error message for display name
+			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.ERROR_DISPLAY_NAME).equals(Name.get(0)));
+			
+			//Click on Add Charity and enter EIN fields and click on save
+			textBox.enterText(AdminRoundUpCharity.TXT_DISPLAYNAME, value.get(4));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SAVE));
+			foundation.threadWait(3);
+			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+			
+			//verify that location is not mandatory and it should saved
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, value.get(3));
+			System.out.println(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW));
+			System.out.println(data);
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW).equals(data));
+						
+			}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+		}
+			finally {
+			//resetting
+				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+				textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(3));
+				foundation.click(AdminRoundUpCharity.BTN_DELECT_CHARITY);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_DELECT_CHARITY));
+				foundation.click(AdminRoundUpCharity.BTN_DELECT_CHARITY_DELECT);
+				
+		}
+	}
 	
+	/**
+	 * SOS-32202
+	 * @author sakthir 
+	 * Date:06-12-2022
+	 * @throws AWTException 
+	 */
+	@Test(description = "204850-To Verify Display Name field by without searching any EIN"
+			+"204851-To Verify Display Name field by searching valid EIN"
+			+"204852-To Verify the Display Name Field in Add a charity page by typing any text in it"
+			+"204853-To Verify the Display Name field by entering more than 50 characters"
+			+"204854-To Verify the Display Name field by deleting the text and save it")
+	public void verifyDisplayNameFunctionality() throws AWTException {
+		final String CASE_NUM = "204850";
+			
+		    // Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstRoundUpCharityData = dataBase.getRoundUpCharity(Queries.ROUNDUP_CHARITY, CASE_NUM);
+
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> data =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+			try {
+			 //Select Menu and Menu Item
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//Navigate to Admin->Round Up Charity and verify page
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+			
+			//Click on Add Charity and enter EIN fields and click on save
+			foundation.click(AdminRoundUpCharity.BTN_ADDCHARITY);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADD_CHARITY));
+			CustomisedAssert.assertFalse(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
+			
+			//enter EIN and Search
+			adminRoundUpCharity.enterEINAndSearch( data.get(2));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
+			
+			//verify the font-style in italic
+			CustomisedAssert.assertTrue(foundation.getFontStyle(AdminRoundUpCharity.STYLE_DISPLAY_NAME).equals(data.get(3)));
+			
+			//verify maximum limit error and font-style
+			textBox.enterText(AdminRoundUpCharity.TXT_DISPLAYNAME, data.get(0));
+			CustomisedAssert.assertTrue(foundation.getText((AdminRoundUpCharity.ERROR_DISPLAY_NAME)).equals(data.get(1)));
+			CustomisedAssert.assertTrue(foundation.getFontStyle(AdminRoundUpCharity.ERROR_DISPLAY_NAME).equals(data.get(3)));
+			CustomisedAssert.assertTrue(foundation.getTextColor(AdminRoundUpCharity.ERROR_DISPLAY_NAME).equals(data.get(4)));	
+			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
+			
+			//select existing charity
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+			adminRoundUpCharity.selectCharity(data.get(5));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
+			foundation.click(AdminRoundUpCharity.TXT_DISPLAYNAME);
+			foundation.clearText();
+			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+			
+			//verify the error
+			CustomisedAssert.assertTrue(foundation.getText((AdminRoundUpCharity.ERROR_DISPLAY_NAME)).equals(data.get(6)));
+			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
+			}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+		}
+			
+	}
+	
+	/**
+	 * SOS-32203
+	 * @author sakthir 
+	 * Date:08-12-2022
+	 * 
+	 */
+	@Test(description = "204855-To Verify the Location Dropdown when no EIN is searched or Invalid EIN is searched"
+			+""
+			+""
+			+""
+			+"")
+	public void verify(){
+		final String CASE_NUM = "204855";
+			
+		    // Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstRoundUpCharityData = dataBase.getRoundUpCharity(Queries.ROUNDUP_CHARITY, CASE_NUM);
+
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> data =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
+			try {
+			 //Select Menu and Menu Item
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//Navigate to Admin->Round Up Charity and verify page
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
+			
+			//Click on Add Charity and enter EIN fields and click on save
+			foundation.click(AdminRoundUpCharity.BTN_ADDCHARITY);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADD_CHARITY));
+			
+			//verify location dropdown is uneditable with invalid EIN
+			adminRoundUpCharity.enterEINAndSearch( data.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.DISABLE_LOCATION));
+
+			}
+			catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+		}
+			
+	}
 }
