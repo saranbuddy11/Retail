@@ -366,10 +366,8 @@ public class V5TestAdmin extends TestInfra {
 
 	}
 
-	
 	/**
-	 * @author afrosean
-	 * Date:05-12-2022
+	 * @author afrosean Date:05-12-2022
 	 */
 	@Test(description = "208808-V5 Kiosk - PDE Purchase -Non- Campus Location - Using Email")
 	public void verifyPDEBalanceAfterTransactionInNonCampusLocation() {
@@ -448,6 +446,24 @@ public class V5TestAdmin extends TestInfra {
 
 			// Transaction using "PDE" Account balance
 			landingPage.transactionInV5Device(requiredData.get(5), datas.get(1), requiredData.get(6));
+
+			//Login to ADM 
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menu.get(1));
+			
+			//Search with consumer and navigate to consumer summary page
+			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
+			consumerSearch.enterSearchField(datas.get(0), datas.get(1), datas.get(2));
+			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+			
+			//verify PDE purchase is updated in consumer summary page or not
+			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_ADJUST, Constants.SHORT_TIME);
+			String text = foundation.getText(ConsumerSummary.PDE_BALANCE_READ);
+			CustomisedAssert.assertEquals(text, requiredData.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

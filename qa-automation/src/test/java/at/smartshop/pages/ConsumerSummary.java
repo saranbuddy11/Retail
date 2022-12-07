@@ -37,6 +37,7 @@ public class ConsumerSummary extends Factory {
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
 	public static final By PENDING_EMAIL=By.id("uvemail");
+	public static final By PDE_BALANCE_READ=By.xpath("(//span[@id='readbalance'])[2]");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By DPD_LOCATION = By.cssSelector("select#loc-dropdown");
