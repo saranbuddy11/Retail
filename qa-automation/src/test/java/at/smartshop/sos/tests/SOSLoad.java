@@ -624,6 +624,7 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 			
 			//Validate Navigation menu
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(SOSHome.NAV_MENU).equals(navMenu));
 			
 		}
@@ -676,7 +677,7 @@ public class SOSLoad extends TestInfra {
 			//verify SOS org and ADM org
 			System.out.println(ADMOrg);
 			System.out.println(SOSOrg);
-//			CustomisedAssert.assertTrue(SOSOrg.equals(ADMOrg));
+			CustomisedAssert.assertTrue(SOSOrg.equals(ADMOrg));
 			
 			
 		}
@@ -705,8 +706,8 @@ public class SOSLoad extends TestInfra {
 			List<String> location = Arrays
 					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_TILD));
 			String deleteExisting =rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT);
-			String requiredData = strings.getRandomCharacter();
-			String requiredString = ( requiredData +"RoseMilk" + "#" + " " + "#" + "Milk" + "#" + "23433332" + "#"
+			String requiredData = strings.getRandomCharacter()+"RoseMilk";
+			String requiredString = ( requiredData  + "#" + " " + "#" + "Milk" + "#" + "23433332" + "#"
 					+ "Juice" + "#" + "Drinks" + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + "11" + "#" + "13" + "#" + " " 
 					+ "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " 
 					+ "#" + "Below Maximum" + "#" + "11" + "#" + "13" + "#" + " " + "#" + " " + "#" + " " + "#" + " " );
@@ -735,8 +736,8 @@ public class SOSLoad extends TestInfra {
 			foundation.click(loadProduct.clickLocation(location.get(0)));
 			
 			//Creating product with price via Template in SOS Load
-			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + data.get(0));
-			excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,location.get(1),location.get(4), requiredStringData);
+//			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + data.get(0));
+			excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadProduct.SHEET,"1#1#2",requiredString);
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
 			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(deleteExisting))
 			foundation.click(LoadProduct.BTN_SUBMIT);
@@ -752,9 +753,9 @@ public class SOSLoad extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
-			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, data.get(0) );
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData );
 			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(requiredData +"RoseMilk"));
+			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(requiredData));
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -814,10 +815,13 @@ public class SOSLoad extends TestInfra {
 				excel.writeToExcel(FilePath.MIDDID_TEMPLATE, loadDeviceID.SHEET,
 					menu.get(2) , requiredString);
 				textBox.enterText(LoadDeviceID.BTN_CHOOSE_FILE,FilePath.MIDDID_TEMPLATE);
+				foundation.threadWait(Constants.SHORT_TIME);
 				foundation.click(LoadDeviceID.BTN_SUBMIT);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//verify the error page
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_ERROR_MSG));
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadDeviceID.TBL_ERROR_DATA).contains(location));
 				
 				}catch (Exception exc) {
@@ -861,14 +865,18 @@ public class SOSLoad extends TestInfra {
 				// Write excel and upload file
 				excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
 						rstProductSummaryData.get(CNProductSummary.ITERATION_COUNT), requiredString);
+				foundation.threadWait(Constants.SHORT_TIME);
 				loadGma.gMAUser(rstLocationListData.get(CNLocationList.LOCATION_NAME), rstGmaUser.get(CNGmaUser.PIN_VALUE),
 						rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 						rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 				foundation.waitforElement(LoadGMA.LBL_ERROR_MSG, Constants.SHORT_TIME);
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_ERROR_MSG));
 
 				//verify error page
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_TITLE_ERROR_PAGE));
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUBTITLE_ERROR_PAGE));
 
 			} catch (Exception exc) {
@@ -918,7 +926,9 @@ public class SOSLoad extends TestInfra {
 					+ "#" + "Below Maximum" + "#" + "11" + "#" + "13" + "#" + " " + "#" + " " + "#" + " " + "#" + " " );
 			excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadProduct.SHEET,location.get(1), requiredString);
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(delectExisting))
+				foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LoadProduct.BTN_SUBMIT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			
@@ -980,10 +990,12 @@ public class SOSLoad extends TestInfra {
 				
 				//Upload same image and File with different commercial name
 				loadAdvana.addHomeCommercial(location.get(0),location.get(9),location.get(2),requiredString,location.get(3),currentDate);
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
 				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 				sosHome.logout();
 				
@@ -996,8 +1008,10 @@ public class SOSLoad extends TestInfra {
 				locationList.selectLocationName(location.get(6));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
 				locationSummary.selectHomeCommercialTab(location.get(7));
+				foundation.threadWait(Constants.SHORT_TIME);
 				textBox.enterText(LocationSummary.TXT_CMR_FILTER, location.get(1));
 				CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_HOME_COMMERCIAL).contains(location.get(1)));
+				foundation.threadWait(Constants.SHORT_TIME);
 				textBox.enterText(LocationSummary.TXT_CMR_FILTER, location.get(9));
 				CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_HOME_COMMERCIAL).contains(location.get(9)));
 				login.logout();
@@ -1013,10 +1027,12 @@ public class SOSLoad extends TestInfra {
 				
 				//navigate to home commercial
 				navigationBar.navigateToMenuItem(menu.get(0));
+				foundation.threadWait(Constants.SHORT_TIME);
 				loadAdvana.removeHomeCommercial(location.get(4),location.get(2), requiredString,location.get(5));
 				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 				sosHome.logout();
 				
@@ -1026,12 +1042,16 @@ public class SOSLoad extends TestInfra {
 				
 				//select commercial Added location and Click commercial Tab
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+				foundation.threadWait(Constants.SHORT_TIME);
 				locationList.selectLocationName(location.get(6));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+				foundation.threadWait(Constants.SHORT_TIME);
 				locationSummary.selectHomeCommercialTab(location.get(7));
+				foundation.threadWait(Constants.SHORT_TIME);
 				textBox.enterText(LocationSummary.TXT_CMR_FILTER, location.get(1));
 				
 				//verify removed commercial
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.TBL_HOME_COMMERCIAL));
 				
 			} catch (Exception exc) {
@@ -1075,17 +1095,21 @@ public class SOSLoad extends TestInfra {
 								
 				//Upload image and File writing excel with Invalid location Id
 				loadAdvana.addHomeCommercial(location.get(0),location.get(1),location.get(2),requiredString,location.get(3),currentDate);
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).contains(location.get(5)));
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 				
 				//navigate to home commercial
 				navigationBar.navigateToMenuItem(menu.get(0));
+				foundation.threadWait(Constants.SHORT_TIME);
 				loadAdvana.removeHomeCommercial(location.get(4),location.get(2), requiredString,location.get(5));
 				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));			
 
 			} catch (Exception exc) {
