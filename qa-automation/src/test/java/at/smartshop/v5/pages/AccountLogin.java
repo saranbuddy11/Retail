@@ -9,6 +9,7 @@ import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -48,6 +49,9 @@ public class AccountLogin {
 	public static final By LBL_BALANCE_1 = By.xpath("//div[@class='account-balance']");
 	public static final By TAB_BALANCE = By.xpath("//button[@class='active']");
 	public static final By BTN_PROFILE_CLOSE = By.xpath("//i[@data-reactid='.0.4.0.0.0.0.2.0']");
+	public static final By SUBSIDY_BALANCE=By.xpath("//div[@data-reactid='.0.4.0.0.0.1.1.0:1.0.1']");
+	public static final By CANCEL_BUTTON=By.xpath("//i[@class='ion-close-circled']");
+	public static final By SUBSIDY_BALANCE_TAB=By.xpath("//button[@data-reactid='.0.4.0.0.0.1.0.1']");
 
 	private PropertyFile propertyFile = new PropertyFile();
 
@@ -181,5 +185,38 @@ public class AccountLogin {
 		CustomisedAssert.assertEquals(balance, expectedBal);
 		foundation.click(BTN_PROFILE_CLOSE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+	}
+	
+	/**
+	 * verify account balance in v5 device
+	 * @param email
+	 * @param pin
+	 * @param consumerbalance
+	 * @param subsidybalance
+	 */
+	public void verifyAccountBalanceInV5(String email,String pin,String consumerbalance,String subsidybalance) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.LBL_ACCOUNT_LOGIN));
+		foundation.waitforElementToBeVisible(LandingPage.LBL_ACCOUNT_LOGIN, Constants.SHORT_TIME);
+		foundation.click(LandingPage.LBL_ACCOUNT_LOGIN);
+		foundation.waitforElementToBeVisible(AccountLogin.BTN_EMAIL_LOGIN, Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_EMAIL_LOGIN);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		foundation.waitforElementToBeVisible(AccountLogin.LBL_CONSUMER_NAME, Constants.SHORT_TIME);
+		String text = foundation.getText(AccountLogin.LBL_BALANCE_1);
+		CustomisedAssert.assertEquals(text, consumerbalance);
+		foundation.waitforElementToBeVisible(AccountLogin.LBL_SUBSIDY, Constants.SHORT_TIME);
+		foundation.click(AccountLogin.LBL_SUBSIDY);
+		foundation.waitforElementToBeVisible(AccountLogin.SUBSIDY_BALANCE, Constants.SHORT_TIME);
+		text = foundation.getText(AccountLogin.SUBSIDY_BALANCE);
+		CustomisedAssert.assertEquals(text, subsidybalance);
+		foundation.waitforElementToBeVisible(AccountLogin.CANCEL_BUTTON, Constants.SHORT_TIME);
+		foundation.click(AccountLogin.CANCEL_BUTTON);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 }
