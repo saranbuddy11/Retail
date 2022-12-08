@@ -440,7 +440,7 @@ public class CreatePromotions extends Factory {
 	}
 
 	/**
-	 * Selecting Item for On-Screen Promotion
+	 * Selecting Single Item for On-Screen Promotion
 	 * 
 	 * @param Product
 	 */
