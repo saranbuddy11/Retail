@@ -27,6 +27,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -61,6 +62,7 @@ public class LocationSummary extends Factory {
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
 	public static final By DPD_TYPE = By.xpath("//select[@id='type-id']");
+	public static final By DPD_DISTRIBUTOR=By.id("distributor");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.xpath("//table[@id='productDataGrid']/tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
@@ -1377,6 +1379,9 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	public By getlocationElement(String locationName) {
+		return By.xpath("//a[text()='" + locationName + "']");
+	}
 	/**
 	 * Get the Column Values
 	 * 
@@ -2824,5 +2829,47 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.TAB_PRODUCTS);
 		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
 		foundation.threadWait(Constants.SHORT_TIME);
+	}
+	
+	
+	/**
+	 * verify distributor dropDown in location summary page
+	 * @param menu
+	 * @param dpd
+	 */
+	public void verifyDistributorDropdown(String menu,String location,String dpd) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		navigationBar.navigateToMenuItem(menu);
+		foundation.waitforElementToBeVisible(LocationSummary.LBL_LOCATION_SUMMARY, Constants.THREE_SECOND);
+		locationList.selectLocationName(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_DISTRIBUTOR));
+		dropDown.selectItem(DPD_DISTRIBUTOR, dpd, Constants.TEXT);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
+		
+	}
+	
+	/**
+	 * search location and verify distributor dropDown
+	 * @param locationName
+	 * @param defaultValue
+	 * @param dropdown
+	 */
+	public void searchLocationAndVerifyDistributor(String locationName,String defaultValue,String dropdown) {
+		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
+		textBox.enterText(LocationList.TXT_FILTER, locationName);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(LocationList.LINK_LOCATION_LIST);
+		foundation.waitforElementToBeVisible(LocationSummary.LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
+		String value = dropDown.getSelectedItem(DPD_DISTRIBUTOR);
+		CustomisedAssert.assertEquals(value, defaultValue);
+		dropDown.selectItem(LocationList.DISABLED, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(LocationList.SAVE_BTN, Constants.SHORT_TIME);
+		foundation.click(LocationList.SAVE_BTN);
+		foundation.waitforElementToBeVisible(LocationList.POP_UP, Constants.SHORT_TIME);
+		foundation.click(LocationList.POPUP_SAVE);
+		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.THREE_SECOND);
+		
 	}
 }

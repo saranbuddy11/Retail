@@ -47,6 +47,8 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_SCANID = By.cssSelector("input#scanid");
 	public static final By TXT_PIN = By.cssSelector("input#pin");
 	public static final By TXT_PHONE = By.cssSelector("input#phone");
+	public static final By ITEM_DETAILS=By.xpath("//div[@class='items']");
+	public static final By TRANSACTION_POPTUP=By.id("modaltemplate-title");
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create | Invite']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane ']");
 	public static final By TXT_SCANID_ERROR = By.xpath("//label[@id='scanid-error']");
@@ -61,6 +63,7 @@ public class ConsumerSummary extends Factory {
 	public static final By BALANCE_HISTORY_GRID = By.id("balance-history_container");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By BTN_PAYOUT_CLOSE = By.id("payoutCloseBtn");
+	public static final By FIRST_RECORD=By.xpath("//table[@id='balance-history']/tbody/tr[1]/td[1]");
 	public static final By ERROR_FIRSTNAME = By.id("firstname-error");
 	public static final By ERROR_LASTNAME = By.id("lastname-error");
 	public static final By BTN_MOVE = By.id("moveBtn");

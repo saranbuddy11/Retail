@@ -19,6 +19,7 @@ import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNConsumerSearch;
 import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -33,6 +34,7 @@ import at.smartshop.pages.TransactionSearchPage;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
+import at.smartshop.v5.pages.PaymentSuccess;
 import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
 
@@ -52,12 +54,14 @@ public class V5TestAdmin extends TestInfra {
 	private LocationSummary locationSummary = new LocationSummary();
 	private LocationList locationList = new LocationList();
 	private Campus campus = new Campus();
+	private PaymentSuccess paymentSuccess = new PaymentSuccess();
 	private Dropdown dropdown = new Dropdown();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;
+	private Map<String, String> rstProductSummaryData;
 
 	/**
 	 * @author afrosean Date:06-10-2022
@@ -447,23 +451,79 @@ public class V5TestAdmin extends TestInfra {
 			// Transaction using "PDE" Account balance
 			landingPage.transactionInV5Device(requiredData.get(5), datas.get(1), requiredData.get(6));
 
-			//Login to ADM 
+			// Login to ADM
 			browser.launch(Constants.LOCAL, Constants.CHROME);
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menu.get(1));
-			
-			//Search with consumer and navigate to consumer summary page
+
+			// Search with consumer and navigate to consumer summary page
 			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
 			consumerSearch.enterSearchField(datas.get(0), datas.get(1), datas.get(2));
 			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.SHORT_TIME);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			
-			//verify PDE purchase is updated in consumer summary page or not
+
+			// verify PDE purchase is updated in consumer summary page or not
 			foundation.waitforElementToBeVisible(ConsumerSummary.BTN_ADJUST, Constants.SHORT_TIME);
 			String text = foundation.getText(ConsumerSummary.PDE_BALANCE_READ);
 			CustomisedAssert.assertEquals(text, requiredData.get(3));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean
+	 * Date:08-12-2022
+	 */
+	@Test(description = "208774-V5 Kiosk - Account purchase - Using Fingerprint")
+	public void verifyFingerPrintTransaction() {
+		final String CASE_NUM = "208774";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays
+				.asList(rstProductSummaryData.get(CNProductSummary.PRICE).split(Constants.DELIMITER_TILD));
+
+		try {
+			// Process Sales API data
+			paymentSuccess.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+
+			// Login ADM & navigate to Location
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Search with consumer and navigate to consumer summary page
+			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
+			consumerSearch.enterSearchField(requiredData.get(0), requiredData.get(1), requiredData.get(2));
+			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.SHORT_TIME);
+			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
+
+			// verify transaction data
+			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_BALANCE_HISTORY, Constants.SHORT_TIME);
+			foundation.refreshPage();
+			foundation.click(ConsumerSummary.FIRST_RECORD);
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TRANSACTION_POPTUP));
+			foundation.waitforElementToBeVisible(ConsumerSummary.ITEM_DETAILS, Constants.THREE_SECOND);
+			String text = foundation.getText(ConsumerSummary.ITEM_DETAILS);
+			CustomisedAssert.assertTrue(text.contains(data.get(0)));
+			CustomisedAssert.assertTrue(text.contains(data.get(1)));
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(text.contains(data.get(2)));
+			CustomisedAssert.assertTrue(text.contains(data.get(3)));
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
