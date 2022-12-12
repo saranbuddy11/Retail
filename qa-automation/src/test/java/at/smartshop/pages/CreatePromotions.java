@@ -457,6 +457,19 @@ public class CreatePromotions extends Factory {
 	}
 
 	/**
+	 * Selecting All Item for On-Screen Promotion
+	 */
+	public void selectOnScreenAllItem() {
+		foundation.click(TXT_AMOUNT);
+		foundation.click(BTN_ADD_ITEM);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ITEM_MODAL_TITLE));
+		foundation.click(ITEM_BUNDLE_ALL_CHECKBOX);
+		foundation.click(BTN_CANCEL_ITEM_POPUP);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
 	 * Setting Recurring Day
 	 */
 	public void recurringDay() {
