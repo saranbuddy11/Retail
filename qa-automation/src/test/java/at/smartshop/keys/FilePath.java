@@ -101,8 +101,8 @@ public class FilePath {
 		Date day = calendar.getTime();
 		String date = reportList.getTodaysDate(formate);
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());
-		System.out.println(HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls");
-		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls";
+		System.out.println(HOME_PATH + "\\Downloads\\" + filename + "" + currentDay + " " + date + ".xls");
+		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + "" + currentDay + " " + date + ".xls";
 		return EXCEL_REPORT;
 	}
 
