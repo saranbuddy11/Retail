@@ -649,7 +649,7 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(PickList.EXPORT_BTN, 5);
 		foundation.click(PickList.EXPORT_BTN);
 		foundation.threadWait(Constants.SHORT_TIME);
-		CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.pickListFilePathWithDateAndDay(record, dateformat)));
+		excel.isFileDownloaded(FilePath.pickListFilePathWithDateAndDay(record, dateformat));
 	}
 
 	/**
@@ -683,6 +683,7 @@ public class PickList extends Factory {
 		foundation.waitforElementToBeVisible(PickList.BTN_FILTER_APPLY, 3);
 		foundation.click(PickList.BTN_FILTER_APPLY);
 		foundation.waitforElementToBeVisible(PickList.FILTER_PICKLIST, 3);
+		foundation.threadWait(5);
 		foundation.click(selectRoutes(loc, productname));
 		foundation.waitforElementToBeVisible(PickList.REFRESH_BTN, 5);
 		foundation.click(PickList.REFRESH_BTN);
