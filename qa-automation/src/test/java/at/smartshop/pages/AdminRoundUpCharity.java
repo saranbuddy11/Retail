@@ -151,14 +151,11 @@ public class AdminRoundUpCharity extends Factory {
 	 * @param descending
 	 */
 	public void changeHeaderAscendingAndDescendingForVerifyTableData(By choosecol,String column,String ascending,String descending) {
-	List<String> list=foundation.getTextofListElement(choosecol);
 	foundation.click(selectAscendingAndDescending(column));
 	CustomisedAssert.assertTrue(foundation.isDisplayed(getAscendingAndDescending(ascending)));
-	CustomisedAssert.assertFalse(foundation.getTextofListElement(choosecol).equals(list));
 	foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(selectAscendingAndDescending(column));
 	CustomisedAssert.assertTrue(foundation.isDisplayed(getAscendingAndDescending(descending)));
-	CustomisedAssert.assertFalse(foundation.getTextofListElement(choosecol).equals(list));
 	foundation.threadWait(Constants.THREE_SECOND);
 }
 	/**
