@@ -16,8 +16,6 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
-import at.smartshop.database.columns.CNConsumerSearch;
-import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.database.columns.CNV5Device;
@@ -37,7 +35,6 @@ import at.smartshop.v5.pages.AccountLogin;
 import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.PaymentSuccess;
 import at.smartshop.v5.pages.Payments;
-import at.smartshop.v5.pages.ProductSearch;
 import at.smartshop.v5.pages.SalesUsingFingerprint;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
@@ -241,12 +238,12 @@ public class V5TestAdmin extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
-			// Navigate to Admin > Consumer and Seach with consumer
+			// Navigate to Admin > Consumer and Search with consumer
 			navigationBar.navigateToMenuItem(menu.get(2));
 			foundation.threadWait(Constants.THREE_SECOND);
 			consumerSearch.enterSearchFields(datas.get(0), datas.get(1), datas.get(2), datas.get(3));
 
-			// Navigate to consumer summary page and verify pde balance
+			// Navigate to consumer summary page and verify "PDE" balance
 			foundation.waitforElementToBeVisible(ConsumerSearch.LNK_FIRST_ROW, Constants.THREE_SECOND);
 			foundation.click(ConsumerSearch.LNK_FIRST_ROW);
 			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.THREE_SECOND);
@@ -296,7 +293,7 @@ public class V5TestAdmin extends TestInfra {
 			locationList.selectLocationName(requiredData.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
 
-			// Enable GMA Subsidy and set topoff subsidy balance
+			// Enable GMA Subsidy and set topOff subsidy balance
 			locationSummary.enableGMASubsidyAndUpdateTopOffBalance(requiredData.get(1), currentDate,
 					requiredData.get(2), requiredData.get(3), requiredData.get(4), requiredData.get(5));
 
@@ -351,7 +348,7 @@ public class V5TestAdmin extends TestInfra {
 			accountLogin.verifyAccountBalanceInV5(datas.get(1), rstV5DeviceData.get(CNV5Device.PIN), datas.get(7),
 					datas.get(7));
 
-			// Transaction using pde Account balance
+			// Transaction using "PDE" Account balance
 			landingPage.transactionInV5Device(datas.get(6), datas.get(1), rstV5DeviceData.get(CNV5Device.PIN));
 
 			// Transaction for insufficient balance
