@@ -305,7 +305,7 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_SHOW);
 			foundation.click(SelfService.BTN_SAVE);
-
+            foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);

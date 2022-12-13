@@ -743,7 +743,7 @@ public class SOSLoad extends TestInfra {
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
 			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(deleteExisting))
 			foundation.click(LoadProduct.BTN_SUBMIT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.TEN_SECOND);
 			sosHome.logout();
 			
 			//log in ADM as super user
@@ -819,7 +819,7 @@ public class SOSLoad extends TestInfra {
 				textBox.enterText(LoadDeviceID.BTN_CHOOSE_FILE,FilePath.MIDDID_TEMPLATE);
 				foundation.threadWait(Constants.SHORT_TIME);
 				foundation.click(LoadDeviceID.BTN_SUBMIT);
-				foundation.threadWait(Constants.SHORT_TIME);
+				foundation.threadWait(Constants.TEN_SECOND);
 				
 				//verify the error page
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_ERROR_MSG));
@@ -932,7 +932,7 @@ public class SOSLoad extends TestInfra {
 			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(delectExisting))
 				foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LoadProduct.BTN_SUBMIT);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TEN_SECOND);
 			
 			//verify the error page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_ERROR));
