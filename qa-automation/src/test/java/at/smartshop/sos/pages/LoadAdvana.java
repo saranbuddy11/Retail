@@ -64,7 +64,7 @@ public class LoadAdvana extends Factory {
 	foundation.threadWait(3);
 	textBox.enterText(LoadAdvana.SELECT_END_DATE, date);
 	foundation.click(LoadAdvana.BTN_SAVE);
-
+	foundation.threadWait(5);
 }
 	
 	/**
@@ -82,6 +82,7 @@ public class LoadAdvana extends Factory {
 	excel.writeToExcel(FilePath.HOME_COMMERCIAL_TEMPLATE,SHEET,iterator, requiredString);
 	textBox.enterText(LoadAdvana.BTN_CHOOSE_FILE, FilePath.HOME_COMMERCIAL_TEMPLATE);
 	foundation.click(LoadAdvana.BTN_SAVE);
+	foundation.threadWait(5);
     CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).contains(msg));
     }
 
