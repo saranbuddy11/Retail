@@ -423,7 +423,7 @@ public class PickLists extends TestInfra {
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_APPLY);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			foundation.waitforElementToBeVisible(PickList.BTN_CANCEL_ORDER, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_ORDER));
 			foundation.click(PickList.BTN_CANCEL_ORDER);
@@ -1116,6 +1116,8 @@ public class PickLists extends TestInfra {
 			// Validating Send To LightSpeed on Filter By Tab
 			foundation.click(PickList.TXT_FILTERBY);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.LOCATIONS)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_SEND_TO_LIGHTSPEED));
 			foundation.click(PickList.BTN_SEND_TO_LIGHTSPEED);
 
 			// Verifying the details on confirm Popup for sending to Lightspeed
@@ -1356,25 +1358,25 @@ public class PickLists extends TestInfra {
 			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
 					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 		
+			// Delete the product
+			foundation.click(pickList.selectRoutes(requiredData.get(1), requiredData.get(4)));
+			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
+			foundation.click(PickList.DELETE_BTN);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));	
 			
-} catch (Exception exc) {			
+		
+        } catch (Exception exc) {			
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 			finally {
-				// Delete the product
-				foundation.click(pickList.selectRoutes(requiredData.get(1), requiredData.get(4)));
-				foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
-				foundation.click(PickList.DELETE_BTN);
-				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));	
-				
-			// Navigate to Admin-->Routes to enable the routes
-			navigationBar.navigateToMenuItem(menu.get(0));
-			pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
-					"check");
-
-			// delete downloaded file
-			foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
+				// Navigate to Admin-->Routes to enable the routes
+				navigationBar.navigateToMenuItem(menu.get(0));
+				pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
+						"check");
+		
+				// delete downloaded file
+				foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
+						rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
 	}
 

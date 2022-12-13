@@ -894,16 +894,16 @@ public class PickList extends Factory {
 			String value = foundation.getText(objClickPlanServiceDay(day.get(j)));
 			foundation.doubleClick(objDropdownPlanServiceDay(day.get(j)));
 			foundation.click(objOption(data));
-			foundation.threadWait(3);
+			foundation.threadWait(5);
 			CustomisedAssert.assertTrue(value.equals(day.get(7)));
 		}
 		foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY);
-		foundation.threadWait(3);
+		foundation.threadWait(5);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
 		for (int i = 0; i <= list.size() - 1; i++) {
 			if (checkboxSelection.equals("true")) {
 				String value = getDriver().findElement(objDay(String.valueOf(i + 1))).getAttribute("aria-checked");
-				foundation.threadWait(3);
+				foundation.threadWait(5);
 				CustomisedAssert.assertEquals(value, checkboxSelection);
 			}
 		}
