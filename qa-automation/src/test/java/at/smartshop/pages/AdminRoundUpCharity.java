@@ -1,9 +1,7 @@
 package at.smartshop.pages;
 
 import java.util.List;
-
 import org.openqa.selenium.By;
-
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
@@ -52,9 +50,10 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By GET_VIEW_LOCATION_LOCATIONS= By.xpath("//div[@id='locationModalBody']//p");
 	public static final By LBL_VIEW_LOCATION_POPUP= By.xpath("//div//h4[@id='locationsModalHeader']");
 	public static final By CLOSE_VIEW_LOCATION_POPUP= By.xpath("//div//button[@id='gpc-UpdateClose']//i");
-	public static final By GET_EIN= By.xpath("(//tbody[@role='alert']//td)[5]");
+	public static final By GET_EIN= By.xpath("//tbody[@role='alert']//td[5]");
 	public static final By GET_CONTENT_DELETE_CHARITY = By.xpath("//div[@class='ajs-content']//b");
 	public static final By BTN_CANCEL_DELETE_CHARITY = By.xpath("//button[@class='ajs-button ajs-cancel']");
+	public static final By GET_DISPLAY_NAME= By.xpath("//tbody[@role='alert']//td[3]");
 	
 
 
@@ -70,6 +69,8 @@ public class AdminRoundUpCharity extends Factory {
 	public By getAscendingAndDescending(String sortcolumn) {
 		return By.xpath("//thead//th[@class='"+sortcolumn+"']");
 	}
+	
+	
 		
 	/**
 	 * select charity  
@@ -149,12 +150,15 @@ public class AdminRoundUpCharity extends Factory {
 	 * @param ascending
 	 * @param descending
 	 */
-	public void changeHeaderAscendingAndDescendingForVerifyTableData(String column,String ascending,String descending) {
+	public void changeHeaderAscendingAndDescendingForVerifyTableData(By choosecol,String column,String ascending,String descending) {
+	List<String> list=foundation.getTextofListElement(choosecol);
 	foundation.click(selectAscendingAndDescending(column));
 	CustomisedAssert.assertTrue(foundation.isDisplayed(getAscendingAndDescending(ascending)));
+	CustomisedAssert.assertFalse(foundation.getTextofListElement(choosecol).equals(list));
 	foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(selectAscendingAndDescending(column));
 	CustomisedAssert.assertTrue(foundation.isDisplayed(getAscendingAndDescending(descending)));
+	CustomisedAssert.assertFalse(foundation.getTextofListElement(choosecol).equals(list));
 	foundation.threadWait(Constants.THREE_SECOND);
 }
 	/**
@@ -174,4 +178,6 @@ public class AdminRoundUpCharity extends Factory {
 	textBox.enterText(AdminRoundUpCharity.TXT_DISPLAYNAME, displayname);
 	foundation.click(AdminRoundUpCharity.BTN_SAVE);
 }
+
+	
 }

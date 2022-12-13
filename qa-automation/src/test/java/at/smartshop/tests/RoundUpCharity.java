@@ -1,13 +1,12 @@
 package at.smartshop.tests;
 
-import java.awt.AWTException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
 import at.framework.generic.CustomisedAssert;
@@ -23,6 +22,7 @@ import at.smartshop.pages.AdminRoundUpCharity;
 import at.smartshop.pages.NavigationBar;
 import at.smartshop.pages.OrgList;
 import at.smartshop.pages.OrgSummary;
+
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class RoundUpCharity extends TestInfra {
@@ -616,11 +616,10 @@ public class RoundUpCharity extends TestInfra {
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 			
-			//verify Ascending And Descending
-			adminRoundUpCharity.changeHeaderAscendingAndDescendingForVerifyTableData(data.get(1),sort.get(0),sort.get(1));
-			adminRoundUpCharity.changeHeaderAscendingAndDescendingForVerifyTableData(data.get(2),sort.get(0),sort.get(1));
-			adminRoundUpCharity.changeHeaderAscendingAndDescendingForVerifyTableData(data.get(4),sort.get(0),sort.get(1));
-			//
+     		//verify Ascending And Descending
+			adminRoundUpCharity.changeHeaderAscendingAndDescendingForVerifyTableData(AdminRoundUpCharity.SELECT_ROW_CAUSENAME, data.get(1),sort.get(0),sort.get(1));
+			adminRoundUpCharity.changeHeaderAscendingAndDescendingForVerifyTableData(AdminRoundUpCharity.GET_DISPLAY_NAME,data.get(2),sort.get(0),sort.get(1));
+			adminRoundUpCharity.changeHeaderAscendingAndDescendingForVerifyTableData(AdminRoundUpCharity.GET_EIN,data.get(4),sort.get(0),sort.get(1));
 
 			//verify Table Header 
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.TBL_HEADER_CHARITY).equals(data));
@@ -660,10 +659,10 @@ public class RoundUpCharity extends TestInfra {
 			//verify table
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, fieldvalue.get(0));
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW).equals(content.get(1)));
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW).contains(content.get(1)));
 			}
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 		}
-	}
+			}
 }
