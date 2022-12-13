@@ -459,4 +459,27 @@ public class ConsumerSummary extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 
 	}
+	
+	/**
+	 * verify transaction details from consumer summary page
+	 * @param productName
+	 * @param amount
+	 * @param scanCode
+	 * @param type
+	 */
+	public void verifyTransactionDetails(String productName,String amount,String scanCode,String type) {
+		foundation.waitforElementToBeVisible(ConsumerSummary.LBL_BALANCE_HISTORY, Constants.SHORT_TIME);
+		foundation.refreshPage();
+		foundation.click(ConsumerSummary.FIRST_RECORD);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TRANSACTION_POPTUP));
+		foundation.waitforElementToBeVisible(ConsumerSummary.ITEM_DETAILS, Constants.THREE_SECOND);
+		String text = foundation.getText(ConsumerSummary.ITEM_DETAILS);
+		CustomisedAssert.assertTrue(text.contains(productName));
+		CustomisedAssert.assertTrue(text.contains(amount));
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(text.contains(scanCode));
+		CustomisedAssert.assertTrue(text.contains(type));
+		
+	}
 }

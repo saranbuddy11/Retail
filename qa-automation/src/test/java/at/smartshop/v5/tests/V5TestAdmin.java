@@ -24,6 +24,7 @@ import at.smartshop.database.columns.CNV5Device;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.AgeVerificationDetails;
 import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
@@ -37,6 +38,7 @@ import at.smartshop.v5.pages.LandingPage;
 import at.smartshop.v5.pages.PaymentSuccess;
 import at.smartshop.v5.pages.Payments;
 import at.smartshop.v5.pages.ProductSearch;
+import at.smartshop.v5.pages.SalesUsingFingerprint;
 
 @Listeners(at.framework.reportsetup.Listeners.class)
 public class V5TestAdmin extends TestInfra {
@@ -52,12 +54,14 @@ public class V5TestAdmin extends TestInfra {
 	private Browser browser = new Browser();
 	private LandingPage landingPage = new LandingPage();
 	private LocationSummary locationSummary = new LocationSummary();
+	private AgeVerificationDetails ageVerificationDetails = new AgeVerificationDetails();
 	private LocationList locationList = new LocationList();
 	private Campus campus = new Campus();
 	private PaymentSuccess paymentSuccess = new PaymentSuccess();
 	private Dropdown dropdown = new Dropdown();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private ConsumerSummary consumerSummary = new ConsumerSummary();
+	private SalesUsingFingerprint salesUsingFingerprint = new SalesUsingFingerprint();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstV5DeviceData;
@@ -475,8 +479,7 @@ public class V5TestAdmin extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:08-12-2022
+	 * @author afrosean Date:08-12-2022
 	 */
 	@Test(description = "208774-V5 Kiosk - Account purchase - Using Fingerprint")
 	public void verifyFingerPrintTransaction() {
@@ -493,7 +496,7 @@ public class V5TestAdmin extends TestInfra {
 
 		try {
 			// Process Sales API data
-			paymentSuccess.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
+			salesUsingFingerprint.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
 					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
@@ -511,19 +514,43 @@ public class V5TestAdmin extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 
 			// verify transaction data
-			foundation.waitforElementToBeVisible(ConsumerSummary.LBL_BALANCE_HISTORY, Constants.SHORT_TIME);
-			foundation.refreshPage();
-			foundation.click(ConsumerSummary.FIRST_RECORD);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TRANSACTION_POPTUP));
-			foundation.waitforElementToBeVisible(ConsumerSummary.ITEM_DETAILS, Constants.THREE_SECOND);
-			String text = foundation.getText(ConsumerSummary.ITEM_DETAILS);
-			CustomisedAssert.assertTrue(text.contains(data.get(0)));
-			CustomisedAssert.assertTrue(text.contains(data.get(1)));
-			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(text.contains(data.get(2)));
-			CustomisedAssert.assertTrue(text.contains(data.get(3)));
-			
+			consumerSummary.verifyTransactionDetails(data.get(0), data.get(1), data.get(2), data.get(3));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author afrosean Date: 12-12-2022
+	 */
+	@Test(description = "208829-V5 Kiosk - Digital Receipt after purchase- Using Email")
+	public void verifyDigitalReceiptAfterPurchase() {
+		final String CASE_NUM = "208829";
+
+		// Reading test data from DataBase
+		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+
+		List<String> datas = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> requiredData = Arrays
+				.asList(rstV5DeviceData.get(CNV5Device.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+		try {
+
+			// Launch v5 device and do transaction
+			payments.v5TransactionForDigitalPrint(datas.get(0), rstV5DeviceData.get(CNV5Device.ACTUAL_DATA),
+					datas.get(1), datas.get(2));
+
+			// Open Outlook Server to validate the email Content
+			browser.launch(Constants.LOCAL, Constants.CHROME);
+			navigationBar.launchBrowserWithOutLookMail();
+
+			// Verifying all the Data's in outlook mail
+			payments.openingFolderAndVerifyingTheDatas(requiredData.get(0), requiredData.get(1), requiredData.get(2),
+					requiredData.get(3));
+
+			// Delete existing mail
+			payments.deleteOutLookMailAndLogout();
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
