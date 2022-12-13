@@ -2302,6 +2302,7 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 			foundation.waitforElementToBeVisible(GlobalProduct.GBL_PRODUCT_DATA, 5);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
+			foundation.threadWait(3);
 			globalProduct.disableProduct(product.get(3), product.get(0));
 
 		}
