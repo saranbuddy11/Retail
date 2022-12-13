@@ -552,6 +552,7 @@ public class AgeVerification extends TestInfra {
 			int record = Integer.parseInt(dropDown.getSelectedItem(AgeVerificationDetails.DPD_LENGTH));
 			foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
 			dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status.get(1), Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			for (int i = 0; i < record + 1; i++) {
 				foundation.click(ageVerificationDetails.objExpirePinConfirmationWithIndex(
 						rstLocationListData.get(CNLocationList.LOCATION_NAME), requiredData.get(8), String.valueOf(1)));
@@ -2856,6 +2857,7 @@ public class AgeVerification extends TestInfra {
 			// Verify Email and Validate the QR code
 			ageVerificationDetails.openingFolderAndClickMail(
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), requiredData.get(9));
+			foundation.threadWait(Constants.SHORT_TIME);
 			String code = ageVerificationDetails.validateMailContent(requiredData.get(8),
 					rstAdminAgeVerificationData.get(CNAdminAgeVerification.LOCATION_NAME), requiredData.get(1));
 			ageVerificationDetails.deleteOutLookMailAndLogout();

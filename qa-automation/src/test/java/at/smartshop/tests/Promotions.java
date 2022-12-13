@@ -793,7 +793,7 @@ public class Promotions extends TestInfra {
 			foundation.click(PromotionList.BTN_CREATE);
 			createPromotions.newPromotion(promotionType, promotionName, displayName, organization, locationName);
 			foundation.click(CreatePromotions.BTN_NEXT);
-			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
+//			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 //			textBox.enterText(CreatePromotions.TXT_CATEGORYS, requiredData.get(1));
 //			foundation.threadWait(Constants.ONE_SECOND);
 //			textBox.enterText(CreatePromotions.TXT_CATEGORYS, Keys.ENTER);
