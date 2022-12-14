@@ -239,7 +239,7 @@ public class SubsidyConsumerSpend extends Factory {
 		checkBox.unCheck(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 		foundation.threadWait(Constants.THREE_SECOND);
 		checkBox.check(LocationSummary.CHK_ROLL_OVER_SUBSIDY);
-		foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER_1);
+		foundation.click(LocationSummary.START_DATE_PICKER_ROLL_OVER);
 		locationSummary.verifyRollOverDateLocation1(date);
 		dropdown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, recurrence, Constants.TEXT);
 		textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, name);
@@ -302,9 +302,10 @@ public class SubsidyConsumerSpend extends Factory {
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		String price = foundation.getText(ProductSearch.PRODUCT_PRICE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderPage)));
-		foundation.click(Payments.EMAIL_ACCOUNT_BTN);
-//		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.ONE_SECOND);
-//		foundation.click(Payments.BTN_EMAIL_LOGIN);
+//		foundation.click(Payments.EMAIL_ACCOUNT_BTN);
+		foundation.click(Payments.ACCOUNT_EMAIL);
+		foundation.waitforElement(Payments.BTN_EMAIL_LOGIN, Constants.ONE_SECOND);
+		foundation.click(Payments.BTN_EMAIL_LOGIN);
 		foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 		foundation.click(Payments.EMAIL_LOGIN_TXT);
 		foundation.threadWait(Constants.ONE_SECOND);

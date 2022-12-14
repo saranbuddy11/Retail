@@ -45,26 +45,26 @@ public class RoundUpCharity extends TestInfra {
 			+ "204841-To Verify Admin menu when 'Enabled' Option is selected under Charity Round-Up"
 			+ "204840-To Verify 'Charity Round-Up' Dropdown default option")
 	public void verifyCharityRoundUpDropdown() {
-		try {
-			final String CASE_NUM = "204839";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstRoundUpCharityData = dataBase.getRoundUpCharity(Queries.ROUNDUP_CHARITY, CASE_NUM);
-
-			List<String> menu = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> dropDownData = Arrays
-					.asList(rstRoundUpCharityData.get(CNRoundUpCharity.NAME).split(Constants.DELIMITER_TILD));
-
+		final String CASE_NUM = "204839";
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstRoundUpCharityData = dataBase.getRoundUpCharity(Queries.ROUNDUP_CHARITY, CASE_NUM);
+		
+				List<String> menu = Arrays
+						.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+				List<String> dropDownData = Arrays
+						.asList(rstRoundUpCharityData.get(CNRoundUpCharity.NAME).split(Constants.DELIMITER_TILD));
+        try {		
 			// Select Menu and Menu Item
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
-			// navigate to super>automation Org
+			// navigate to super>RNous Org
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
 
 			// verify "Charity Roundup field" dropDown
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY, rstRoundUpCharityData.get(CNRoundUpCharity.DISPLAY_NAME), Constants.TEXT);
 			String value = dropDown.getSelectedItem(OrgSummary.DPD_COUNTRY);
 			if (value.equals(rstRoundUpCharityData.get(CNRoundUpCharity.DISPLAY_NAME))) {
 				adminRoundUpCharity.verifyCharityDropdown(dropDownData, AdminRoundUpCharity.DPD_CHARITY_ROUNDUP);
@@ -83,13 +83,25 @@ public class RoundUpCharity extends TestInfra {
 			String item = dropDown.getSelectedItem(AdminRoundUpCharity.DPD_CHARITY_ROUNDUP);
 			CustomisedAssert.assertEquals(item, dropDownData.get(0));
 			adminRoundUpCharity.verifyCharityOptions(dropDownData.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 
 			// Navigate to Admin tab and verify Age Verification Sub Tab is present or not
 			tabNames = navigationBar.getSubTabs(menu.get(1));
 			CustomisedAssert.assertTrue(tabNames.contains(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
-
+			foundation.threadWait(3);
+			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}finally {
+			navigationBar.navigateToMenuItem(menu.get(0));
+			dropDown.selectItem(AdminRoundUpCharity.DPD_CHARITY_ROUNDUP, dropDownData.get(0), Constants.TEXT);
+			foundation.threadWait(3);
+			dropDown.selectItem(OrgSummary.DPD_COUNTRY,rstRoundUpCharityData.get(CNRoundUpCharity.REQUIRED_OPTIONS), Constants.TEXT);
+			CustomisedAssert.assertTrue(dropDown.getSelectedItem(OrgSummary.DPD_COUNTRY).equals(rstRoundUpCharityData.get(CNRoundUpCharity.REQUIRED_OPTIONS)));
+			foundation.waitforElementToBeVisible(OrgSummary.BTN_SAVE, Constants.THREE_SECOND);
+			foundation.click(OrgSummary.BTN_SAVE);
+			foundation.threadWait(3);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 		}
 	}
 
@@ -109,9 +121,9 @@ public class RoundUpCharity extends TestInfra {
 
 			// Select Menu and Menu Item
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
-			// navigate to super>automation Org
+			// navigate to super>RNous Org
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 
@@ -152,9 +164,9 @@ public class RoundUpCharity extends TestInfra {
 			try {
 			// Select Menu and Menu Item
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.RNOUS_ORGANIZATION, FilePath.PROPERTY_CONFIG_FILE));
 
-			// navigate to super>automation Org
+			// navigate to super>RNous Org
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
 			

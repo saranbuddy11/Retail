@@ -168,8 +168,8 @@ public class AccountFunding extends Factory {
 	 */
 	public void verifyReportRecords() {
 		int coulumnCount = tableHeaders.size();
-		System.out.println(initialReportsData.get(0));
-		System.out.println(reportsData.get(0));
+		System.out.println("initialReportsData :"+initialReportsData.get(0));
+		System.out.println("reportsData :"+reportsData.get(0));
 		for (int iter = 0; iter < reportsData.size(); iter++) {
 			for (int val = 0; val < coulumnCount; val++) {
 				System.out.println(reportsData.get(iter).get(tableHeaders.get(val)) + "-"
