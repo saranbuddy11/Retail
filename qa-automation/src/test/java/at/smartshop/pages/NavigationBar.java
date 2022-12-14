@@ -122,15 +122,15 @@ public class NavigationBar extends Factory {
 	 * verify navigation bar are present
 	 */
 	public void verifyNavigationBarsArePresent() {
-		foundation.waitforElementToBeVisible(LOCATION_MENU, 3);
+		foundation.waitforElementToBeVisible(LOCATION_MENU, Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LOCATION_MENU));
-		foundation.waitforElementToBeVisible(PRODUCT_MENU, 3);
+		foundation.waitforElementToBeVisible(PRODUCT_MENU, Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PRODUCT_MENU));
-		foundation.waitforElementToBeVisible(MENU, 3);
+		foundation.waitforElementToBeVisible(MENU, Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(MENU));
-		foundation.waitforElementToBeVisible(REPORTS_MENU, 3);
+		foundation.waitforElementToBeVisible(REPORTS_MENU, Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(REPORTS_MENU));
-		foundation.waitforElementToBeVisible(ADMIN_MENU, 3);
+		foundation.waitforElementToBeVisible(ADMIN_MENU, Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_MENU));
 	}
 	
@@ -138,13 +138,13 @@ public class NavigationBar extends Factory {
 	 * verify all menu option is clickable or not
 	 */
    public void verifyMenuBarAreClickableOrNot() {
-        foundation.waitforElementToBeVisible(LOCATION_MENU, 3);
+        foundation.waitforElementToBeVisible(LOCATION_MENU, Constants.THREE_SECOND);
         CustomisedAssert.assertTrue(foundation.isDisplayed(LOCATION_MENU));
         foundation.click(LOCATION_MENU);
-        foundation.waitforElementToBeVisible(PRODUCT_MENU, 3);
+        foundation.waitforElementToBeVisible(PRODUCT_MENU, Constants.THREE_SECOND);
         CustomisedAssert.assertTrue(foundation.isDisplayed(PRODUCT_MENU));
         foundation.click(PRODUCT_MENU);
-        foundation.waitforElementToBeVisible(MENU, 3);
+        foundation.waitforElementToBeVisible(MENU, Constants.THREE_SECOND);
         CustomisedAssert.assertTrue(foundation.isDisplayed(MENU));
         foundation.click(MENU);
         verifyReportAdminAreClickableOrNot();
@@ -154,10 +154,10 @@ public class NavigationBar extends Factory {
      * Verify Report and Admin Option is clickable or not
      */
     public void verifyReportAdminAreClickableOrNot() {
-       foundation.waitforElementToBeVisible(REPORTS_MENU, 3);
+       foundation.waitforElementToBeVisible(REPORTS_MENU, Constants.THREE_SECOND);
         CustomisedAssert.assertTrue(foundation.isDisplayed(REPORTS_MENU));
         foundation.click(REPORTS_MENU);
-        foundation.waitforElementToBeVisible(ADMIN_MENU, 3);
+        foundation.waitforElementToBeVisible(ADMIN_MENU, Constants.THREE_SECOND);
         CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_MENU));
         foundation.click(ADMIN_MENU);
     }

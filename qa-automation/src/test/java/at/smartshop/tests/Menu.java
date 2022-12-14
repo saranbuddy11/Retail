@@ -97,8 +97,8 @@ public class Menu extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			String actualData = foundation.getText(SelfService.LBL_NO_PRINT);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
-			
-			//Verify has print group
+
+			// Verify has print group
 //			foundation.click(SelfService.LBL_FORWARD_ARROW);
 //			foundation.threadWait(Constants.ONE_SECOND);
 //			foundation.waitforElement(selfService.objPrintCheckbox(printGroupName), Constants.SHORT_TIME);
@@ -115,7 +115,7 @@ public class Menu extends TestInfra {
 //			CustomisedAssert.assertEquals(actualData, requiredData.get(2));
 
 			// deselect printgroup checkbox
-			
+
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.unCheck(selfService.objPrintCheckbox(printGroupName));
 
@@ -164,17 +164,17 @@ public class Menu extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
-            foundation.threadWait(Constants.SHORT_TIME);
-            foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
-            foundation.scrollIntoViewElement(LocationSummary.BTN_PRINT_GROUP);
-    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.MEDIUM_TIME);
-    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
-    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
-    		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
-    		foundation.click(LocationSummary.BTN_APPLY);
-    		foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.scrollIntoViewElement(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.MEDIUM_TIME);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
+			// foundation.click(LocationSummary.LBL_PRINT_COLUMN);
 			foundation.objectClick(locationSummary.objPrintGroup(requiredData.get(0)));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
@@ -198,9 +198,8 @@ public class Menu extends TestInfra {
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
-			
 
-			//Deselect printgroup checkbox
+			// Deselect printgroup checkbox
 			foundation.click(SelfService.LBL_FORWARD_ARROW);
 			checkBox.unCheck(selfService.objPrintCheckbox(requiredData.get(0)));
 
@@ -210,7 +209,6 @@ public class Menu extends TestInfra {
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_INHERIT_PRINT, Constants.SHORT_TIME);
-			
 
 			foundation.click(SelfService.BTN_DELETE);
 			foundation.alertAccept();
@@ -218,25 +216,24 @@ public class Menu extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} 
-		finally {
+		} finally {
 			// resetting
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
 			locationSummary.selectTab(rstLocationData.get(CNLocation.TAB_NAME));
 			foundation.threadWait(Constants.ONE_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, rstLocationData.get(CNLocation.PRODUCT_NAME));
-            foundation.threadWait(Constants.SHORT_TIME);
-            foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
-            foundation.scrollIntoViewElement(LocationSummary.BTN_PRINT_GROUP);
-    		foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.MEDIUM_TIME);
-    		foundation.click(LocationSummary.BTN_PRINT_GROUP);
-    		foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
-    		foundation.click(LocationSummary.BTN_APPLY);
-    		foundation.threadWait(Constants.SHORT_TIME);
-			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			//foundation.click(LocationSummary.LBL_PRINT_COLUMN);
-			//foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_MANAGE_COLUMNS);
+			foundation.scrollIntoViewElement(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_PRINT_GROUP, Constants.MEDIUM_TIME);
+			foundation.click(LocationSummary.BTN_PRINT_GROUP);
+			foundation.waitforElementToBeVisible(LocationSummary.BTN_APPLY, Constants.SHORT_TIME);
+			foundation.click(LocationSummary.BTN_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
+			// foundation.click(LocationSummary.LBL_PRINT_COLUMN);
+			// foundation.click(LocationSummary.LBL_PRINT_COLUMN);
+			// foundation.click(locationSummary.objPrintGroup(requiredData.get(3)));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 		}
@@ -305,7 +302,7 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_SHOW);
 			foundation.click(SelfService.BTN_SAVE);
-            foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
@@ -435,7 +432,7 @@ public class Menu extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * @author sakthir Date: 05-09-2022
 	 */
@@ -445,65 +442,65 @@ public class Menu extends TestInfra {
 			final String CASE_NUM = "197566";
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			
-			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			List<String> data =Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-			
+
+			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> data = Arrays.asList(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
+
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
 			foundation.click(SelfService.TXT_SEARCH);
-			textBox.enterText(SelfService.TXT_SEARCH,data.get(0));
+			textBox.enterText(SelfService.TXT_SEARCH, data.get(0));
 			foundation.waitforElementToBeVisible(SelfService.CLICK_SET_LIMITS, 3);
 			foundation.click(SelfService.CLICK_SET_LIMITS);
-			foundation.waitforElementToBeVisible(SelfService.COL_TIMESLOT,Constants.MEDIUM_TIME);
+			foundation.waitforElementToBeVisible(SelfService.COL_TIMESLOT, Constants.MEDIUM_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.COL_TIMESLOT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.COL_MAX_ORDER));
-		    List<String> value=foundation.getTextofListElement(SelfService.ROW_SET_LIMITS);
-		    CustomisedAssert.assertTrue(value.get(0).length()>5);
-		    CustomisedAssert.assertFalse(value.equals(data.get(1)));
+			List<String> value = foundation.getTextofListElement(SelfService.ROW_SET_LIMITS);
+			CustomisedAssert.assertTrue(value.get(0).length() > 5);
+			CustomisedAssert.assertFalse(value.equals(data.get(1)));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * @author sakthir Date: 03-10-2022
 	 */
 	@Test(description = "205006-SOS-32134:To verify Featured Product CheckBox is Unchecked by creating new self service menu"
-			+"205007-To verify Featured Product CheckBox is Unchecked in Existing self service menu"
-			+"205008-To verify Featured Product CheckBox is Unchecked by adding new product to the newly created self service menu"
-			+"205009-To verify Featured Product CheckBox is Unchecked in by adding new product to the Existing self service menu")
+			+ "205007-To verify Featured Product CheckBox is Unchecked in Existing self service menu"
+			+ "205008-To verify Featured Product CheckBox is Unchecked by adding new product to the newly created self service menu"
+			+ "205009-To verify Featured Product CheckBox is Unchecked in by adding new product to the Existing self service menu")
 	public void verifyFeaturedProductCheckBoxStatusUncheckedForExistingAndNewProduct() {
-		
-			final String CASE_NUM = "205006";
-			
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-			List<String> data =Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-			try {
+
+		final String CASE_NUM = "205006";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
+
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
-			
-			//select location and create new menu with Add Product
-			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
+
+			// select location and create new menu with Add Product
+			dropDown.selectItem(SelfService.DPD_LOCATION, data.get(0), Constants.TEXT);
 			foundation.click(SelfService.BTN_CREATE_NEW);
 			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
-			textBox.enterText(SelfService.TXT_MENU_NAME,data.get(7));
+			textBox.enterText(SelfService.TXT_MENU_NAME, data.get(7));
 			foundation.scrollIntoViewElement(SelfService.BTN_ADD_MENU);
 			foundation.click(SelfService.BTN_ADD_MENU);
 			textBox.enterText(SelfService.TXT_MENU_BUTTON_NAME, data.get(8));
@@ -512,72 +509,69 @@ public class Menu extends TestInfra {
 			foundation.click(SelfService.BTN_ADD_SUBMENU);
 			textBox.enterText(SelfService.TXT_MENU_BUTTON_NAME, data.get(9));
 			foundation.click(SelfService.BTN_ADD_IMG);
-			foundation.waitforElementToBeVisible(SelfService.BTN_ADD_PRODUCT,3);
+			foundation.waitforElementToBeVisible(SelfService.BTN_ADD_PRODUCT, 3);
 			foundation.threadWait(3);
 			foundation.click(SelfService.BTN_ADD_PRODUCT);
 			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(10));
 			foundation.click(selfService.selectProductToAdd(data.get(10)));
 			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
 			foundation.click(SelfService.BTN_SAVE);
-			
-			//select location and search for new menu
-			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
-			textBox.enterText(SelfService.TXT_SEARCH,data.get(7));
+
+			// select location and search for new menu
+			dropDown.selectItem(SelfService.DPD_LOCATION, data.get(0), Constants.TEXT);
+			textBox.enterText(SelfService.TXT_SEARCH, data.get(7));
 			foundation.click(selfService.objSelectMenu(data.get(7)));
 			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
-			
-			//verify the Featured Product CheckBox is unchecked
+
+			// verify the Featured Product CheckBox is unchecked
 			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(3)));
 			foundation.click(selfService.objProductExpand(data.get(3)));
-			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
-			
-			//Add new Product for new menu
+			CustomisedAssert.assertFalse(checkBox.isChecked(SelfService.CHK_FEATURED_PRODUCT));
+
+			// Add new Product for new menu
 			foundation.click(SelfService.BTN_ADD_PRODUCT);
 			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(6));
 			foundation.click(selfService.selectProductToAdd(data.get(6)));
 			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
-			
-			//verify newly added product Featured Product CheckBox is unchecked
+
+			// verify newly added product Featured Product CheckBox is unchecked
 			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(4)));
 			foundation.click(selfService.objProductExpand(data.get(4)));
-			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
+			CustomisedAssert.assertFalse(checkBox.isChecked(SelfService.CHK_FEATURED_PRODUCT));
 			foundation.click(SelfService.BTN_CANCEL_MENU);
-			
-			//select location and search for existing menu
+
+			// select location and search for existing menu
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
-			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
-			textBox.enterText(SelfService.TXT_SEARCH,data.get(1));
+			dropDown.selectItem(SelfService.DPD_LOCATION, data.get(0), Constants.TEXT);
+			textBox.enterText(SelfService.TXT_SEARCH, data.get(1));
 			foundation.click(selfService.objSelectMenu(data.get(1)));
 			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
-			
-			//verify the Featured Product CheckBox is unchecked
+
+			// verify the Featured Product CheckBox is unchecked
 			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(3)));
 			foundation.click(selfService.objProductExpand(data.get(3)));
-			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
-		
-			//Add new Product for Existing menu
+			CustomisedAssert.assertFalse(checkBox.isChecked(SelfService.CHK_FEATURED_PRODUCT));
+
+			// Add new Product for Existing menu
 			foundation.click(SelfService.BTN_ADD_PRODUCT);
 			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(6));
 			foundation.click(selfService.selectProductToAdd(data.get(6)));
 			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
-			
-			//verify newly added product Featured Product CheckBox is unchecked
+
+			// verify newly added product Featured Product CheckBox is unchecked
 			foundation.scrollIntoViewElement(selfService.objProductExpand(data.get(4)));
 			foundation.click(selfService.objProductExpand(data.get(4)));
-			CustomisedAssert.assertFalse(checkBox.isChecked( SelfService.CHK_FEATURED_PRODUCT));
+			CustomisedAssert.assertFalse(checkBox.isChecked(SelfService.CHK_FEATURED_PRODUCT));
 			foundation.click(SelfService.BTN_CANCEL_MENU);
-		}
-		catch (Exception exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally
-		{
-			//resetting
+		} finally {
+			// resetting
 			foundation.refreshPage();
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SelfService.LBL_SELFSERVICE));
-			dropDown.selectItem(SelfService.DPD_LOCATION,data.get(0),Constants.TEXT);
-			textBox.enterText(SelfService.TXT_SEARCH,data.get(7));
+			dropDown.selectItem(SelfService.DPD_LOCATION, data.get(0), Constants.TEXT);
+			textBox.enterText(SelfService.TXT_SEARCH, data.get(7));
 			foundation.click(selfService.objSelectMenu(data.get(7)));
 			CustomisedAssert.assertTrue(foundation.getText(SelfService.LBL_SELFSERIVICE_MENU).equals(data.get(2)));
 			foundation.scrollIntoViewElement(SelfService.BTN_DELETE);
@@ -585,44 +579,47 @@ public class Menu extends TestInfra {
 			foundation.alertAccept();
 		}
 	}
-	
+
+	/**
+	 * @author vikneshwaran Date: 14-12-2022
+	 */
 	@Test(description = "178414-ADM - Login with Operator/Driver/Reporter Login")
-    public void verifyOtherUser() {
-        try {
-            final String CASE_NUM = "178414";
-            // Reading test data from DataBase
-            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-                        
-            List<String> data =Arrays
-                    .asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-            
-            //verify operator user
-            navigationBar.launchBrowserAndSelectOrg(data.get(0),data.get(1), propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-            
-            navigationBar.verifyMenuBarAreClickableOrNot();
-            
-            navigationBar.logOutFromParticularUser();
-            
-            //verify reporter user
+	public void verifyOtherUser() {
+		try {
+			final String CASE_NUM = "178414";
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 
+			List<String> data = Arrays.asList(
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 
+			// verify operator user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-           navigationBar.launchBrowserAndSelectOrg(data.get(2),data.get(3), propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-            
-            navigationBar.verifyReportAdminAreClickableOrNot();
-            
-            navigationBar.logOutFromParticularUser();
-            
-            //verify driver user
+			navigationBar.verifyMenuBarAreClickableOrNot();
 
-           navigationBar.launchBrowserAndSelectOrg(data.get(4),data.get(5), propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-            
-            navigationBar.verifyMenuBarAreClickableOrNot();
-            
-            navigationBar.logOutFromParticularUser();
-        }
-        catch (Exception exc) {
-            TestInfra.failWithScreenShot(exc.toString());
-        }
-    }
+			navigationBar.logOutFromParticularUser();
+
+			// verify reporter user
+
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.verifyReportAdminAreClickableOrNot();
+
+			navigationBar.logOutFromParticularUser();
+
+			// verify driver user
+
+			navigationBar.launchBrowserAndSelectOrg(data.get(4), data.get(5),
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			navigationBar.verifyMenuBarAreClickableOrNot();
+
+			navigationBar.logOutFromParticularUser();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
