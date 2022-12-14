@@ -36,6 +36,10 @@ public class RemainingGuestPassLiability extends Factory {
 	public static final By GUEST_PASS_AMOUNT = By.id("amount");
 	public static final By ALLOW_REUSE_DD = By.xpath("//select[@id='allowreuse']");
 	public static final By GUEST_PASS_SAVEBTN = By.id("saveBtn");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(1)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(6) > td:nth-child(3)");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();

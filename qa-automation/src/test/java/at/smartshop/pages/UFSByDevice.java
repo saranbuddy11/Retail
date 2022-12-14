@@ -52,7 +52,10 @@ public class UFSByDevice extends Factory {
 	
 	public static final By DATE_OF_EXISTING_DATA = By.cssSelector("body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(6) > td:nth-child(3)");
 	public static final String MONTH_OF_EXISTING_DATA= "May 2022";
-
+	
+	public static final By DATA_EXISTING_DATE_FOR_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(4)");
+			
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> reportsTotalData = new LinkedHashMap<>();
 	private Map<Integer, Map<String, String>> salesTimeDetailsTotal = new LinkedHashMap<>();

@@ -45,9 +45,9 @@ public class OrderTransactionTimeReport extends Factory {
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
 	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
-			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
 	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
-			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(6)");
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(4)");
 
 	
 	private List<String> tableHeaders = new ArrayList<>();

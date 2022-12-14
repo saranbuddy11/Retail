@@ -45,8 +45,10 @@ public class UFSByEmployeeDevice extends Factory {
 
 	public static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div:nth-child(3) > div.first-child > label");
-	private static final By REPORT_GRID_FIRST_ROW = By
-			.cssSelector("#cashflow-Automation-365-Non-Employee--VSH601263- > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#salestime-Totals > tbody > tr:nth-child(1)");
+	
+//	private static final By REPORT_GRID_FIRST_ROW = By
+//			.cssSelector("#cashflow-Automation-365-Non-Employee--VSH601263- > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By
 			.xpath("//*[@id='salestime-Totals']//tbody//tr//td[@class='dataTables_empty']");
 
@@ -57,9 +59,12 @@ public class UFSByEmployeeDevice extends Factory {
 	public static final String ID_LBL_REPORT_NAME = "#report-container > script + style + div > div > label";
 	public static final By REPORT_NAME = By.id("reportId");
 	
-	private static final By REPORT_GRID_FIRST_ROW_FOR_STAGING = By.cssSelector("#cashflow-SteveLocStaging-Non-Employee--VSH500024- > tbody > tr:nth-child(1)");
+//	private static final By REPORT_GRID_FIRST_ROW_FOR_STAGING = By.cssSelector("#cashflow-SteveLocStaging-Non-Employee--VSH500024- > tbody > tr:nth-child(1)");
 	public static final By DATE_OF_EXISTING_DATA = By.cssSelector("body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(6) > td:nth-child(3)");
 	public static final String MONTH_OF_EXISTING_DATA= "May 2022";
+	
+	public static final By DATA_EXISTING_DATE_FOR_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(4)");
 
 	private List<String> tableHeadersOfSalesTimeDetails = new ArrayList<>();
 	private Map<String, String> tableFooterData = new LinkedHashMap<>();

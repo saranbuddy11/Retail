@@ -50,9 +50,9 @@ public class MultiTaxReport extends Factory {
 	private static final By TBL_MULTI_TAX = By.id("multiTaxLocationLevel");
 	private static final By TBL_MULTI_TAX_GRID = By.cssSelector("#multiTaxLocationLevel > tbody");
 	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
-			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
 	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
-			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(6)");
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(4)");
 
 
 	public void verifyReportName(String reportName) {
