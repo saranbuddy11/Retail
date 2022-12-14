@@ -56,6 +56,8 @@ public class CreatePromotions extends Factory {
 			.xpath("/html/body/div[7]/div/div[2]/div[2]/div[2]/table/tbody/tr/th/span[2]");
 	public static final By CATEGORY_SEARCH_TXT = By.id("bundleCategorySearch");
 	public static final By SELECT_ITEM_PRODUCT = By.xpath("//*[@id='itemBundleTable']/tbody/tr/th/span[2]");
+	public static final By SELECT_CATEGORY_CHECKBOX = By
+			.cssSelector("#categoryBundleTable>tbody>tr>th>span.ui-igcheckbox-normal");
 	public static final By SELECTED_ITEM = By.cssSelector("#itemBundleTable > tbody");
 	public static final By ITEM_SEARCH_TXT = By.id("bundleItemSearch");
 	public static final By BTN_NEXT = By.xpath("//button[@id='submitBtn']");
@@ -242,7 +244,9 @@ public class CreatePromotions extends Factory {
 	public static final By ITEM_BUNDLE_ALL_CHECKBOX = By.id("itemBundleAllCheckbox");
 	public static final By POPUP_HEADER = By.cssSelector(".ajs-header");
 	public static final By BTN_ADD_ITEM = By.cssSelector("#itemSelect>.btn-mini");
+	public static final By BTN_ADD_CATEGORY = By.cssSelector("#categorySelect>.btn-mini");
 	public static final By ITEM_MODAL_TITLE = By.id("bundleItemModal-title");
+	public static final By CATEGORY_MODAL_TITLE = By.id("bundleCategoryModal-title");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -453,6 +457,23 @@ public class CreatePromotions extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		checkBox.check(SELECT_ITEM_PRODUCT);
 		foundation.click(BTN_CANCEL_ITEM_POPUP);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Selecting Single Category for On-Screen Promotion
+	 * 
+	 * @param Category
+	 */
+	public void selectOnScreenCategory(String category) {
+		foundation.click(TXT_AMOUNT);
+		foundation.click(BTN_ADD_CATEGORY);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CATEGORY_MODAL_TITLE));
+		textBox.enterText(CATEGORY_SEARCH_TXT, category);
+		foundation.threadWait(Constants.SHORT_TIME);
+		checkBox.check(SELECT_CATEGORY_CHECKBOX);
+		foundation.click(BTN_CANCEL_CAT_POPUP);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
