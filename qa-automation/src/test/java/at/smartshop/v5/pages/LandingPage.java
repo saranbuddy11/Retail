@@ -20,7 +20,7 @@ public class LandingPage {
 	public Browser browser = new Browser();
 	public PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
-	
+	private Foundation foundation = new Foundation();
 
 
 	public static final By IMG_LOGO = By.xpath("//span[@class='logoImg']");
@@ -45,15 +45,11 @@ public class LandingPage {
 	public static final By LBL_SCAN = By.xpath("//div[@class='footer']//h2");
 	public static final By IMG_ORDER_SEARCH_ICON = By.cssSelector("span.category-icon.mm-icon.search-icon.ion-search");
 
-	private Foundation foundation = new Foundation();
-
 	public By objLanguage(String languageName) {
 		return By.xpath("//button[text()='" + languageName + "']");
-
 	}
 
 	public void navigateDriverLoginPage() {
-
 		foundation.doubleClick(LandingPage.IMG_LOGO);
 		foundation.doubleClick(LandingPage.IMG_LOGO);
 		foundation.click(LandingPage.IMG_LOGO);
@@ -69,7 +65,6 @@ public class LandingPage {
 
 	public void verifyHomeScreenLanguage(String landingPage) {
 		List<String> landingPageData = Arrays.asList(landingPage.split(Constants.DELIMITER_TILD));
-
 		// Validating Landing Page
 		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_ACCOUNT_LOGIN), landingPageData.get(0));
 		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_CREATE_ACCOUNT), landingPageData.get(1));
@@ -78,7 +73,6 @@ public class LandingPage {
 		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_HEADER), landingPageData.get(4));
 		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_SEARCH), landingPageData.get(5));
 		CustomisedAssert.assertEquals(foundation.getText(LandingPage.LBL_SCAN), landingPageData.get(6));
-
 	}
 
 	public void changeLanguage(String languageButton, String newLanguage, String button) {
@@ -109,6 +103,7 @@ public class LandingPage {
 		browser.launch(Constants.REMOTE, Constants.CHROME);
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
 		foundation.click(IMG_SEARCH_ICON);
+		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterKeypadText(product);
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
@@ -142,5 +137,17 @@ public class LandingPage {
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
 		foundation.threadWait(Constants.LONG_TIME);
 
+	}
+
+	/**
+	 * Selecting Product
+	 * 
+	 * @param product
+	 */
+	public void selectProduct(String product) {
+		foundation.click(IMG_SEARCH_ICON);
+		textBox.enterKeypadText(product);
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 	}
 }
