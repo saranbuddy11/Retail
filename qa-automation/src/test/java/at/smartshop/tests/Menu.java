@@ -585,4 +585,44 @@ public class Menu extends TestInfra {
 			foundation.alertAccept();
 		}
 	}
+	
+	@Test(description = "178414-ADM - Login with Operator/Driver/Reporter Login")
+    public void verifyOtherUser() {
+        try {
+            final String CASE_NUM = "178414";
+            // Reading test data from DataBase
+            rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+                        
+            List<String> data =Arrays
+                    .asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+            
+            //verify operator user
+            navigationBar.launchBrowserAndSelectOrg(data.get(0),data.get(1), propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+            
+            navigationBar.verifyMenuBarAreClickableOrNot();
+            
+            navigationBar.logOutFromParticularUser();
+            
+            //verify reporter user
+
+
+
+           navigationBar.launchBrowserAndSelectOrg(data.get(2),data.get(3), propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+            
+            navigationBar.verifyReportAdminAreClickableOrNot();
+            
+            navigationBar.logOutFromParticularUser();
+            
+            //verify driver user
+
+           navigationBar.launchBrowserAndSelectOrg(data.get(4),data.get(5), propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+            
+            navigationBar.verifyMenuBarAreClickableOrNot();
+            
+            navigationBar.logOutFromParticularUser();
+        }
+        catch (Exception exc) {
+            TestInfra.failWithScreenShot(exc.toString());
+        }
+    }
 }

@@ -131,4 +131,44 @@ public class NavigationBar extends Factory {
 		foundation.waitforElementToBeVisible(ADMIN_MENU, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_MENU));
 	}
+	
+	/**
+	 * verify all menu option is clickable or not
+	 */
+   public void verifyMenuBarAreClickableOrNot() {
+        foundation.waitforElementToBeVisible(LOCATION_MENU, 3);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(LOCATION_MENU));
+        foundation.click(LOCATION_MENU);
+        foundation.waitforElementToBeVisible(PRODUCT_MENU, 3);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(PRODUCT_MENU));
+        foundation.click(PRODUCT_MENU);
+        foundation.waitforElementToBeVisible(MENU, 3);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(MENU));
+        foundation.click(MENU);
+        verifyReportAdminAreClickableOrNot();
+   }
+   
+    /**
+     * Verify Report and Admin Option is clickable or not
+     */
+    public void verifyReportAdminAreClickableOrNot() {
+       foundation.waitforElementToBeVisible(REPORTS_MENU, 3);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(REPORTS_MENU));
+        foundation.click(REPORTS_MENU);
+        foundation.waitforElementToBeVisible(ADMIN_MENU, 3);
+        CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_MENU));
+        foundation.click(ADMIN_MENU);
+    }
+    
+    /**
+     * Launching the Browser as different user , password and selecting the org
+     *
+     * @param user
+     * @param org
+     */
+    public void launchBrowserAndSelectOrg(String user, String pass, String org) {
+        browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+        login.login(user, pass);
+        selectOrganization(org);
+    }
 }
