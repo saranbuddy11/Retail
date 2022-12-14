@@ -13,6 +13,7 @@ import at.framework.browser.Factory;
 import at.framework.reportsetup.ExtFactory;
 import at.smartshop.keys.Constants;
 import at.smartshop.tests.TestInfra;
+import at.smartshop.v5.pages.Payments;
 
 public class TextBox extends Factory {
 	private Foundation foundation = new Foundation();
@@ -169,4 +170,21 @@ public class TextBox extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	/**
+	 * enter keypad number in device
+	 * @param number
+	 */
+	public void enterKeypadNumbersInDevice(String number) {
+		char[] charArray = number.toCharArray();
+		for (char eachChar : charArray) {
+			if (eachChar == ' ') {
+				
+				foundation.click(By.xpath("//*[text()='Space']"));
+			} else {
+				foundation.click(Payments.BTN_NUMBER);
+				foundation.click(By.xpath("//*[@class='keyboardNumber']//*[text()='" + eachChar + "']"));
+			}
+		}
+	}
+
 }

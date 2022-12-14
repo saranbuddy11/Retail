@@ -8,6 +8,9 @@ import at.framework.files.PropertyFile;
 import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+
+import at.smartshop.database.columns.CNV5Device;
+
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -18,6 +21,7 @@ public class LandingPage {
 	public PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
+
 
 	public static final By IMG_LOGO = By.xpath("//span[@class='logoImg']");
 	public static final By LBL_HEADER = By.xpath("//h1[@id='instructionText']");
@@ -88,6 +92,7 @@ public class LandingPage {
 		changeLanguage(Constants.LANGUAGE, Constants.ENGLISH, Constants.CONTINUE);
 	}
 
+
 	/**
 	 * Launch V5 device and select product for transaction
 	 * 
@@ -105,6 +110,33 @@ public class LandingPage {
 		CustomisedAssert.assertTrue(product.equals(foundation.getText(Order.LBL_PROMOTION_NAME)));
 		String productPrice = foundation.getText(Order.LBL_PRODUCT_PRICE).split(Constants.DOLLAR)[1];
 		return productPrice;
+}
+	/**
+	 * Transaction in v5 device
+	 * @param product
+	 * @param email
+	 * @param pin
+	 */
+	public void transactionInV5Device(String product,String email,String pin) {
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(product);
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		foundation.waitforElementToBeVisible(Payments.EMAIL_ACC, Constants.THREE_SECOND);
+		foundation.click(Payments.EMAIL_ACC);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(Payments.BTN_EMAIL_LOGIN);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.LONG_TIME);
+
 	}
 
 	/**
