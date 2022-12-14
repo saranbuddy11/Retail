@@ -11719,75 +11719,75 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "166996 - Verify Update Prices & Full Sync Button on Location Summary page as Super")
-	public void verifyUpdatePriceAndFullSync() {
-		final String CASE_NUM = "166996";
-
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		try {
-			// launch browser and select org
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to location summary and update price and sync
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
-					requiredData.get(2));
-			foundation.click(LocationSummary.BTN_FULL_SYNC);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
-			browser.close();
-
-			// launch v5 application
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(1));
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// reset data
-			browser.close();
-			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
-					requiredData.get(7));
-			foundation.click(LocationSummary.BTN_FULL_SYNC);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
-			browser.close();
-		}
-	}
+//	@Test(description = "166996 - Verify Update Prices & Full Sync Button on Location Summary page as Super")
+//	public void verifyUpdatePriceAndFullSync() {
+//		final String CASE_NUM = "166996";
+//
+//		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//
+//		List<String> requiredData = Arrays
+//				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//		try {
+//			// launch browser and select org
+//			browser.navigateURL(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			// navigate to location summary and update price and sync
+//			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+//			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+//			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
+//					requiredData.get(2));
+//			foundation.click(LocationSummary.BTN_FULL_SYNC);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+//			login.logout();
+//			browser.close();
+//
+//			// launch v5 application
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			browser.launch(Constants.REMOTE, Constants.CHROME);
+//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+//			foundation.click(LandingPage.IMG_SEARCH_ICON);
+//			textBox.enterKeypadText(requiredData.get(1));
+//			foundation.click(ProductSearch.BTN_PRODUCT);
+//			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+//			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+//			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		} finally {
+//			// reset data
+//			browser.close();
+//			browser.launch(Constants.LOCAL, Constants.CHROME);
+//			browser.navigateURL(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+//			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+//			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
+//					requiredData.get(7));
+//			foundation.click(LocationSummary.BTN_FULL_SYNC);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+//			login.logout();
+//			browser.close();
+//		}
+//	}
 
 	@Test(description = "177792 - Verifying the Promo Restriction in promotion - Bundle Promotion")
 	public void verifyPromoRestrictionInBundlePromotion() {
