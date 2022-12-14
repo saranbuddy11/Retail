@@ -11789,9 +11789,9 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "177792 - Verifying the Promo Restriction in promotion - Bundle Promotion")
+	@Test(description = "222237 - Verifying the Promo Restriction in promotion - Bundle Promotion")
 	public void verifyPromoRestrictionInBundlePromotion() {
-		final String CASE_NUM = "177792";
+		final String CASE_NUM = "222237";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
