@@ -31,7 +31,9 @@ public class NavigationBar extends Factory {
 	public static final By MENU = By.id("drop2");
 	public static final By REPORTS_MENU = By.id("supadmin-new-reports");
 	public static final By ADMIN_MENU = By.id("drop6");
-
+	public static final By DRP_Logout_MENU = By.id("drop5");
+	public static final By BTN_LogOut = By.id("logout");
+	
 	public void selectOrganization(String selectText) {
 		try {
 			foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
@@ -171,4 +173,14 @@ public class NavigationBar extends Factory {
         login.login(user, pass);
         selectOrganization(org);
     }
+    
+	/**
+	 * Log out from particular user
+	 */
+	public void logOutFromParticularUser() {
+		foundation.click(DRP_Logout_MENU);
+		foundation.waitforElementToBeVisible(BTN_LogOut, Constants.SHORT_TIME);
+		foundation.click(BTN_LogOut);
+	}
+
 }
