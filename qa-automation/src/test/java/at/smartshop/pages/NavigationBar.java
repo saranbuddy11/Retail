@@ -31,9 +31,7 @@ public class NavigationBar extends Factory {
 	public static final By MENU = By.id("drop2");
 	public static final By REPORTS_MENU = By.id("supadmin-new-reports");
 	public static final By ADMIN_MENU = By.id("drop6");
-	public static final By DRP_Logout_MENU = By.id("drop5");
-	public static final By BTN_LogOut = By.id("logout");
-	
+
 	public void selectOrganization(String selectText) {
 		try {
 			foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
@@ -122,65 +120,15 @@ public class NavigationBar extends Factory {
 	 * verify navigation bar are present
 	 */
 	public void verifyNavigationBarsArePresent() {
-		foundation.waitforElementToBeVisible(LOCATION_MENU, Constants.THREE_SECOND);
+		foundation.waitforElementToBeVisible(LOCATION_MENU, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LOCATION_MENU));
-		foundation.waitforElementToBeVisible(PRODUCT_MENU, Constants.THREE_SECOND);
+		foundation.waitforElementToBeVisible(PRODUCT_MENU, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(PRODUCT_MENU));
-		foundation.waitforElementToBeVisible(MENU, Constants.THREE_SECOND);
+		foundation.waitforElementToBeVisible(MENU, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(MENU));
-		foundation.waitforElementToBeVisible(REPORTS_MENU, Constants.THREE_SECOND);
+		foundation.waitforElementToBeVisible(REPORTS_MENU, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(REPORTS_MENU));
-		foundation.waitforElementToBeVisible(ADMIN_MENU, Constants.THREE_SECOND);
+		foundation.waitforElementToBeVisible(ADMIN_MENU, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_MENU));
 	}
-	
-	/**
-	 * verify all menu option is clickable or not
-	 */
-   public void verifyMenuBarAreClickableOrNot() {
-        foundation.waitforElementToBeVisible(LOCATION_MENU, Constants.THREE_SECOND);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(LOCATION_MENU));
-        foundation.click(LOCATION_MENU);
-        foundation.waitforElementToBeVisible(PRODUCT_MENU, Constants.THREE_SECOND);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(PRODUCT_MENU));
-        foundation.click(PRODUCT_MENU);
-        foundation.waitforElementToBeVisible(MENU, Constants.THREE_SECOND);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(MENU));
-        foundation.click(MENU);
-        verifyReportAdminAreClickableOrNot();
-   }
-   
-    /**
-     * Verify Report and Admin Option is clickable or not
-     */
-    public void verifyReportAdminAreClickableOrNot() {
-       foundation.waitforElementToBeVisible(REPORTS_MENU, Constants.THREE_SECOND);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(REPORTS_MENU));
-        foundation.click(REPORTS_MENU);
-        foundation.waitforElementToBeVisible(ADMIN_MENU, Constants.THREE_SECOND);
-        CustomisedAssert.assertTrue(foundation.isDisplayed(ADMIN_MENU));
-        foundation.click(ADMIN_MENU);
-    }
-    
-    /**
-     * Launching the Browser as different user , password and selecting the org
-     *
-     * @param user
-     * @param org
-     */
-    public void launchBrowserAndSelectOrg(String user, String pass, String org) {
-        browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-        login.login(user, pass);
-        selectOrganization(org);
-    }
-    
-	/**
-	 * Log out from particular user
-	 */
-	public void logOutFromParticularUser() {
-		foundation.click(DRP_Logout_MENU);
-		foundation.waitforElementToBeVisible(BTN_LogOut, Constants.SHORT_TIME);
-		foundation.click(BTN_LogOut);
-	}
-
 }
