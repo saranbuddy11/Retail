@@ -19,7 +19,7 @@ import at.smartshop.pages.Login;
 public class Payments {
 	private Foundation foundation = new Foundation();
 	private Browser browser = new Browser();
-	private Login login=new Login();
+	private Login login = new Login();
 	private PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
 	private AgeVerificationDetails ageVerificationDetails = new AgeVerificationDetails();
@@ -36,13 +36,13 @@ public class Payments {
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
 	public static final By EMAIL_ACCOUNT_BTN = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
-	public static final By BTN_EMAIL_ACCOUNT=By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.4.1']");
+	public static final By BTN_EMAIL_ACCOUNT = By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.4.1']");
 	public static final By BTN_EMAIL = By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.2.1']");
 	public static final By BTN_TAB = By.xpath("//div[@data-reactid='.0.0.0.0.0']");
 	public static final By BTN_CAPITAL_LETTER = By.xpath("//div[@class='key key_capitalletterleft']");
 	public static final By BTN_NUMBER = By.xpath("//div[@class='key key_number']");
 	public static final By EMAIL_ACC = By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.4.1']");
-	public static final By EMAIL_DELETE=By.id("delete");
+	public static final By EMAIL_DELETE = By.id("delete");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");

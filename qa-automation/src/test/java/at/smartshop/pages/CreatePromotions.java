@@ -242,6 +242,7 @@ public class CreatePromotions extends Factory {
 	public static final By TXT_PROMO_ERROR = By.id("promotype-error");
 	public static final By BTN_SELECT_ORG = By.xpath("//select[@id='org-select']//option[text()='AutomationOrg']");
 	public static final By ITEM_BUNDLE_ALL_CHECKBOX = By.id("itemBundleAllCheckbox");
+	public static final By CATEGORY_ALL_CHECKBOX = By.id("categoryBundleAllCheckbox");
 	public static final By POPUP_HEADER = By.cssSelector(".ajs-header");
 	public static final By BTN_ADD_ITEM = By.cssSelector("#itemSelect>.btn-mini");
 	public static final By BTN_ADD_CATEGORY = By.cssSelector("#categorySelect>.btn-mini");
@@ -487,6 +488,19 @@ public class CreatePromotions extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ITEM_MODAL_TITLE));
 		foundation.click(ITEM_BUNDLE_ALL_CHECKBOX);
 		foundation.click(BTN_CANCEL_ITEM_POPUP);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Selecting All Category for On-Screen Promotion
+	 */
+	public void selectOnScreenAllCategory() {
+		foundation.click(TXT_AMOUNT);
+		foundation.click(BTN_ADD_CATEGORY);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CATEGORY_MODAL_TITLE));
+		foundation.click(CATEGORY_ALL_CHECKBOX);
+		foundation.click(BTN_CANCEL_CAT_POPUP);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
