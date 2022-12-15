@@ -118,67 +118,67 @@ public class V5ReleaseTest extends TestInfra {
 		}
 	}
 
-	@Test(description = "143124-Add new deposit category and Edit it's name and verify edits applied to product or not")
-	public void addEditDepositCategory() {
-		final String CASE_NUM = "143124";
-
-		// Reading test data from DataBase
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		List<String> menuItem = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-
-		String newDepositCat = string.getRandomCharacter().toUpperCase();
-		String editedDepositCat = requiredData.get(1) + newDepositCat;
-		try {
-
-			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to category page
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
-
-			// add deposit category
-			categorySummary.addCategory(newDepositCat, requiredData.get(3));
-
-			// verify newly added category displays in category list page
-			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newDepositCat));
-
-			// Select Menu and Menu Item and add the tax category to a global product
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			globalProduct.selectGlobalProduct(productName);
-			textBox.enterText(ProductSummary.TXT_PRICE, "5");
-			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, newDepositCat, Constants.TEXT);
-			foundation.click(ProductSummary.BTN_SAVE);
-
-			// edit tax category
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-			categoryList.selectCategory(newDepositCat);
-			categorySummary.updateName(editedDepositCat);
-			navigationBar.navigateToMenuItem(menuItem.get(0));
-			globalProduct.selectGlobalProduct(productName);
-			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY),
-					editedDepositCat);
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// reset data
-			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
-			foundation.click(ProductSummary.BTN_SAVE);
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-			categoryList.selectCategory(editedDepositCat);
-			categorySummary.updateName(newDepositCat);
-		}
-	}
+//	@Test(description = "143124-Add new deposit category and Edit it's name and verify edits applied to product or not")
+//	public void addEditDepositCategory() {
+//		final String CASE_NUM = "143124";
+//
+//		// Reading test data from DataBase
+//		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//
+//		List<String> requiredData = Arrays
+//				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//		List<String> menuItem = Arrays
+//				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//
+//		String newDepositCat = string.getRandomCharacter().toUpperCase();
+//		String editedDepositCat = requiredData.get(1) + newDepositCat;
+//		try {
+//
+//			String productName = rstV5DeviceData.get(CNV5Device.PRODUCT_NAME);
+//			browser.navigateURL(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			// navigate to category page
+//			navigationBar.navigateToMenuItem(menuItem.get(1));
+//			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
+//
+//			// add deposit category
+//			categorySummary.addCategory(newDepositCat, requiredData.get(3));
+//
+//			// verify newly added category displays in category list page
+//			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newDepositCat));
+//
+//			// Select Menu and Menu Item and add the tax category to a global product
+//			navigationBar.navigateToMenuItem(menuItem.get(0));
+//			globalProduct.selectGlobalProduct(productName);
+//			textBox.enterText(ProductSummary.TXT_PRICE, "5");
+//			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, newDepositCat, Constants.TEXT);
+//			foundation.click(ProductSummary.BTN_SAVE);
+//
+//			// edit tax category
+//			navigationBar.navigateToMenuItem(menuItem.get(1));
+//			categoryList.selectCategory(newDepositCat);
+//			categorySummary.updateName(editedDepositCat);
+//			navigationBar.navigateToMenuItem(menuItem.get(0));
+//			globalProduct.selectGlobalProduct(productName);
+//			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_DEPOSIT_CATEGORY),
+//					editedDepositCat);
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		} finally {
+//			// reset data
+//			dropDown.selectItem(ProductSummary.DPD_DEPOSIT_CATEGORY, requiredData.get(2), Constants.TEXT);
+//			foundation.click(ProductSummary.BTN_SAVE);
+//			navigationBar.navigateToMenuItem(menuItem.get(1));
+//			categoryList.selectCategory(editedDepositCat);
+//			categorySummary.updateName(newDepositCat);
+//		}
+//	}
 
 	@Test(description = "143125-QA-19-Add new category and Edit it's name and verify edits applied to product or not")
 	public void addeditCategories() {
