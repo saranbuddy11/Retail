@@ -1642,7 +1642,7 @@ public class PickLists extends TestInfra {
 
 		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 		String location = rstPickListData.get(CNPickList.LOCATIONS);
-
+		
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -1660,6 +1660,19 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, 5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_ADD_PRODUCT_PICKLIST));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_ADD_PRODUCT).contains(location));
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_DISABLE_PREVIEW));
+			textBox.enterText(PickList.LBL_FILTER_TYPE, rstPickListData.get(CNPickList.PRODUCT_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)),
+					Constants.SHORT_TIME);
+			foundation.click(PickList.TBL_NEED);
+			foundation.objectFocus(PickList.TXT_NEED);
+			foundation.click(PickList.TXT_NEED);
+			foundation.waitforElement(PickList.TXT_NEED, Constants.LONG_TIME);
+			foundation.clearText();
+			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)));
+			CustomisedAssert.assertTrue(foundation.getText(PickList.ERROR_TXT_NEED).equals(rstPickListData.get(CNPickList.NEED)));
 			foundation.click(PickList.BTN_CLOSE);
 
 			// select location in pick list page ,click Add product and Verifying location

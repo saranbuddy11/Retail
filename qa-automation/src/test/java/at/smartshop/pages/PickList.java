@@ -48,6 +48,7 @@ public class PickList extends Factory {
 	public static final By EXPORT_BTN = By.id("excel-dwnld");
 	public static final By LBL_ROUTES = By.id("Routes");
 	public static final By LBL_PREVIEW = By.xpath("//a[text()='Preview']");
+	public static final By LBL_DISABLE_PREVIEW = By.xpath("//a[@disabled='disabled']");
 	public static final By BUTTON_SAVE = By.id("saveBtn");
 	public static final By LBL_Add = By.xpath("//a[text()='Add']");
 //	public static final By DELETE_BTN = By.xpath("//a[@class='delete-button']");
@@ -60,6 +61,7 @@ public class PickList extends Factory {
 	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");// span//input[@type='tel'
 																												// and
 																												// @class='ui-igedit-input']");
+	public static final By ERROR_TXT_NEED = By.xpath("//div[@class='ui-ignotify-content']");
 	public static final By TXT_NEED1 = By.xpath("//span//input[@type='text' and @class='ui-igedit-input']");
 	public static final By REFRESH_BTN = By.id("refresh-picklist");
 	public static final By TBL_PRODUCT_GRID = By.id("filter-prd-grid");
