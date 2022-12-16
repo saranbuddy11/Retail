@@ -27,11 +27,16 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By BTN_CANCEL = By.id("cancelCharityBtn");
 	public static final By BTN_SAVE = By.id("saveCharityBtn");
 	public static final By TXT_DISPLAYNAME = By.id("displayName");
+	public static final By TXT_LOCATION = By.xpath("//label[@for='allLocations']");
 	public static final By CLEAR_LOCATION = By.xpath("//span[@class='select2-selection__clear']");
 	public static final By SELECT_LOCATION = By.xpath("//select[@id='locationDropdown']/optgroup/option");
 	public static final By LBL_LOCATION = By.xpath("//span[@class='select2-selection select2-selection--multiple']//input[@class='select2-search__field']");
 	public static final By BTN_SEARCH = By.id("einSearchBtn");
 	public static final By CHARITY_ID = By.id("ein");
+	public static final By LBL_EIN= By.xpath("//label[@for='einSearch']");
+	public static final By LBL_CHARITY_ID= By.xpath("//label[@for='ein']");
+	public static final By LBL_CAUSE_NAME= By.xpath("//label[@for='causeName']");
+	public static final By LBL_DISPLAYNAME= By.xpath("//label[@for='displayName']");
 	public static final By CAUSE_NAME = By.id("causeName");
 	public static final By TXT_EIN_SEARCH = By.id("einSearch");
 	public static final By LBL_DELETE_CHARITY = By.xpath("//div/p[text()='Delete Charity']");
@@ -54,8 +59,13 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By GET_CONTENT_DELETE_CHARITY = By.xpath("//div[@class='ajs-content']//b");
 	public static final By BTN_CANCEL_DELETE_CHARITY = By.xpath("//button[@class='ajs-button ajs-cancel']");
 	public static final By GET_DISPLAY_NAME= By.xpath("//tbody[@role='alert']//td[3]");
-	
-
+	public static final By LBL_EIN_CHARITY= By.xpath("//div//h5[text()='Enter EIN of the charity you wish to add']");
+	public static final By LINKED_TEXT_LOCATION = By.xpath("//p[text()='Locations already associated to a charity will be unavailable for selection.']");
+	public static final By DISABLE_TEXT_LOCATION = By.xpath("//ul[@class='select2-results__options select2-results__options--nested']/li[@aria-disabled='true']");
+	public static final By DISABLE_ALL_TEXT_LOCATION = By.xpath("//li[contains(@id,'all') and @aria-disabled='true']");
+	public static final By TBL_DATA = By.xpath("//tbody//td");
+	public static final By ALL_LOCATION = By.xpath("//ul[@class='select2-results__options']");
+	public static final By CLICK_LOCATION = By.xpath("//span[@class='select2-selection select2-selection--multiple']");
 
 	public By removeLocation(String location) {
 		return By.xpath("//ul//li[text()='"+location+"']/span[@class='select2-selection__choice__remove']"); }
@@ -175,6 +185,18 @@ public class AdminRoundUpCharity extends Factory {
 	textBox.enterText(AdminRoundUpCharity.TXT_DISPLAYNAME, displayname);
 	foundation.click(AdminRoundUpCharity.BTN_SAVE);
 }
-
-	
+	/**
+	 * Verify Charity Field
+	 */
+	public void verifyCharityField() {
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EIN_CHARITY));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EIN));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SEARCH));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_CAUSE_NAME));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_CHARITY_ID));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_DISPLAYNAME));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.TXT_LOCATION));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SAVE));
+	CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_CANCEL));
+}
 }
