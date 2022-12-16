@@ -1085,8 +1085,7 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
 
 //			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
-		    foundation.threadWait(Constants.LONG_TIME);
-		
+			foundation.threadWait(Constants.LONG_TIME);
 
 			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
 					LocationSummary.TBL_PRODUCTS_GRID);
@@ -2354,7 +2353,7 @@ public class Location extends TestInfra {
 			// create location under automation Org location
 			locationList.createLocation(locationName, datas.get(1), datas.get(2));
 
-			// search same location
+			// search same location and verify distributor dropdown
 			locationList.verifyLocationInLocationList(rstLocationData.get(CNLocation.NAME), datas.get(3));
 
 		} catch (Exception exc) {
@@ -2648,6 +2647,48 @@ public class Location extends TestInfra {
 
 			locationSummary.selectDeviceName(rstLocationSummaryData.get(CNLocationSummary.DEVICE_NAME));
 			deviceSummary.verifySelfService();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+
+		}
+	}
+
+	/**
+	 * @author afrosean Date:07-12-2022
+	 */
+	@Test(description = "206164-SOS-33558 International Distributor Field")
+
+	public void verifyInternationalDistributorField() {
+		final String CASE_NUM = "206164";
+
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
+
+		List<String> requiredData = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		List<String> requireddata = Arrays
+				.asList(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		String locationName = rstLocationSummaryData.get(CNLocationSummary.NAME) + strings.getRandomCharacter();
+
+		try {
+			// Launch ADM as super and select org
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			// navigate to Location Menu & verify Distributor dropDown
+			for (int i = 0; i < requiredData.size(); i++) {
+				locationSummary.verifyDistributorDropdown(menu.get(0), menu.get(1), requiredData.get(i));
+			}
+
+			// create location under automation Organization location
+			navigationBar.navigateToMenuItem(menu.get(2));
+			locationList.createLocation(locationName, requireddata.get(0),requireddata.get(1));
+			
+			//Search with created location and verify Distributor dropDown
+			locationSummary.searchLocationAndVerifyDistributor(locationName, requiredData.get(0), requireddata.get(2));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 

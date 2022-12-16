@@ -110,8 +110,7 @@ public class LocationList extends Factory {
 		foundation.click(LocationSummary.BTN_SAVE);
 		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-		login.logout();
-		browser.close();
+		
 	}
 
 	public Map<String, String> fetchLocationInformation(String locationName) {
@@ -127,6 +126,7 @@ public class LocationList extends Factory {
 
 	public void removeDevice(String menu, String location) {
 		navigationBar.navigateToMenuItem(menu);
+		foundation.threadWait(Constants.SHORT_TIME);
 		selectLocationName(location);
 		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 		foundation.threadWait(Constants.SHORT_TIME);
