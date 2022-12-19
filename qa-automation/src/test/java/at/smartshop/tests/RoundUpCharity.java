@@ -457,8 +457,9 @@ public class RoundUpCharity extends TestInfra {
 		}
 			finally {
 			//resetting
+				foundation.threadWait(3);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
-				textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(3));
+				textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, value.get(3));
 				foundation.click(AdminRoundUpCharity.BTN_DELETE_CHARITY);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_DELETE_CHARITY));
 				foundation.click(AdminRoundUpCharity.BTN_DELETE_CHARITY_DELETE);
@@ -684,7 +685,7 @@ public class RoundUpCharity extends TestInfra {
 	 * Date:15-12-2022
 	 */
 	@Test(description = "204869-Verify all the fields in active charities grid when there is no charity records")
-	public void verifyNoCharityInRoundUpCharityPage() {
+	public void verifyNoCharityInRoundUpCharityPageWhenNoCharityRecords() {
 		final String CASE_NUM = "204869";
 			
 		    // Reading test data from DataBase
@@ -791,7 +792,6 @@ public class RoundUpCharity extends TestInfra {
 				CustomisedAssert.assertFalse(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
 				foundation.click(AdminRoundUpCharity.BTN_SEARCH);
 				adminRoundUpCharity.selectLocationFromDropDown(value.get(4));
-//				foundation.click(AdminRoundUpCharity.ALL_LOCATION);
 				CustomisedAssert.assertTrue(foundation.getTextColor(AdminRoundUpCharity.DISABLE_ALL_TEXT_LOCATION).equals(value.get(5)));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.DISABLE_ALL_TEXT_LOCATION));
 				adminRoundUpCharity.selectLocationFromDropDown(value.get(3));
