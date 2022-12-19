@@ -715,7 +715,12 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			
+			List<String> DateRange_Existing = Arrays.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+
+			reportList.selectDateRangeDate(DateRange_Existing.get(0),
+								DateRange_Existing.get(1), CancelReport.DATA_EXISTING_START_DATE_STAGING,
+								CancelReport.DATA_EXISTING_END_DATE_STAGING);
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.STAGING_SUPPORT_US_365_LOCATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
@@ -764,7 +769,11 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			reportList.selectDate("Last 60 Days");
+			List<String> DateRange_Existing = Arrays.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+
+			reportList.selectDateRangeDate(DateRange_Existing.get(0),
+								DateRange_Existing.get(1), CashAudit.DATA_EXISTING_START_DATE_STAGING,
+								CashAudit.DATA_EXISTING_END_DATE_STAGING);
 
 			// reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
 			// rstReportListData.get(CNReportList.END_MONTH), CashAudit.DATA_EXISTING_DATE,
@@ -981,7 +990,12 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			List<String> DateRange_Existing = Arrays.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+
+			reportList.selectDateRangeDate(DateRange_Existing.get(0),
+								DateRange_Existing.get(1), BadScanReport.DATA_EXISTING_START_DATE_STAGING,
+								BadScanReport.DATA_EXISTING_END_DATE_STAGING);
+			
 			reportList.selectLocation(propertyFile.readPropertyFile(Configuration.STAGING_STEAVE_LOCATION,
 					FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
