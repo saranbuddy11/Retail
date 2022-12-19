@@ -118,6 +118,8 @@ public class FilePath {
 			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigPreProd.properties";
 		} else if (environment.equals(Constants.TEST3)) {
 			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest3.properties";
+		} else if (environment.equals(Constants.STAGING)) {
+			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigStaging.properties";
 		} else {
 			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest4.properties";
 		}
