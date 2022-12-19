@@ -29,12 +29,15 @@ public class ConsumerSummary extends Factory {
 	public static final By PAYROLL_BTN_ADJUST = By.cssSelector("#mainform > div > dd:nth-child(5) > a");
 	//public static final By BTN_ADJUST2=By.xpath("/html/body/div[3]/div[2]/div/fieldset/div/dl/form/div/dd[1]/a");
 	public static final By BTN_SUBSIDY_ADJUST = By.xpath("(//a[@class='adjustBalanceBtn'])[2]");
+	public static final By SUBSIDY_ADJUST=By.cssSelector("#mainform > div > dd:nth-child(7) > a");
 	public static final By STRIKE_ADJUST = By.xpath("//a[@balanceid='3b1cb67f9533314380072e373ca2ba02']");
 	public static final By PAYROLL_DEDUCT=By.xpath("//a[@balanceid='c9dd6add3acb48ea84e1c0bc1e189db4']");
 	public static final By TXT_ADJUST_BALANCE = By.id("balNum");
 	public static final By DPD_REASON = By.id("reason");
 	public static final By BTN_REASON_SAVE = By.id("reasonSaveBtn");
 	public static final By BTN_REASON_CANCEL = By.id("reasoncancel");
+	public static final By PENDING_EMAIL=By.id("uvemail");
+	public static final By PDE_BALANCE_READ=By.xpath("(//span[@id='readbalance'])[2]");
 	public static final By BTN_SAVE = By.id("saveBtn");
 	public static final By TXT_SEARCH_ACCOUNT_ADJUSTMENT = By.xpath("//div[@id='aadt_filter']//input");
 	public static final By DPD_LOCATION = By.cssSelector("select#loc-dropdown");
@@ -44,6 +47,8 @@ public class ConsumerSummary extends Factory {
 	public static final By TXT_SCANID = By.cssSelector("input#scanid");
 	public static final By TXT_PIN = By.cssSelector("input#pin");
 	public static final By TXT_PHONE = By.cssSelector("input#phone");
+	public static final By ITEM_DETAILS=By.xpath("//div[@class='items']");
+	public static final By TRANSACTION_POPTUP=By.id("modaltemplate-title");
 	public static final By BTN_CREATE = By.xpath("//button[text()='Create | Invite']");
 	public static final By TXT_SPINNER_MSG = By.xpath("//div[@class='humane ']");
 	public static final By TXT_SCANID_ERROR = By.xpath("//label[@id='scanid-error']");
@@ -58,6 +63,7 @@ public class ConsumerSummary extends Factory {
 	public static final By BALANCE_HISTORY_GRID = By.id("balance-history_container");
 	public static final By DPD_PAY_CYCLE = By.id("paycycle");
 	public static final By BTN_PAYOUT_CLOSE = By.id("payoutCloseBtn");
+	public static final By FIRST_RECORD=By.xpath("//table[@id='balance-history']/tbody/tr[1]/td[1]");
 	public static final By ERROR_FIRSTNAME = By.id("firstname-error");
 	public static final By ERROR_LASTNAME = By.id("lastname-error");
 	public static final By BTN_MOVE = By.id("moveBtn");
@@ -176,6 +182,7 @@ public class ConsumerSummary extends Factory {
 		dropdown.selectItem(DPD_REASON, reasonCode, Constants.TEXT);
 		foundation.click(BTN_REASON_SAVE);
 		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -236,6 +243,21 @@ public class ConsumerSummary extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		return tableHeaders;
+	}
+
+	
+	/**
+	 * Adjust the balance in Consumer Summary Page
+	 * 
+	 * @param newBalance
+	 * @param reasonCode
+	 */
+	public void adjustBalanceInAllAccount(By option,String newBalance, String reasonCode) {
+		foundation.click(option);
+		textBox.enterText(TXT_ADJUST_BALANCE, newBalance);
+		dropdown.selectItem(DPD_REASON, reasonCode, Constants.TEXT);
+		foundation.click(BTN_REASON_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -414,5 +436,50 @@ public class ConsumerSummary extends Factory {
 		CustomisedAssert.assertEquals(text, bal);
 		foundation.waitforElementToBeVisible(BTN_REASON_CANCEL, 3);
 		foundation.click(BTN_REASON_CANCEL);
+	}
+	
+	/**
+	 * change pde balance in consumer summary page
+	 * @param balance
+	 * @param reason
+	 */
+	public void searchWithConsumerAndChangePDEBalance(String balance,String reason) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(ConsumerSearch.LNK_FIRST_ROW);
+		foundation.waitforElementToBeVisible(ConsumerSummary.LBL_CONSUMER_SUMMARY, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.PAYROLL_BTN_ADJUST));
+		foundation.click(ConsumerSummary.PAYROLL_BTN_ADJUST);
+		foundation.waitforElement(ConsumerSummary.LBL_POPUP_ADJUST_BALANCE, Constants.SHORT_TIME);
+		textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, balance);
+		dropdown.selectItem(ConsumerSummary.DPD_REASON, reason, Constants.TEXT);
+		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_REASON_SAVE, Constants.THREE_SECOND);
+		foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+		foundation.waitforElementToBeVisible(ConsumerSummary.BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(ConsumerSummary.BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
+
+	}
+	
+	/**
+	 * verify transaction details from consumer summary page
+	 * @param productName
+	 * @param amount
+	 * @param scanCode
+	 * @param type
+	 */
+	public void verifyTransactionDetails(String productName,String amount,String scanCode,String type) {
+		foundation.waitforElementToBeVisible(ConsumerSummary.LBL_BALANCE_HISTORY, Constants.SHORT_TIME);
+		foundation.refreshPage();
+		foundation.click(ConsumerSummary.FIRST_RECORD);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TRANSACTION_POPTUP));
+		foundation.waitforElementToBeVisible(ConsumerSummary.ITEM_DETAILS, Constants.THREE_SECOND);
+		String text = foundation.getText(ConsumerSummary.ITEM_DETAILS);
+		CustomisedAssert.assertTrue(text.contains(productName));
+		CustomisedAssert.assertTrue(text.contains(amount));
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(text.contains(scanCode));
+		CustomisedAssert.assertTrue(text.contains(type));
+		
 	}
 }

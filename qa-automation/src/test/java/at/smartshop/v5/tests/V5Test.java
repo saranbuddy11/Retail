@@ -6709,7 +6709,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(4),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3), requiredData.get(5));
+			createPromotions.selectPromotionTimes(requiredData.get(3), requiredData.get(5));
 
 			String priceTotal = foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount = foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
@@ -6831,7 +6831,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(4),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3), requiredData.get(5));
+			createPromotions.selectPromotionTimes(requiredData.get(3), requiredData.get(5));
 
 			String priceTotal = foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -6942,7 +6942,7 @@ public class V5Test extends TestInfra {
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(5));
 
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 
 			String priceTotal = foundation.getText(CreatePromotions.LBL_TOTAL_PRICE).split(Constants.DOLLAR)[1];
@@ -7070,7 +7070,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			List<String> bundleDiscount = foundation.getTextofListElement(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -7194,7 +7194,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			List<String> bundleDiscount = foundation.getTextofListElement(CreatePromotions.LBL_BUNDLE_DISCOUNT);
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -7320,7 +7320,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_CONTINUE, Constants.SHORT_TIME);
@@ -7441,7 +7441,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
 			foundation.click(CreatePromotions.RB_BUNDLE_AMOUNT);
 			foundation.click(CreatePromotions.CHK_BUNDLE_OVERFLOW);
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			// String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			// String bundleDiscount=
@@ -7585,7 +7585,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionPricing(requiredData.get(6));
 
 			foundation.click(CreatePromotions.RB_BUNDLE_PRICE);
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			// String priceTotal=foundation.getText(CreatePromotions.LBL_TOTAL_PRICE);
 			String bundleDiscount = foundation.getText(CreatePromotions.LBL_BUNDLE_DISCOUNT);
@@ -7717,7 +7717,7 @@ public class V5Test extends TestInfra {
 					locationName);
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(3), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 
 			String onScreenDiscount = foundation.getAttributeValue(CreatePromotions.TXT_AMOUNT);
@@ -7848,7 +7848,7 @@ public class V5Test extends TestInfra {
 					locationName);
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(5),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(3), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(3), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 
 			// String onScreenDiscount=
@@ -7973,7 +7973,7 @@ public class V5Test extends TestInfra {
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(7), Constants.TEXT);
 			textBox.enterText(CreatePromotions.TXT_DISCOUNT_PERCENTAGE, requiredData.get(5));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), requiredData.get(8));
+			createPromotions.selectPromotionTimes(requiredData.get(4), requiredData.get(8));
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -8111,7 +8111,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(8),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), requiredData.get(5));
+			createPromotions.selectPromotionTimes(requiredData.get(4), requiredData.get(5));
 			String onScreenDiscount = foundation.getAttributeValue(CreatePromotions.TXT_AMOUNT);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -8238,7 +8238,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(7),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 			String onScreenDiscount = foundation.getAttributeValue(CreatePromotions.TXT_AMOUNT);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -8360,7 +8360,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(7),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 			// String onScreenDiscount=
 			// foundation.getAttributeValue(CreatePromotions.TXT_AMOUNT);
 
@@ -8480,7 +8480,7 @@ public class V5Test extends TestInfra {
 
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(7),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -8601,7 +8601,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(7),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(5), Constants.TEXT);
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -8721,7 +8721,7 @@ public class V5Test extends TestInfra {
 			createPromotions.selectBundlePromotionDetails(requiredData.get(1), requiredData.get(2), requiredData.get(7),
 					rstV5DeviceData.get(CNLocation.REQUIRED_DATA));
 			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(5), Constants.TEXT);
-			createPromotions.selectBundlePromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(4), Constants.DELIMITER_SPACE);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -8845,7 +8845,7 @@ public class V5Test extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(6), requiredData.get(7));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -8964,7 +8964,7 @@ public class V5Test extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(6), requiredData.get(7));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -9074,7 +9074,7 @@ public class V5Test extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), requiredData.get(6));
+			createPromotions.selectPromotionTimes(requiredData.get(5), requiredData.get(6));
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 
 			foundation.click(CreatePromotions.BTN_NEXT);
@@ -9193,7 +9193,7 @@ public class V5Test extends TestInfra {
 			foundation.click(CreatePromotions.BTN_NEXT);
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 			foundation.click(CreatePromotions.TXT_DISCOUNT_PERCENTAGE);
 
@@ -9314,7 +9314,7 @@ public class V5Test extends TestInfra {
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 
@@ -9434,7 +9434,7 @@ public class V5Test extends TestInfra {
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 			foundation.click(CreatePromotions.TXT_DISCOUNT_PERCENTAGE);
 
@@ -9554,7 +9554,7 @@ public class V5Test extends TestInfra {
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 
@@ -9678,7 +9678,7 @@ public class V5Test extends TestInfra {
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 
@@ -9804,7 +9804,7 @@ public class V5Test extends TestInfra {
 			createPromotions.tenderDiscountDetails(requiredData.get(1), requiredData.get(2), requiredData.get(3),
 					requiredData.get(7), requiredData.get(8));
 
-			createPromotions.selectBundlePromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(5), Constants.DELIMITER_SPACE);
 			createPromotions.recurringDay();
 			foundation.click(CreatePromotions.TXT_AMOUNT);
 
@@ -11719,79 +11719,79 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-	@Test(description = "166996 - Verify Update Prices & Full Sync Button on Location Summary page as Super")
-	public void verifyUpdatePriceAndFullSync() {
-		final String CASE_NUM = "166996";
+//	@Test(description = "166996 - Verify Update Prices & Full Sync Button on Location Summary page as Super")
+//	public void verifyUpdatePriceAndFullSync() {
+//		final String CASE_NUM = "166996";
+//
+//		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
+//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//
+//		List<String> requiredData = Arrays
+//				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+//		try {
+//			// launch browser and select org
+//			browser.navigateURL(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//
+//			// navigate to location summary and update price and sync
+//			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+//			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+//			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
+//					requiredData.get(2));
+//			foundation.click(LocationSummary.BTN_FULL_SYNC);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+//			login.logout();
+//			browser.close();
+//
+//			// launch v5 application
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			browser.launch(Constants.REMOTE, Constants.CHROME);
+//			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+//			foundation.click(LandingPage.IMG_SEARCH_ICON);
+//			textBox.enterKeypadText(requiredData.get(1));
+//			foundation.click(ProductSearch.BTN_PRODUCT);
+//			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
+//			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
+//			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		} finally {
+//			// reset data
+//			browser.close();
+//			browser.launch(Constants.LOCAL, Constants.CHROME);
+//			browser.navigateURL(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+//			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.selectOrganization(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
+//			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+//			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
+//					requiredData.get(7));
+//			foundation.click(LocationSummary.BTN_FULL_SYNC);
+//			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.click(LocationSummary.BTN_SAVE);
+//			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+//			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+//			login.logout();
+//			browser.close();
+//		}
+//	}
 
-		rstV5DeviceData = dataBase.getV5DeviceData(Queries.V5Device, CASE_NUM);
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-
-		List<String> requiredData = Arrays
-				.asList(rstV5DeviceData.get(CNV5Device.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-		try {
-			// launch browser and select org
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to location summary and update price and sync
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
-					requiredData.get(2));
-			foundation.click(LocationSummary.BTN_FULL_SYNC);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
-			browser.close();
-
-			// launch v5 application
-			foundation.threadWait(Constants.SHORT_TIME);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-			foundation.click(LandingPage.IMG_SEARCH_ICON);
-			textBox.enterKeypadText(requiredData.get(1));
-			foundation.click(ProductSearch.BTN_PRODUCT);
-			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_HEADER), requiredData.get(4));
-			CustomisedAssert.assertEquals(foundation.getText(Order.TXT_PRODUCT), requiredData.get(1));
-			CustomisedAssert.assertEquals(foundation.getText(Order.LBL_PRODUCT_PRICE), requiredData.get(6));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// reset data
-			browser.close();
-			browser.launch(Constants.LOCAL, Constants.CHROME);
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			locationList.selectLocationName(rstV5DeviceData.get(CNV5Device.LOCATION));
-			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
-			locationSummary.selectingProduct(requiredData.get(8), requiredData.get(1), requiredData.get(0),
-					requiredData.get(7));
-			foundation.click(LocationSummary.BTN_FULL_SYNC);
-			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.click(LocationSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-			foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-			login.logout();
-			browser.close();
-		}
-	}
-
-	@Test(description = "177792 - Verifying the Promo Restriction in promotion - Bundle Promotion")
+	@Test(description = "222237 - Verifying the Promo Restriction in promotion - Bundle Promotion")
 	public void verifyPromoRestrictionInBundlePromotion() {
-		final String CASE_NUM = "177792";
+		final String CASE_NUM = "222237";
 
 		// Reading test data from database
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -12171,7 +12171,6 @@ public class V5Test extends TestInfra {
 		}
 	}
 
-
 	@Test(description = "C197173-verify the sos db and device by creating a new product")
 	public void verifySosDbAndDeviceByCreatingaNewProduct() {
 		try {
@@ -12206,6 +12205,7 @@ public class V5Test extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 	/**
 	 * @author karthikr SOS-30671
 	 * @Date - 30/06/2022
@@ -12246,7 +12246,7 @@ public class V5Test extends TestInfra {
 
 			// Select Bundle Price Radio Button with Bundle Price as $1
 			checkBox.check(CreatePromotions.RB_BUNDLE_PRICE);
-			createPromotions.selectBundlePromotionTimes(requiredData.get(6), Constants.DELIMITER_SPACE);
+			createPromotions.selectPromotionTimes(requiredData.get(6), Constants.DELIMITER_SPACE);
 			foundation.click(CreatePromotions.CHK_NO_END_DATE);
 			createPromotions.selectWeekDays(rstLocationData.get(CNLocation.TYPE));
 			foundation.click(CreatePromotions.BTN_NEXT);
