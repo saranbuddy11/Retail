@@ -1093,7 +1093,7 @@ public class Location extends TestInfra {
 			uidata.remove(expectedData.get(0));
 			uidata.remove(expectedData.get(1));
 			uidata.remove(expectedData.get(2));
-			uidata.remove(expectedData.get(3));
+			
 
 			List<String> uiList = new ArrayList<String>(uidata.values());
 
@@ -2609,6 +2609,7 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(location.get(0));
 			dropDown.selectItem(LocationSummary.DPD_TYPE, location.get(7), Constants.TEXT);
 			foundation.click(LocationSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			locationList.selectLocationName(Location);
 			foundation.click(LocationSummary.TXT_STOCKWELL_STORE_ID);
 			foundation.clearText();
