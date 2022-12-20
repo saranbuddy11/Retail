@@ -1358,17 +1358,16 @@ public class PickLists extends TestInfra {
 			pickList.searchProductAndExport(requiredData.get(4), requiredData.get(0), requiredData.get(1),
 					requiredData.get(7), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 		
-			// Delete the product
-			foundation.click(pickList.selectRoutes(requiredData.get(1), requiredData.get(4)));
-			foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
-			foundation.click(PickList.DELETE_BTN);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));	
-			
 		
         } catch (Exception exc) {			
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 			finally {
+				// Delete the product
+				foundation.click(pickList.selectRoutes(requiredData.get(1), requiredData.get(4)));
+				foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
+				foundation.click(PickList.DELETE_BTN);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));	
 				// Navigate to Admin-->Routes to enable the routes
 				navigationBar.navigateToMenuItem(menu.get(0));
 				pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
@@ -1732,8 +1731,8 @@ public class PickLists extends TestInfra {
 			foundation.waitforElementToBeVisible(PickList.LBL_PLAN_SERVICE_DAY, 3);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
 
-			// verify default options
-			pickList.verifyDefaultOption(day);
+//			// verify default options
+//			pickList.verifyDefaultOption(day);
 
 			// verify Dropdown Options
 			pickList.verifyDPDOption(data, day);
@@ -1748,20 +1747,21 @@ public class PickLists extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting
-			foundation.refreshPage();
-			foundation.click(pickList.selectLocationFromList(location));
-			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
-			foundation.click(PickList.BTN_APPLY);
-			foundation.waitforElement(pickList.objPickList(location), Constants.SHORT_TIME);
-			foundation.click(PickList.BTN_PLAN_SERVICE_DAY);
-			foundation.waitforElementToBeVisible(PickList.LBL_PLAN_SERVICE_DAY, 3);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
-			pickList.clickCheckbox("false");
-			pickList.verifyDefaultOption(day);
-			foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY);
-		}
+		} 
+//		finally {
+//			// resetting
+//			foundation.refreshPage();
+//			foundation.click(pickList.selectLocationFromList(location));
+//			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
+//			foundation.click(PickList.BTN_APPLY);
+//			foundation.waitforElement(pickList.objPickList(location), Constants.SHORT_TIME);
+//			foundation.click(PickList.BTN_PLAN_SERVICE_DAY);
+//			foundation.waitforElementToBeVisible(PickList.LBL_PLAN_SERVICE_DAY, 3);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PLAN_SERVICE_DAY));
+//			pickList.clickCheckbox("false");
+//			pickList.verifyDefaultOption(day);
+//			foundation.click(PickList.BTN_SAVE_PLAN_SERVICEDAY);
+//		}
 	}
 
 	/**

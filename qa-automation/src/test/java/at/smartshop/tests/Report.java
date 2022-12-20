@@ -918,9 +918,9 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			memberPurchaseSummary.getTblRecordsUI();
 			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
 					rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
+			memberPurchaseSummary.getTblRecordsUI();
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
 
 			// Process GMA and sales API
