@@ -840,12 +840,15 @@ public class Device extends TestInfra {
 			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(KioskCreate.BTN_SAVE);
-			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
-			foundation.refreshPage();
+			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.refreshPage();
 
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
-			foundation.click(deviceList.objDeveiceLink(device));
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.adjustBrowerSize("0.8");
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.objectClick(deviceList.objDeveiceLink(device));
 			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
 
 			// selecting Hardware type as PicoMarket
@@ -898,8 +901,8 @@ public class Device extends TestInfra {
 			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(KioskCreate.BTN_SAVE);
-			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
-			foundation.refreshPage();
+			foundation.threadWait(Constants.SHORT_TIME);
+			
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(location);
@@ -1389,6 +1392,8 @@ public class Device extends TestInfra {
 			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
 			foundation.click(DeviceList.BTN_SEARCH);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.adjustBrowerSize("0.8");
 			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
 			foundation.click(DeviceList.TXT_TABLE_RECORD);
 			
@@ -1414,6 +1419,8 @@ public class Device extends TestInfra {
 			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
 			foundation.click(DeviceList.BTN_SEARCH);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.adjustBrowerSize("0.8");
 			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
 			foundation.click(DeviceList.TXT_TABLE_RECORD);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
