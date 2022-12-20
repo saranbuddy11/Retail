@@ -811,6 +811,7 @@ public class Foundation extends Factory {
 
 	/**
 	 * get Dimention
+	 * 
 	 * @param object
 	 * @return
 	 */
@@ -835,10 +836,10 @@ public class Foundation extends Factory {
 		r.keyPress(KeyEvent.VK_ENTER);
 		r.keyRelease(KeyEvent.VK_ENTER);
 	}
-	
+
 	/**
-	 * Clicking enter using Keyboard Actions
-	 * Clicking Shift and Down using Keyboard Actions
+	 * Clicking enter using Keyboard Actions Clicking Shift and Down using Keyboard
+	 * Actions
 	 * 
 	 * @throws AWTException
 	 */
@@ -851,8 +852,8 @@ public class Foundation extends Factory {
 	}
 
 	/**
-	 * Clicking enter using Keyboard Actions
-	 * Clicking ctrl+A and ctrl+X using Keyboard Actions
+	 * Clicking enter using Keyboard Actions Clicking ctrl+A and ctrl+X using
+	 * Keyboard Actions
 	 * 
 	 * @throws AWTException
 	 */
@@ -867,6 +868,29 @@ public class Foundation extends Factory {
 		r.keyRelease(KeyEvent.VK_CONTROL);
 		r.keyRelease(KeyEvent.VK_X);
 	}
-	
+
+	/**
+	 * 
+	 * @param accept
+	 * @return
+	 */
+	public String WaitForAlertAndFetchText(Boolean accept) {
+		// Initialize your wait.
+		WebDriverWait wait = new WebDriverWait(getDriver(), Constants.THREE_SECOND);
+		// Wait for alert
+		String text = null;
+		try {
+			wait.until(ExpectedConditions.alertIsPresent());
+			if (accept) {
+				text = getDriver().switchTo().alert().getText();
+				getDriver().switchTo().alert().accept();
+			} else {
+				text = getDriver().switchTo().alert().getText();
+				getDriver().switchTo().alert().dismiss();
+			}
+		} catch (Exception e) {
+			/* Alert did not appear, do nothing */ }
+		return text;
+	}
+
 }
-			
