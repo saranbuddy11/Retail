@@ -588,7 +588,7 @@ public class GlobalProduct extends Factory {
 		foundation.waitforElementToBeVisible(BTN_SMALL_UPLOAD_IMAGE, Constants.THREE_SECOND);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(TXT_FILE, Filepath);
-		foundation.threadWait(2);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.clickEnter();
 		String actualMessage = foundation.WaitForAlertAndFetchText(true);
 		CustomisedAssert.assertTrue(actualMessage.contains(message));
