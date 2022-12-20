@@ -1355,7 +1355,7 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.click(DeviceList.BTN_SEARCH);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			//Bug is present as Data is not visible on 100% resolution - https://365retailmarkets.atlassian.net/browse/SOS-29342
 			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA).equals(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 			
@@ -1395,7 +1395,8 @@ public class Device extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.adjustBrowerSize("0.8");
 			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
-			foundation.click(DeviceList.TXT_TABLE_RECORD);
+			foundation.objectClick(DeviceList.TXT_TABLE_RECORD);
+			foundation.threadWait(Constants.SHORT_TIME);
 			
 			//Select freedom pay and enter client id, store id and pay label
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
@@ -1422,7 +1423,8 @@ public class Device extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.adjustBrowerSize("0.8");
 			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
-			foundation.click(DeviceList.TXT_TABLE_RECORD);
+			foundation.objectClick(DeviceList.TXT_TABLE_RECORD);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_MSR_CHECK).equals(data.get(2)));
 		}
@@ -1438,6 +1440,7 @@ public class Device extends TestInfra {
 			foundation.click(DeviceSummary.DPD_MSR);
 			dropDown.selectItem(DeviceSummary.DPD_MSR,data.get(4), Constants.TEXT);
 			foundation.click(DeviceSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 		}
 	}
 
@@ -1472,6 +1475,7 @@ public class Device extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
 			String device_name=foundation.getText(LocationSummary.DEVICE_NAME);
+			System.out.println(device_name);
 			
 			//verify the new Fields location level
 			locationSummary.verifyRateFields(data.get(2));
@@ -1479,7 +1483,7 @@ public class Device extends TestInfra {
 			//change location level rate values
 			locationSummary.enterRateValueForFields(data.get(3),data.get(5));
 			foundation.click(LocationSummary.BTN_SAVE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG));
+			foundation.threadWait(Constants.SHORT_TIME);
 			
 			//navigate to Admin->Device and search for existing device
 			navigationBar.navigateToMenuItem(menu.get(1));
