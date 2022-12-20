@@ -126,4 +126,5 @@ public class Constants {
 	public static final String NUMBER_FORMATE_PATTERN = "#,##0.00;(#,##0.00)";
 	public static final String NUMBER_FORMATE_PATTERN_WITH_DOLLER = "$#,##0.00;-$#,##0.00";
 	public static final String NUMBER_FORMATE_PATTERN_WITH_COMMA = "#,###.00";
+	public static final String STAGING = "Staging";
 }

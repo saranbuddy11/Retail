@@ -210,7 +210,7 @@ public class RoundUpCharity extends TestInfra {
 			try {
 			// Select Menu and Menu Item
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.ROUND_UP_CHARITY_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 //			// navigate to super>automation Org
 //			navigationBar.navigateToMenuItem(menu.get(0));
@@ -283,7 +283,7 @@ public class RoundUpCharity extends TestInfra {
 			// login as Operator
 			navigationBar.launchBrowserAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.ROUND_UP_CHARITY_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//Navigate to Admin->Round Up Charity and verify page
 			navigationBar.navigateToMenuItem(menu.get(1));

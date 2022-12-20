@@ -808,15 +808,18 @@ public class PickList extends Factory {
 			foundation.doubleClick(objDropdownPlanServiceDay(day.get(j)));
 			foundation.threadWait(3);
 			CustomisedAssert.assertTrue(value.equals(day.get(7)));
+			foundation.threadWait(3);
 			try {
 				List<WebElement> ListElement = getDriver().findElements(DPD_PLAN_SERVICE_DAY);
+				foundation.threadWait(3);
 				for (int i = 0; i < ListElement.size(); i++) {
 					text = ListElement.get(i).getText();
 					elementsText.add(text);
 					CustomisedAssert.assertTrue(text.equals(data.get(i)));
+					foundation.threadWait(5);
 				}
 				foundation.click(objCheckBoxPlanServiceDay(day.get(0)));
-				foundation.threadWait(3);
+				foundation.threadWait(5);
 
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
