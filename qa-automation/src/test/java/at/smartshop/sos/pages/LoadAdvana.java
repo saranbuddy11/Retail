@@ -9,6 +9,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.Radio;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
 
@@ -52,7 +53,6 @@ public class LoadAdvana extends Factory {
 	dropDown.selectItem(LoadAdvana.DPD_ACTION,action, Constants.TEXT);
 	textBox.enterText(LoadAdvana.TXT_NAME,commercialName);
 	textBox.enterText(LoadAdvana.BTN_IMAGE_FILE, FilePath.IMAGE_PNG_PATH);
-	
 	excel.writeToExcel(FilePath.HOME_COMMERCIAL_TEMPLATE,SHEET,iterator, requiredString);
 	textBox.enterText(LoadAdvana.BTN_CHOOSE_FILE, FilePath.HOME_COMMERCIAL_TEMPLATE);
 	if(!foundation.getText(LoadAdvana.DPD_ADVANA_COMMERCIAL).equals(option)) {
