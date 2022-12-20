@@ -98,6 +98,19 @@ public class GlobalProduct extends Factory {
 	public static final By POPUP_SAVE = By.id("modalsave");
 	public static final By SAVE_MSG = By.xpath("//li[text()='DummyAutoTest added to : ']");
 	public static final By LBL_PRODUCT_SUMMARY = By.xpath("//li[text()='Product Summary']");
+	
+	
+	 public static final By DPD_TAX_CATEGORY1 = By.id("category1");
+		public static final By DPD_TAX_CATEGORY2 = By.id("category2");
+		public static final By DPD_TAX_CATEGORY3 = By.id("category3");
+		public static final By DPD_DEPOSIT_CATEGORY = By.id("depositcat");
+		public static final By DPD_TYPE = By.id("type");
+		public static final By DPD_DISPLAY_NEED_BY = By.id("displayNeed");
+		public static final By DPD_ROUNDING = By.id("rounding");
+		public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
+		public static final By DPD_WEIGH = By.id("weigh");
+		public static final By DPD_IS_DISPLAYED = By.id("isdisabled");
+		public static final By LBL_PRICE_ERROR = By.xpath("//label[@id='price-error']");
 
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
@@ -279,8 +292,6 @@ public class GlobalProduct extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_Product_DEPTH));
 	}
 
-	
-
 	/**
 	 * search product and edit product name and save
 	 * 
@@ -447,6 +458,60 @@ public class GlobalProduct extends Factory {
 		foundation.waitforElementToBeVisible(GlobalProduct.TBL_ROW_PRODUCT, 3);
 		textBox.enterText(GlobalProduct.TXT_FILTER, name);
 		CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProduct.TBL_ROW_PRODUCT).contains(price));
+	}
+
+	/**
+	 * verify Drop Down options text and count
+	 * 
+	 * @param allOptions
+	 */
+	public void verifyDropDownOptionsTextAndCount(By Object, int Count, List<String> allOptions) {
+		List<String> allItems = dropDown.getAllItems(Object);
+		CustomisedAssert.assertTrue(allItems.size() == Count);
+		for (int i = 0; i < allItems.size(); i++) {
+			CustomisedAssert.assertEquals(allItems.get(i), allOptions.get(i));
+		}
+		CustomisedAssert.assertFalse(dropDown.verifyMultipleSelectPossible(Object));
+	}
+
+	/**
+	 * verify Drop down options Available
+	 * 
+	 * @param Object
+	 */
+	public void verifyDropDownOptionsAvailable(By Object) {
+		List<String> allItems = dropDown.getAllItems(Object);
+		CustomisedAssert.assertTrue(allItems.size() > 18);
+		for (String item : allItems) {
+			CustomisedAssert.assertEquals(item.length() > 1, item != null);
+		}
+		CustomisedAssert.assertFalse(dropDown.verifyMultipleSelectPossible(Object));
+
+	}
+
+	/**
+	 * 
+	 * @param productName
+	 * @param location
+	 * @param scanError
+	 * @param priceError
+	 */
+	public void verifyGlobalProductMandotoryFields(String productName, String location, String scanError,
+			String priceError) {
+		foundation.waitforElement(TXT_GLOBAL_PRODUCT, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GLOBAL_PRODUCT));
+		foundation.click(BTN_CREATE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PRODUCT_CREATE));
+		textBox.enterText(TXT_PRODUCTNAME, productName);
+		foundation.click(BTN_SAVE_EXTEND);
+		foundation.waitforElementToBeVisible(SELECT_LOCATION, Constants.THREE_SECOND);
+		textBox.enterText(SELECT_LOCATION, location);
+		foundation.click(LBL_SAVE_DONE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SCANCODE_ERROR));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_PRICE_ERROR));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_SCANCODE_ERROR), scanError);
+		CustomisedAssert.assertEquals(foundation.getText(LBL_PRICE_ERROR), priceError);
+
 	}
 
 }

@@ -2603,4 +2603,84 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author vikneshwaranm 
+	 */
+		@Test(description = "206490-ADM > Global Product > Edit product without mandatory fields"
+				+"206491 - ADM > Global Product > Verify all the categories are displaying in cat1 dropdown"
+				+"206492- ADM > Global Product > Verify all the categories are displaying in cat2 dropdown"
+				+"206493 - ADM > Menu > Product > Global Products"
+				+"206494- ADM > Global Product > Verify all the tax categories are displaying in Tax category dropdown"
+				+"206495 - ADM > Global Product > Verify all the deposit categories are displaying in deposit category dropdown"
+				+"206496- ADM > Global Product > verify Pick List Action dropdown"
+				+"206497 - ADM > Global Product > Verify Display 'Need' By dropdown"
+				+"206498 - ADM > Global Product > Verify Rounding dropdown"
+				+"206499 - ADM > Global Product > Verify Unit Of Measure dropdown"
+				+"206500 - ADM > Global Product > Verify Discount dropdown"
+				+"206501 - ADM > Global Product > Verify Weigh dropdown"
+				+"206502 - ADM > Global Product > Verify Loyalty Multiplier dropdown"
+				+"206503 - ADM > Global Product > Verify Is Disabled dropdown")
+
+		public void verifyDropDownOptionInCreateProductPageInGlobalProducts() {
+			final String CASE_NUM = "206490";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+			List<String> data = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE).split(Constants.DELIMITER_TILD));
+			List<String> typeData = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE).split(Constants.DELIMITER_TILD));
+			List<String> picklistData = Arrays.asList(rstGlobalProductChangeData
+					.get(CNGlobalProductChange.PICKLIST_DROPDOWN).split(Constants.DELIMITER_TILD));
+			List<String> displayNeedByData = Arrays
+					.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.TITLE).split(Constants.DELIMITER_TILD));
+			List<String> roundingData = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE).split(Constants.DELIMITER_TILD));
+			List<String> filterData = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.FILTER_DROPDOWN).split(Constants.DELIMITER_TILD));
+
+			try {
+				// Launch ADM as super and select org
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+				// navigate in to Global product menu
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+				globalProduct.verifyGlobalProductMandotoryFields(
+						rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+						rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME), data.get(0), data.get(1));
+
+				// verify tax Category drop down options
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_TAX_CATEGORY1);
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_TAX_CATEGORY2);
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_TAX_CATEGORY3);
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_DEPOSIT_CATEGORY);
+
+				// verify Type DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_TYPE,4,typeData);
+
+				// verify pickList DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_PICK_LIST,4,picklistData);
+
+				// verify Display need By DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_DISPLAY_NEED_BY,2,displayNeedByData);
+
+				// verify Rounding DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_ROUNDING,3,roundingData);
+
+				// verify Weigh DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_WEIGH, 2, filterData);
+
+				// verify Discount DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_DISCOUNT,2, filterData);
+
+				// verify IS Displayed DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_IS_DISPLAYED,2, filterData);
+
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
 }
