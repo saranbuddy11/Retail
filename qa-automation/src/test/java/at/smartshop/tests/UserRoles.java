@@ -67,6 +67,8 @@ public class UserRoles extends TestInfra {
 			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
 			table.selectRow(lblRowRecord.get(0));
 			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.DPD_DEFAULT_ORG,rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE) , Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 
 			List<String> clientdropDownList = Arrays
@@ -108,6 +110,7 @@ public class UserRoles extends TestInfra {
 
 		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME) + string.getRandomCharacter();
 		final String rowData = rstUserRolesData.get(CNUserRoles.ROW_RECORD);
+		final String defaulatOrg = rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE);
 
 		List<String> dropdownData = Arrays
 				.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
@@ -131,6 +134,10 @@ public class UserRoles extends TestInfra {
 			textBox.enterText(UserList.LAST_NAME_FIELD, device);
 			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
 			foundation.click(UserList.GENERATE_PIN);
+			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.DPD_SELECTED_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
 			foundation.click(UserList.CLICK_OUTSIDE);
 			foundation.click(UserList.SELECT_CLIENT);
@@ -154,6 +161,10 @@ public class UserRoles extends TestInfra {
 			textBox.enterText(UserList.LAST_NAME_FIELD, device);
 			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
 			foundation.click(UserList.GENERATE_PIN);
+			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.DPD_SELECTED_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
 			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
 			foundation.click(UserList.CLICK_OUTSIDE);
 			foundation.click(UserList.SELECT_CLIENT);

@@ -94,7 +94,9 @@ public class UserList extends Factory {
 	public static final By DRP_SELECT_ROLE = By.xpath("//a[@id='standarduserBtn']");
 	public static final By SELECTED_LOC = By.xpath(
 			"(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
-
+public static final By DPD_DEFAULT_ORG = By.id("defaultorg");
+public static final By DPD_SELECTED_ORG= By.id("org-dropdown");
+	
 	public By objRoleName(String roleName) {
 		return By.xpath("//td[text()='" + roleName + "']");
 	}
