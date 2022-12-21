@@ -116,5 +116,11 @@ public class Dropdown extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	public boolean verifyMultipleSelectPossible(By object) {
+		Select select = new Select(getDriver().findElement(object));
+		ExtFactory.getInstance().getExtent().log(Status.INFO, "selected dropdown value is" + select.getFirstSelectedOption().getText());
+		return select.isMultiple();
+	}
 
 }
