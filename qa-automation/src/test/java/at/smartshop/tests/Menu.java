@@ -517,8 +517,11 @@ public class Menu extends TestInfra {
 			foundation.threadWait(3);
 			foundation.click(SelfService.BTN_ADD_PRODUCT);
 			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(10));
+			foundation.threadWait(3);
 			foundation.click(selfService.selectProductToAdd(data.get(10)));
+			foundation.threadWait(5);
 			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
+			foundation.threadWait(3);
 			foundation.click(SelfService.BTN_SAVE);
 			
 			//select location and search for new menu

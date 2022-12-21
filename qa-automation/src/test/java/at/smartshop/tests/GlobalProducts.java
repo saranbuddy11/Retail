@@ -2173,7 +2173,8 @@ public class GlobalProducts extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		}
+		finally {
 
 			// Operator Product Catalog Change
 			globalProductChange.selectProductOPC(product.get(1));
