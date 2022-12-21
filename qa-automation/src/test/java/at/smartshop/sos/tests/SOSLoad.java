@@ -39,6 +39,7 @@ import at.smartshop.sos.pages.LoadAdvana;
 import at.smartshop.sos.pages.LoadDeviceID;
 import at.smartshop.sos.pages.LoadGMA;
 import at.smartshop.sos.pages.LoadProduct;
+import at.smartshop.sos.pages.LoadProductPricing;
 import at.smartshop.sos.pages.LoadQueue;
 import at.smartshop.sos.pages.SOSHome;
 import at.smartshop.tests.TestInfra;
@@ -62,6 +63,7 @@ public class SOSLoad extends TestInfra {
 	private LoadDeviceID loadDeviceID = new LoadDeviceID();
 	private LoadAdvana loadAdvana = new LoadAdvana();
 	private DateAndTime dateAndTime = new DateAndTime();
+	private LoadProductPricing loadProductPricing = new LoadProductPricing();
 	
 	private Map<String, String> rstProductSummaryData;
 	private Map<String, String> rstLocationListData;
@@ -1117,4 +1119,93 @@ public class SOSLoad extends TestInfra {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
 		}
+		
+		/**
+		 * @author sakthir 
+		 * Date:16-11-2022
+		 */
+		@Test(description ="152472-SOSLoad - Product Pricing - Failure"
+                     +"152471-SOSLoad - Product Pricing")
+		public void verifyProductPricingUploadWithInvalidDataAndValidData() {
+			final String CASE_NUM = "152472";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+							
+			List<String> menu =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> location =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			String data=("115334");        
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to ProductPricing
+			navigationBar.navigateToMenuItem(menu.get(0));
+						
+			//Creating product with improper Product pricing via Template in SOS Load
+			String requiredString = ( "123456788" + "#" + "12.6" );
+			excel.writeToExcel(FilePath.PRODUCT_PRICING_TEMPLATE,loadProductPricing.SHEET,location.get(2), requiredString);
+			textBox.enterText(LoadProductPricing.BTN_CHOOSE_FILE, FilePath.PRODUCT_PRICING_TEMPLATE);
+                        textBox.enterText(LoadProductPricing.TXT_LOCATION_NUMBER, location.get(0));
+			foundation.click(LoadProductPricing.BTN_SUBMIT);
+			
+			//verify Success msg page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProductPricing.LBL_UPDATE_PARAMETER));
+			CustomisedAssert.assertTrue(foundation.getText(LoadProductPricing.TXT_MSG).contains(location.get(6)));
+			foundation.click(LoadProductPricing.BTN_OK);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//verify the Queue page
+			navigationBar.navigateToMenuItem(menu.get(1));
+			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(1)));
+
+            //navigate to ProductPricing
+			navigationBar.navigateToMenuItem(menu.get(0));
+						
+			//Creating product with proper Product pricing via Template in SOS Load
+			String price=("20.6");  
+			excel.writeToExcel(FilePath.PRODUCT_PRICING_TEMPLATE,loadProductPricing.SHEET,location.get(2), data + "#" + price );
+			textBox.enterText(LoadProductPricing.BTN_CHOOSE_FILE, FilePath.PRODUCT_PRICING_TEMPLATE);
+                        textBox.enterText(LoadProductPricing.TXT_LOCATION_NUMBER, location.get(0));
+			foundation.click(LoadProductPricing.BTN_SUBMIT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			
+			//verify the Queue page
+			navigationBar.navigateToMenuItem(menu.get(1));
+			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(3)));
+			sosHome.logout();
+
+			// Launch ADM as super
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				
+			//select product added location from location list
+			locationList.selectLocationName(location.get(5));
+			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+			foundation.click(LocationSummary.TAB_PRODUCTS);
+			foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
+			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, data);
+			foundation.threadWait(Constants.SHORT_TIME);
+            CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(price));
+			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+        finally{
+            locationSummary.enterPrice(data,location.get(4));
+            foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
+            CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(location.get(4)));
+        }
+	}
 }
