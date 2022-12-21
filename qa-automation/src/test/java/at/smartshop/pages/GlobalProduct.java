@@ -1,5 +1,6 @@
 package at.smartshop.pages;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
 import at.smartshop.keys.Constants;
+import at.smartshop.keys.FilePath;
 import at.smartshop.tests.TestInfra;
 
 public class GlobalProduct extends Factory {
@@ -28,6 +30,7 @@ public class GlobalProduct extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private Numbers number = new Numbers();
 	private Strings strings = new Strings();
+	private FilePath  filePath  = new FilePath(); 
 
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By ICON_FILTER = By.id("dataGrid_dd_enabled_button");
@@ -98,6 +101,44 @@ public class GlobalProduct extends Factory {
 	public static final By POPUP_SAVE = By.id("modalsave");
 	public static final By SAVE_MSG = By.xpath("//li[text()='DummyAutoTest added to : ']");
 	public static final By LBL_PRODUCT_SUMMARY = By.xpath("//li[text()='Product Summary']");
+
+	public static final By DPD_TAX_CATEGORY1 = By.id("category1");
+	public static final By DPD_TAX_CATEGORY2 = By.id("category2");
+	public static final By DPD_TAX_CATEGORY3 = By.id("category3");
+	public static final By DPD_DEPOSIT_CATEGORY = By.id("depositcat");
+	public static final By DPD_TYPE = By.id("type");
+	public static final By DPD_DISPLAY_NEED_BY = By.id("displayNeed");
+	public static final By DPD_ROUNDING = By.id("rounding");
+	public static final By DPD_DISCOUNT = By.id("hasemployeediscount");
+	public static final By DPD_WEIGH = By.id("weigh");
+	public static final By DPD_IS_DISPLAYED = By.id("isdisabled");
+	public static final By LBL_PRICE_ERROR = By.xpath("//label[@id='price-error']");
+	public static final By BTN_SHOW_IMAGES = By.id("showimage");
+	public static final By BTN_SMALL_CHANGE = By.id("prod-smallimg");
+	public static final By BTN_LARGE_CHANGE = By.id("prod-largeimg");
+	public static final By BTN_SMALL_UPLOAD_IMAGE = By.id("uploadSmall");
+	public static final By BTN_LARGE_UPLOAD_IMAGE = By.id("uploadLarge");
+	public static final By TXT_FILE = By.name("file");
+	public static final By TXT_FILE_LARGE = By.xpath("//div[@id='uploadLarge']//child::input[@type='file']");
+	public static final By LBL_SMALL_IMAGE_PREVIEW = By.id("smallimage-preview");
+	public static final By LBL_LARGE_IMAGE_PREVIEW = By.id("largeimage-preview");
+	public static final By LBL_SMALL_IMAGE_NAME = By.id("smallimage-name");
+	public static final By LBL_LARGE_IMAGE_NAME = By.id("largeimage-name");
+	public static final By LBL_IMAGE = By.xpath("//div[@class='img-block']");
+	public static final By LBL_UPLOAD_SMALL_IMAGE = By.xpath("//li[@id='smallimage-fineuploader']//div");
+	public static final By LBL_UPLOAD_LARGE_IMAGE = By.xpath("//li[@id='largeimage-fineuploader']//div");
+	public static final By LBL_SMALL_IMAGE_POPUP = By.xpath("//h3[@id='smallimage-header']");
+	public static final By LBL_LARGE_IMAGE_POPUP = By.xpath("//h3[@id='largeimage-header']");
+	public static final By CHOOSE_SMALL_IMAGE = By.id("smallimage-choose");
+	public static final By CHOOSE_LARGE_IMAGE = By.id("largeimage-choose");
+	public static final By BTN_CANCEL = By.id("cancelBtn");
+
+	public By selectSmallImage(String image) {
+		return By.xpath("//table[@id='small-img-tbl']//i[@title='"+image+"']");
+	}
+	public By selectLargeImage(String image) {
+		return By.xpath("//table[@id='large-img-tbl']//i[@title='"+image+"']");
+	}
 
 	public By getGlobalProduct(String product) {
 		return By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']");
@@ -279,8 +320,6 @@ public class GlobalProduct extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_Product_DEPTH));
 	}
 
-	
-
 	/**
 	 * search product and edit product name and save
 	 * 
@@ -437,7 +476,6 @@ public class GlobalProduct extends Factory {
 
 	/**
 	 * verify Price Value
-	 * 
 	 * @param name
 	 * @param price
 	 */
@@ -448,4 +486,192 @@ public class GlobalProduct extends Factory {
 		CustomisedAssert.assertTrue(foundation.getTextofListElement(GlobalProduct.TBL_ROW_PRODUCT).contains(price));
 	}
 
+	/**
+	 * verify all option in dropdown by their text value and count
+	 * 
+	 * @param Object
+	 * @param Count
+	 * @param allOptions
+	 */
+	public void verifyDropDownOptionsTextAndCount(By Object, int Count, List<String> allOptions) {
+		List<String> allItems = dropDown.getAllItems(Object);
+		CustomisedAssert.assertTrue(allItems.size() == Count);
+		for (int i = 0; i < allItems.size(); i++) {
+			CustomisedAssert.assertEquals(allItems.get(i), allOptions.get(i));
+		}
+		CustomisedAssert.assertFalse(dropDown.verifyMultipleSelectPossible(Object));
+	}
+
+	/**
+	 * verify Drop down options Available
+	 * 
+	 * @param Object
+	 */
+	public void verifyDropDownOptionsAvailable(By Object) {
+		List<String> allItems = dropDown.getAllItems(Object);
+		CustomisedAssert.assertTrue(allItems.size() > 18);
+		for (String item : allItems) {
+			CustomisedAssert.assertEquals(item.length() > 1, item != null);
+		}
+		CustomisedAssert.assertFalse(dropDown.verifyMultipleSelectPossible(Object));
+
+	}
+
+	/**
+	 * verify global product with out enter mandatory fields
+	 * 
+	 * @param productName
+	 * @param location
+	 * @param scanError
+	 * @param priceError
+	 */
+	public void verifyGlobalProductMandotoryFields(String productName, String location, String scanError,
+			String priceError) {
+		foundation.waitforElement(TXT_GLOBAL_PRODUCT, Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_GLOBAL_PRODUCT));
+		foundation.click(BTN_CREATE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_PRODUCT_CREATE));
+		textBox.enterText(TXT_PRODUCTNAME, productName);
+		foundation.click(BTN_SAVE_EXTEND);
+		foundation.waitforElementToBeVisible(SELECT_LOCATION, Constants.THREE_SECOND);
+		textBox.enterText(SELECT_LOCATION, location);
+		foundation.click(LBL_SAVE_DONE);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SCANCODE_ERROR));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_PRICE_ERROR));
+		CustomisedAssert.assertEquals(foundation.getText(LBL_SCANCODE_ERROR), scanError);
+		CustomisedAssert.assertEquals(foundation.getText(LBL_PRICE_ERROR), priceError);
+
+	}
+
+	/**
+	 * Upload a image for small image from system file
+	 * 
+	 * @param name
+	 * @param Filepath
+	 * @throws Exception
+	 */
+	public void uploadSmallImage(String name, String Filepath) throws Exception {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
+		textBox.enterText(TXT_PRODUCTNAME, name);
+		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
+		foundation.click(BTN_SHOW_IMAGES);
+		foundation.waitforElementToBeVisible(BTN_SMALL_CHANGE, Constants.THREE_SECOND);
+		foundation.click(BTN_SMALL_CHANGE);
+		foundation.waitforElementToBeVisible(BTN_SMALL_UPLOAD_IMAGE, Constants.THREE_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
+		File uploadFile = filePath.copyFile(Filepath);
+		textBox.enterText(TXT_FILE, filePath.getFileAbsolutePath(uploadFile));
+		foundation.threadWait(6);
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SMALL_IMAGE_PREVIEW));
+		CustomisedAssert.assertTrue(
+				filePath.getFileAbsolutePath(uploadFile).contains(foundation.getText(LBL_SMALL_IMAGE_NAME)));
+		filePath.deleteFile(filePath.getFileAbsolutePath(uploadFile));
+	}
+
+	/**
+	 * upload small image with image size is greater than 2MB
+	 * 
+	 * @param name
+	 * @param Filepath
+	 * @param message
+	 * @throws Exception
+	 */
+	public void uploadSmallImage2MB(String name, String Filepath, String message) throws Exception {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
+		textBox.enterText(TXT_PRODUCTNAME, name);
+		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
+		foundation.click(BTN_SHOW_IMAGES);
+		foundation.waitforElementToBeVisible(BTN_SMALL_CHANGE, Constants.THREE_SECOND);
+		foundation.click(BTN_SMALL_CHANGE);
+		foundation.waitforElementToBeVisible(BTN_SMALL_UPLOAD_IMAGE, Constants.THREE_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterText(TXT_FILE, Filepath);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.clickEnter();
+		String actualMessage = foundation.WaitForAlertAndFetchText(true);
+		CustomisedAssert.assertTrue(actualMessage.contains(message));
+	}
+
+	/**
+	 * upload image for large image from system file
+	 * 
+	 * @param name
+	 * @param Filepath
+	 * @throws Exception
+	 */
+	public void uploadLargeImage(String name, String Filepath) throws Exception {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
+		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
+		foundation.click(BTN_SHOW_IMAGES);
+		foundation.waitforElementToBeVisible(BTN_LARGE_CHANGE, Constants.THREE_SECOND);
+		foundation.click(BTN_LARGE_CHANGE);
+		foundation.waitforElementToBeVisible(BTN_LARGE_UPLOAD_IMAGE, Constants.THREE_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
+		File uploadFile = filePath.copyFile(Filepath);
+		textBox.enterText(TXT_FILE_LARGE, filePath.getFileAbsolutePath(uploadFile));
+		foundation.threadWait(6);
+		foundation.threadWait(Constants.THREE_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_LARGE_IMAGE_PREVIEW));
+		CustomisedAssert.assertTrue(
+				filePath.getFileAbsolutePath(uploadFile).contains(foundation.getText(LBL_LARGE_IMAGE_NAME)));
+		filePath.deleteFile(filePath.getFileAbsolutePath(uploadFile));
+	}
+
+	/**
+	 * upload large image with size greater than 2MB 
+	 * 
+	 * @param name
+	 * @param Filepath
+	 * @param message
+	 * @throws Exception
+	 */
+	public void uploadLargeImage2MB(String name, String Filepath, String message) throws Exception {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
+		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
+		foundation.click(BTN_SHOW_IMAGES);
+		foundation.waitforElementToBeVisible(BTN_LARGE_CHANGE, Constants.THREE_SECOND);
+		foundation.click(BTN_LARGE_CHANGE);
+		foundation.waitforElementToBeVisible(BTN_LARGE_UPLOAD_IMAGE, Constants.THREE_SECOND);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterText(TXT_FILE_LARGE, Filepath);
+		foundation.threadWait(2);
+		foundation.clickEnter();
+		String actualMessage = foundation.WaitForAlertAndFetchText(true);
+		CustomisedAssert.assertTrue(actualMessage.contains(message));
+	}
+
+	/**
+	 * Upload Small Image In Global Product
+	 * 
+	 * @param data
+	 */
+	public void uploadSmallImageInGlobalProduct(String data) {
+	foundation.click(BTN_SMALL_CHANGE);
+	foundation.click(CHOOSE_SMALL_IMAGE);
+	foundation.waitforElementToBeVisible(selectSmallImage(data), 3);
+	foundation.click(selectSmallImage(data));
+	CustomisedAssert.assertTrue(foundation.getText(LBL_SMALL_IMAGE_NAME).equals(data));
+}
+	
+	/**
+	 * Upload large Image In Global Product
+	 * 
+	 * @param data
+	 */
+	public void uploadLargeImageInGlobalProduct(String data) {
+		foundation.click(BTN_LARGE_CHANGE);
+		foundation.click(CHOOSE_LARGE_IMAGE);
+		foundation.waitforElementToBeVisible(selectLargeImage(data), 3);
+		foundation.click(selectLargeImage(data));
+		CustomisedAssert.assertTrue(foundation.getText(LBL_LARGE_IMAGE_NAME).equals(data));
+}
 }

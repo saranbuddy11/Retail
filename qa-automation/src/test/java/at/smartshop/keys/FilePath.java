@@ -1,10 +1,15 @@
 package at.smartshop.keys;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
+
+import at.framework.generic.Strings;
 import at.smartshop.pages.ReportList;
 
 public class FilePath {
@@ -12,6 +17,7 @@ public class FilePath {
 	}
 
 	private static ReportList reportList = new ReportList();
+	private static Strings strings = new Strings();
 
 	public static final String FILE = "file:\\\\";
 	public static final String PATH = System.getProperty("user.dir");
@@ -60,7 +66,11 @@ public class FilePath {
 	public static final String PICK_LIST = HOME_PATH + "\\Downloads\\Pick List";
 	public static final String PRODUCT_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductTemplate.xls";
 	public static final String MIDDID_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_testMID_DID_Template.xls";
-	public static final String HOME_COMMERCIAL_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_HomeCommercial_Template.xls";
+	public static final String HOME_COMMERCIAL_TEMPLATE = PATH
+			+ "\\src\\test\\resources\\SOS_HomeCommercial_Template.xls";
+	public static final String IMAGE_JPEG = PATH+"\\src\\test\\resources\\chocolateCakeJpgImage.jpg";
+	public static final String IMAGE_PNG = PATH+"\\src\\test\\resources\\ChocolateCakepngImage.png";
+	public static final String IMAGE2MB_PNG = PATH+"\\src\\test\\resources\\Larger2MBImage.png";
 	public static final String PRODUCT_PRICING_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductPricing_Template.xls";
 
 
@@ -126,4 +136,20 @@ public class FilePath {
 		}
 	}
 
+	public File copyFile(String fileName) throws IOException {
+		String fileName1 = fileName.replace(".", "%");
+		String[] sp = fileName1.split("%");
+		File uploadFile = new File(PATH + "\\src\\test\\resources\\" + strings.getRandomCharacter() + "." + sp[1]);
+		FileUtils.copyFile(new File(fileName), uploadFile);
+		return uploadFile;
+	}
+
+	public String getFileAbsolutePath(File file) {
+		return file.getAbsolutePath();
+	}
+
+	public void deleteFile(String path) {
+		File f = new File(path);
+		f.delete();
+	}
 }
