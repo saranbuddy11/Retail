@@ -477,7 +477,6 @@ public class GlobalProduct extends Factory {
 
 	/**
 	 * verify Price Value
-	 * 
 	 * @param name
 	 * @param price
 	 */
@@ -489,8 +488,10 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
-	 * verify Drop Down options text and count
+	 * verify all option in dropdown by their text value and count
 	 * 
+	 * @param Object
+	 * @param Count
 	 * @param allOptions
 	 */
 	public void verifyDropDownOptionsTextAndCount(By Object, int Count, List<String> allOptions) {
@@ -518,6 +519,7 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
+	 * verify global product with out enter mandatory fields
 	 * 
 	 * @param productName
 	 * @param location
@@ -543,6 +545,7 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
+	 * Upload a image for small image from system file
 	 * 
 	 * @param name
 	 * @param Filepath
@@ -570,6 +573,7 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
+	 * upload small image with image size is greater than 2MB
 	 * 
 	 * @param name
 	 * @param Filepath
@@ -595,6 +599,7 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
+	 * upload image for large image from system file
 	 * 
 	 * @param name
 	 * @param Filepath
@@ -621,6 +626,7 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
+	 * upload large image with size greater than 2MB 
 	 * 
 	 * @param name
 	 * @param Filepath
@@ -646,6 +652,7 @@ public class GlobalProduct extends Factory {
 
 	/**
 	 * Upload Small Image In Global Product
+	 * 
 	 * @param data
 	 */
 	public void uploadSmallImageInGlobalProduct(String data) {
@@ -658,6 +665,7 @@ public class GlobalProduct extends Factory {
 	
 	/**
 	 * Upload large Image In Global Product
+	 * 
 	 * @param data
 	 */
 	public void uploadLargeImageInGlobalProduct(String data) {

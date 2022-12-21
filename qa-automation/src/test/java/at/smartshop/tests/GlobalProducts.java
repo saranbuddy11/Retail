@@ -2604,7 +2604,7 @@ public class GlobalProducts extends TestInfra {
 	}
 
 	/**
-	 * @author vikneshwaranm 
+	 * @author vikneshwaranm Date: 18-11-2022
 	 */
 		@Test(description = "206490-ADM > Global Product > Edit product without mandatory fields"
 				+"206491 - ADM > Global Product > Verify all the categories are displaying in cat1 dropdown"
@@ -2685,8 +2685,8 @@ public class GlobalProducts extends TestInfra {
 		}
 		
 		
-		/**@author vikneshwaranm 6-12-2022
-		 * 
+		/**
+		 * @author vikneshwaranm 6-12-2022
 		 */
 			@Test(description = "208719-ADM > Global Product > verify uploading small images while creating and editing"
 					+ "208720 -ADM > Global Product > verify uploading larger images while creating and editing"
@@ -2748,8 +2748,7 @@ public class GlobalProducts extends TestInfra {
 			}
 			
 			/**
-			 * @author sakthir 
-			 * Date: 07-11-2022
+			 * @author sakthir  Date: 07-11-2022
 			 */
 			@Test(description = "208712-Verify uploading small image by selecting a image which is already uploaded while editing a product"
 					+"208713-Verify uploading small image by selecting a image which is already uploaded while creating a product"
