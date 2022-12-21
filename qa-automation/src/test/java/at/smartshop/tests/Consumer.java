@@ -1596,7 +1596,6 @@ public class Consumer extends TestInfra {
 			foundation.click(consumerSearch.objCell(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME)));
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ConsumerSummary.DPD_PAY_CYCLE), paycycle.get(0));
-			foundation.threadWait(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 
 			TestInfra.failWithScreenShot(exc.toString());

@@ -61,6 +61,7 @@ public class FilePath {
 	public static final String PRODUCT_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductTemplate.xls";
 	public static final String MIDDID_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_testMID_DID_Template.xls";
 	public static final String HOME_COMMERCIAL_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_HomeCommercial_Template.xls";
+	public static final String PRODUCT_PRICING_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductPricing_Template.xls";
 
 
 	public static String reportFilePath(String filename) {
