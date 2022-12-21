@@ -71,6 +71,8 @@ public class FilePath {
 	public static final String IMAGE_JPEG = PATH+"\\src\\test\\resources\\chocolateCakeJpgImage.jpg";
 	public static final String IMAGE_PNG = PATH+"\\src\\test\\resources\\ChocolateCakepngImage.png";
 	public static final String IMAGE2MB_PNG = PATH+"\\src\\test\\resources\\Larger2MBImage.png";
+	public static final String PRODUCT_PRICING_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductPricing_Template.xls";
+
 
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";

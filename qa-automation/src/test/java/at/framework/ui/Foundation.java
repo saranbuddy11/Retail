@@ -582,6 +582,25 @@ public class Foundation extends Factory {
 		}
 		return fontSize;
 	}
+	
+	/**
+	 * To get the Font Style using CSS value
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public String getFontStyle(By object) {
+		String fontStyle = null;
+		try {
+			WebElement element = getDriver().findElement(object);
+			fontStyle = element.getCssValue("font-style");
+			ExtFactory.getInstance().getExtent().log(Status.INFO,
+					"Font style of this Element " + object + "is " + fontStyle);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+		return fontStyle;
+	}
 
 	/**
 	 * To get Style properties using PseudoElement
