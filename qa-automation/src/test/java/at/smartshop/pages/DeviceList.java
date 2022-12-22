@@ -30,7 +30,7 @@ public class DeviceList {
 	}
 
 	public By DeveiceLink(String deviceName) {
-		return By.xpath("//td[@aria-describedby='device-grid_name']//a[text()='" + deviceName + "']");
+		return By.xpath("//td[@aria-describedby='device-grid_name']//a[contains(text(),'" + deviceName + "')]");
 	}
 
 	public By objLocationLink(String location) {

@@ -149,12 +149,12 @@ public class Device extends TestInfra {
 
 			// navigate to admin>device and verify serial number sort functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			// foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			// foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
-			// Constants.ASCENDING);
-			// foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			// foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
-			// Constants.DESCENDING);
+			 foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			 foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+			 Constants.ASCENDING);
+			 foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			 foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+			 Constants.DESCENDING);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1270,7 +1270,9 @@ public class Device extends TestInfra {
 
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-			table.selectRow("KSK_TEST_ELOR");
+			textBox.enterText(Commission.TXT_SEARCH, "VSH1444");
+			foundation.threadWait(Constants.TWO_SECOND);
+			table.selectRow("VSH1444");
 			// rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			foundation.waitforElement(AssignDeviceToOrg.LBL_ASSIGN, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
@@ -1326,9 +1328,11 @@ public class Device extends TestInfra {
 			foundation.click(Commission.TBL_NAME_COLUMN);
 
 			textBox.enterText(Commission.TXT_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
 			Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
 					Commission.TBL_ROW);
-			CustomisedAssert.assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			foundation.threadWait(Constants.SHORT_TIME);
+//			CustomisedAssert.assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 			textBox.enterText(Commission.TXT_SEARCH, Constants.EMPTY_STRING);
 
 		} catch (Exception exc) {
@@ -1503,6 +1507,7 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			locationList.selectLocationName(device.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.addDeviceAndVerify(data.get(1));
 			
 			//verify error msg after three decimal point in location Summary
