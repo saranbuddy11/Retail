@@ -384,7 +384,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "120622-This test validates Product Tax Report Data Calculation")
-	public void productTaxReportData() {
+	@Parameters({ "environment" })
+	public void productTaxReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "120622";
@@ -400,7 +401,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			productTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			productTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1115,7 +1116,6 @@ public class Report extends TestInfra {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
-
 	}
 
 	@Test(description = "142756-This test validates Item Stockout Report Data Calculation")
@@ -5825,7 +5825,7 @@ public class Report extends TestInfra {
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			String updatedTime = String
-					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
@@ -5908,13 +5908,21 @@ public class Report extends TestInfra {
 
 			String inventoryValue = locationSummary
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
+			
+			String updatedTime = String
+					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
+
+			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason);
+
 
 			// Updating the Inventory of the product
-			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(
-					rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason,
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
+//			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(
+//					rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+//					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason,
+//					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+//					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
 
 //			String updatedTime = String
 //					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
@@ -6834,7 +6842,8 @@ public class Report extends TestInfra {
 	 * @author KarthikR Date: 26-09-2022
 	 */
 	@Test(description = "204991 - Cancel Report data validation")
-	public void cancelReportDataValidation() {
+	@Parameters({ "environment" })
+	public void cancelReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "204991";
 
@@ -6856,7 +6865,7 @@ public class Report extends TestInfra {
 			// process API POST Request to generate data
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.SALE_CANCEL_TRANS, FilePath.PROPERTY_CONFIG_FILE),
-					cancelReport.saleCancelJsonDataUpdate());
+					cancelReport.saleCancelJsonDataUpdate(environment));
 			cancelReport.getJsonSalesData();
 			cancelReport.getJsonArrayData(CancelReport.jsonData, Reports.ITEMS, Reports.PAYMENTS);
 

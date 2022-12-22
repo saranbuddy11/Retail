@@ -62,7 +62,9 @@ public class FilePath {
 	public static final String MIDDID_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_testMID_DID_Template.xls";
 	public static final String HOME_COMMERCIAL_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_HomeCommercial_Template.xls";
 
-
+	public static final String CANCEL_SALE_CREATION_STAGING = PATH + "\\src\\test\\resources\\CancelSaleCreation_Staging.json";
+	public static final String JSON_SALES_CREATION_STAGING = PATH + "\\src\\test\\resources\\SalesCreation_Staging.json";
+	
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";
 		return EXCEL_REPORT;
