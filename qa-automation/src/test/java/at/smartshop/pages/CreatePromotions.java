@@ -142,8 +142,12 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_BUNDLE_LIST = By.xpath("//div[text()='Bundle List']");
 	public static final By CHOCOLATE_PRODUCT = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By CHOCOLATE_PRODUCT_STAGING = By.xpath(
+			"//input[@onclick='setCheckBox(\"21114c28d91bcc57bbd9d4e1ef675f13\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By PRODUCT_UNCHECK = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",false,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By PRODUCT_UNCHECK_STAGING = By.xpath(
+			"//input[@onclick='setCheckBox(\"21114c28d91bcc57bbd9d4e1ef675f13\",false,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By CAT_CATEGORY = By.xpath(
 			"//input[@onclick='setCheckBox(\"AUTOMATIONACHATPVQYB\",true,\"categorydatatable\",\"categorycheckbox\")']");
 	public static final By CATEGORY_UNCHECK = By.xpath(

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -3545,7 +3546,8 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "C176296-verify the showing message in Select Group's Items and Categories overlay"
 			+ "C176297-verify the selected message in Select Group's Items and Categories overlay")
-	public void verifyRecordsMessageInItemAndCategory() {
+	@Parameters({ "environment" })
+	public void verifyRecordsMessageInItemAndCategory(String environment) {
 		final String CASE_NUM = "176296";
 
 		// Reading test data from database
@@ -3590,7 +3592,10 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
-			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
+			if (environment.equals(Constants.STAGING))
+				checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT_STAGING);
+			else
+				checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
 			CustomisedAssert.assertTrue(record.contains(product.get(2)));
 
@@ -3615,7 +3620,10 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
-			checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
+			if (environment.equals(Constants.STAGING))
+				checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK_STAGING);
+			else
+				checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
 
 			// verify the product & category unselected in record
 //			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));
