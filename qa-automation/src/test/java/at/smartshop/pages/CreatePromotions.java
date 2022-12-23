@@ -256,6 +256,10 @@ public class CreatePromotions extends Factory {
 		return By.xpath("//tr[@data-id='259ccd00a61aab13b7774cba6f677537']//td[text()='" + product + "']");
 	}
 
+	public By ProductStaging(String product) {
+		return By.xpath("//tr[@data-id='bda83b7e82c726eef6f7ac7511f26921']//td[text()='" + product + "']");
+	}
+
 	public By dropdownBuildBundle(String dropdown) {
 		return By.xpath("//select[@id='discountBy']//option[text()='" + dropdown + "']");
 	}

@@ -3007,7 +3007,8 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "C176286-Verifying the overlay of Group's Items and Categories"
 			+ "C177864-verify the Group Name field in Select Group's Items and Categories overlay")
-	public void verifyOverlayOfGroupItemsAndCategories() {
+	@Parameters({ "environment" })
+	public void verifyOverlayOfGroupItemsAndCategories(String environment) {
 		final String CASE_NUM = "176286";
 
 		// Reading test data from database
@@ -3083,7 +3084,10 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
+			if (environment.equals(Constants.STAGING))
+				CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.ProductStaging(product.get(3))));
+			else
+				CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
 			createPromotions.selectItemInBuildBundle(datas.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -3499,7 +3503,7 @@ public class Promotions extends TestInfra {
 			textBox.clearText(CreatePromotions.INPUT_CATEGORY_SEARCH);
 			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, requiredData.get(4));
 			foundation.threadWait(Constants.SHORT_TIME);
-			checkBox.unCheck(CreatePromotions.CAT_CATEGORY);
+			checkBox.unCheck(CreatePromotions.CATEGORY_CHECK_BOX);
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.clearText(CreatePromotions.GROUP_NAME);
 			foundation.click(CreatePromotions.CANCEL_BTN);
