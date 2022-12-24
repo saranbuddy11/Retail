@@ -526,7 +526,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "130612-This test validates Transaction Canned Report Data Calculation")
-	public void transactionCannedReportData() {
+	@Parameters({ "environment" })
+	public void transactionCannedReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "130612";
@@ -542,10 +543,16 @@ public class Report extends TestInfra {
 			rstLocationSummaryData = dataBase.getLocationSummaryData(Queries.LOCATION_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+			} else {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			};
+//			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
 
 			// process sales API to generate data
-			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId);
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId, environment);
 
 			// Select Organization
 			navigationBar.selectOrganization(
@@ -555,7 +562,14 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(1));
+			} else {
+				reportList.selectReport(reportName.get(0));
+			};
+//			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -563,13 +577,19 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			
+			if (environment.equals(Constants.STAGING)) {
+				transactionCanned.verifyReportName(reportName.get(1));
+			} else {
+				transactionCanned.verifyReportName(reportName.get(0));
+			};
+//			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			transactionCanned.getTblRecordsUI();
 			transactionCanned.getIntialData().putAll(transactionCanned.getReportsData());
 			transactionCanned.getIntialTotal().putAll(transactionCanned.getUpdatedTotal());
 
 			// read updated data
-			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId);
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId, environment);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			transactionCanned.getTblRecordsUI();
@@ -630,7 +650,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "120269-This test validates Member Purchase Details Report Data Calculation")
-	public void memberPurchaseDetailsReport() {
+	@Parameters({ "environment" })
+	public void memberPurchaseDetailsReport(String environment) {
 		try {
 
 			final String CASE_NUM = "120269";
@@ -647,7 +668,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Process Sales API data
-			memberPurchaseDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			memberPurchaseDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -678,6 +699,8 @@ public class Report extends TestInfra {
 			memberPurchaseDetails.updateListData(memberPurchaseDetails.getTableHeaders().get(6),
 					memberPurchaseDetails.getTaxData());
 			memberPurchaseDetails.updateTotal();
+			
+			memberPurchaseDetails.getMemberPurchaseDetails();
 
 			// Verify Report Headers
 			memberPurchaseDetails.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));

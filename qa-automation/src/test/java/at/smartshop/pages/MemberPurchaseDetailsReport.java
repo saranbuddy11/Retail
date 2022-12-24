@@ -122,7 +122,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void checkForDataAvailabilyInResultTable() {
 		try {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
@@ -142,8 +142,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 		}
 	}
 
-
-	public void updateListData(String columnName, List<String> values) {
+	public void updateListData1(String columnName, List<String> values) {
 		try {
 			for (int iter = 0; iter < requiredList.size(); iter++) {
 				String value = String.valueOf(values.get(iter));
@@ -154,10 +153,31 @@ public class MemberPurchaseDetailsReport extends Factory {
 		}
 	}
 
-	public void updateData(String columnName, String value) {
+	public void updateData1(String columnName, String value) {
 		try {
 			for (int iter = 0; iter < requiredList.size(); iter++) {
 				initialData.get(requiredList.get(iter)).put(columnName, value);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void updateListData(String columnName, List<String> values) {
+		try {
+			for (int iter = 0; iter < initialData.size(); iter++) {
+				String value = String.valueOf(values.get(iter));
+				initialData.get(iter).put(columnName, value);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void updateData(String columnName, String value) {
+		try {
+			for (int iter = 0; iter < initialData.size(); iter++) {
+				initialData.get(iter).put(columnName, value);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -205,16 +225,26 @@ public class MemberPurchaseDetailsReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails(String reportFormat) {
+	private void generateJsonDetails(String reportFormat, String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
 			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			}
+			;
+
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
@@ -223,10 +253,10 @@ public class MemberPurchaseDetailsReport extends Factory {
 		}
 	}
 
-	public void processAPI(String value) {
+	public void processAPI(String value, String environment) {
 		try {
-			generateJsonDetails(value);
-			salesJsonDataUpdate();
+			generateJsonDetails(value, environment);
+			salesJsonDataUpdate(environment);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
@@ -243,8 +273,11 @@ public class MemberPurchaseDetailsReport extends Factory {
 				JsonObject element = item.getAsJsonObject();
 				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
 				productNameData.add(element.get(Reports.NAME).getAsString());
-				priceData.add(element.get(Reports.PRICE).getAsString());
-				taxData.add(element.get(Reports.TAX).getAsString());
+				priceData.add(Constants.DOLLAR_SYMBOL + element.get(Reports.PRICE).getAsString());
+				String tax = element.get(Reports.TAX).getAsString();
+				double total = Double.parseDouble(tax);
+				total = Math.round(total * 100.0) / 100.0;
+				taxData.add(Constants.DOLLAR_SYMBOL + Double.toString(total));
 				category1Data.add(element.get(Reports.CATEGORY1).getAsString());
 			}
 		} catch (Exception exc) {
@@ -271,11 +304,18 @@ public class MemberPurchaseDetailsReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate() {
+	private void salesJsonDataUpdate(String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			}
+			;
+
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

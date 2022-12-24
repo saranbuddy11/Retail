@@ -181,7 +181,6 @@ public class ProductCannedReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : " + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -193,7 +192,6 @@ public class ProductCannedReport extends Factory {
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(0)).equals(productName)) {
 					recordCount = rowCount;
-					System.out.println(rowCount);
 					break;
 				}
 			}
@@ -292,7 +290,6 @@ public class ProductCannedReport extends Factory {
 			df.setRoundingMode(RoundingMode.FLOOR);
 			String result = df.format(percent);
 			intialData.get(recordCount).put(columnName, String.valueOf(result));
-			System.out.println("result : "+ result);
 	}
 
 	/**
@@ -317,7 +314,6 @@ public class ProductCannedReport extends Factory {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
 							.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
-					System.out.println("iter : "+ iter);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -331,8 +327,6 @@ public class ProductCannedReport extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("columnName :" + columnName);
-			System.out.println("tableHeaders :" + tableHeaders);
 			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));

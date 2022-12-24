@@ -254,7 +254,6 @@ public class ProductTaxReport extends Factory {
 			JsonArray items = ((JsonObject) jsonData.get(Reports.SALES)).get(Reports.ITEMS).getAsJsonArray();
 			for (JsonElement item : items) {
 				JsonObject element = item.getAsJsonObject();
-				System.out.println("element: "+ element);
 				scancodeData.add(element.get(Reports.SCANCODE).getAsString());
 				productNameData.add(element.get(Reports.NAME).getAsString());
 				priceData.add(element.get(Reports.PRICE).getAsString());
@@ -309,7 +308,6 @@ public class ProductTaxReport extends Factory {
 			saleJson.addProperty(Reports.SALE, salesObj.toString());
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
-			System.out.println("jsonData : "+ jsonData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
