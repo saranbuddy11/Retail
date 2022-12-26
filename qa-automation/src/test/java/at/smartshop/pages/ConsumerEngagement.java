@@ -45,6 +45,7 @@ public class ConsumerEngagement extends Factory {
 	public static final By INPUT_EXPIRE_DATE = By.id("expirationdate");
 	public static final By EXPIRE_DATE_ERROR_MSG = By.id("expiredDateValid");
 	public static final By CHECK_BOX_NO_END_DATE = By.id("noenddate");
+	public static final By ALL_LOCATION_DPD=By.cssSelector("#allloction > div");
 	public static final By CONSUMER_ENGAGE_GRID_FILTER = By.id("consumerengageGridFilter");
 	public static final By BTN_ADD_GIFT_SAVE = By.id("addgiftsavebtn");
 	public static final By TBL_CONSUMER_ENGAGE_GRID = By.cssSelector("#consumerengageGrid > tbody");
@@ -157,9 +158,11 @@ public class ConsumerEngagement extends Factory {
 	 */
 	public void createGiftCard(String title, String amount, String expiry) {
 		foundation.click(BTN_ADD_GIFT_CARD);
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_HEADER));
 		textBox.enterText(INPUT_TITLE, title);
 		textBox.enterText(INPUT_AMOUNT, amount);
+		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(INPUT_EXPIRE_DATE, expiry);
 		foundation.click(BTN_ADD_GIFT_SAVE);
 		foundation.waitforElementToBeVisible(BTN_ADD_GIFT_CARD, Constants.SHORT_TIME);
@@ -299,7 +302,7 @@ public class ConsumerEngagement extends Factory {
 
 	public By getFeatureInRolePermission(String text) {
 		return By.xpath(
-				"//table[contains(@class,'table-striped')]//td[text()='" + text + "']/following-sibling::td/input");
+				"//table[contains(@class,'table-striped')]//td[text()='" + text + "']/following-sibling::td");
 	}
 
 	/**
@@ -336,7 +339,10 @@ public class ConsumerEngagement extends Factory {
 	}
 
 	public void searchUserRolesAndNavigateToRolePermissions(String text, String tab) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.waitforElementToBeVisible(UserList.TXT_SEARCH_ROLE, Constants.SHORT_TIME);
 		textBox.enterText(UserList.TXT_SEARCH_ROLE, text);
+		foundation.threadWait(Constants.THREE_SECOND);
 		table.selectRow(text);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(selectTabName(tab)));
 		foundation.click(selectTabName(tab));
@@ -494,7 +500,9 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(BTN_CANCEL_EMAIL));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(INPUT_EMAIL));
 		textBox.enterText(INPUT_EMAIL, mail);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_EMAIL_CARDS);
+		foundation.threadWait(Constants.THREE_SECOND);
 //		foundation.waitforElementToBeVisible(BTN_OK, Constants.SHORT_TIME);
 //		foundation.click(BTN_OK);
 		foundation.waitforElementToBeVisible(PAGE_TITLE, Constants.SHORT_TIME);
@@ -507,6 +515,7 @@ public class ConsumerEngagement extends Factory {
 	 * @param actual
 	 */
 	public void validateGiftCardExpiredTabAndContent(String header, String actual) {
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(TAB_EXPIRED);
 		foundation.waitforElementToBeVisible(TXT_EXPIRED_TITLE, Constants.THREE_SECOND);
 		List<String> datas = foundation.getTextofListElement(TBL_HEADERS_EXPIRED_GRID);
@@ -658,8 +667,9 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.IMPORTANT_LINE));
 		textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.IMAGE_PNG_PATH);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ERROR_MSG));
-		foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.TWO_SECOND);
+		foundation.waitforElementToBeVisible(ConsumerEngagement.BTN_BROWSE, Constants.SHORT_TIME);
 		textBox.enterText(ConsumerEngagement.BTN_BROWSE, FilePath.EGIFT_CARD_TEMPLATE);
+		foundation.threadWait(Constants.TWO_SECOND);
 		foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
 		foundation.waitforElementToBeVisible(ConsumerEngagement.PAGE_TITLE, Constants.TWO_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.PAGE_TITLE));
@@ -671,6 +681,7 @@ public class ConsumerEngagement extends Factory {
 	 * @param loc
 	 */
 	public void verifyDropdownInLocation(String loc) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
 		foundation.click(ConsumerEngagement.DPD_LOCATION);
 		foundation.waitforElementToBeVisible(TXT_LOCATION_ENGAGEMENT, 5);
@@ -705,6 +716,7 @@ public class ConsumerEngagement extends Factory {
 	 * @param mail
 	 */
 	public void verifyEmailFormatInIssueByEmailField(String inputtext, String mail) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
 		clickOnByEmailFilterAndVerifyEnterRecipient(inputtext, mail);
 		foundation.click(ConsumerEngagement.BTN_EMAIL_CARDS);
@@ -719,6 +731,7 @@ public class ConsumerEngagement extends Factory {
 	 * @param expiry
 	 */
 	public void createGiftCardAndSearchIt(String giftTitle, String amount, String expiry) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		createGiftCard(giftTitle, amount, expiry);
 		foundation.refreshPage();
 
@@ -748,8 +761,9 @@ public class ConsumerEngagement extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_LOCATION));
 		foundation.click(DPD_LOCATION);
 		textBox.enterText(TXT_LOCATION_ENGAGEMENT, location);
-		foundation.click(objSearchLocation(location));
-		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_CLEAR));
+		foundation.threadWait(Constants.TWO_SECOND);
+//		foundation.click(objSearchLocation(location));
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_CLEAR));
 		foundation.click(LOCATION_TAB);
 		foundation.waitforElementToBeVisible(CHECKBOX_SELECTALL, Constants.THREE_SECOND);
 	}
