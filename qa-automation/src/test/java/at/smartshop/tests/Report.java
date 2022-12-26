@@ -1469,13 +1469,18 @@ public class Report extends TestInfra {
 //					canadaMultiTax.getScancodeData());
 			System.out.println("report" + canadaMultiTax.getIntialData());
 			System.out.println("report" + canadaMultiTax.getReportsData());
+			
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+			} else {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			};
 
 			// apply calculation and update data
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(1),
-					(propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE))
-							.toUpperCase());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(1),deviceId.toUpperCase());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(2), canadaMultiTax.getCategory1Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(3), canadaMultiTax.getCategory2Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(4), canadaMultiTax.getCategory3Data());
@@ -1498,7 +1503,7 @@ public class Report extends TestInfra {
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(18),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX_4_LABEL));
 			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(19), canadaMultiTax.getTax4Data());
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(20),
+			canadaMultiTax.updateDataForTax(canadaMultiTax.getTableHeaders().get(20),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX));
 			
 			canadaMultiTax.getTblRecordsUI();
