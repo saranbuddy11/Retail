@@ -93,7 +93,7 @@ public class UserRoles extends TestInfra {
 			table.selectRow(lblRowRecord.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
+			//CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -214,6 +214,7 @@ public class UserRoles extends TestInfra {
 			// Search for already created User
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, updatedData.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(UserList.TBL_DATA);
 			textBox.enterText(UserList.FIRST_NAME_FIELD, updatedData.get(1));
 			textBox.enterText(UserList.LAST_NAME_FIELD, updatedData.get(1));
@@ -346,6 +347,7 @@ public class UserRoles extends TestInfra {
 			// Search for already created User
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.SEARCH_FILTER));
 			textBox.enterText(UserList.SEARCH_FILTER, device);
+			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(UserList.TBL_DATA);
 
 			// Check for Manage Password button and click cancel button
