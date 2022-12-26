@@ -260,7 +260,7 @@ public class Report extends TestInfra {
 //			browser.close();
 //		} catch (Exception exc) {
 //			TestInfra.failWithScreenShot(exc.toString());
-//		
+//		}
 //	}
 
 	@Test(description = "119928-This test validates account adjustment report")
@@ -771,7 +771,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "141644- This test validates Device By Category Report Data Calculation")
-	public void deviceByCategoryReportData() {
+	@Parameters({ "environment" })
+	public void deviceByCategoryReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "141644";
@@ -786,10 +787,15 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+			} else {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			};
 
 			// process sales API to generate data
-			deviceByCategory.processAPI(deviceId);
+			deviceByCategory.processAPI(deviceId, environment);
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -812,7 +818,7 @@ public class Report extends TestInfra {
 
 			deviceByCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 
-			deviceByCategory.processAPI(deviceId);
+			deviceByCategory.processAPI(deviceId, environment);
 
 			// apply calculation and update data
 			List<String> requiredData = Arrays
@@ -846,7 +852,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "141636-This test validates Employee Comp Details Report Data Calculation")
-	public void employeeCompDetailsReportData() {
+	@Parameters({ "environment" })
+	public void employeeCompDetailsReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "141636";
@@ -862,7 +869,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			employeeCompDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			employeeCompDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -912,7 +919,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "142715-This test validates Product Tax Report Data Calculation")
-	public void memberPurchaseSummaryReportData() {
+	@Parameters({ "environment" })
+	public void memberPurchaseSummaryReportData(String environment) {
 		try {
 			final String CASE_NUM = "142715";
 
@@ -927,7 +935,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			memberPurchaseSummary.processAPI();
+			memberPurchaseSummary.processAPI(environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -948,7 +956,7 @@ public class Report extends TestInfra {
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
 
 			// Process GMA and sales API
-			memberPurchaseSummary.processAPI();
+			memberPurchaseSummary.processAPI(environment);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
 					rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
@@ -973,7 +981,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "142642-This test validates ICE Report Data Calculation")
-	public void iceReportData() {
+	@Parameters({ "environment" })
+	public void iceReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "142642";
@@ -1056,7 +1065,7 @@ public class Report extends TestInfra {
 			iceReport.updateClosingLevel(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), columnName.get(1));
 
 			// Select the Report Date range and Location
-			iceReport.processAPI();
+			iceReport.processAPI(environment);
 			navigationBar.navigateToMenuItem(menu.get(0));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -1083,7 +1092,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "142802-This test validates Tip Summary Report Data Calculation")
-	public void tipSummaryReportData() {
+	@Parameters({ "environment" })
+	public void tipSummaryReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "142802";
@@ -1098,7 +1108,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			tipSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			tipSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1121,7 +1131,7 @@ public class Report extends TestInfra {
 			tipSummary.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 
 			// process API
-			tipSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			tipSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			tipSummary.getTblRecordsUI();
 
@@ -1256,7 +1266,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "142814-This test validates Tip Details Report Data Calculation")
-	public void tipDetailsReportData() {
+	@Parameters({ "environment" })
+	public void tipDetailsReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "142814";
@@ -1275,7 +1286,7 @@ public class Report extends TestInfra {
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 
 			// process sales API to generate data
-			tipDetails.processAPI(requiredOption.get(0), requiredOption.get(1));
+			tipDetails.processAPI(requiredOption.get(0), requiredOption.get(1), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1329,7 +1340,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "142863-This test validates Health Ahead Report Data Calculation")
-	public void healthAheadReportData() {
+	@Parameters({ "environment" })
+	public void healthAheadReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "142863";
@@ -1344,11 +1356,17 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+//			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+			} else {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			};
 
 			// process sales API to generate data
 			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1391,7 +1409,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143034-This test validates Canada Multi Tax Report Data Calculation")
-	public void canadaMultiTaxReportData() {
+	@Parameters({ "environment" })
+	public void canadaMultiTaxReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "143034";
@@ -1407,7 +1426,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			canadaMultiTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			canadaMultiTax.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1416,7 +1435,17 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+//			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
+			
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(1));
+			}else{
+				reportList.selectReport(reportName.get(0));
+			}
+			
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
@@ -1424,11 +1453,22 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			canadaMultiTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				canadaMultiTax.verifyReportName(reportName.get(1));
+			} else {
+				canadaMultiTax.verifyReportName(reportName.get(0));
+			}
+//			canadaMultiTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			
+			textBox.enterText(canadaMultiTax.SEARCH_RESULT,
+					(String) canadaMultiTax.getJsonData().get(Reports.TRANS_DATE_TIME));
+			
 			canadaMultiTax.getTblRecordsUI();
 			canadaMultiTax.getIntialData().putAll(canadaMultiTax.getReportsData());
-			canadaMultiTax.getRequiredRecord((String) canadaMultiTax.getJsonData().get(Reports.TRANS_DATE_TIME),
-					canadaMultiTax.getScancodeData());
+//			canadaMultiTax.getRequiredRecord((String) canadaMultiTax.getJsonData().get(Reports.TRANS_DATE_TIME),
+//					canadaMultiTax.getScancodeData());
+			System.out.println("report" + canadaMultiTax.getIntialData());
+			System.out.println("report" + canadaMultiTax.getReportsData());
 
 			// apply calculation and update data
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(0),
@@ -1441,25 +1481,27 @@ public class Report extends TestInfra {
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(4), canadaMultiTax.getCategory3Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(5), canadaMultiTax.getProductNameData());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(6), canadaMultiTax.getScancodeData());
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(7), canadaMultiTax.getPriceData());
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(8), canadaMultiTax.getDepositData());
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(9), canadaMultiTax.getDiscountData());
+			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(7), canadaMultiTax.getPriceData());
+			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(8), canadaMultiTax.getDepositData());
+			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(9), canadaMultiTax.getDiscountData());
 			canadaMultiTax.updateTotalPrice();
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(11), canadaMultiTax.getTaxCatData());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(12),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX_1_LABEL));
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(13), canadaMultiTax.getTax1Data());
+			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(13), canadaMultiTax.getTax1Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(14),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX_2_LABEL));
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(15), canadaMultiTax.getTax2Data());
+			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(15), canadaMultiTax.getTax2Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(16),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX_3_LABEL));
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(17), canadaMultiTax.getTax3Data());
+			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(17), canadaMultiTax.getTax3Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(18),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX_4_LABEL));
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(19), canadaMultiTax.getTax4Data());
+			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(19), canadaMultiTax.getTax4Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(20),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX));
+			
+			canadaMultiTax.getTblRecordsUI();
 
 			// verify report headers
 			canadaMultiTax.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));

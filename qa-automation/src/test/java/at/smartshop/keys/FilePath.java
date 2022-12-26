@@ -64,6 +64,8 @@ public class FilePath {
 
 	public static final String CANCEL_SALE_CREATION_STAGING = PATH + "\\src\\test\\resources\\CancelSaleCreation_Staging.json";
 	public static final String JSON_SALES_CREATION_STAGING = PATH + "\\src\\test\\resources\\SalesCreation_Staging.json";
+	public static final String JSON_GMA_ADD_VALUE_STAGING = PATH + "\\src\\test\\resources\\GMAAddValue_Staging.json";
+	
 	
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";

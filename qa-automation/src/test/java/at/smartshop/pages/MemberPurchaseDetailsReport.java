@@ -168,6 +168,7 @@ public class MemberPurchaseDetailsReport extends Factory {
 			for (int iter = 0; iter < initialData.size(); iter++) {
 				String value = String.valueOf(values.get(iter));
 				initialData.get(iter).put(columnName, value);
+				System.out.println("initialData : "+ initialData);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -214,6 +215,8 @@ public class MemberPurchaseDetailsReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = initialData.size();
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("initialData :"+ initialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
