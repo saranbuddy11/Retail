@@ -877,7 +877,7 @@ public class LocationSummary extends Factory {
 	 * @param deviceName
 	 */
 	public void selectDeviceName(String deviceName) {
-		foundation.click(By.xpath("//a[text()='" + deviceName + "']"));
+		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')"));
 	}
 
 	/**
