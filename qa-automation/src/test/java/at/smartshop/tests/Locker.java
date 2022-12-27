@@ -1372,12 +1372,9 @@ public class Locker extends TestInfra {
 			// location
 			String lockerName = foundation.getText(LocationSummary.LNK_LOCKER_NAME);
 			CustomisedAssert.assertTrue(lockerName.equals(displayName.get(2)));
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-
-		finally {
+		} finally {
 			// resetting the Data
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			lockerSystem.expandLocationLocker(rstLockerSystemData.get(CNLockerSystem.LOCATION_NAME));
@@ -1388,7 +1385,6 @@ public class Locker extends TestInfra {
 			foundation.click(LockerSystem.BTN_YES_DELETE);
 			foundation.waitforElement(LockerSystem.MSG_DELETE_SUCCESS, Constants.SHORT_TIME);
 		}
-
 	}
 
 	@Test(description = "135756-Verify the System and Display Name fields in Create a System screen(Copy button) - Super")
