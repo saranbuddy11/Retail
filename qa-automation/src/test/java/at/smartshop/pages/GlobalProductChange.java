@@ -378,7 +378,8 @@ public class GlobalProductChange extends Factory {
 		foundation.click(GlobalProductChange.BUTTON_OK);
 		foundation.waitforElementToBeVisible(INPUT_TEXT, 3);
 		textBox.enterText(INPUT_TEXT, "CONFIRM");
-		foundation.threadWait(1);
+		foundation.threadWait(3);
+
 		foundation.clickEnter();
 		foundation.threadWait(Constants.MEDIUM_TIME);
 		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
