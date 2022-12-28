@@ -2603,4 +2603,275 @@ public class GlobalProducts extends TestInfra {
 		}
 	}
 
+	/**
+	 * @author vikneshwaranm Date: 18-11-2022
+	 */
+		@Test(description = "206490-ADM > Global Product > Edit product without mandatory fields"
+				+"206491 - ADM > Global Product > Verify all the categories are displaying in cat1 dropdown"
+				+"206492- ADM > Global Product > Verify all the categories are displaying in cat2 dropdown"
+				+"206493 - ADM > Menu > Product > Global Products"
+				+"206494- ADM > Global Product > Verify all the tax categories are displaying in Tax category dropdown"
+				+"206495 - ADM > Global Product > Verify all the deposit categories are displaying in deposit category dropdown"
+				+"206496- ADM > Global Product > verify Pick List Action dropdown"
+				+"206497 - ADM > Global Product > Verify Display 'Need' By dropdown"
+				+"206498 - ADM > Global Product > Verify Rounding dropdown"
+				+"206499 - ADM > Global Product > Verify Unit Of Measure dropdown"
+				+"206500 - ADM > Global Product > Verify Discount dropdown"
+				+"206501 - ADM > Global Product > Verify Weigh dropdown"
+				+"206502 - ADM > Global Product > Verify Loyalty Multiplier dropdown"
+				+"206503 - ADM > Global Product > Verify Is Disabled dropdown")
+
+		public void verifyDropDownOptionInCreateProductPageInGlobalProducts() {
+			final String CASE_NUM = "206490";
+
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+			List<String> data = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE).split(Constants.DELIMITER_TILD));
+			List<String> typeData = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE).split(Constants.DELIMITER_TILD));
+			List<String> picklistData = Arrays.asList(rstGlobalProductChangeData
+					.get(CNGlobalProductChange.PICKLIST_DROPDOWN).split(Constants.DELIMITER_TILD));
+			List<String> displayNeedByData = Arrays
+					.asList(rstGlobalProductChangeData.get(CNGlobalProductChange.TITLE).split(Constants.DELIMITER_TILD));
+			List<String> roundingData = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE).split(Constants.DELIMITER_TILD));
+			List<String> filterData = Arrays.asList(
+					rstGlobalProductChangeData.get(CNGlobalProductChange.FILTER_DROPDOWN).split(Constants.DELIMITER_TILD));
+
+			try {
+				// Launch ADM as super and select org
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+				// navigate in to Global product menu
+				navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+				globalProduct.verifyGlobalProductMandotoryFields(
+						rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+						rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME), data.get(0), data.get(1));
+
+				// verify tax Category drop down options
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_TAX_CATEGORY1);
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_TAX_CATEGORY2);
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_TAX_CATEGORY3);
+				globalProduct.verifyDropDownOptionsAvailable(GlobalProduct.DPD_DEPOSIT_CATEGORY);
+
+				// verify Type DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_TYPE,4,typeData);
+
+				// verify pickList DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_PICK_LIST,4,picklistData);
+
+				// verify Display need By DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_DISPLAY_NEED_BY,2,displayNeedByData);
+
+				// verify Rounding DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_ROUNDING,3,roundingData);
+
+				// verify Weigh DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_WEIGH, 2, filterData);
+
+				// verify Discount DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_DISCOUNT,2, filterData);
+
+				// verify IS Displayed DropDown
+				globalProduct.verifyDropDownOptionsTextAndCount(GlobalProduct.DPD_IS_DISPLAYED,2, filterData);
+
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
+		
+		
+		/**
+		 * @author vikneshwaranm 6-12-2022
+		 */
+			@Test(description = "208719-ADM > Global Product > verify uploading small images while creating and editing"
+					+ "208720 -ADM > Global Product > verify uploading larger images while creating and editing"
+					+ "208721 -ADM > Global Product > verify uploading small images with image more than 2 MB while creating and editing"
+					+ "208722 -ADM > Global Product > verify uploading large images with image more than 2 MB while creating and editing"
+					+ "208723 -ADM > Global Product > verify uploading small image with jpg image while creating and editing"
+					+ "208724 -ADM > Global Product > verify uploading large image with jpg image while creating and editing"
+					+ "208725 -ADM > Global Product > verify uploading small image with png format while creating and editing"
+					+ "208726 -ADM > Global Product > verify uploading large images with png format while creating and editing")
+			public void verifyGlobalProductImagesWhileProductCreationAndEdit() {
+				final String CASE_NUM = "208719";
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+				try {
+					// Launch ADM as super and select org
+					navigationBar.launchBrowserAsSuperAndSelectOrg(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+					// navigate in to Global product menu
+					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+					
+					 //Upload small PNG
+					globalProduct.uploadSmallImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+							FilePath.IMAGE_PNG);
+					
+				
+					 //Upload Large PNG
+					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
+					globalProduct.uploadLargeImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+							FilePath.IMAGE_PNG);
+					
+					
+		            //Upload small JPG
+					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));		
+					globalProduct.uploadSmallImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+							FilePath.IMAGE_JPEG);
+					
+		            //Upload Large JPG
+					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
+					globalProduct.uploadLargeImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+							FilePath.IMAGE_JPEG);
+					
+					  //Upload small Image with larger than 2MB
+					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
+					globalProduct.uploadSmallImage2MB(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+							FilePath.IMAGE2MB_PNG , rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE));
+					
+		            //Upload small Image with larger than 2MB
+					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+					globalProduct.uploadLargeImage2MB(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
+							FilePath.IMAGE2MB_PNG , rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE));
+									
+				} catch (Exception exc) {
+					TestInfra.failWithScreenShot(exc.toString());
+				}
+			}
+			
+			/**
+			 * @author sakthir  Date: 07-11-2022
+			 */
+			@Test(description = "208712-Verify uploading small image by selecting a image which is already uploaded while editing a product"
+					+"208713-Verify uploading small image by selecting a image which is already uploaded while creating a product"
+					+"208714-Verify uploading large image by selecting a image which is already uploaded while editing a product"
+					+"208715-Verify uploading large image by selecting a image which is already uploaded while creating a product")
+			public void verifyUploadingSmallImageAndLargeImageBySelectingAImageWhichIsAlreadyUploadedWhileCreatingAndEditing() {
+				final String CASE_NUM = "208712";
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstGlobalProductChangeData = dataBase.getGlobalProductChangeData(Queries.GLOBAL_PRODUCT_CHANGE, CASE_NUM);
+
+				List<String> data =Arrays.asList(
+						rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+				String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+
+				
+				try {
+
+					// Select Org & Menu
+					navigationBar.launchBrowserAsSuperAndSelectOrg(
+							propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+					
+					//navigate to product->Global Product
+					navigationBar.navigateToMenuItem(menu);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+					
+					//Select Existing Product and click show image
+					globalProduct.selectGlobalProduct(data.get(0));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+					
+					//Click Show Image and verify Images grid
+					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.BTN_SHOW_IMAGES));
+					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
+				
+					//select Small image from existing uploaded image for existing product
+					globalProduct.uploadSmallImageInGlobalProduct(data.get(3));
+					
+					//select large image from existing uploaded image for existing product
+					globalProduct.uploadLargeImageInGlobalProduct(data.get(2));
+					foundation.click(ProductSummary.BTN_SAVE);
+					
+					//Select Image Uploaded product
+					globalProduct.selectGlobalProduct(data.get(0));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+					
+					//verify the Uploaded image as save
+					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
+					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
+					CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.LBL_SMALL_IMAGE_NAME).equals(data.get(3)));
+					CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.LBL_LARGE_IMAGE_NAME).equals(data.get(2)));
+					foundation.click(GlobalProduct.BTN_CANCEL);
+					
+					//Click Create New and enter required fields
+					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+					foundation.click(GlobalProduct.BTN_CREATE);
+					foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
+					textBox.enterText(GlobalProduct.TXT_PRODUCTNAME, data.get(6));
+					foundation.waitforElementToBeVisible(GlobalProduct.TXT_PRICE, 2);
+					textBox.enterText(GlobalProduct.TXT_PRICE, data.get(7));
+					foundation.waitforElementToBeVisible(GlobalProduct.TXT_SCAN_CODE, 2);
+					textBox.enterText(GlobalProduct.TXT_SCAN_CODE, strings.getRandomCharacter());
+					
+					//Click Show Image and verify Images grid
+					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.BTN_SHOW_IMAGES));
+					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
+				
+					//select Small image from existing uploaded image for new product
+					globalProduct.uploadSmallImageInGlobalProduct(data.get(3));
+					
+					//select large image from existing uploaded image for new product
+					globalProduct.uploadLargeImageInGlobalProduct(data.get(9));
+					
+					//Save with Extend location
+					foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND, 2);
+					foundation.click(GlobalProduct.BTN_SAVE_EXTEND);
+					foundation.waitforElementToBeVisible(GlobalProduct.POPUP_DROPDOWN, 5);
+					foundation.click(GlobalProduct.POPUP_DROPDOWN);
+					foundation.click(globalProduct.selectLocationForProduct(data.get(10)));
+					foundation.click(GlobalProduct.POPUP_DROPDOWN);
+					foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE, 2);
+					foundation.click(GlobalProduct.LBL_SAVE_DONE);
+					
+					//Select Image Uploaded product
+					navigationBar.navigateToMenuItem(menu);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+					foundation.threadWait(3);
+					globalProduct.selectGlobalProduct(data.get(6));
+					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+					
+					//verify the Uploaded image as save
+					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
+					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
+					CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.LBL_SMALL_IMAGE_NAME).equals(data.get(3)));
+					CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.LBL_LARGE_IMAGE_NAME).equals(data.get(9)));
+					foundation.click(GlobalProduct.BTN_CANCEL);
+					
+				}
+				catch (Exception exc) {
+			        TestInfra.failWithScreenShot(exc.toString());
+		          }
+				finally {
+			        //resetting
+					navigationBar.navigateToMenuItem(menu);
+					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+		        	globalProduct.selectGlobalProduct(data.get(0));
+		  			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+		  			foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
+		  			foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
+		  			globalProduct.uploadSmallImageInGlobalProduct(data.get(5));
+		  			globalProduct.uploadLargeImageInGlobalProduct(data.get(4));
+		  			foundation.click(ProductSummary.BTN_SAVE);
+		  			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
+		  			foundation.threadWait(3);
+		        	globalProduct.selectGlobalProduct(data.get(6));
+		  			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
+		  			foundation.waitforElementToBeVisible(GlobalProduct.DISABLE_PRODUCT, 3);
+		  			dropDown.selectItem(GlobalProduct.DISABLE_PRODUCT, data.get(8), Constants.TEXT);
+		  			foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE, 5);
+		  			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
+		}
+			}
 }
