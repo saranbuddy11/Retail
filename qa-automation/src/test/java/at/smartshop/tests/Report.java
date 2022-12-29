@@ -1592,7 +1592,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143433-This test validates Unfinished Close Report Data Calculation")
-	public void unfinishedCloseReportData() {
+	@Parameters({ "environment" })
+	public void unfinishedCloseReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "143433";
@@ -1609,7 +1610,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			unfinishedClose.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1790,7 +1791,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143268-This test validates Voided Product Report Data Calculation")
-	public void voidedProductReportData() {
+	@Parameters({ "environment" })
+	public void voidedProductReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "143268";
@@ -1807,7 +1809,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			voidedProduct.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2178,7 +2180,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "146058-This test validates Health Ahead Percentage Report Data Calculation")
-	public void healthAheadPercentageReportData() {
+	@Parameters({ "environment" })
+	public void healthAheadPercentageReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "146058";
@@ -2197,7 +2200,7 @@ public class Report extends TestInfra {
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// process sales API to generate data
-			healthAheadPercentage.processAPI();
+			healthAheadPercentage.processAPI(environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2317,7 +2320,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "145723-This test validates Billing Information Report Data Calculation")
-	public void billingInformationReportData() {
+	@Parameters({ "environment" })
+	public void billingInformationReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "145723";
@@ -2338,7 +2342,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			billingInformation.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			billingInformation.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -2494,7 +2498,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "146142-This test validates Personal Charge Report Data Calculation")
-	public void personalChargeReportData() {
+	@Parameters({ "environment" })
+	public void personalChargeReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "146142";
@@ -2514,7 +2519,7 @@ public class Report extends TestInfra {
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// process sales API to generate data
-			personalCharge.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			personalCharge.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2773,7 +2778,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "147403-This test validates Alcohol sold Details Report Data Calculation")
-	public void alcoholSoldDetailsReportData() {
+	@Parameters({ "environment" })
+	public void alcoholSoldDetailsReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "147403";
@@ -2789,16 +2795,22 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			alcoholSoldDetails.processAPI();
+			alcoholSoldDetails.processAPI(environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
+			
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(1));
+			}else{
+				reportList.selectReport(reportName.get(0));
+			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
@@ -2808,7 +2820,11 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
-			alcoholSoldDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				alcoholSoldDetails.verifyReportName(reportName.get(1));
+			} else {
+				alcoholSoldDetails.verifyReportName(reportName.get(0));
+			}
 			alcoholSoldDetails.getTblRecordsUI();
 			alcoholSoldDetails.getIntialData().putAll(alcoholSoldDetails.getReportsData());
 			alcoholSoldDetails.getRequiredRecord(alcoholSoldDetails.getScancodeData());
@@ -4682,7 +4698,8 @@ public class Report extends TestInfra {
 	 * 
 	 */
 	@Test(description = "198560-Verify the Data Validation of Daily Sales Summary Report")
-	public void dailySalesSummaryReportDataValication() {
+	@Parameters({ "environment" })
+	public void dailySalesSummaryReportDataValication(String environment) {
 		try {
 			final String CASE_NUM = "198560";
 			browser.navigateURL(
@@ -4701,7 +4718,7 @@ public class Report extends TestInfra {
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-			dailySalesSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			dailySalesSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -4719,7 +4736,7 @@ public class Report extends TestInfra {
 			dailySalesSummary.getIntialData().putAll(dailySalesSummary.getReportsData());
 
 			// process sales API to generate data
-			dailySalesSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			dailySalesSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
