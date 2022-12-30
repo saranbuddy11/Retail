@@ -151,6 +151,8 @@ public class BillingInformationReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("reportsData : "+reportsData);
+			System.out.println("intialData : "+intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -255,6 +257,7 @@ public class BillingInformationReport extends Factory {
 			saleJson.addProperty(Reports.SALE, salesObj.toString());
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
+			System.out.println("jsonData :"+ jsonData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -713,7 +713,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "120821-This test validates Bad Scan Report Data Calculation")
-	public void badScanReportData() {
+	@Parameters({ "environment" })
+	public void badScanReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "120821";
@@ -728,7 +729,7 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 
 			// process sales API to generate data
-			badScan.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			badScan.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
@@ -741,23 +742,26 @@ public class Report extends TestInfra {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+			String location = propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE);
+			reportList.selectLocation(location);
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			badScan.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			textBox.enterText(BadScanReport.TXT_SEARCH, (String) badScan.getData().get(Reports.TRANS_DATE_TIME));
 			badScan.getTblRecordsUI();
 			badScan.getIntialData().putAll(badScan.getReportsData());
-			badScan.getRequiredRecord((String) badScan.getData().get(Reports.TRANS_DATE_TIME));
+//			badScan.getRequiredRecord((String) badScan.getData().get(Reports.TRANS_DATE_TIME));
 
 			// apply calculation and update data
 			badScan.updateData(badScan.getTableHeaders().get(0), propertyFile
 					.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE).toUpperCase());
 			badScan.updateData(badScan.getTableHeaders().get(1),
 					(String) badScan.getData().get(Reports.TRANS_DATE_TIME));
-			badScan.updateData(badScan.getTableHeaders().get(2), badScan.getRequiredJsonData().get(1));
+			badScan.updateData(badScan.getTableHeaders().get(2), location);
 			badScan.updateData(badScan.getTableHeaders().get(3), badScan.getRequiredJsonData().get(0));
+			
+//			badScan.getTblRecordsUI();
 
 			// verify report headers
 			badScan.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
