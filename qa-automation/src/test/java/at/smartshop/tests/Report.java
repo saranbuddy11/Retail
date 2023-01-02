@@ -545,14 +545,16 @@ public class Report extends TestInfra {
 
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+						FilePath.PROPERTY_CONFIG_FILE);
 			} else {
 				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			};
+			}
 //			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
 
 			// process sales API to generate data
-			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId, environment);
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId,
+					environment);
 
 			// Select Organization
 			navigationBar.selectOrganization(
@@ -568,7 +570,7 @@ public class Report extends TestInfra {
 				reportList.selectReport(reportName.get(1));
 			} else {
 				reportList.selectReport(reportName.get(0));
-			};
+			}
 //			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
@@ -577,19 +579,21 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			
+
 			if (environment.equals(Constants.STAGING)) {
 				transactionCanned.verifyReportName(reportName.get(1));
 			} else {
 				transactionCanned.verifyReportName(reportName.get(0));
-			};
+			}
+			;
 //			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			transactionCanned.getTblRecordsUI();
 			transactionCanned.getIntialData().putAll(transactionCanned.getReportsData());
 			transactionCanned.getIntialTotal().putAll(transactionCanned.getUpdatedTotal());
 
 			// read updated data
-			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId, environment);
+			transactionCanned.processAPI(rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA), deviceId,
+					environment);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			transactionCanned.getTblRecordsUI();
@@ -699,7 +703,7 @@ public class Report extends TestInfra {
 			memberPurchaseDetails.updateListData(memberPurchaseDetails.getTableHeaders().get(6),
 					memberPurchaseDetails.getTaxData());
 			memberPurchaseDetails.updateTotal();
-			
+
 			memberPurchaseDetails.getMemberPurchaseDetails();
 
 			// Verify Report Headers
@@ -760,7 +764,7 @@ public class Report extends TestInfra {
 					(String) badScan.getData().get(Reports.TRANS_DATE_TIME));
 			badScan.updateData(badScan.getTableHeaders().get(2), location);
 			badScan.updateData(badScan.getTableHeaders().get(3), badScan.getRequiredJsonData().get(0));
-			
+
 //			badScan.getTblRecordsUI();
 
 			// verify report headers
@@ -793,10 +797,12 @@ public class Report extends TestInfra {
 
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+						FilePath.PROPERTY_CONFIG_FILE);
 			} else {
 				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			};
+			}
+			;
 
 			// process sales API to generate data
 			deviceByCategory.processAPI(deviceId, environment);
@@ -1363,10 +1369,12 @@ public class Report extends TestInfra {
 //			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+						FilePath.PROPERTY_CONFIG_FILE);
 			} else {
 				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			};
+			}
+			;
 
 			// process sales API to generate data
 			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
@@ -1440,16 +1448,16 @@ public class Report extends TestInfra {
 
 			// Select the Report Date range and Location
 //			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			
+
 			List<String> reportName = Arrays
 					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
-			
+
 			if (environment.equals(Constants.STAGING)) {
 				reportList.selectReport(reportName.get(1));
-			}else{
+			} else {
 				reportList.selectReport(reportName.get(0));
 			}
-			
+
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
@@ -1463,28 +1471,30 @@ public class Report extends TestInfra {
 				canadaMultiTax.verifyReportName(reportName.get(0));
 			}
 //			canadaMultiTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			
+
 			textBox.enterText(canadaMultiTax.SEARCH_RESULT,
 					(String) canadaMultiTax.getJsonData().get(Reports.TRANS_DATE_TIME));
-			
+
 			canadaMultiTax.getTblRecordsUI();
 			canadaMultiTax.getIntialData().putAll(canadaMultiTax.getReportsData());
 //			canadaMultiTax.getRequiredRecord((String) canadaMultiTax.getJsonData().get(Reports.TRANS_DATE_TIME),
 //					canadaMultiTax.getScancodeData());
 			System.out.println("report" + canadaMultiTax.getIntialData());
 			System.out.println("report" + canadaMultiTax.getReportsData());
-			
+
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+						FilePath.PROPERTY_CONFIG_FILE);
 			} else {
 				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			};
+			}
+			;
 
 			// apply calculation and update data
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(0),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(1),deviceId.toUpperCase());
+			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(1), deviceId.toUpperCase());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(2), canadaMultiTax.getCategory1Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(3), canadaMultiTax.getCategory2Data());
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(4), canadaMultiTax.getCategory3Data());
@@ -1509,7 +1519,7 @@ public class Report extends TestInfra {
 			canadaMultiTax.updateData_Amount(canadaMultiTax.getTableHeaders().get(19), canadaMultiTax.getTax4Data());
 			canadaMultiTax.updateDataForTax(canadaMultiTax.getTableHeaders().get(20),
 					(String) canadaMultiTax.getJsonData().get(Reports.TAX));
-			
+
 			canadaMultiTax.getTblRecordsUI();
 
 			// verify report headers
@@ -2248,7 +2258,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "146027-This test validates AVI Sub Fee Report Data Calculation")
-	public void aviSubFeeReportData() {
+	@Parameters({ "environment" })
+	public void aviSubFeeReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "146027";
@@ -2271,11 +2282,29 @@ public class Report extends TestInfra {
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+//			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+						FilePath.PROPERTY_CONFIG_FILE);
+			} else {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			}
+
+			List<String> locationDetails = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_HASH));
+
+			String locationId;
+			if (environment.equals(Constants.STAGING)) {
+				locationId = locationDetails.get(1);
+			} else {
+				locationId = locationDetails.get(0);
+			}
 
 			aviSubFee.getPriorMonthData(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE),
-					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), deviceId);
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE), locationId,
+					deviceId);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
@@ -2293,7 +2322,7 @@ public class Report extends TestInfra {
 			aviSubFee.getIntialData().putAll(aviSubFee.getReportsData());
 
 			// process sales API to generate data
-			aviSubFee.processAPI(deviceId);
+			aviSubFee.processAPI(deviceId, environment);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 
@@ -2805,14 +2834,14 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			List<String> reportName = Arrays
 					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
-			
+
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			if (environment.equals(Constants.STAGING)) {
 				reportList.selectReport(reportName.get(1));
-			}else{
+			} else {
 				reportList.selectReport(reportName.get(0));
 			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -4683,10 +4712,10 @@ public class Report extends TestInfra {
 
 			// Validating the Headers and Report data
 			intlWebAppFunding.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
-			
+
 			if (environment.equals(Constants.STAGING)) {
 				intlWebAppFunding.verifyReportData(expectedData.get(1));
-			}else{
+			} else {
 				intlWebAppFunding.verifyReportData(expectedData.get(0));
 			}
 
@@ -5999,14 +6028,13 @@ public class Report extends TestInfra {
 
 			String inventoryValue = locationSummary
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			
+
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
 
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
 					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason);
-
 
 			// Updating the Inventory of the product
 //			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(
@@ -8056,7 +8084,8 @@ public class Report extends TestInfra {
 	 * @date: 16-08-2022
 	 */
 	@Test(description = "198563 - UFS By Device Report data validation")
-	public void ufsByDeviceReportDataValidation() {
+	@Parameters({ "environment" })
+	public void ufsByDeviceReportDataValidation(String environment) {
 		final String CASE_NUM = "198563";
 
 		// Reading Test Data from DB
@@ -8079,11 +8108,20 @@ public class Report extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
+			List<String> deviceIDList = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
+
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = deviceIDList.get(1);
+			} else {
+				deviceId = deviceIDList.get(0);
+			}
+
 			// process sales API to generate data
 			ufsByDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -8091,39 +8129,34 @@ public class Report extends TestInfra {
 
 			// Select the Report Date range and Location and run report
 			ufsByDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), location);
+					rstReportListData.get(CNReportList.DATE_RANGE), location, environment);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UFSByDevice.TABLE_CASH_FLOW_DETAILS_TOTAL));
 
 			// read Report Data
-			ufsByDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByDevice.readAllRecordsFromCashFlowDetailsTable(deviceId, location);
 			ufsByDevice.getInitialReportsData().putAll(ufsByDevice.getReportsData());
 			ufsByDevice.getInitialReportTotals().putAll(ufsByDevice.getReportsTotalData());
-			ufsByDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByDevice.getTblRecordsUIOfSalesTimeDetails(deviceId, location);
 			ufsByDevice.getIntialDataOfSalesTimeDetails().putAll(ufsByDevice.getReportsDataOfSalesTimeDetails());
 			ufsByDevice.getUpdatedTableFootersOfSalesTimeDetails()
 					.putAll(ufsByDevice.getTableFootersOfSalesTimeDetails());
 
 			// process sales API to generate data
 			ufsByDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
 			ufsByDevice.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), location);
+					rstReportListData.get(CNReportList.DATE_RANGE), location, environment);
 
 			// read Updated Report Data
-			ufsByDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByDevice.readAllRecordsFromCashFlowDetailsTable(deviceId, location);
 			ufsByDevice.getJsonSalesData();
-			ufsByDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByDevice.getTblRecordsUIOfSalesTimeDetails(deviceId, location);
 
 			int recordCountOfCash = ufsByDevice.getRequiredRecord(columnValue.get(0));
 			int recordCountOfCreditCard = ufsByDevice.getRequiredRecord(columnValue.get(1));
@@ -9340,7 +9373,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara, Date:28-10-2022
 	 */
 	@Test(description = "206324- UFS Report data validation")
-	public void UFSReportDataValidation() {
+	@Parameters({ "environment" })
+	public void UFSReportDataValidation(String environment) {
 		final String CASE_NUM = "206411";
 
 		// Reading Test Data from DB
@@ -9363,23 +9397,29 @@ public class Report extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> deviceIDList = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = deviceIDList.get(1);
+			} else {
+				deviceId = deviceIDList.get(0);
+			}
 			// process sales API to generate data
 			ufsReport.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
 			ufsReport.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), location);
+					rstReportListData.get(CNReportList.DATE_RANGE), location, environment);
 
 			// read Report Data
-			ufsReport.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsReport.readAllRecordsFromCashFlowDetailsTable(deviceId, location);
 			ufsReport.getInitialReportsData().putAll(ufsReport.reportsData);
 			ufsReport.getInitialReportTotals().putAll(ufsReport.getReportsTotalData());
 
@@ -9390,20 +9430,18 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			ufsReport.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
 			ufsReport.selectAndRunReport(rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), location);
+					rstReportListData.get(CNReportList.DATE_RANGE), location, environment);
 
 			// read Updated Report Data
-			ufsReport.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsReport.readAllRecordsFromCashFlowDetailsTable(deviceId, location);
 			ufsReport.getJsonSalesData();
 
 			ufsReport.getTblRecordsUIOfSalesTimeDetails(location);
@@ -9673,7 +9711,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara, Date:02/11/2022
 	 */
 	@Test(description = "206489- UFS By Employee Device Report data validation")
-	public void UFSByEmployeeDeviceReportDataValidation() {
+	@Parameters({ "environment" })
+	public void UFSByEmployeeDeviceReportDataValidation(String environment) {
 		final String CASE_NUM = "206489";
 
 		// Reading Test Data from DB
@@ -9696,12 +9735,20 @@ public class Report extends TestInfra {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> deviceIDList = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
+
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = deviceIDList.get(1);
+			} else {
+				deviceId = deviceIDList.get(0);
+			}
 
 			// process sales API to generate data
 			ufsByEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -9711,14 +9758,12 @@ public class Report extends TestInfra {
 					rstReportListData.get(CNReportList.DATE_RANGE), location);
 
 			// read Report Data
-			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(deviceId, location);
 			ufsByEmployeeDevice.getInitialReportsData().putAll(ufsByEmployeeDevice.reportsData);
 			ufsByEmployeeDevice.getInitialReportTotals().putAll(ufsByEmployeeDevice.getReportsTotalData());
 
 			// Read the Report the Data
-			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(deviceId, location);
 			ufsByEmployeeDevice.getIntialDataOfSalesTimeDetails()
 					.putAll(ufsByEmployeeDevice.getReportsDataOfSalesTimeDetails());
 			ufsByEmployeeDevice.getUpdatedTableFootersOfSalesTimeDetails()
@@ -9726,9 +9771,8 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			ufsByEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
-					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
@@ -9738,12 +9782,10 @@ public class Report extends TestInfra {
 					rstReportListData.get(CNReportList.DATE_RANGE), location);
 
 			// read Updated Report Data
-			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
-					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(deviceId, location);
 			ufsByEmployeeDevice.getJsonSalesData();
 
-			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(deviceId, location);
 
 			int recordCountOfCash = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(0));
 			int recordCountOfCreditCard = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(1));
