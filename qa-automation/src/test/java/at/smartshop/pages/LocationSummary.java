@@ -2770,6 +2770,7 @@ public class LocationSummary extends Factory {
 		foundation.scrollIntoViewElement(LocationSummary.BTN_HOME_COMMERCIAL);
 		foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_HOME_COMMERCIAL_FILTER));
+		foundation.threadWait(Constants.SHORT_TIME);
 		dropDown.selectItem(LocationSummary.DPD_HOME_COMMERCIAL_FILTER, location, Constants.TEXT);
 	}
 
