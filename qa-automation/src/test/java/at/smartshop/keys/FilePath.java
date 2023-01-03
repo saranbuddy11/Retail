@@ -68,6 +68,7 @@ public class FilePath {
 	public static final String JSON_SALES_CREATION_WITH_DEPOSIT_AND_DISCOUNT_STAGING = PATH
 			+ "\\src\\test\\resources\\SalesCreationWithDepositandDiscount_Staging.json";
 	public static final String JSON_BAD_SCAN_STAGING = PATH + "\\src\\test\\resources\\BadScan_Staging.json";
+	public static final String JSON_KIOSK_CASH_OUT_STAGING = PATH + "\\src\\test\\resources\\KioskCashOut_Staging.json";
 	
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";

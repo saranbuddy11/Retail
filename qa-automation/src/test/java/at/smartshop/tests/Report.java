@@ -3085,7 +3085,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "167219-This test validates Cash Flow Report Data Calculation")
-	public void cashFlowReportData() {
+	@Parameters({ "environment" })
+	public void cashFlowReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "167219";
@@ -3101,7 +3102,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			cashFlow.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			cashFlow.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -3124,7 +3125,7 @@ public class Report extends TestInfra {
 			cashFlow.getIntialData().putAll(cashFlow.getReportsData());
 
 			// process sales API to generate data
-			cashFlow.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			cashFlow.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), environment);
 
 			// rerun and reread report
 			foundation.threadWait(Constants.MEDIUM_TIME);
@@ -6574,7 +6575,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 22-07-2022
 	 */
 	@Test(description = "205004-Verify the Data Validation of Account Profitability Report ")
-	public void AccountProfitabilityReportDataValidation() {
+	@Parameters({ "environment" })
+	public void AccountProfitabilityReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "205004";
 
@@ -6607,7 +6609,7 @@ public class Report extends TestInfra {
 			accountProfitability.getIntialData().putAll(accountProfitability.getReportsData());
 
 			// process sales API to generate data
-			accountProfitability.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			accountProfitability.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -7034,7 +7036,8 @@ public class Report extends TestInfra {
 	 * @author KarthikR Date: 29-09-2022
 	 */
 	@Test(description = "204999 - Balance Report data validation")
-	public void balanceReportDataValidation() {
+	@Parameters({ "environment" })
+	public void balanceReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "204999";
 
@@ -7078,9 +7081,17 @@ public class Report extends TestInfra {
 			foundation.waitforElementToBeVisible(ConsumerSearch.TXT_CONSUMER_SEARCH, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TXT_CONSUMER_SEARCH));
 
+			List<String> consumerIDDetials = Arrays
+					.asList(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID).split(Constants.DELIMITER_HASH));
+
+			String consumerId;
+			if (environment.equals(Constants.STAGING)) {
+				consumerId = consumerIDDetials.get(1);
+			} else {
+				consumerId = consumerIDDetials.get(0);
+			}
 			// Search for Consumer
-			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
+			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY), consumerId,
 					rstProductSummaryData.get(CNProductSummary.LOCATION_NAME),
 					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 			foundation.click(consumerSearch.objFirstNameCell(requiredData.get(0)));
@@ -7273,7 +7284,8 @@ public class Report extends TestInfra {
 	 * @author KarthikR Date: 16-09-2022
 	 */
 	@Test(description = "120109 - Cash Audit Report data validation")
-	public void cashAuditReportDataValidation() {
+	@Parameters({ "environment" })
+	public void cashAuditReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "120109";
 
@@ -7297,13 +7309,13 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			cashAudit.processAPI(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 			cashAudit.getCashoutJsonData();
 
 			// Navigate To Report Tab and Select the Report Date range & Location, run
 			// report
 			cashAudit.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+					rstReportListData.get(CNReportList.DATE_RANGE), locationName, environment);
 
 			// read Report Data
 			cashAudit.readAllRecordsFromCashAuditTable();
