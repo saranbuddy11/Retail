@@ -39,7 +39,7 @@ public class Table extends Factory {
 
 	public void selectRow(String text) {
 		try {
-			By rowData = By.xpath("//tr//td[contains(text(),'"+text+"')]");
+			By rowData = By.xpath("//tr//span[contains(text(),'"+text+"')]");
 			foundation.click(rowData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

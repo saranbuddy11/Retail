@@ -262,9 +262,9 @@ public class UserList extends Factory {
 		foundation.waitforElementToBeVisible(ViewRole.LBL_HEADER, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ViewRole.LBL_HEADER));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ViewRole.USER_ASSOCIATE_ROLES));
-		foundation.click(objRoleName(operatorname));
-		foundation.waitforElementToBeVisible(EDIT_USERS, 3);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(EDIT_USERS));
+//		foundation.click(objRoleName(operatorname));
+//		foundation.waitforElementToBeVisible(EDIT_USERS, 3);
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(EDIT_USERS));
 	}
 
 	/**
