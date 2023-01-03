@@ -2186,6 +2186,7 @@ public class PickLists extends TestInfra {
 					foundation.click(PickList.BTN_APPLY);
 					
 					//select one location and click 'plan pick list' button
+					foundation.threadWait(5);
 					foundation.waitforElementToBeVisible(PickList.BTN_SELECTALL, 5);
 					foundation.click(PickList.BTN_SELECTALL);
 					foundation.click(PickList.BTN_PICKLIST_PLAN);
