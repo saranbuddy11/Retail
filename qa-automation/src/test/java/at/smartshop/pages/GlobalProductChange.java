@@ -372,15 +372,13 @@ public class GlobalProductChange extends Factory {
 	/**
 	 * verify Button okay in GPC
 	 * 
-	 * @throws AWTException
 	 */
-	public void verifyButtonOkayInGPC() throws AWTException {
+	public void verifyButtonOkayInGPC() {
+		
 		foundation.click(GlobalProductChange.BUTTON_OK);
 		foundation.waitforElementToBeVisible(INPUT_TEXT, 3);
-		textBox.enterText(INPUT_TEXT, "CONFIRM");
-		foundation.threadWait(3);
-
-		foundation.clickEnter();
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP, "CONFIRM");
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP, Keys.ENTER);
 		foundation.threadWait(Constants.MEDIUM_TIME);
 		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);
