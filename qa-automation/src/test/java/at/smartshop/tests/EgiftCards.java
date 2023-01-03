@@ -1234,7 +1234,7 @@ public class EgiftCards extends TestInfra {
 
 			// Select All location in location of recipient
 			consumerEngagement.verifyLocationOfRecipientInLocationTab(Datas.get(2));
-			consumerEngagement.verifyCheckboxInConsumerEngagementGrid();
+			consumerEngagement.verifyCheckboxInConsumerEngagementGrid(Datas.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

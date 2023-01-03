@@ -2781,7 +2781,7 @@ public class GlobalProducts extends TestInfra {
 					globalProduct.selectGlobalProduct(data.get(0));
 					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 					
-					//Click Show Image and verify Images grid
+					//Click  Image and verify Images grid
 					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.BTN_SHOW_IMAGES));
 					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);

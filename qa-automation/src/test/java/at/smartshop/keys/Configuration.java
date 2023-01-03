@@ -70,4 +70,5 @@ public class Configuration {
 	public static final String KCO_TRANS_KEY = "kioskcashout_trans";
 	public static final String SALE_CANCEL_TRANS = "salecancel_trans";
 	public static final String ROUND_UP_CHARITY_ORG = "RoundUpCharity_Org";
+	public static final String STAGING_DEVICE_ID= "Staging_Device_Id";
 }
