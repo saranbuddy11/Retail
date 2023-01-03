@@ -2289,6 +2289,7 @@ public class Consumer extends TestInfra {
 
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			boolean isConsumerPresent = consumerMove.searchConsumer(consumerName, fromOrg, Constants.ALL);
+			foundation.threadWait(Constants.SHORT_TIME);
 			if (isConsumerPresent) {
 				consumerMove.moveConsumer(consumerName, toOrg, toLocation);
 				navigationBar.navigateToMenuItem(menuItem.get(0));

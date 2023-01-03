@@ -1828,6 +1828,7 @@ public class ConsumerSubsidy extends TestInfra {
 			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
+			foundation.threadWait(Constants.SHORT_TIME);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
@@ -2037,9 +2038,9 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.TXT_ADJUST_BALANCE);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(6));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
-			foundation.click(ConsumerSummary.BTN_SAVE);
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);			
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
@@ -2214,7 +2215,7 @@ public class ConsumerSubsidy extends TestInfra {
 			locationSummary.verifyRolloverSubsidy(requiredData);
 			checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
+			foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF);
 			locationSummary.verifyTopOffDateAutomationLocation1(currentDate);
 			dropDown.selectItem(LocationSummary.DPD_TOP_OFF_RECURRENCE, requiredData.get(8), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_TOP_OFF_GROUP_NAME, requiredData.get(7));
