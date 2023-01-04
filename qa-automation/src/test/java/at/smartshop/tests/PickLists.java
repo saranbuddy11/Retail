@@ -1933,7 +1933,6 @@ public class PickLists extends TestInfra {
 			}
 			CustomisedAssert.assertTrue(str[1].equals(str[5]));
 
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
