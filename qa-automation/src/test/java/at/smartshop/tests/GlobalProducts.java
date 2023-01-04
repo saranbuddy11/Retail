@@ -2224,14 +2224,14 @@ public class GlobalProducts extends TestInfra {
 			// verify the loyalty value in extend location are same
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND_LOC);
 			foundation.waitforElementToBeVisible(GlobalProduct.BTN_EXTEND_LOC, 5);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.TBL_EXTEND).contains(product.get(2)));
 
 			// Add new location in extend and verify the loyalty value in extend location
 			// are same
 			globalProduct.verifyAddLocationInExtend(location.get(1));
 			foundation.waitforElementToBeVisible(GlobalProduct.TBL_EXTEND, Constants.MEDIUM_TIME);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.TBL_EXTEND).contains(product.get(2)));
 
 		} catch (Exception exc) {
@@ -2243,7 +2243,7 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 			foundation.waitforElementToBeVisible(GlobalProduct.GBL_PRODUCT_DATA, 5);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			globalProduct.disableProduct(product.get(3), product.get(0));
 		}
 	}
@@ -2291,6 +2291,7 @@ public class GlobalProducts extends TestInfra {
 
 			// Add new location in extend and verify the loyalty value in extend location
 			// are same
+			foundation.threadWait(3);
 			globalProduct.verifyAddLocationInExtend(location.get(1));
 
 		} catch (Exception exc) {
@@ -2836,9 +2837,10 @@ public class GlobalProducts extends TestInfra {
 					foundation.click(GlobalProduct.LBL_SAVE_DONE);
 					
 					//Select Image Uploaded product
+					foundation.threadWait(Constants.MEDIUM_TIME);
 					navigationBar.navigateToMenuItem(menu);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
-					foundation.threadWait(3);
+					foundation.threadWait(5);
 					globalProduct.selectGlobalProduct(data.get(6));
 					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 					
@@ -2870,8 +2872,10 @@ public class GlobalProducts extends TestInfra {
 		  			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 		  			foundation.waitforElementToBeVisible(GlobalProduct.DISABLE_PRODUCT, 3);
 		  			dropDown.selectItem(GlobalProduct.DISABLE_PRODUCT, data.get(8), Constants.TEXT);
-		  			foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE, 5);
-		  			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
+		  			foundation.threadWait(3);
+		  			foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
+		  			foundation.scrollIntoViewElement(ProductSummary.BTN_SAVE);
+		  			foundation.click(ProductSummary.BTN_SAVE);
 		}
 			}
 }

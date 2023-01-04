@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="methods" thread-count="1">
+	<parameter name="environment" value="Test4" />
+	<parameter name="SendEmail" value="Yes" />
+	<parameter name="UpdateTestRail" value="Yes" />
+	<listeners>
+		<listener class-name="at.framework.reportsetup.Listeners"></listener>
+	</listeners>
+
+	<test name="Test">
+		<parameter name="driver" value="Local" />
+		<parameter name="browser" value="Chrome" />
+		<!-- <parameter name = "reportsDB" value="Snowflake" /> -->
+		<parameter name="reportsDB" value="RDS" />
+		<classes>
+
+			<class name="at.smartshop.tests.SuperOthers">
+				<methods>
+					<include name="OrgValidDetailsSaveAndCancel"></include>
+				</methods>
+			</class>
+
+			<class name="at.smartshop.tests.Location">
+				<methods>
+					<include name="verifyUserIsAbleToCreateLocation"></include>
+					<include name="verifyAddMappingandCancelMappingOfTax"></include>
+				</methods>
+			</class>
+
+			<class name="at.smartshop.tests.Device">
+				<methods>
+					<include name="demoOptionCoolerDropdownSuperUser"></include>
+				</methods>
+			</class>
+
+			<class name="at.smartshop.tests.Consumer">
+				<methods>
+					<include name="verifyBalanceIncrement"></include>
+				</methods>
+			</class>
+
+			<class name="at.smartshop.v5.tests.V5Test">
+				<methods>
+					<include name="at.smartshop.v5.tests.V5Test"></include>
+					<include name="verifyPromoRestrictionInBundlePromotion"></include>
+				</methods>
+			</class>
+
+			<class name="at.smartshop.v5.tests.SmokeTests">
+				<methods>
+					<include name="VerifyUpdatePricesAndFullSyncButton"></include>
+					<include name="VerifyAddEditAndRemoveProduct"></include>
+					<include name="VerifyCreateEditExpireOnScreenPromotions"></include>
+					<include name="VerifyCreateEditExpireTenderPromotions"></include>
+					<include name="VerifyAddRemoveHomeCommercial"></include>
+					<include name="addRemoveTaxes"></include>
+				</methods>
+			</class>
+
+			<class name="at.smartshop.tests.Promotions">
+				<methods>
+					<include name="verifyCreatePromotionWithOnScreen"></include>
+				</methods>
+			</class>
+
+			<class name="at.smartshop.v5.tests.V5TestLocation">
+				<methods>
+					<include name="editDepositCategory"></include>
+				</methods>
+			</class>
+		</classes>
+	</test> <!-- Test -->
+
+
+</suite> <!-- Suite -->

@@ -398,6 +398,7 @@ public class GlobalProduct extends Factory {
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND, 3);
 		foundation.click(GlobalProduct.BTN_SAVE_EXTEND);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(GlobalProduct.POPUP_DROPDOWN, 5);
 		foundation.click(GlobalProduct.POPUP_DROPDOWN);
 		foundation.threadWait(Constants.THREE_SECOND);
@@ -405,7 +406,8 @@ public class GlobalProduct extends Factory {
 		foundation.click(GlobalProduct.POPUP_DROPDOWN);
 		foundation.waitforElementToBeVisible(GlobalProduct.LBL_SAVE_DONE, 3);
 		foundation.click(GlobalProduct.LBL_SAVE_DONE);
-
+		foundation.threadWait(3);
+		
 	}
 
 	/**
@@ -417,18 +419,24 @@ public class GlobalProduct extends Factory {
 	 */
 	public void verifyAddLocationInExtend(String location) {
 		foundation.waitforElementToBeVisible(GlobalProduct.BTN_EXTEND_LOC, 3);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GlobalProduct.BTN_EXTEND_LOC);
 		foundation.waitforElementToBeVisible(GlobalProduct.POPUP_SEARCH, 3);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GlobalProduct.POPUP_SEARCH);
 		textBox.enterText(GlobalProduct.POPUP_SEARCH, location);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(selectLocationInExtend(location));
 		foundation.waitforElementToBeVisible(GlobalProduct.POPUP_SAVE, 3);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GlobalProduct.POPUP_SAVE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(GlobalProduct.SAVE_MSG, 15);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.SAVE_MSG));
 		foundation.scrollIntoViewElement(GlobalProduct.SEARCH_EXTEND);
 		foundation.waitforElementToBeVisible(GlobalProduct.SEARCH_EXTEND, 5);
 		foundation.click(GlobalProduct.SEARCH_EXTEND);
+		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(GlobalProduct.SEARCH_EXTEND, location);
 
 	}
@@ -553,19 +561,23 @@ public class GlobalProduct extends Factory {
 	 */
 	public void uploadSmallImage(String name, String Filepath) throws Exception {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
 		textBox.enterText(TXT_PRODUCTNAME, name);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
 		foundation.click(BTN_SHOW_IMAGES);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_SMALL_CHANGE, Constants.THREE_SECOND);
 		foundation.click(BTN_SMALL_CHANGE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_SMALL_UPLOAD_IMAGE, Constants.THREE_SECOND);
 		foundation.threadWait(Constants.THREE_SECOND);
 		File uploadFile = filePath.copyFile(Filepath);
 		textBox.enterText(TXT_FILE, filePath.getFileAbsolutePath(uploadFile));
 		foundation.threadWait(6);
-		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LBL_SMALL_IMAGE_PREVIEW));
 		CustomisedAssert.assertTrue(
 				filePath.getFileAbsolutePath(uploadFile).contains(foundation.getText(LBL_SMALL_IMAGE_NAME)));
@@ -582,13 +594,18 @@ public class GlobalProduct extends Factory {
 	 */
 	public void uploadSmallImage2MB(String name, String Filepath, String message) throws Exception {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
 		textBox.enterText(TXT_PRODUCTNAME, name);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
 		foundation.click(BTN_SHOW_IMAGES);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_SMALL_CHANGE, Constants.THREE_SECOND);
 		foundation.click(BTN_SMALL_CHANGE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_SMALL_UPLOAD_IMAGE, Constants.THREE_SECOND);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(TXT_FILE, Filepath);
@@ -607,12 +624,16 @@ public class GlobalProduct extends Factory {
 	 */
 	public void uploadLargeImage(String name, String Filepath) throws Exception {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
 		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
 		foundation.click(BTN_SHOW_IMAGES);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_LARGE_CHANGE, Constants.THREE_SECOND);
 		foundation.click(BTN_LARGE_CHANGE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_LARGE_UPLOAD_IMAGE, Constants.THREE_SECOND);
 		foundation.threadWait(Constants.THREE_SECOND);
 		File uploadFile = filePath.copyFile(Filepath);
@@ -636,11 +657,15 @@ public class GlobalProduct extends Factory {
 	public void uploadLargeImage2MB(String name, String Filepath, String message) throws Exception {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		foundation.click(GlobalProduct.BTN_CREATE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
 		foundation.click(BTN_SHOW_IMAGES);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_LARGE_CHANGE, Constants.THREE_SECOND);
 		foundation.click(BTN_LARGE_CHANGE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(BTN_LARGE_UPLOAD_IMAGE, Constants.THREE_SECOND);
 		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(TXT_FILE_LARGE, Filepath);
@@ -656,9 +681,13 @@ public class GlobalProduct extends Factory {
 	 * @param data
 	 */
 	public void uploadSmallImageInGlobalProduct(String data) {
+		foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(BTN_SMALL_CHANGE);
+	foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(CHOOSE_SMALL_IMAGE);
+	foundation.threadWait(Constants.THREE_SECOND);
 	foundation.waitforElementToBeVisible(selectSmallImage(data), 3);
+	foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(selectSmallImage(data));
 	CustomisedAssert.assertTrue(foundation.getText(LBL_SMALL_IMAGE_NAME).equals(data));
 }
@@ -669,9 +698,12 @@ public class GlobalProduct extends Factory {
 	 * @param data
 	 */
 	public void uploadLargeImageInGlobalProduct(String data) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_LARGE_CHANGE);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(CHOOSE_LARGE_IMAGE);
 		foundation.waitforElementToBeVisible(selectLargeImage(data), 3);
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(selectLargeImage(data));
 		CustomisedAssert.assertTrue(foundation.getText(LBL_LARGE_IMAGE_NAME).equals(data));
 }

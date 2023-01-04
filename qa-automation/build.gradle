@@ -25,7 +25,7 @@ test {
         useDefaultListeners = true
         
         if(suiteADM) {
-            suites "testng_Sample.xml"
+            suites "CICD_SmokeTestSuite.xml"
         }
     }
 }
