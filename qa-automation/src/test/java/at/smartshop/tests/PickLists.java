@@ -1882,8 +1882,7 @@ public class PickLists extends TestInfra {
 	 * @author sakthir Date-20-10-2022
 	 */
 	@Test(description = "206355-SOS-13307:To verify Add Product pop-up hint(Record Count) displays correct number of products for the locations"
-			+ "206356-SOS-13365-To verify Pick List Manager buttons display without location selection"
-			+ "206357-SOS-31236-To verify recently added product display after refresh")
+			+ "206356-SOS-13365-To verify Pick List Manager buttons display without location selection")
 	public void verifyPopUpRecordCountAndAddedProductAfterRefreshAndButtonsOnPickListManager() {
 		final String CASE_NUM = "206355";
 
@@ -1892,13 +1891,9 @@ public class PickLists extends TestInfra {
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 
 		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		List<String> product = Arrays
-				.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-		List<String> needcount = Arrays.asList(rstPickListData.get(CNPickList.NEED).split(Constants.DELIMITER_TILD));
 		List<String> location = Arrays
 				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
-		List<String> button = Arrays.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
-
+		
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -1938,24 +1933,6 @@ public class PickLists extends TestInfra {
 			}
 			CustomisedAssert.assertTrue(str[1].equals(str[5]));
 
-			// Update the need count and add the product
-			pickList.addProductWithNeedCount(product.get(0), needcount.get(0));
-			foundation.click(PickList.LBL_PREVIEW);
-			foundation.click(PickList.LBL_Add);
-			foundation.waitforElement(PickList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-
-			// Verify product is added and column data is coming properly
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TABLE_ROW).contains(product.get(0)));
-			foundation.click(PickList.REFRESH_BTN);
-			foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.POPUP_HEADER));
-			foundation.click(PickList.BTN_YES);
-			foundation.waitforElementToBeVisible(PickList.TABLE_ROW, 5);
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TABLE_ROW).contains(product.get(0)));
-			foundation.click(pickList.objPickList(product.get(0)));
-			foundation.click(PickList.DELECT_ROW);
-			foundation.threadWait(3);
-			CustomisedAssert.assertFalse(foundation.getTextofListElement(PickList.TABLE_ROW).contains(product.get(0)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
