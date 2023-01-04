@@ -374,7 +374,7 @@ public class SOSLoad extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			String subsidyName = consumerSearch.getSubsidyName();
 			CustomisedAssert.assertTrue(subsidyName.isEmpty());
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
@@ -468,7 +468,7 @@ public class SOSLoad extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, rstLocationListData.get(CNLocationList.LOCATION_NAME),
 					Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.THREE_SECOND);
 			String subsidyName = consumerSearch.getSubsidyName();
 			CustomisedAssert.assertTrue(subsidyName.isEmpty());
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
@@ -572,6 +572,7 @@ public class SOSLoad extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			List<String> tableHeaders = consumerSearch.getConsumerHeaders();
 			CustomisedAssert.assertFalse(tableHeaders.contains(requiredData.get(2)));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
 			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
