@@ -267,8 +267,7 @@ public class Location extends TestInfra {
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			List<String> locationList_Dpd_Values = Arrays.asList(
 					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
-			List<String> homecommercial = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.ADDRESS).split(Constants.DELIMITER_TILD));
+
 			List<String> locationDisabled = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			String locationDisabled_Yes = locationDisabled.get(0);
@@ -304,7 +303,7 @@ public class Location extends TestInfra {
 //			textBox.enterText(LocationSummary.TXT_ADD_NAME,
 //					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 //			foundation.click(LocationSummary.BTN_ADD);
-			locationSummary.addHomeCommercials(homecommercial.get(0));
+			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(locationName);
 
@@ -640,14 +639,11 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-		
+			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
 			List<String> expectedData = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-
-			List<String> device = Arrays
-					.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -655,10 +651,10 @@ public class Location extends TestInfra {
 			locationList.selectLocationName(location);
 
 			// Verifying Device name is present or not
-			if (foundation.isDisplayed(locationSummary.deviceName(device.get(0)))) {
+			if (foundation.isDisplayed(locationSummary.deviceName(device))) {
 
 				// Deleting the Already Present Device
-				locationSummary.removeDevice(device.get(0));
+				locationSummary.removeDevice(device);
 			}
 
 			// Navigating to device tab
@@ -669,12 +665,12 @@ public class Location extends TestInfra {
 //			CustomisedAssert.assertTrue(locationSummary.verifySortAscending(LocationSummary.LBL_COLUMN_DATA));
 //			foundation.click(LocationSummary.LBL_ROW_HEADER);
 //			CustomisedAssert.assertTrue(locationSummary.verifySortDescending(LocationSummary.LBL_COLUMN_DATA));
-			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device.get(0));
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device);
 			foundation.threadWait(Constants.ONE_SECOND);
 			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
 					LocationSummary.TBL_DEVICE_POPUP_ROW);
 			Map<String, String> dbData = new HashMap<>();
-			dbData.put(expectedData.get(0), device.get(0));
+			dbData.put(expectedData.get(0), device);
 			dbData.put(expectedData.get(1), expectedData.get(2));
 			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertEquals(uiData, dbData);
