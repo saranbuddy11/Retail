@@ -182,6 +182,9 @@ public class LoyaltyUserReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+
+			System.out.println("reportsData : "+ reportsData);
+			System.out.println("intialData : "+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))

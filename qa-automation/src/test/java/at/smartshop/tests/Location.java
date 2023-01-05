@@ -271,7 +271,8 @@ public class Location extends TestInfra {
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			List<String> locationList_Dpd_Values = Arrays.asList(
 					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
-
+			List<String> homecommercial = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.ADDRESS).split(Constants.DELIMITER_TILD));
 			List<String> locationDisabled = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			List<String> address = Arrays
@@ -309,11 +310,13 @@ public class Location extends TestInfra {
 //			textBox.enterText(LocationSummary.TXT_ADD_NAME,
 //					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 //			foundation.click(LocationSummary.BTN_ADD);
+
 			if (environment.equals(Constants.STAGING)) {
 				locationSummary.addHomeCommercials(address.get(1));
 			} else {
 				locationSummary.addHomeCommercials(address.get(0));
 			}
+			locationSummary.addHomeCommercials(homecommercial.get(0));
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(locationName);
 
@@ -683,7 +686,7 @@ public class Location extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String location= rstDeviceListData.get(CNDeviceList.LOCATION);
 
 			List<String> expectedData = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
@@ -731,6 +734,15 @@ public class Location extends TestInfra {
 				foundation.threadWait(Constants.ONE_SECOND);
 				CustomisedAssert.assertEquals(uiData, dbData);
 			}
+			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device.get(0));
+			foundation.threadWait(Constants.ONE_SECOND);
+			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
+					LocationSummary.TBL_DEVICE_POPUP_ROW);
+			Map<String, String> dbData = new HashMap<>();
+			dbData.put(expectedData.get(0), device.get(0));
+			dbData.put(expectedData.get(1), expectedData.get(2));
+			foundation.threadWait(Constants.ONE_SECOND);
+			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

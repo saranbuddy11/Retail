@@ -316,11 +316,11 @@ public class Report extends TestInfra {
 			double adustedBalance = Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
 			double updatedbalance = initialbalance
 					+ Double.parseDouble(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE));
-			
+
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			
+
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, Double.toString(updatedbalance));
 			dropdown.selectItem(ConsumerSummary.DPD_REASON, rstConsumerSummaryData.get(CNConsumerSummary.REASON),
 					Constants.TEXT);
@@ -328,7 +328,7 @@ public class Report extends TestInfra {
 			dropdown.selectItemByIndex(ConsumerSummary.REF_EFT, 0);
 
 			foundation.threadWait(Constants.MEDIUM_TIME);
-		
+
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
 
 			// converting time zone to specific time zone
@@ -507,7 +507,7 @@ public class Report extends TestInfra {
 
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			
+
 			// apply calculation and update data
 			productPricing.updateData(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
 					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
@@ -525,7 +525,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "130612-This test validates Transaction Canned Report Data Calculation")
-	public void transactionCannedReportData() {
+	@Parameters({ "environment" })
+	public void transactionCannedReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "130612";
@@ -554,7 +555,14 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
+
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(1));
+			} else {
+				reportList.selectReport(reportName.get(0));
+			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -562,7 +570,12 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.objectFocus(ReportList.BTN_RUN_REPORT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				transactionCanned.verifyReportName(reportName.get(1));
+			} else {
+				transactionCanned.verifyReportName(reportName.get(0));
+			}
+			
 			transactionCanned.getTblRecordsUI();
 			transactionCanned.getIntialData().putAll(transactionCanned.getReportsData());
 			transactionCanned.getIntialTotal().putAll(transactionCanned.getUpdatedTotal());
@@ -1265,7 +1278,8 @@ public class Report extends TestInfra {
 
 			tipDetails.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			textBox.enterText(TipDetailsReport.TXT_SEARCH, String.valueOf((String) tipDetails.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
+			textBox.enterText(TipDetailsReport.TXT_SEARCH,
+					String.valueOf((String) tipDetails.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
 			tipDetails.getTblRecordsUI();
 			tipDetails.getIntialData().putAll(tipDetails.getReportsData());
 			tipDetails.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA),
@@ -1274,7 +1288,8 @@ public class Report extends TestInfra {
 			// process API
 //			tipDetails.processAPI(requiredOption.get(0), requiredOption.get(1));
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			textBox.enterText(TipDetailsReport.TXT_SEARCH, String.valueOf((String) tipDetails.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
+			textBox.enterText(TipDetailsReport.TXT_SEARCH,
+					String.valueOf((String) tipDetails.getJsonData().get(Reports.TRANS_DATE_TIME)).toUpperCase());
 			tipDetails.getTblRecordsUI();
 
 			// apply calculation and update data
@@ -1356,7 +1371,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143034-This test validates Canada Multi Tax Report Data Calculation")
-	public void canadaMultiTaxReportData() {
+	@Parameters({ "environment" })
+	public void canadaMultiTaxReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "143034";
@@ -1381,7 +1397,14 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
+
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(2));
+			} else {
+				reportList.selectReport(reportName.get(0));
+			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
 			reportList.selectLocation(
@@ -1389,7 +1412,11 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			canadaMultiTax.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				canadaMultiTax.verifyReportName(reportName.get(1));
+			} else {
+				canadaMultiTax.verifyReportName(reportName.get(0));
+			}
 			canadaMultiTax.getTblRecordsUI();
 			canadaMultiTax.getIntialData().putAll(canadaMultiTax.getReportsData());
 			canadaMultiTax.getRequiredRecord((String) canadaMultiTax.getJsonData().get(Reports.TRANS_DATE_TIME),
@@ -1930,16 +1957,16 @@ public class Report extends TestInfra {
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			tenderTransactionLog.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			
+
 			textBox.enterText(tenderTransactionLog.SEARCH_RESULT,
 					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_ID));
-			
+
 			tenderTransactionLog.getTblRecordsUI();
 			tenderTransactionLog.getIntialData().putAll(tenderTransactionLog.getReportsData());
 //			tenderTransactionLog.getRequiredRecord(
 //					(String) tenderTransactionLog.getJsonData().get(Reports.TRANS_DATE_TIME),
 //					productTax.getScancodeData());
-			
+
 			tenderTransactionLog.getTblRecordsUI();
 
 			// apply calculation and update data
@@ -2278,7 +2305,7 @@ public class Report extends TestInfra {
 			billingInformation.getTblRecordsUI();
 			billingInformation.getIntialData().putAll(billingInformation.getReportsData());
 			billingInformation.getRequiredRecord((String) billingInformation.getJsonData().get(Reports.TRANS_ID));
-			
+
 			// Re-read report
 			billingInformation.getTblRecordsUI();
 			// apply calculation and update data
@@ -2800,15 +2827,15 @@ public class Report extends TestInfra {
 //			foundation.click(CreatePromotions.BTN_LOC_RIGHT);
 //
 //			foundation.threadWait(Constants.TWO_SECOND);
-			
-			createPromotions.newPromotionUsingTenderDiscount(promotionType, promotionName,orgName, locationName);
+
+			createPromotions.newPromotionUsingTenderDiscount(promotionType, promotionName, orgName, locationName);
 //			foundation.click(CreatePromotions.BTN_NEXT);
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.MULTI_SELECT_TENDER_TYPES, Constants.SHORT_TIME);
-			
+
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.THREE_SECOND);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
@@ -2825,8 +2852,7 @@ public class Report extends TestInfra {
 			foundation.click(CreatePromotions.BTN_OK);
 			foundation.threadWait(Constants.TWO_SECOND);
 
-			
-			//==============
+			// ==============
 			// creation of promotion
 //			foundation.click(PromotionList.BTN_CREATE);
 //			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
@@ -2861,7 +2887,7 @@ public class Report extends TestInfra {
 //			foundation.threadWait(Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_OK);
 //			foundation.threadWait(Constants.TWO_SECOND);
-			
+
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(menuItems.get(1));
 
@@ -3235,7 +3261,7 @@ public class Report extends TestInfra {
 //
 //			foundation.threadWait(Constants.TWO_SECOND);
 //			foundation.click(CreatePromotions.BTN_NEXT);
-			
+
 //			createPromotions.newPromotionUsingTenderDiscount(promotionType, promotionName,orgName, locationName);
 ////			foundation.click(CreatePromotions.BTN_NEXT);
 //			List<String> requiredData = Arrays
@@ -3246,8 +3272,7 @@ public class Report extends TestInfra {
 //			
 ////			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.THREE_SECOND);
 //			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
-			
-			
+
 //			foundation.click(CreatePromotions.BTN_NEXT);
 //			foundation.waitforElement(CreatePromotions.MULTI_SELECT_TENDER_TYPES, Constants.SHORT_TIME);
 //			
@@ -3256,7 +3281,7 @@ public class Report extends TestInfra {
 //					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 //
 //			dropdown.selectAllItems(CreatePromotions.MULTI_SELECT_TENDER_TYPES);
-			
+
 //			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 //			foundation.click(CreatePromotions.ADD_ITEM);
 //			foundation.click(CreatePromotions.ITEM_BUNDLE_ALL_CHECKBOX);
@@ -3279,17 +3304,15 @@ public class Report extends TestInfra {
 //			foundation.threadWait(Constants.SHORT_TIME);
 //			foundation.click(CreatePromotions.BTN_OK);
 //			foundation.threadWait(Constants.SHORT_TIME);
-			
-			
-			
-			createPromotions.newPromotionUsingTenderDiscount(promotionType, promotionName,orgName, locationName);
+
+			createPromotions.newPromotionUsingTenderDiscount(promotionType, promotionName, orgName, locationName);
 //			foundation.click(CreatePromotions.BTN_NEXT);
 			List<String> requiredData = Arrays
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.waitforElement(CreatePromotions.MULTI_SELECT_TENDER_TYPES, Constants.SHORT_TIME);
-			
+
 			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.THREE_SECOND);
 			dropdown.selectItem(CreatePromotions.MULTI_SELECT_TENDER_TYPES, requiredData.get(0), Constants.TEXT);
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_TYPE, requiredData.get(1), Constants.TEXT);
@@ -3350,9 +3373,10 @@ public class Report extends TestInfra {
 			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(10), date);
 			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(11), date);
 			promotionAnalysis.updateData(promotionAnalysis.getTableHeaders().get(13), expectedData.get(5));
-			
+
 			promotionAnalysis.PromotionExpectedDataGroupbyLocations();
-			promotionAnalysis.updateDataGroupbyLocations(promotionAnalysis.getTableHeaders().get(12), expectedData.get(4));
+			promotionAnalysis.updateDataGroupbyLocations(promotionAnalysis.getTableHeaders().get(12),
+					expectedData.get(4));
 			promotionAnalysis.updateDiscount(expectedData.get(7));
 			promotionAnalysis.updateRedemptionsCount(expectedData.get(6));
 			login.logout();
@@ -3488,8 +3512,8 @@ public class Report extends TestInfra {
 		String orgName = propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE);
 		String locationName = rstLocationData.get(CNLocation.LOCATION_NAME);
 		String gridName = rstLocationData.get(CNLocation.TAB_NAME);
-		
-		System.out.println("promotionName : "+ promotionName);
+
+		System.out.println("promotionName : " + promotionName);
 
 		List<String> requiredData = Arrays
 				.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
@@ -3517,8 +3541,7 @@ public class Report extends TestInfra {
 //			foundation.waitforElement(CreatePromotions.BTN_NEXT, Constants.SHORT_TIME);
 
 //			foundation.click(CreatePromotions.BTN_NEXT);
-			
-			
+
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			foundation.click(CreatePromotions.ADD_ITEM);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, requiredData.get(2));
@@ -3526,9 +3549,8 @@ public class Report extends TestInfra {
 			checkBox.check(CreatePromotions.SELECT_ITEM_PRODUCT);
 			foundation.waitforElementToBeVisible(CreatePromotions.BTN_CANCEL_ITEM_POPUP, Constants.THREE_SECOND);
 			foundation.click(CreatePromotions.BTN_CANCEL_ITEM_POPUP);
-			
-			
-			//--------
+
+			// --------
 //			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 //			textBox.enterText(CreatePromotions.TXT_ITEM, requiredData.get(2));
 //			foundation.threadWait(Constants.ONE_SECOND);
@@ -3539,8 +3561,8 @@ public class Report extends TestInfra {
 //			String actualValue = dropdown.getSelectedItem(CreatePromotions.DPD_ITEM_SELECT);
 //			CustomisedAssert.assertEquals(actualValue, requiredData.get(2));
 
-			//----
-			
+			// ----
+
 			textBox.enterText(CreatePromotions.TXT_AMOUNT, requiredData.get(4));
 			textBox.enterText(CreatePromotions.TXT_TRANSACTION_MIN, requiredData.get(5));
 			foundation.objectClick(CreatePromotions.BTN_NEXT);
@@ -3551,8 +3573,8 @@ public class Report extends TestInfra {
 			browser.close();
 			String product = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
 			List<String> paymentEmailDetails = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));			
-			
+					.asList(rstProductSummaryData.get(CNProductSummary.USER_KEY).split(Constants.DELIMITER_HASH));
+
 			// Launch V5 Device and Searching for product
 			foundation.threadWait(Constants.SHORT_TIME);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
@@ -3774,7 +3796,7 @@ public class Report extends TestInfra {
 			foundation.isDisplayed(CreatePromotions.LBL_CREATE_PROMOTION);
 
 			createPromotions.newPromotion(promotionType, promotionName, displayName, orgName, locationName);
-			
+
 			dropdown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(1), Constants.TEXT);
 			foundation.click(CreatePromotions.ADD_ITEM);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, requiredData.get(2));
@@ -3999,12 +4021,11 @@ public class Report extends TestInfra {
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			
+
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 //			foundation.threadWait(Constants.ONE_SECOND);
-			
-			
+
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
 					requiredData.get(2));
 
@@ -4012,7 +4033,7 @@ public class Report extends TestInfra {
 //			String updatedTime =locationSummary.updateInventoryWithTimeOfTransacction(rstProductSummaryData.get(CNProductSummary.SCAN_CODE), requiredData.get(1),
 //					requiredData.get(2), rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 //					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
-			System.out.println("updatedTime :"+ updatedTime);
+			System.out.println("updatedTime :" + updatedTime);
 
 //			String updatedTime = String
 //					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
@@ -4532,7 +4553,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 13-07-2022
 	 */
 	@Test(description = "197820-This test validates Intl Web/App Funding Report Data Validation")
-	public void intlWebAppFundingReportDataValidation() {
+	@Parameters({ "environment" })
+	public void intlWebAppFundingReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "197820";
 			// Reading test data from DataBase
@@ -4547,21 +4569,38 @@ public class Report extends TestInfra {
 
 			// Reading test data from DataBase
 			String reportName = rstReportListData.get(CNReportList.REPORT_NAME);
-//			List<String> requiredData = Arrays
-//					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			List<String> expectedData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA).split(Constants.DELIMITER_TILD));
 			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> requiredDataForTest4 = Arrays.asList(requiredData.get(0).split(Constants.DELIMITER_HASH));
+			List<String> requiredDataForStaging = Arrays.asList(requiredData.get(1).split(Constants.DELIMITER_HASH));
+
 			String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
 
-			navigationBar.selectOrganization(requiredData.get(0));
-			// navigate to Reports
-			navigationBar.navigateToMenuItem(menu);
+			if (environment.equals(Constants.STAGING)) {
+				navigationBar.selectOrganization(requiredDataForStaging.get(0));
+				// navigate to Reports
+				navigationBar.navigateToMenuItem(menu);
 
-			// Select the Report Date range and Location
-			reportList.selectReport(reportName);
-			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE), requiredData.get(2),
-					IntlWebAppFunding.DATA_EXISTING_DATE, IntlWebAppFunding.DATA_EXISTING_DATE);
-			reportList.selectLocation(requiredData.get(1));
+				// Select the Report Date range and Location
+				reportList.selectReport(reportName);
+//				reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
+//						requiredDataForStaging.get(2), IntlWebAppFunding.DATA_EXISTING_DATE_STAGING,
+//						IntlWebAppFunding.DATA_EXISTING_DATE_STAGING);
+				reportList.selectLocation(requiredDataForStaging.get(1));
+			} else {
+				navigationBar.selectOrganization(requiredDataForTest4.get(0));
+				// navigate to Reports
+				navigationBar.navigateToMenuItem(menu);
+
+				// Select the Report Date range and Location
+				reportList.selectReport(reportName);
+				reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
+						requiredDataForTest4.get(2), IntlWebAppFunding.DATA_EXISTING_DATE,
+						IntlWebAppFunding.DATA_EXISTING_DATE);
+				reportList.selectLocation(requiredDataForTest4.get(1));
+			}
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(IntlWebAppFunding.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			intlWebAppFunding.verifyReportName(reportName);
@@ -4569,12 +4608,18 @@ public class Report extends TestInfra {
 
 			// Validating the Headers and Report data
 			intlWebAppFunding.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
-			intlWebAppFunding.verifyReportData(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			
+			if (environment.equals(Constants.STAGING)) {
+				intlWebAppFunding.verifyReportData(expectedData.get(1));
+			}else{
+				intlWebAppFunding.verifyReportData(expectedData.get(0));
+			}
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+
 
 	/*
 	 * This Method is for Daily Sales Summary Report Data Validation
@@ -4969,7 +5014,8 @@ public class Report extends TestInfra {
 			salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(10), productType);
 			salesItemDetailsReport.calculateAmount(salesItemDetailsReport.getTableHeaders().get(11), productPrice, tax);
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(12), requiredData.get(1));
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(13), (String) salesItemDetailsReport.getJsonData().get(Reports.TRANS_DATE_TIME));
+			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(13),
+					(String) salesItemDetailsReport.getJsonData().get(Reports.TRANS_DATE_TIME));
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(14), requiredData.get(2));
 
 			salesItemDetailsReport.getTblRecordsUI();
@@ -5790,18 +5836,16 @@ public class Report extends TestInfra {
 			textBox.enterText(LocationSummary.TXT_INVENTORY_FILTER,
 					rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 			foundation.threadWait(Constants.ONE_SECOND);
-			
+
 			String inventoryValue = locationSummary
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
-			
+
 			String updatedTime = String
 					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			
+
 			locationSummary.updateInventory(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
 					entrySummaryReport.incrementedInventoryValue(inventoryValue), reason);
-			
-			
 
 			// Updating the Inventory of the product
 //			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
@@ -5811,8 +5855,8 @@ public class Report extends TestInfra {
 //			String updatedTime = String
 //					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 //							rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE)));
-			System.out.println("updatedTime entry :"+ updatedTime);
-			
+			System.out.println("updatedTime entry :" + updatedTime);
+
 			// navigate to Reports
 			navigationBar.navigateToMenuItem(menu.get(1));
 
@@ -5882,10 +5926,11 @@ public class Report extends TestInfra {
 					.getInventoryValue(rstProductSummaryData.get(CNProductSummary.SCAN_CODE));
 
 			// Updating the Inventory of the product
-			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason, rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+			String updatedTime = locationSummary.updateInventoryWithTimeOfTransacction(
+					rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
+					deleteSummaryReport.decrementedInventoryValue(inventoryValue), reason,
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					rstLocationSummaryData.get(CNLocationSummary.TIME_ZONE));
-			
 
 //			String updatedTime = String
 //					.valueOf(dateAndTime.getDateAndTime1(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
@@ -6092,7 +6137,7 @@ public class Report extends TestInfra {
 			price = price.replace("$", "");
 			price = price.replace(".", "");
 			price = price.replace("0", "");
-			System.out.println(columnName.get(9)+" : "+ price);
+			System.out.println(columnName.get(9) + " : " + price);
 			subsidyConsumerSpend.verifyCommonValueContentofTableRecord(columnName.get(9), price);
 
 			// Verifying the selection of defaults as Roll Over for GMA subsidy
@@ -6597,7 +6642,8 @@ public class Report extends TestInfra {
 
 			financialCanned.calculateGrossMargin(financialCanned.getTableHeaders().get(10), ProductCostPercentage,
 					spoilPercentage, shortPercentage);
-			double updatedLastYearAmount = financialCanned.updateLastYearAmount(financialCanned.getTableHeaders().get(11));
+			double updatedLastYearAmount = financialCanned
+					.updateLastYearAmount(financialCanned.getTableHeaders().get(11));
 			financialCanned.updateLastYearPercent(financialCanned.getTableHeaders().get(12), updatedLastYearAmount);
 
 			// verify report headers
@@ -7144,8 +7190,19 @@ public class Report extends TestInfra {
 
 			// Navigate To Report Tab and Select the Report Date range & Location, run
 			// report
-			cashAudit.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
-					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+//			cashAudit.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
+//					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+			
+			navigationBar.navigateToMenuItem(menus.get(0));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			reportList.selectLocationForSecondTypeDropdown(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			cashAudit.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// read Report Data
 			cashAudit.readAllRecordsFromCashAuditTable();
@@ -8252,7 +8309,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * Cash Flow Details Report Data Validation
 	 * 
@@ -8551,7 +8608,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * Cash Flow Details International Report Data Validation
 	 * 
@@ -8874,8 +8931,8 @@ public class Report extends TestInfra {
 					recordCountOfTotals);
 
 			// calculate Totals Credit Rejected Amount
-			cashFlowDetailsInternational.calculateAmounts(
-					cashFlowDetailsInternational.getTableHeaders().get(7), recordCountOfTotals);
+			cashFlowDetailsInternational.calculateAmounts(cashFlowDetailsInternational.getTableHeaders().get(7),
+					recordCountOfTotals);
 
 			// calculate Totals Net Sales Amount Inclusive of sales
 			cashFlowDetailsInternational.calculateNetSalesIncTaxForTotals(
@@ -8902,7 +8959,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * Cash Flow Employee Report Data Validation
 	 * 
@@ -9142,7 +9199,8 @@ public class Report extends TestInfra {
 			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfSpecial);
 
 			// calculate Special Total
-			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfSpecial);
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13),
+					recordCountOfSpecial);
 
 			// calculate Account Payment Counts
 			CashFlowEmployee.calculateCounts(CashFlowEmployee.getTableHeaders().get(1), recordCountOfAccount);
@@ -9163,7 +9221,8 @@ public class Report extends TestInfra {
 			CashFlowEmployee.calculateLocationTax(CashFlowEmployee.getTableHeaders().get(8), recordCountOfAccount);
 
 			// calculate Account Total
-			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13), recordCountOfAccount);
+			CashFlowEmployee.calculateTotalsColumnData(CashFlowEmployee.getTableHeaders().get(13),
+					recordCountOfAccount);
 
 			// calculate Totals Payment Counts
 			CashFlowEmployee.calculateCountsForTotals(CashFlowEmployee.getTableHeaders().get(1), recordCountOfTotals);
@@ -9535,7 +9594,6 @@ public class Report extends TestInfra {
 		}
 	}
 
-
 	/**
 	 * UFS By Employee Device Report Data Validation
 	 * 
@@ -9580,15 +9638,18 @@ public class Report extends TestInfra {
 					rstReportListData.get(CNReportList.DATE_RANGE), location);
 
 			// read Report Data
-			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
 			ufsByEmployeeDevice.getInitialReportsData().putAll(ufsByEmployeeDevice.reportsData);
 			ufsByEmployeeDevice.getInitialReportTotals().putAll(ufsByEmployeeDevice.getReportsTotalData());
 
 			// Read the Report the Data
-			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
-			ufsByEmployeeDevice.getIntialDataOfSalesTimeDetails().putAll(ufsByEmployeeDevice.getReportsDataOfSalesTimeDetails());
-			ufsByEmployeeDevice.getUpdatedTableFootersOfSalesTimeDetails().putAll(ufsByEmployeeDevice.getTableFootersOfSalesTimeDetails());
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
+			ufsByEmployeeDevice.getIntialDataOfSalesTimeDetails()
+					.putAll(ufsByEmployeeDevice.getReportsDataOfSalesTimeDetails());
+			ufsByEmployeeDevice.getUpdatedTableFootersOfSalesTimeDetails()
+					.putAll(ufsByEmployeeDevice.getTableFootersOfSalesTimeDetails());
 
 			// process sales API to generate data
 			ufsByEmployeeDevice.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
@@ -9604,11 +9665,12 @@ public class Report extends TestInfra {
 					rstReportListData.get(CNReportList.DATE_RANGE), location);
 
 			// read Updated Report Data
-			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
-					location);
+			ufsByEmployeeDevice.readAllRecordsFromCashFlowDetailsTable(
+					rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
 			ufsByEmployeeDevice.getJsonSalesData();
 
-			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID), location);
+			ufsByEmployeeDevice.getTblRecordsUIOfSalesTimeDetails(rstProductSummaryData.get(CNProductSummary.DEVICE_ID),
+					location);
 
 			int recordCountOfCash = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(0));
 			int recordCountOfCreditCard = ufsByEmployeeDevice.getRequiredRecord(paymentType.get(1));
@@ -9642,7 +9704,8 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfCash);
 
 			// calculate Credit Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfCash);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfCash);
 
 			// calculate Credit Payment Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfCreditCard);
@@ -9663,13 +9726,16 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfCreditCard);
 
 			// calculate Credit Sales
-			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfCreditCard);
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7),
+					recordCountOfCreditCard);
 
 			// calculate Credit Taxes
-			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfCreditCard);
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8),
+					recordCountOfCreditCard);
 
 			// calculate Credit Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfCreditCard);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfCreditCard);
 
 			// calculate gen3 Payment Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfGEN3);
@@ -9696,7 +9762,8 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfGEN3);
 
 			// calculate gen3 Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfGEN3);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfGEN3);
 
 			// calculate SOGO Payment Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfSOGO);
@@ -9717,7 +9784,8 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfSOGO);
 
 			// calculate SOGO Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfSOGO);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfSOGO);
 
 			// calculate Comp Payment Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfComp);
@@ -9738,7 +9806,8 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfComp);
 
 			// calculate Comp Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfComp);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfComp);
 
 			// calculate GuestPass Payment Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfGuestPass);
@@ -9753,13 +9822,16 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfGuestPass);
 
 			// calculate GuestPass Sales
-			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfGuestPass);
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7),
+					recordCountOfGuestPass);
 
 			// calculate GuestPass Taxes
-			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfGuestPass);
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8),
+					recordCountOfGuestPass);
 
 			// calculate GuestPass Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfGuestPass);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfGuestPass);
 
 			// calculate Special Payment Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfSpecial);
@@ -9774,13 +9846,16 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfSpecial);
 
 			// calculate Special Sales
-			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfSpecial);
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7),
+					recordCountOfSpecial);
 
 			// calculate Special Taxes
-			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfSpecial);
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8),
+					recordCountOfSpecial);
 
 			// calculate Special Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfSpecial);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfSpecial);
 
 			// calculate Account Payment Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfAccount);
@@ -9795,25 +9870,32 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfAccount);
 
 			// calculate Account Sales
-			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfAccount);
+			ufsByEmployeeDevice.calculateLocationSales(ufsByEmployeeDevice.getTableHeaders().get(7),
+					recordCountOfAccount);
 
 			// calculate Account Taxes
-			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfAccount);
+			ufsByEmployeeDevice.calculateLocationTax(ufsByEmployeeDevice.getTableHeaders().get(8),
+					recordCountOfAccount);
 
 			// calculate Account Total
-			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfAccount);
+			ufsByEmployeeDevice.calculateTotalsColumnData(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfAccount);
 
 			// calculate Totals Payment Counts
-			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(1), recordCountOfTotals);
+			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(1),
+					recordCountOfTotals);
 
 			// calculate Totals Payment Amounts
-			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(2), recordCountOfTotals);
+			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(2),
+					recordCountOfTotals);
 
 			// calculate Totals Void Counts
-			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(3), recordCountOfTotals);
+			ufsByEmployeeDevice.calculateCountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(3),
+					recordCountOfTotals);
 
 			// calculate Totals Void Amounts
-			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(4), recordCountOfTotals);
+			ufsByEmployeeDevice.calculateAmountsForTotals(ufsByEmployeeDevice.getTableHeaders().get(4),
+					recordCountOfTotals);
 
 			// calculate Totals Declined Counts
 			ufsByEmployeeDevice.calculateCounts(ufsByEmployeeDevice.getTableHeaders().get(5), recordCountOfTotals);
@@ -9822,13 +9904,16 @@ public class Report extends TestInfra {
 			ufsByEmployeeDevice.calculateAmounts(ufsByEmployeeDevice.getTableHeaders().get(6), recordCountOfTotals);
 
 			// calculate Totals Sales
-			ufsByEmployeeDevice.calculateLocationSalesForTotals(ufsByEmployeeDevice.getTableHeaders().get(7), recordCountOfTotals);
+			ufsByEmployeeDevice.calculateLocationSalesForTotals(ufsByEmployeeDevice.getTableHeaders().get(7),
+					recordCountOfTotals);
 
 			// calculate Totals Taxes
-			ufsByEmployeeDevice.calculateLocationTaxForTotals(ufsByEmployeeDevice.getTableHeaders().get(8), recordCountOfTotals);
+			ufsByEmployeeDevice.calculateLocationTaxForTotals(ufsByEmployeeDevice.getTableHeaders().get(8),
+					recordCountOfTotals);
 
 			// calculate Totals Total
-			ufsByEmployeeDevice.calculateTotalsColumnDataForTotals(ufsByEmployeeDevice.getTableHeaders().get(13), recordCountOfTotals);
+			ufsByEmployeeDevice.calculateTotalsColumnDataForTotals(ufsByEmployeeDevice.getTableHeaders().get(13),
+					recordCountOfTotals);
 
 			// verify Report Data for Cash Flow
 			ufsByEmployeeDevice.verifyReportRecords();
@@ -9844,19 +9929,24 @@ public class Report extends TestInfra {
 
 			// Updating Table data
 			ufsByEmployeeDevice.TrasactionCount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(1));
-			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
-			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3), discount);
-			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4), tax);
-			ufsByEmployeeDevice.saleIncludingTaxes(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5), productPrice, tax,
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2),
+					productPrice);
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3),
 					discount);
+			ufsByEmployeeDevice.calculateAmount(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4), tax);
+			ufsByEmployeeDevice.saleIncludingTaxes(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5),
+					productPrice, tax, discount);
 
 			// Updating Footer data
 			ufsByEmployeeDevice.TrasactionCountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(1));
-			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2), productPrice);
-			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3), discount);
-			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4), tax);
-			ufsByEmployeeDevice.saleIncludingTaxesOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5), productPrice,
-					tax, discount);
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(2),
+					productPrice);
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(3),
+					discount);
+			ufsByEmployeeDevice.calculateAmountOfFooter(ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(4),
+					tax);
+			ufsByEmployeeDevice.saleIncludingTaxesOfFooter(
+					ufsByEmployeeDevice.getTableHeadersOfSalesTimeDetails().get(5), productPrice, tax, discount);
 
 			// verify report headers Validations for Sales Time Details
 			ufsByEmployeeDevice.verifyReportHeadersOfSalesTimeDetails(columnNames.get(1));
