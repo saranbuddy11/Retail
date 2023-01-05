@@ -2663,10 +2663,11 @@ public class LocationSummary extends Factory {
 	 * @param data
 	 */
 	public void addDeviceAndVerify(String data) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
 		foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-		foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 3);
+		foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 5);
 		foundation.click(LocationSummary.TXT_DEVICE_POPUP_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, data);
 		foundation.click(LocationSummary.TBL_DEVICE_POPUP_ROW);
 		foundation.click(LocationSummary.BTN_DEVICE_ADD);
