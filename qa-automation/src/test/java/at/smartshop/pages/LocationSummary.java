@@ -1527,9 +1527,9 @@ public class LocationSummary extends Factory {
 	 */
 	public void resetInventory(String scancode, String inventory) {
 		By inventoryLink = By
-				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
+				.xpath("//td[contains(text(),'" + scancode + "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
 		By inventoryValue = By.xpath(
-				"//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input");
+				"//td[contains(text(),'" + scancode + "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input[@type='text']");
 		foundation.click(inventoryLink);
 		textBox.enterText(inventoryValue, Keys.CONTROL + "a" + Keys.BACK_SPACE);
 		textBox.enterText(inventoryValue, inventory);
