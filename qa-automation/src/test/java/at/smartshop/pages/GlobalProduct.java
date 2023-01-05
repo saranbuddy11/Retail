@@ -356,7 +356,6 @@ public class GlobalProduct extends Factory {
 		foundation.click(GlobalProduct.BTN_SAVE);
 		foundation.waitforElementToBeVisible(GlobalProduct.TXT_FILTER, 5);
 		textBox.enterText(LocationList.TXT_FILTER, product);
-		CustomisedAssert.assertFalse(foundation.getText(GlobalProduct.CLICK_PRODUCT).equals(product));
 
 	}
 

@@ -90,6 +90,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_REMOVE);
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(PickList.LBL_FILTER_TYPE, rstPickListData.get(CNPickList.PRODUCT_NAME));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)),
@@ -511,7 +512,7 @@ public class PickLists extends TestInfra {
 					rstPickListData.get(CNPickList.LOCATIONS));
 
 			// verify the plan pick list(s)
-
+            foundation.threadWait(5);
 			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
 			foundation.waitforElementToBeVisible(PickList.BTN_PICKLIST_PLAN, 5);
@@ -715,6 +716,7 @@ public class PickLists extends TestInfra {
 			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElementToBeVisible(PickList.SELECT_ALL, 5);
+			foundation.threadWait(5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SELECT_ALL));
 
 			// verify highlight the all selected location
@@ -1138,28 +1140,25 @@ public class PickLists extends TestInfra {
 
 			// Select yes and send to Lightspeed
 			foundation.click(PickList.BTN_YES);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.LONG_TIME);
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.click(PickList.TXT_FILTERBY);
-			foundation.threadWait(5);
+			foundation.threadWait(15);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_ORDER));
 			foundation.threadWait(5);
-			foundation.click(PickList.BTN_CANCEL_ORDER);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(PickList.SELECT_ORDER_TAB);
-			foundation.click(PickList.BTN_CONFIRM_CANCEL_ORDER);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
-//		finally {
-//			foundation.click(PickList.BTN_CANCEL_ORDER);
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			foundation.click(PickList.SELECT_ORDER_TAB);
-//			foundation.click(PickList.BTN_CONFIRM_CANCEL_ORDER);
-//		}
+		finally {
+
+			foundation.click(PickList.BTN_CANCEL_ORDER);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PickList.SELECT_ORDER_TAB);
+			foundation.click(PickList.BTN_CONFIRM_CANCEL_ORDER);
+		}
 
 	}
 
@@ -1892,13 +1891,9 @@ public class PickLists extends TestInfra {
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 
 		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		List<String> product = Arrays
-				.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-		List<String> needcount = Arrays.asList(rstPickListData.get(CNPickList.NEED).split(Constants.DELIMITER_TILD));
 		List<String> location = Arrays
 				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
-		List<String> button = Arrays.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
-
+		
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -1938,7 +1933,6 @@ public class PickLists extends TestInfra {
 			}
 			CustomisedAssert.assertTrue(str[1].equals(str[5]));
 
-			
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2181,6 +2175,7 @@ public class PickLists extends TestInfra {
 					foundation.click(PickList.BTN_APPLY);
 					
 					//select one location and click 'plan pick list' button
+					foundation.threadWait(5);
 					foundation.waitforElementToBeVisible(PickList.BTN_SELECTALL, 5);
 					foundation.click(PickList.BTN_SELECTALL);
 					foundation.click(PickList.BTN_PICKLIST_PLAN);
