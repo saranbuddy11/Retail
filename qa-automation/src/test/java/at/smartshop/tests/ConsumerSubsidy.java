@@ -1828,7 +1828,6 @@ public class ConsumerSubsidy extends TestInfra {
 			value = dropDown.getSelectedItem(LocationSummary.DPD_GMA_SUBSIDY);
 			CustomisedAssert.assertEquals(value, requiredData.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.DPD_GMA_SUBSIDY);
-			foundation.threadWait(Constants.SHORT_TIME);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_TOP_OFF_SUBSIDY))
 				checkBox.check(LocationSummary.CHK_TOP_OFF_SUBSIDY);
 			if (checkBox.isChkEnabled(LocationSummary.CHK_ROLL_OVER_SUBSIDY))
@@ -2038,9 +2037,9 @@ public class ConsumerSubsidy extends TestInfra {
 			foundation.click(ConsumerSummary.TXT_ADJUST_BALANCE);
 			textBox.enterText(ConsumerSummary.TXT_ADJUST_BALANCE, requiredData.get(6));
 			foundation.click(ConsumerSummary.BTN_REASON_SAVE);
-			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(ConsumerSummary.BTN_SAVE);
-			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);			
+			foundation.waitforElement(LocationList.TXT_RECORD_UPDATE_MSG, Constants.SHORT_TIME);
+			foundation.click(ConsumerSummary.BTN_SAVE);
 
 			// Verify GMA Subsidy column in Consumer Summary Page
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);

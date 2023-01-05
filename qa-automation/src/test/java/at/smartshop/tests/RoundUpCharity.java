@@ -503,7 +503,6 @@ public class RoundUpCharity extends TestInfra {
 			
 			//enter EIN and Search
 			adminRoundUpCharity.enterEINAndSearch( data.get(2));
-			foundation.threadWait(3);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
 			
 			//verify the font-style in italic

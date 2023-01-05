@@ -662,7 +662,7 @@ public class SOSLoad extends TestInfra {
 			
 			//Get Org list from SOS loader
 			foundation.click(NavigationBar.DPD_ORG);
-			int SOSOrg=foundation.getSizeofListElement(Login.DPD_ORG);
+			List<String> SOSOrg=foundation.getTextofListElement(Login.DPD_ORG);
 			
 			//verify log out button and sign out from login user
 			foundation.click(NavigationBar.DPD_ORG);
@@ -675,10 +675,12 @@ public class SOSLoad extends TestInfra {
 			
 			//get Org list from ADM
 			foundation.click(NavigationBar.DPD_ORG);
-			int ADMOrg=foundation.getSizeofListElement(Login.DPD_ORG);
+			List<String> ADMOrg=foundation.getTextofListElement(Login.DPD_ORG);
 			
 			//verify SOS org and ADM org
-			CustomisedAssert.assertTrue(SOSOrg==ADMOrg);
+			System.out.println(ADMOrg);
+			System.out.println(SOSOrg);
+			CustomisedAssert.assertTrue(SOSOrg.equals(ADMOrg));
 			
 			
 		}
@@ -731,7 +733,6 @@ public class SOSLoad extends TestInfra {
 			//Select location for product 
 			foundation.click(LoadProduct.BTN_SELECTALL);
 			CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(location.get(2)));
-			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LoadProduct.BTN_SELECTNONE);
 			CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(location.get(3)));
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -808,7 +809,6 @@ public class SOSLoad extends TestInfra {
 				
 				//select processor and upload invalid file
 				foundation.click(loadDeviceID.clickLocation(menu.get(1)));
-				foundation.threadWait(Constants.THREE_SECOND);
 				int requiredValue = numbers.generateRandomNumber(0, 999999);
 				String requiredData = strings.getRandomCharacter();
 				String requiredString = (requiredValue + "#" + requiredData + "#" + "https://some.url.com" + "#" + requiredData + "#"
@@ -823,7 +823,6 @@ public class SOSLoad extends TestInfra {
 				foundation.threadWait(Constants.TEN_SECOND);
 				
 				//verify the error page
-				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_ERROR_MSG));
 				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadDeviceID.TBL_ERROR_DATA).contains(location));
@@ -921,7 +920,6 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT));
 					
 			//write Invalid excel and upload the file
-			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(loadProduct.clickLocation(location.get(0)));
 			
 			//Creating product with improper price via Template in SOS Load
@@ -988,12 +986,10 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
 				
 				//verify in Queue
-				foundation.threadWait(Constants.SHORT_TIME);
 				navigationBar.navigateToMenuItem(menu.get(1));
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 
 				//navigate to home commercial
-				foundation.threadWait(Constants.SHORT_TIME);
 				navigationBar.navigateToMenuItem(menu.get(0));
 				
 				//Upload same image and File with different commercial name
@@ -1169,20 +1165,17 @@ public class SOSLoad extends TestInfra {
 			//verify Success msg page
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProductPricing.LBL_UPDATE_PARAMETER));
 			CustomisedAssert.assertTrue(foundation.getText(LoadProductPricing.TXT_MSG).contains(location.get(6)));
-			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LoadProductPricing.BTN_OK);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 			
 			//verify the Queue page
 			navigationBar.navigateToMenuItem(menu.get(1));
-			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(1)));
 
             //navigate to ProductPricing
 			navigationBar.navigateToMenuItem(menu.get(0));
 						
 			//Creating product with proper Product pricing via Template in SOS Load
-			foundation.threadWait(Constants.THREE_SECOND);
 			String price=("20.6");  
 			excel.writeToExcel(FilePath.PRODUCT_PRICING_TEMPLATE,loadProductPricing.SHEET,location.get(2), data + "#" + price );
 			textBox.enterText(LoadProductPricing.BTN_CHOOSE_FILE, FilePath.PRODUCT_PRICING_TEMPLATE);
