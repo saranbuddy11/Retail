@@ -26,6 +26,7 @@ import at.smartshop.pages.AgeVerificationDetails;
 import at.smartshop.pages.Campus;
 import at.smartshop.pages.ConsumerSearch;
 import at.smartshop.pages.ConsumerSummary;
+import at.smartshop.pages.DeviceSummary;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
@@ -440,8 +441,15 @@ public class V5TestAdmin extends TestInfra {
 			locationList.selectLocationName(requiredData.get(4));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
 			foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
-			foundation.click(LocationSummary.BTN_FULL_SYNC);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.scrollIntoViewElement(LocationSummary.DEVICE_BTN);
+			foundation.click(LocationSummary.DEVICE_BTN);
+			foundation.waitforElementToBeVisible(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.SHORT_TIME);
+			foundation.click(DeviceSummary.SUPER_BTN);
+			foundation.waitforElement(DeviceSummary.FULL_SYNC, Constants.SHORT_TIME);
+			foundation.click(DeviceSummary.FULL_SYNC);
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
+//			foundation.click(LocationSummary.BTN_FULL_SYNC);
+//			foundation.threadWait(Constants.SHORT_TIME);
 
 			// Login to V5 Device and verify balance
 			browser.close();
