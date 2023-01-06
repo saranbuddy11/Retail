@@ -36,7 +36,9 @@ public class InventoryList extends Factory {
 	private static final By TBL_INVENTORY_LIST_GRID_EXPANDED = By
 			.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td > div  > div > div > table > tbody");
 	public static final By TBL_EXPAND_BTN = By.xpath("//span[@title='Expand Row']");
-
+	public static final By DATA_EXISTING_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(3)");
+	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 
@@ -152,6 +154,8 @@ public class InventoryList extends Factory {
 	public void verifyReportData(String expectedData) {
 		try {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
+			System.out.println("reportsData :"+ reportsData );
+			System.out.println("expectedDataList :"+ expectedDataList );
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				Assert.assertTrue(reportsData.get(0).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter)));
 			}
