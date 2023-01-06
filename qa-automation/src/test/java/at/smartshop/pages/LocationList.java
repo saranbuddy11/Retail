@@ -105,11 +105,13 @@ public class LocationList extends Factory {
 		foundation.click(LocationSummary.BTN_ADD_PRODUCT_ADD);
 		foundation.waitforElement(LocationSummary.BTN_DEPLOY_DEVICE, Constants.SHORT_TIME);
 		foundation.refreshPage();
-		foundation.click(LocationSummary.BTN_SYNC);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.waitforElement(LocationList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
-		foundation.waitforElementToDisappear(TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+		foundation.scrollIntoViewElement(LocationSummary.DEVICE_BTN);
+		foundation.click(LocationSummary.DEVICE_BTN);
+		foundation.waitforElementToBeVisible(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.SHORT_TIME);
+		foundation.click(DeviceSummary.SUPER_BTN);
+		foundation.waitforElement(DeviceSummary.FULL_SYNC, Constants.SHORT_TIME);
+		foundation.click(DeviceSummary.FULL_SYNC);
+		foundation.threadWait(Constants.EXTRA_LONG_TIME);
 		
 	}
 

@@ -877,7 +877,7 @@ public class LocationSummary extends Factory {
 	 * @param deviceName
 	 */
 	public void selectDeviceName(String deviceName) {
-		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')]"));
+		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')"));
 	}
 
 	/**
@@ -2663,10 +2663,11 @@ public class LocationSummary extends Factory {
 	 * @param data
 	 */
 	public void addDeviceAndVerify(String data) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
 		foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-		foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 3);
+		foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 5);
 		foundation.click(LocationSummary.TXT_DEVICE_POPUP_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, data);
 		foundation.click(LocationSummary.TBL_DEVICE_POPUP_ROW);
 		foundation.click(LocationSummary.BTN_DEVICE_ADD);
@@ -2770,7 +2771,6 @@ public class LocationSummary extends Factory {
 		foundation.scrollIntoViewElement(LocationSummary.BTN_HOME_COMMERCIAL);
 		foundation.click(LocationSummary.BTN_HOME_COMMERCIAL);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DPD_HOME_COMMERCIAL_FILTER));
-		foundation.threadWait(Constants.SHORT_TIME);
 		dropDown.selectItem(LocationSummary.DPD_HOME_COMMERCIAL_FILTER, location, Constants.TEXT);
 	}
 

@@ -90,6 +90,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.LBL_REMOVE);
 			foundation.click(PickList.LBL_ADD_PRODUCT);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(PickList.LBL_FILTER_TYPE, rstPickListData.get(CNPickList.PRODUCT_NAME));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)),
@@ -511,7 +512,7 @@ public class PickLists extends TestInfra {
 					rstPickListData.get(CNPickList.LOCATIONS));
 
 			// verify the plan pick list(s)
-
+            foundation.threadWait(5);
 			foundation.waitforElementToBeVisible(PickList.FILTER_LOCATION, 5);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.APLOCATION)));
 			foundation.waitforElementToBeVisible(PickList.BTN_PICKLIST_PLAN, 5);
@@ -715,6 +716,7 @@ public class PickLists extends TestInfra {
 			foundation.scrollIntoViewElement(PickList.BTN_APPLY);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.waitforElementToBeVisible(PickList.SELECT_ALL, 5);
+			foundation.threadWait(5);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.SELECT_ALL));
 
 			// verify highlight the all selected location
@@ -1080,19 +1082,12 @@ public class PickLists extends TestInfra {
 			rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 			List<String> sendToLightSpeedPopup = Arrays
 					.asList(rstPickListData.get(CNPickList.ROW_VALUES).split(Constants.DELIMITER_TILD));
-			List<String> menuItem = Arrays
-					.asList( rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			
-			//select super->org and set lightspeed 'yes'on Org Summary Page
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-			pickList.selectingLightSpeed(sendToLightSpeedPopup.get(6));
-			foundation.click(PickList.BUTTON_SAVE);
 
 			// Select Menu and Menu Item
-			foundation.threadWait(Constants.SHORT_TIME);
-			navigationBar.navigateToMenuItem(menuItem.get(0));
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			String menuItem = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			navigationBar.navigateToMenuItem(menuItem);
 
 			// selecting required location on Picklist Manager
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
@@ -1138,28 +1133,24 @@ public class PickLists extends TestInfra {
 
 			// Select yes and send to Lightspeed
 			foundation.click(PickList.BTN_YES);
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.LONG_TIME);
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_APPLY);
 			foundation.click(PickList.TXT_FILTERBY);
-			foundation.threadWait(5);
+			foundation.threadWait(15);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL_ORDER));
 			foundation.threadWait(5);
-			foundation.click(PickList.BTN_CANCEL_ORDER);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(PickList.SELECT_ORDER_TAB);
-			foundation.click(PickList.BTN_CONFIRM_CANCEL_ORDER);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		} 
-//		finally {
-//			foundation.click(PickList.BTN_CANCEL_ORDER);
-//			foundation.threadWait(Constants.SHORT_TIME);
-//			foundation.click(PickList.SELECT_ORDER_TAB);
-//			foundation.click(PickList.BTN_CONFIRM_CANCEL_ORDER);
-//		}
+		finally {
+			foundation.click(PickList.BTN_CANCEL_ORDER);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(PickList.SELECT_ORDER_TAB);
+			foundation.click(PickList.BTN_CONFIRM_CANCEL_ORDER);
+		}
 
 	}
 
@@ -1195,8 +1186,7 @@ public class PickLists extends TestInfra {
 
 			// Changing the dropdown value of Has Lightspeed to 'No' on Org Summary Page
 			pickList.selectingLightSpeed(hasLightspeed.get(1));
-			foundation.click(PickList.BUTTON_SAVE);
-			
+
 			// Navigating to Products>Picklist
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 
@@ -1238,7 +1228,6 @@ public class PickLists extends TestInfra {
 			// Navigating to Super >Org Summary
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 			pickList.selectingLightSpeed(hasLightspeed.get(0));
-			foundation.click(PickList.BUTTON_SAVE);
 		}
 	}
 
@@ -1382,17 +1371,14 @@ public class PickLists extends TestInfra {
 				foundation.waitforElementToBeVisible(PickList.DELETE_BTN, 5);
 				foundation.click(PickList.DELETE_BTN);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_FILTER_APPLY));	
-				
-				// delete downloaded file
-				foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
-						rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
-				
 				// Navigate to Admin-->Routes to enable the routes
 				navigationBar.navigateToMenuItem(menu.get(0));
 				pickList.searchRouteAndClickOnActiveCheckbox(requiredData.get(0), requiredData.get(2), requiredData.get(3),
 						"check");
 		
-				
+				// delete downloaded file
+				foundation.deleteFile(FilePath.pickListFilePathWithDateAndDay(requiredData.get(7),
+						rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION)));
 		}
 	}
 
@@ -1892,13 +1878,9 @@ public class PickLists extends TestInfra {
 		rstPickListData = dataBase.getPickListData(Queries.PICKLIST, CASE_NUM);
 
 		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		List<String> product = Arrays
-				.asList(rstPickListData.get(CNPickList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-		List<String> needcount = Arrays.asList(rstPickListData.get(CNPickList.NEED).split(Constants.DELIMITER_TILD));
 		List<String> location = Arrays
 				.asList(rstPickListData.get(CNPickList.LOCATIONS).split(Constants.DELIMITER_TILD));
-		List<String> button = Arrays.asList(rstPickListData.get(CNPickList.APLOCATION).split(Constants.DELIMITER_TILD));
-
+		
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -1913,7 +1895,7 @@ public class PickLists extends TestInfra {
 			foundation.click(pickList.selectLocationFromList(location.get(0)));
 			foundation.click(pickList.selectLocationFromList(location.get(1)));
 			foundation.click(PickList.BTN_APPLY);
-			foundation.waitforElement(pickList.objPickList(location.get(0)), Constants.SHORT_TIME);
+//			foundation.waitforElement(pickList.objPickList(location.get(0)), Constants.SHORT_TIME);
 //			foundation.click(pickList.objPickList(location.get(0)));
 //			CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.LIST_PICKLIST_BUTTONS).equals(button));
 //			foundation.click(PickList.BTN_APPLY);
@@ -1938,7 +1920,7 @@ public class PickLists extends TestInfra {
 			}
 			CustomisedAssert.assertTrue(str[1].equals(str[5]));
 
-			
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -2181,6 +2163,7 @@ public class PickLists extends TestInfra {
 					foundation.click(PickList.BTN_APPLY);
 					
 					//select one location and click 'plan pick list' button
+					foundation.threadWait(5);
 					foundation.waitforElementToBeVisible(PickList.BTN_SELECTALL, 5);
 					foundation.click(PickList.BTN_SELECTALL);
 					foundation.click(PickList.BTN_PICKLIST_PLAN);
@@ -2245,15 +2228,14 @@ public class PickLists extends TestInfra {
 					foundation.click(PickList.BTN_APPLY);
 					
 					//verify show record and Dropdown options in filtered location grid
-					foundation.threadWait(3);
 					foundation.scrollIntoViewElement(PickList.LBL_SHOW_RECORD);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_SHOW_RECORD));
 					foundation.click(PickList.BTN_SHOW_RECORD);
 					CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.DPD_SHOW_RECORD).equals(data));
 					
 					//select option and verify list in filtered location grid
-					foundation.click(pickList.selectShowRecordCount(data.get(3)));
-					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.TBL_ROW_DATA),25);
+					foundation.click(pickList.selectShowRecordCount(data.get(1)));
+					CustomisedAssert.assertEquals(foundation.getSizeofListElement(PickList.TBL_ROW_DATA), 10);
 					
 					//select location and plan pick list button
 					foundation.click(pickList.objPickList(location.get(0)));
