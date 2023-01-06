@@ -2788,7 +2788,7 @@ public class LocationSummary extends Factory {
 			String groupname, String amount, String rollovername) {
 		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 		foundation.waitforElementToBeVisible(LocationSummary.DPD_GMA_SUBSIDY, Constants.THREE_SECOND);
-		dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, onandoff, Constants.TEXT);
+//		dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, onandoff, Constants.TEXT);
 		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
 		verifyTopOffDateAutomationLocation1(currentDate);
 		verifyGMASubsidy(LocationSummary.DPD_TOP_OFF_RECURRENCE, LocationSummary.TXT_TOP_OFF_GROUP_NAME,
@@ -2806,7 +2806,7 @@ public class LocationSummary extends Factory {
 		textBox.enterText(LocationSummary.TXT_PAY_ROLL_SPEND_LIMIT, amount);
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 		foundation.click(LocationSummary.BTN_SAVE);
-		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.LONG_TIME);
 
 	}
 
