@@ -59,6 +59,8 @@ public class AdminNationalAccounts extends Factory {
 	public static final By BTN_CREATE_NEW_RULE = By.id("createNewBtn");
 	public final static String COLUMN_ORG = "aria-describedby=national-account-grid_e8d7b8d747377082bd177c867633060f_locations_child_org";
 	public final static String COLUMN_LOCATION = "aria-describedby=national-account-grid_e8d7b8d747377082bd177c867633060f_locations_child_location";
+	public final static String COLUMN_ORG_STAGING = "aria-describedby=national-account-grid_63ee7a00e4aeb8b2175f978a67332812_locations_child_org";
+	public final static String COLUMN_LOCATION_STAGING = "aria-describedby=national-account-grid_63ee7a00e4aeb8b2175f978a67332812_locations_child_location";
 	public static final By NATIONAL_ACCOUNT_DETAILS = By.cssSelector("table[data-path='locations'] > tbody");
 	public static final By TEXT_BOX_RULE_NAME = By.cssSelector("input#rulename");
 	public static final By TXT_FLITER_INPUT = By.xpath("//input[@placeholder='Contains...']");
@@ -183,24 +185,36 @@ public class AdminNationalAccounts extends Factory {
 		return descending;
 	}
 
-	public List<String> getLocationDetails(String nationalAccountName, String orgName) {
+	public List<String> getLocationDetails(String nationalAccountName, String orgName, String environment) {
 		List<String> locationValues = new ArrayList<>();
 		try {
 			locationValues.clear();
 			getDriver().findElement(By.xpath(
 					"//td[text()='" + nationalAccountName + "']/..//td[@class='ui-iggrid-expandcolumn']//span//span"))
 					.click();
-			foundation.waitforElement(NATIONAL_ACCOUNT_DETAILS, 3);
+			foundation.waitforElement(NATIONAL_ACCOUNT_DETAILS, Constants.SHORT_TIME);
 			WebElement locations = getDriver().findElement(NATIONAL_ACCOUNT_DETAILS);
 			List<WebElement> rows = locations.findElements(By.tagName("tr"));
 			for (int iter = 0; iter < rows.size(); iter++) {
-				if (rows.get(iter)
-						.findElement(By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_ORG + "]"))
-						.getText().equals(orgName)) {
-					locationValues.add(rows.get(iter)
+				if (environment.equals(Constants.STAGING)) {
+					if (rows.get(iter)
 							.findElement(By.cssSelector(
-									"table[data-path=locations] > tbody > tr > td[" + COLUMN_LOCATION + "]"))
-							.getText());
+									"table[data-path=locations] > tbody > tr > td[" + COLUMN_ORG_STAGING + "]"))
+							.getText().equals(orgName)) {
+						locationValues.add(rows.get(iter).findElement(By.cssSelector(
+								"table[data-path=locations] > tbody > tr > td[" + COLUMN_LOCATION_STAGING + "]"))
+								.getText());
+					}
+				} else {
+					if (rows.get(iter)
+							.findElement(
+									By.cssSelector("table[data-path=locations] > tbody > tr > td[" + COLUMN_ORG + "]"))
+							.getText().equals(orgName)) {
+						locationValues.add(rows.get(iter)
+								.findElement(By.cssSelector(
+										"table[data-path=locations] > tbody > tr > td[" + COLUMN_LOCATION + "]"))
+								.getText());
+					}
 				}
 			}
 		} catch (Exception exc) {
