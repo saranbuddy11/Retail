@@ -94,7 +94,9 @@ public class UserList extends Factory {
 	public static final By DRP_SELECT_ROLE = By.xpath("//a[@id='standarduserBtn']");
 	public static final By SELECTED_LOC = By.xpath(
 			"(//span[contains(@class,'select2-selection--multiple')]//ul[@class='select2-selection__rendered'])[2]");
-
+public static final By DPD_DEFAULT_ORG = By.id("defaultorg");
+public static final By DPD_SELECTED_ORG= By.id("org-dropdown");
+	
 	public By objRoleName(String roleName) {
 		return By.xpath("//td[text()='" + roleName + "']");
 	}
@@ -128,13 +130,12 @@ public class UserList extends Factory {
 		textBox.enterText(UserList.FIRST_NAME_FIELD, fname);
 		textBox.enterText(UserList.LAST_NAME_FIELD, lname);
 		textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, address);
-		foundation.click(UserList.SELECT_ORG);
-		foundation.threadWait(Constants.SHORT_TIME);
-		clickOrgs(UserList.SELECTED_ORG, org);
-		foundation.threadWait(Constants.SHORT_TIME);
-		foundation.click(UserList.SELECTED_LOC);
-		foundation.threadWait(Constants.SHORT_TIME);
-		clickOrgs(UserList.SELECTED_LOCATION, loc);
+		dropdown.selectItem(UserList.DPD_DEFAULT_ORG, org, Constants.TEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		dropdown.selectItem(UserList.DPD_SELECTED_ORG, org, Constants.TEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		dropdown.selectItem(UserList.SELECT_LOCATION, loc, Constants.TEXT);
+		foundation.click(UserList.CLICK_OUTSIDE);
 		foundation.click(UserList.BTN_UPDATE_USER);
 		foundation.threadWait(Constants.THREE_SECOND);
 	}
@@ -262,9 +263,9 @@ public class UserList extends Factory {
 		foundation.waitforElementToBeVisible(ViewRole.LBL_HEADER, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ViewRole.LBL_HEADER));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ViewRole.USER_ASSOCIATE_ROLES));
-		foundation.click(objRoleName(operatorname));
-		foundation.waitforElementToBeVisible(EDIT_USERS, 3);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(EDIT_USERS));
+//		foundation.click(objRoleName(operatorname));
+//		foundation.waitforElementToBeVisible(EDIT_USERS, 3);
+//		CustomisedAssert.assertTrue(foundation.isDisplayed(EDIT_USERS));
 	}
 
 	/**

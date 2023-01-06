@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -699,7 +700,8 @@ public class NationalAccount extends TestInfra {
 	}
 
 	@Test(description = "120730-This test validates Orgs Dropdown in the National Account Edit rule screen with NA User")
-	public void verifyOrgsDropdownNAUser() {
+	@Parameters({ "environment" })
+	public void verifyOrgsDropdownNAUser(String environment) {
 		try {
 			final String CASE_NUM = "120730";
 			browser.navigateURL(
@@ -718,7 +720,7 @@ public class NationalAccount extends TestInfra {
 
 			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
 					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), environment);
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 
@@ -738,7 +740,8 @@ public class NationalAccount extends TestInfra {
 	}
 
 	@Test(description = "120726-This test validates Orgs Dropdown in the National Account Edit rule screen with MNA User")
-	public void verifyOrgsDropdownMNAUser() {
+	@Parameters({ "environment" })
+	public void verifyOrgsDropdownMNAUser(String environment) {
 		try {
 			final String CASE_NUM = "120726";
 			browser.navigateURL(
@@ -758,7 +761,7 @@ public class NationalAccount extends TestInfra {
 
 			List<String> locationVaules = adminNationalAccounts.getLocationDetails(
 					rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
-					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED));
+					rstNationalAccountsData.get(CNNationalAccounts.ORG_ASSIGNED), environment);
 			adminNationalAccounts.clickManageRule(rstNationalAccountsData.get(CNNationalAccounts.NATIONAL_ACCOUNT_NAME),
 					rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME));
 

@@ -10,6 +10,7 @@ import at.framework.generic.CustomisedAssert;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.keys.Constants;
 
 public class DeviceDashboard {
 	
@@ -44,9 +45,11 @@ public class DeviceDashboard {
 	 */
 	public void selectDeviceName(String device_name) {
 	CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
-	foundation.waitforElementToBeVisible(DeviceDashboard.TBL_DEVICE_NAME,3);
+	foundation.waitforElementToBeVisible(DeviceDashboard.TBL_DEVICE_NAME,Constants.SHORT_TIME);
 	foundation.click(DeviceDashboard.TXT_SEARCH);
+	foundation.threadWait(Constants.THREE_SECOND);
 	textBox.enterText(DeviceDashboard.TXT_SEARCH, device_name);
+	foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(DeviceDashboard.BTN_SEARCH);
 	foundation.click(DeviceDashboard.TBL_DEVICE_NAME);
 }

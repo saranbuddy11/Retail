@@ -50,8 +50,8 @@ public class ProductSummary extends Factory {
     public static final By MAX_STOCK=By.id("maxstock");
     public static final By CASE_COUNT=By.id("eoq");
     public static final By LBL_PRODUCT_SUMMMARY=By.id("Product Summary");
-    public static final By GUID_PRODUCTIDRANGE = By.xpath("//dd[text()='aea0dacc83f7fe4b5510303c6b9fc30e ']");
-    public static final By GUID_PRODUCTID = By.xpath("//dd[text()='aea0dacc83f7fe4b5510303c6b9fc30e ']");
+    public static final By GUID_PRODUCTIDRANGE = By.xpath("//dd[text()='aea0dacc83f7fe4b5510303c6b9fc30e ' or text()='c8a794655d71de7d34b81bd62414717a ']");
+    public static final By GUID_PRODUCTID = By.xpath("//dd[text()='aea0dacc83f7fe4b5510303c6b9fc30e ' or text()='c8a794655d71de7d34b81bd62414717a ']");
 	 
 	   
 	public By getLocationNamePath(String text) {

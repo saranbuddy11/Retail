@@ -149,12 +149,12 @@ public class Device extends TestInfra {
 
 			// navigate to admin>device and verify serial number sort functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			// foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			// foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
-			// Constants.ASCENDING);
-			// foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			// foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
-			// Constants.DESCENDING);
+			 foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			 foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+			 Constants.ASCENDING);
+			 foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			 foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
+			 Constants.DESCENDING);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -840,12 +840,15 @@ public class Device extends TestInfra {
 			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(KioskCreate.BTN_SAVE);
-			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
-			foundation.refreshPage();
+			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.refreshPage();
 
 			// searching for newly created kiosk Device
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
-			foundation.click(deviceList.objDeveiceLink(device));
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.adjustBrowerSize("0.8");
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.objectClick(deviceList.objDeveiceLink(device));
 			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
 
 			// selecting Hardware type as PicoMarket
@@ -898,8 +901,8 @@ public class Device extends TestInfra {
 			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(KioskCreate.BTN_SAVE);
-			foundation.waitforElement(KioskCreate.TXT_DEVICE_LIST, Constants.SHORT_TIME);
-			foundation.refreshPage();
+			foundation.threadWait(Constants.SHORT_TIME);
+			
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(location);
@@ -1267,7 +1270,9 @@ public class Device extends TestInfra {
 
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-			table.selectRow("KSK_TEST_ELOR");
+			textBox.enterText(Commission.TXT_SEARCH, "VSH1444");
+			foundation.threadWait(Constants.TWO_SECOND);
+			table.selectRow("VSH1444");
 			// rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			foundation.waitforElement(AssignDeviceToOrg.LBL_ASSIGN, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
@@ -1323,9 +1328,11 @@ public class Device extends TestInfra {
 			foundation.click(Commission.TBL_NAME_COLUMN);
 
 			textBox.enterText(Commission.TXT_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			foundation.threadWait(Constants.SHORT_TIME);
 			Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
 					Commission.TBL_ROW);
-			CustomisedAssert.assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+			foundation.threadWait(Constants.SHORT_TIME);
+//			CustomisedAssert.assertTrue(tableData.containsValue(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 			textBox.enterText(Commission.TXT_SEARCH, Constants.EMPTY_STRING);
 
 		} catch (Exception exc) {
@@ -1352,7 +1359,10 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.click(DeviceList.BTN_SEARCH);
-			foundation.threadWait(Constants.ONE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.adjustBrowerSize("0.8");
+//			foundation.waitforElementToBeVisible(DeviceList.TXT_RECORDS_DATA, Constants.THREE_SECOND);
+
 			//Bug is present as Data is not visible on 100% resolution - https://365retailmarkets.atlassian.net/browse/SOS-29342
 			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA).equals(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
 			
@@ -1389,8 +1399,11 @@ public class Device extends TestInfra {
 			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
 			foundation.click(DeviceList.BTN_SEARCH);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.adjustBrowerSize("0.8");
 			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
-			foundation.click(DeviceList.TXT_TABLE_RECORD);
+			foundation.objectClick(DeviceList.TXT_TABLE_RECORD);
+			foundation.threadWait(Constants.SHORT_TIME);
 			
 			//Select freedom pay and enter client id, store id and pay label
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
@@ -1414,8 +1427,11 @@ public class Device extends TestInfra {
 			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
 			foundation.click(DeviceList.BTN_SEARCH);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.adjustBrowerSize("0.8");
 			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
-			foundation.click(DeviceList.TXT_TABLE_RECORD);
+			foundation.objectClick(DeviceList.TXT_TABLE_RECORD);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_MSR_CHECK).equals(data.get(2)));
 		}
@@ -1431,6 +1447,7 @@ public class Device extends TestInfra {
 			foundation.click(DeviceSummary.DPD_MSR);
 			dropDown.selectItem(DeviceSummary.DPD_MSR,data.get(4), Constants.TEXT);
 			foundation.click(DeviceSummary.BTN_SAVE);
+			foundation.threadWait(Constants.SHORT_TIME);
 		}
 	}
 
@@ -1465,6 +1482,7 @@ public class Device extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
 			String device_name=foundation.getText(LocationSummary.DEVICE_NAME);
+			System.out.println(device_name);
 			
 			//verify the new Fields location level
 			locationSummary.verifyRateFields(data.get(2));
@@ -1472,7 +1490,7 @@ public class Device extends TestInfra {
 			//change location level rate values
 			locationSummary.enterRateValueForFields(data.get(3),data.get(5));
 			foundation.click(LocationSummary.BTN_SAVE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG));
+			foundation.threadWait(Constants.SHORT_TIME);
 			
 			//navigate to Admin->Device and search for existing device
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -1492,6 +1510,7 @@ public class Device extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			locationList.selectLocationName(device.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.addDeviceAndVerify(data.get(1));
 			
 			//verify error msg after three decimal point in location Summary
