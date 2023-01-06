@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.openqa.selenium.Point;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -558,6 +559,10 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.BTN_CANCEL_CAT_POPUP);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_CREATE);
+			if (!foundation.isDisplayed(CreatePromotions.BUNDLE_PROMO_ALERT)) {
+				foundation.click(CreatePromotions.BTN_CREATE);
+				foundation.threadWait(Constants.SHORT_TIME);
+			}
 			foundation.waitforElement(CreatePromotions.BUNDLE_PROMO_ALERT, Constants.SHORT_TIME);
 			// foundation.click(CreatePromotions.BTN_CONTINUE);
 			foundation.waitforElement(CreatePromotions.BTN_OK, Constants.SHORT_TIME);
@@ -578,6 +583,10 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
+			if (!foundation.isDisplayed(CreatePromotions.DPD_DISCOUNT_BY)) {
+				foundation.click(CreatePromotions.BTN_NEXT);
+				foundation.threadWait(Constants.SHORT_TIME);
+			}
 			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 //			dropDown.selectItem(CreatePromotions.DPD_DISCOUNT_BY, requiredData.get(0), Constants.TEXT);
 //			textBox.enterText(CreatePromotions.TXT_ITEM, actualData.get(0));
@@ -610,11 +619,16 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.BTN_NEXT);
 			foundation.threadWait(Constants.SHORT_TIME);
-
+			if (!foundation.isDisplayed(CreatePromotions.DPD_DISCOUNT_BY)) {
+				foundation.click(CreatePromotions.BTN_NEXT);
+				foundation.threadWait(Constants.SHORT_TIME);
+			}
+			foundation.waitforElement(CreatePromotions.DPD_DISCOUNT_BY, Constants.SHORT_TIME);
 			String bundleOption = dropDown.getSelectedItem(CreatePromotions.DPD_DISCOUNT_BY);
 			CustomisedAssert.assertEquals(bundleOption, requiredData.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(CreatePromotions.ADD_ITEM);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH_TXT, actualData.get(0));
 			foundation.threadWait(Constants.SHORT_TIME);
 			String itemValue = foundation.getText(CreatePromotions.SELECTED_ITEM);
@@ -3006,7 +3020,8 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "C176286-Verifying the overlay of Group's Items and Categories"
 			+ "C177864-verify the Group Name field in Select Group's Items and Categories overlay")
-	public void verifyOverlayOfGroupItemsAndCategories() {
+	@Parameters({ "environment" })
+	public void verifyOverlayOfGroupItemsAndCategories(String environment) {
 		final String CASE_NUM = "176286";
 
 		// Reading test data from database
@@ -3082,7 +3097,10 @@ public class Promotions extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(3));
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
+			if (environment.equals(Constants.STAGING))
+				CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.ProductStaging(product.get(3))));
+			else
+				CustomisedAssert.assertTrue(foundation.isDisplayed(createPromotions.Product(product.get(3))));
 			createPromotions.selectItemInBuildBundle(datas.get(4));
 			foundation.click(CreatePromotions.BTN_ADD);
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -3498,7 +3516,7 @@ public class Promotions extends TestInfra {
 			textBox.clearText(CreatePromotions.INPUT_CATEGORY_SEARCH);
 			textBox.enterText(CreatePromotions.INPUT_CATEGORY_SEARCH, requiredData.get(4));
 			foundation.threadWait(Constants.SHORT_TIME);
-			checkBox.unCheck(CreatePromotions.CAT_CATEGORY);
+			checkBox.unCheck(CreatePromotions.CATEGORY_CHECK_BOX);
 			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.clearText(CreatePromotions.GROUP_NAME);
 			foundation.click(CreatePromotions.CANCEL_BTN);
@@ -3545,7 +3563,8 @@ public class Promotions extends TestInfra {
 
 	@Test(description = "C176296-verify the showing message in Select Group's Items and Categories overlay"
 			+ "C176297-verify the selected message in Select Group's Items and Categories overlay")
-	public void verifyRecordsMessageInItemAndCategory() {
+	@Parameters({ "environment" })
+	public void verifyRecordsMessageInItemAndCategory(String environment) {
 		final String CASE_NUM = "176296";
 
 		// Reading test data from database
@@ -3590,7 +3609,10 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
-			checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
+			if (environment.equals(Constants.STAGING))
+				checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT_STAGING);
+			else
+				checkBox.check(CreatePromotions.CHOCOLATE_PRODUCT);
 			String record = foundation.getText(CreatePromotions.RECORD_PRODUCT);
 			CustomisedAssert.assertTrue(record.contains(product.get(2)));
 
@@ -3615,7 +3637,10 @@ public class Promotions extends TestInfra {
 			foundation.click(CreatePromotions.PRODUCT_FILTER);
 			textBox.enterText(CreatePromotions.ITEM_SEARCH, product.get(1));
 			foundation.threadWait(Constants.SHORT_TIME);
-			checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
+			if (environment.equals(Constants.STAGING))
+				checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK_STAGING);
+			else
+				checkBox.unCheck(CreatePromotions.PRODUCT_UNCHECK);
 
 			// verify the product & category unselected in record
 //			CustomisedAssert.assertTrue(foundation.isDisplayed(CreatePromotions.SELECTION));

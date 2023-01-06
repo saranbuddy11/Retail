@@ -98,7 +98,7 @@ public class NavigationBar extends Factory {
 			subTabs = foundation.getTextofListElement(By.xpath(
 					"//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]//..//ul//li//a"));
 			foundation.click(By.xpath("//ul[@role='navigation']//li//a[contains(text(),'" + optionName.get(0) + "')]"));
-			foundation.WaitForAjax(Constants.THREE_SECOND);
+			foundation.WaitForAjax(Constants.SHORT_TIME);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
