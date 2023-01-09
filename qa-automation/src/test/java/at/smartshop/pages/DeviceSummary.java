@@ -41,6 +41,8 @@ public class DeviceSummary extends Factory {
 	public static final By DPD_NANOGMR = By.id("nanogmarateusedevice");
 	public static final By DPD_CREDIT = By.id("creditrateusedevice");
 	public static final By DPD_NANOCREDIT = By.id("nanocreditrateusedevice");
+	public static final By SUPER_BTN=By.id("kioskshow-super");
+	public static final By FULL_SYNC=By.id("fullsync");
 	public static final By TXT_GMR = By.xpath("//select[@id='gmarateusedevice']/option[@selected='selected']");
 	public static final By TXT_NANOGMR = By.xpath("//select[@id='nanogmarateusedevice']/option[@selected='selected']");
 	public static final By TXT_CREDIT = By.xpath("//select[@id='creditrateusedevice']/option[@selected='selected']");

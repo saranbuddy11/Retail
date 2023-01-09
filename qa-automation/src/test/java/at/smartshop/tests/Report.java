@@ -3512,8 +3512,8 @@ public class Report extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
@@ -3701,8 +3701,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
@@ -3787,8 +3787,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -3958,8 +3958,8 @@ public class Report extends TestInfra {
 //			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
 			foundation.threadWait(Constants.ONE_SECOND);
