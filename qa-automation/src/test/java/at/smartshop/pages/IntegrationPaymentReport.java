@@ -217,12 +217,12 @@ public class IntegrationPaymentReport extends Factory {
 		}
 	}
 
-	public void processAPI(String paymentType, String deviceId) {
+	public void processAPI(String paymentType, String deviceId, String environment) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_TILD));
 			for (int iter = 0; iter < payType.size(); iter++) {
 				generateJsonDetails(deviceId);
-				salesJsonDataUpdate(payType.get(iter));
+				salesJsonDataUpdate(payType.get(iter), environment);
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
@@ -267,11 +267,16 @@ public class IntegrationPaymentReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate(String paymentType) {
+	private void salesJsonDataUpdate(String paymentType, String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

@@ -1532,7 +1532,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "142906-This test validates Product Sales By Category Report Data Calculation")
-	public void productSalesByCategoryReportData() {
+	@Parameters({ "environment" })
+	public void productSalesByCategoryReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "142906";
@@ -1549,7 +1550,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			productSalesCategory.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+					rstProductSummaryData.get(CNProductSummary.CATEGORY2), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1558,7 +1559,14 @@ public class Report extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range ,Location and Group By
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));	
+
+if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(1));
+			}else{
+				reportList.selectReport(reportName.get(0));
+			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -1568,7 +1576,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			productSalesCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			productSalesCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME), environment);
 			textBox.enterText(productSalesCategory.SEARCH_RESULT,
 					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 
@@ -1577,7 +1585,7 @@ public class Report extends TestInfra {
 
 			// Process API and read updated data
 			productSalesCategory.processAPI(rstProductSummaryData.get(CNProductSummary.SCAN_CODE),
-					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+					rstProductSummaryData.get(CNProductSummary.CATEGORY2), environment);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			textBox.enterText(productSalesCategory.SEARCH_RESULT,
 					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
@@ -1712,9 +1720,9 @@ public class Report extends TestInfra {
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			if (environment.equals(Constants.STAGING)) {
-				itemStockout.verifyReportName(reportName.get(1));
+				folioBilling.verifyReportName(reportName.get(1));
 			} else {
-				itemStockout.verifyReportName(reportName.get(0));
+				folioBilling.verifyReportName(reportName.get(0));
 			}
 			folioBilling.getTblRecordsUI();
 			folioBilling.getIntialData().putAll(folioBilling.getReportsData());
@@ -1882,7 +1890,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143547 -This test validates Integration Payments Report Data Calculation")
-	public void integrationPaymentsReportData() {
+	@Parameters({ "environment" })
+	public void integrationPaymentsReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "143547";
@@ -1897,10 +1906,15 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+			} else {
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			};
 
 			// process sales API to generate data
-			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId, environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1925,7 +1939,7 @@ public class Report extends TestInfra {
 			integrationPayments.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
-			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId, environment);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -2076,7 +2090,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "145313-This test validates Order Transaction Time Report Data Calculation")
-	public void orderTransactionTimeReportData() {
+	@Parameters({ "environment" })
+	public void orderTransactionTimeReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "145313";
@@ -2094,7 +2109,7 @@ public class Report extends TestInfra {
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			// process sales API to generate data
-			orderTransactionTime.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			orderTransactionTime.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
@@ -2140,7 +2155,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "145249-This test validates Invoice Details Report Data Calculation")
-	public void invoiceDetailsReportData() {
+	@Parameters({ "environment" })
+	public void invoiceDetailsReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "145249";
@@ -2156,7 +2172,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			invoiceDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			invoiceDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -3171,7 +3187,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "167474-This test validates Multi Tax Report Data Calculation")
-	public void multiTaxReportData() {
+	@Parameters({ "environment" })
+	public void multiTaxReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "167474";
@@ -3187,7 +3204,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			multiTaxReport.processAPI();
+			multiTaxReport.processAPI(environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -3210,7 +3227,7 @@ public class Report extends TestInfra {
 			multiTaxReport.getIntialData().putAll(multiTaxReport.getReportsData());
 
 			// process sales API to generate data
-			multiTaxReport.processAPI();
+			multiTaxReport.processAPI(environment);
 
 			// rerun and reread report
 			foundation.threadWait(Constants.MEDIUM_TIME);
@@ -4095,7 +4112,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "186633-This test validates  inventory Adjustment Detail Report Data Calculation")
-	public void inventoryAdjustmentDetailReportData() {
+	@Parameters({ "environment" })
+	public void inventoryAdjustmentDetailReportData(String environment) {
 		try {
 			final String CASE_NUM = "186633";
 
@@ -4194,7 +4212,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "197201-This test validates inventory Total Report Data Validation")
-	public void verifyInventoryTotalReportData() {
+	@Parameters({ "environment" })
+	public void verifyInventoryTotalReportData(String environment) {
 
 		try {
 			final String CASE_NUM = "197201";
@@ -4870,7 +4889,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 22-07-2022
 	 */
 	@Test(description = "198531-Verify the Data Validation of Product Sales Report")
-	public void ProductSalesReportDataValidation() {
+	@Parameters({ "environment" })
+	public void ProductSalesReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "198531";
 			browser.navigateURL(
@@ -4886,7 +4906,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -4905,7 +4925,7 @@ public class Report extends TestInfra {
 			productSales.getIntialData().putAll(productSales.getReportsData());
 
 			// process sales API to generate data
-			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			productSales.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -5142,7 +5162,7 @@ public class Report extends TestInfra {
 			reportList.selectLocationForSecondTypeDropdown(location);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(salesItemDetailsReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			salesItemDetailsReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
@@ -5320,8 +5340,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(location);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.ONE_SECOND);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(SoldDetailsInt.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			soldDetailsInt.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
@@ -5329,7 +5348,7 @@ public class Report extends TestInfra {
 			soldDetailsInt.getTblRecordsUI();
 			soldDetailsInt.getIntialData().putAll(soldDetailsInt.getReportsData());
 
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.ONE_SECOND);
+			foundation.waitforElement(SoldDetailsInt.LBL_REPORT_NAME, Constants.ONE_SECOND);
 			soldDetailsInt.getTblRecordsUI();
 
 			// update the report date based on calculation
@@ -5884,7 +5903,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 29-08-2022
 	 */
 	@Test(description = "203690-Verify the Data Validation of Inventory Value Summary Report")
-	public void inventoryValueSummaryReportDataValidation() {
+	@Parameters({ "environment" })
+	public void inventoryValueSummaryReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "203690";
 
@@ -5913,7 +5933,7 @@ public class Report extends TestInfra {
 
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(inventoryValueSummary.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			inventoryValueSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
@@ -5921,7 +5941,7 @@ public class Report extends TestInfra {
 			inventoryValueSummary.getIntialData().putAll(inventoryValueSummary.getReportsData());
 
 			// process sales API to generate data
-			inventoryValueSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			inventoryValueSummary.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -6171,7 +6191,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(locationName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(soldItemCOGS.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			soldItemCOGS.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
@@ -6374,7 +6394,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 20-09-2022
 	 */
 	@Test(description = "204450-Verify the Data Validation of Product Canned Report")
-	public void productCannedReportDataValidation() {
+	@Parameters({ "environment" })
+	public void productCannedReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "204450";
 
@@ -6400,7 +6421,7 @@ public class Report extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			// process sales API to generate data
-			ProductCannedReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			ProductCannedReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// Select the Report Date range and Location and run report
 			navigationBar.navigateToMenuItem(menu.get(1));
@@ -6409,7 +6430,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(location);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(ProductCannedReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			ProductCannedReport.verifyReportName(location);
 
 			// Read the Report the Data
@@ -6465,7 +6486,7 @@ public class Report extends TestInfra {
 			foundation.click(LocationSummary.TXT_PRODUCT_FILTER);
 
 			// process sales API to generate data again
-			ProductCannedReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			ProductCannedReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			foundation.threadWait(Constants.TWO_SECOND);
 			// rerun and reread report
@@ -6547,7 +6568,7 @@ public class Report extends TestInfra {
 
 			creditTransaction.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
-			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
+			textBox.enterText(creditTransaction.TXT_SEARCH,
 					(String) creditTransaction.getJsonData().get(Reports.TRANS_ID));
 			creditTransaction.getTblRecordsUI();
 			creditTransaction.getIntialData().putAll(creditTransaction.getReportsData());
@@ -6665,7 +6686,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(location);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(accountProfitability.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			accountProfitability.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
