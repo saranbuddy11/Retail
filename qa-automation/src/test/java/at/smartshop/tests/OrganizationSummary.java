@@ -147,6 +147,7 @@ public class OrganizationSummary extends TestInfra {
 			navigationBar.selectOrganization(orgName);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			// removing image
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(OrgSummary.BTN_REMOVE);
 			// upload image
 			textBox.enterText(OrgSummary.LBL_UPLOAD, FilePath.IMAGE_PNG_PATH);

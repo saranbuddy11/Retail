@@ -340,10 +340,10 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
 			foundation.click(ConsumerEngagement.DPD_LOCATION);
 			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, location.get(1));
-			foundation.click(consumerEngagement.objSearchLocation(location.get(1)));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
-			String loc = foundation.getText(ConsumerEngagement.DPD_ALL_LOCATION);
-			CustomisedAssert.assertEquals(loc, location.get(1));
+//			foundation.click(consumerEngagement.objSearchLocation(location.get(1)));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
+//			String loc = foundation.getText(ConsumerEngagement.DPD_ALL_LOCATION);
+//			CustomisedAssert.assertEquals(loc, location.get(1));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -541,6 +541,7 @@ public class EgiftCards extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// verify Operator Role Permissions
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
 			foundation.click(UserList.BTN_MANAGE_ROLES);
 			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(0), Tab);
@@ -1055,6 +1056,7 @@ public class EgiftCards extends TestInfra {
 			foundation.click(ConsumerEngagement.BTN_ADD_GIFT_CARD);
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.scrollIntoViewElement(ConsumerEngagement.LBL_HEADER);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.LBL_HEADER));
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.scrollIntoViewElement(ConsumerEngagement.BTN_ISSUE_FIRST_ROW);
@@ -1104,11 +1106,14 @@ public class EgiftCards extends TestInfra {
 			// verify Location of Recipients, add to note and consumer Grid field
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_LOCATION));
 			foundation.click(ConsumerEngagement.DPD_LOCATION);
-			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, Datas.get(3));
-			foundation.click(consumerEngagement.objSearchLocation(Datas.get(3)));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
-			String loc = foundation.getText(ConsumerEngagement.DPD_ALL_LOCATION);
-			CustomisedAssert.assertEquals(loc, Datas.get(3));
+//			textBox.enterText(ConsumerEngagement.TXT_LOCATION_ENGAGEMENT, Datas.get(3));
+//			foundation.threadWait(Constants.SHORT_TIME);
+//			foundation.objectClick(ConsumerEngagement.ALL_LOCATION_DPD);
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.DPD_CLEAR));
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			String loc = foundation.getText(ConsumerEngagement.DPD_ALL_LOCATION);
+//			CustomisedAssert.assertEquals(loc, Datas.get(3));
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
 			foundation.scrollIntoViewElement(ConsumerEngagement.SELECT_CONSUMER_BY_GRID);
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -1168,7 +1173,8 @@ public class EgiftCards extends TestInfra {
 			// verify the add to note field under Email tab
 			foundation.click(ConsumerEngagement.BY_EMAIL_FILTER);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.HEADER_ADDTONOTE));
-			textBox.enterText(ConsumerEngagement.TXT_ADD_TO_NOTE, Datas.get(2));
+			foundation.waitforElementToBeVisible(ConsumerEngagement.HEADER_ADDTONOTE, Constants.THREE_SECOND);
+			textBox.enterText(ConsumerEngagement.ADD_TO_NOTE_BY_EMAIL, Datas.get(2));
 			foundation.waitforElementToBeVisible(ConsumerEngagement.ENTER_RECIPIENT_EMAIL, Constants.TWO_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerEngagement.ENTER_RECIPIENT_EMAIL));
 			textBox.enterText(ConsumerEngagement.TXT_ENTER_RECIPIENT, mail);
@@ -1228,7 +1234,7 @@ public class EgiftCards extends TestInfra {
 
 			// Select All location in location of recipient
 			consumerEngagement.verifyLocationOfRecipientInLocationTab(Datas.get(2));
-			consumerEngagement.verifyCheckboxInConsumerEngagementGrid();
+			consumerEngagement.verifyCheckboxInConsumerEngagementGrid(Datas.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

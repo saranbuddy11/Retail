@@ -12,7 +12,10 @@ import java.util.Map;
 
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import com.beust.jcommander.Parameter;
 
 import at.framework.database.mssql.Queries;
 import at.framework.database.mssql.ResultSets;
@@ -250,8 +253,9 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "114262-verify Add Home commercial in Home commercial Tab and Disable Location")
-	public void addHomeCommercial() {
+	public void addHomeCommercial(String environment) {
 		try {
 			final String CASE_NUM = "114262";
 
@@ -267,10 +271,12 @@ public class Location extends TestInfra {
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			List<String> locationList_Dpd_Values = Arrays.asList(
 					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
-			List<String> homecommercial = Arrays.asList(
-					rstLocationSummaryData.get(CNLocationSummary.ADDRESS).split(Constants.DELIMITER_TILD));
+			List<String> homecommercial = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.ADDRESS).split(Constants.DELIMITER_TILD));
 			List<String> locationDisabled = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
+			List<String> address = Arrays
+					.asList(rstLocationSummaryData.get(CNLocationSummary.ADDRESS).split(Constants.DELIMITER_TILD));
 			String locationDisabled_Yes = locationDisabled.get(0);
 			String locationDisabled_No = locationDisabled.get(1);
 			// Selecting location
@@ -304,7 +310,14 @@ public class Location extends TestInfra {
 //			textBox.enterText(LocationSummary.TXT_ADD_NAME,
 //					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA));
 //			foundation.click(LocationSummary.BTN_ADD);
+
+			if (environment.equals(Constants.STAGING)) {
+				locationSummary.addHomeCommercials(address.get(1));
+			} else {
+				locationSummary.addHomeCommercials(address.get(0));
+			}
 			locationSummary.addHomeCommercials(homecommercial.get(0));
+			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(locationName);
 
@@ -542,8 +555,9 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "146025-QAA-105-verify device summary page is displayed when user clicks on any device name under devices tab in location summary page.")
-	public void verifyDevicePage() {
+	public void verifyDevicePage(String environment) {
 		try {
 			final String CASE_NUM = "146025";
 
@@ -557,7 +571,11 @@ public class Location extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			String stagingdevice = propertyFile.readPropertyFile(Configuration.STAGING_DEVICE_ID,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
+					FilePath.PROPERTY_CONFIG_FILE);
+			String staglocation = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
 					FilePath.PROPERTY_CONFIG_FILE);
 			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
 
@@ -565,26 +583,42 @@ public class Location extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			locationList.selectLocationName(location);
-			// Navigating to device tab
-			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-			foundation.click(LocationSummary.BTN_DEVICE);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
-			locationSummary.selectDeviceName(device);
-			foundation.waitforElement(LocationSummary.TXT_DEVICE_SUMMARY, Constants.SHORT_TIME);
-			String actualData = foundation.getText(LocationSummary.TXT_DEVICE_SUMMARY);
-			CustomisedAssert.assertEquals(actualData, expectedData);
-			actualData = foundation.getText(LocationSummary.TXT_DEVICE_NAME);
-			CustomisedAssert.assertEquals(actualData, device);
+			if (environment.equals(Constants.STAGING)) {
+				locationList.selectLocationName(location);
+				foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, stagingdevice);
+				foundation.click(LocationSummary.BTN_DEVICE);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+				locationSummary.selectDeviceName(stagingdevice);
+				foundation.waitforElement(LocationSummary.TXT_DEVICE_SUMMARY, Constants.SHORT_TIME);
+				String actualData = foundation.getText(LocationSummary.TXT_DEVICE_SUMMARY);
+				CustomisedAssert.assertEquals(actualData, expectedData);
+				actualData = foundation.getText(LocationSummary.TXT_DEVICE_NAME);
+				CustomisedAssert.assertEquals(actualData, stagingdevice);
+			} else {
+
+				locationList.selectLocationName(location);
+				// Navigating to device tab
+				foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+				foundation.click(LocationSummary.BTN_DEVICE);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+				locationSummary.selectDeviceName(device);
+				foundation.waitforElement(LocationSummary.TXT_DEVICE_SUMMARY, Constants.SHORT_TIME);
+				String actualData = foundation.getText(LocationSummary.TXT_DEVICE_SUMMARY);
+				CustomisedAssert.assertEquals(actualData, expectedData);
+				actualData = foundation.getText(LocationSummary.TXT_DEVICE_NAME);
+				CustomisedAssert.assertEquals(actualData, device);
+			}
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "146026-QAA-103-verify device table is displayed in location Summary Page under device tab.")
-	public void verifyDeviceTableUI() {
+	public void verifyDeviceTableUI(String environment) {
 		try {
 			final String CASE_NUM = "146026";
 
@@ -598,6 +632,8 @@ public class Location extends TestInfra {
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
 			String device = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			String stagingdevice = propertyFile.readPropertyFile(Configuration.STAGING_DEVICE_ID,
+					FilePath.PROPERTY_CONFIG_FILE);
 			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
 					FilePath.PROPERTY_CONFIG_FILE);
 			String ipaddres = propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE)
@@ -613,21 +649,33 @@ public class Location extends TestInfra {
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
-			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
-			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_GRID,
-					LocationSummary.TBL_DEVICE_ROW);
-			// Table Validations
-			CustomisedAssert.assertEquals(uiData.get(dbData.get(0)), device);
-			CustomisedAssert.assertEquals(uiData.get(dbData.get(1)), ipaddres);
+			if (environment.equals(Constants.STAGING)) {
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, stagingdevice);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+				Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_GRID,
+						LocationSummary.TBL_DEVICE_ROW);
+				// Table Validations
+				CustomisedAssert.assertEquals(uiData.get(dbData.get(0)), stagingdevice);
+				CustomisedAssert.assertEquals(uiData.get(dbData.get(1)), dbData.get(3));
+			} else {
+
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+				Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_GRID,
+						LocationSummary.TBL_DEVICE_ROW);
+				// Table Validations
+				CustomisedAssert.assertEquals(uiData.get(dbData.get(0)), device);
+				CustomisedAssert.assertEquals(uiData.get(dbData.get(1)), ipaddres);
+			}
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "146083-QAA-107-verify UI and sorting functionality of deploy device popup fields")
-	public void verifyDeviceUI() {
+	public void verifyDeviceUI(String environment) {
 		try {
 			final String CASE_NUM = "146083";
 
@@ -640,14 +688,13 @@ public class Location extends TestInfra {
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
 
-		
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
 
 			List<String> expectedData = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-
 			List<String> device = Arrays
 					.asList(rstDeviceListData.get(CNDeviceList.DEVICE).split(Constants.DELIMITER_TILD));
+
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -669,6 +716,27 @@ public class Location extends TestInfra {
 //			CustomisedAssert.assertTrue(locationSummary.verifySortAscending(LocationSummary.LBL_COLUMN_DATA));
 //			foundation.click(LocationSummary.LBL_ROW_HEADER);
 //			CustomisedAssert.assertTrue(locationSummary.verifySortDescending(LocationSummary.LBL_COLUMN_DATA));
+			if (environment.equals(Constants.STAGING)) {
+				textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device.get(1));
+				foundation.threadWait(Constants.ONE_SECOND);
+				Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
+						LocationSummary.TBL_DEVICE_POPUP_ROW);
+				Map<String, String> dbData = new HashMap<>();
+				dbData.put(expectedData.get(0), device.get(1));
+				dbData.put(expectedData.get(1), expectedData.get(3));
+				foundation.threadWait(Constants.ONE_SECOND);
+				CustomisedAssert.assertEquals(uiData, dbData);
+			} else {
+				textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device.get(0));
+				foundation.threadWait(Constants.ONE_SECOND);
+				Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
+						LocationSummary.TBL_DEVICE_POPUP_ROW);
+				Map<String, String> dbData = new HashMap<>();
+				dbData.put(expectedData.get(0), device.get(0));
+				dbData.put(expectedData.get(1), expectedData.get(2));
+				foundation.threadWait(Constants.ONE_SECOND);
+				CustomisedAssert.assertEquals(uiData, dbData);
+			}
 			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device.get(0));
 			foundation.threadWait(Constants.ONE_SECOND);
 			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
@@ -1097,7 +1165,6 @@ public class Location extends TestInfra {
 			uidata.remove(expectedData.get(0));
 			uidata.remove(expectedData.get(1));
 			uidata.remove(expectedData.get(2));
-			
 
 			List<String> uiList = new ArrayList<String>(uidata.values());
 
@@ -1218,8 +1285,9 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "146436-QAA-102-ADM>Location Summary>Devices>Devices Section UI & Fields")
-	public void deviceSectionUIAdminDeviceLocationSummary() {
+	public void deviceSectionUIAdminDeviceLocationSummary(String environment) {
 		try {
 			final String CASE_NUM = "146436";
 
@@ -1229,6 +1297,10 @@ public class Location extends TestInfra {
 //			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
 //					FilePath.PROPERTY_CONFIG_FILE);
 			String deviceName = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+			String stagingdeviceName = propertyFile.readPropertyFile(Configuration.STAGING_DEVICE_ID,
+					FilePath.PROPERTY_CONFIG_FILE);
+			List<String> data = Arrays.asList(
+					rstLocationSummaryData.get(CNLocationSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 
 			// Select Menu and Menu Item
 			browser.navigateURL(
@@ -1242,10 +1314,18 @@ public class Location extends TestInfra {
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 			foundation.adjustBrowerSize("0.7");
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
-			foundation.objectClick(DeviceList.BTN_SUBMIT);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.objectClick(deviceList.deveiceLink(deviceName));
+			if (environment.equals(Constants.STAGING)) {
+				textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, stagingdeviceName);
+				foundation.objectClick(DeviceList.BTN_SUBMIT);
+				foundation.threadWait(Constants.SHORT_TIME);
+				foundation.objectClick(deviceList.deveiceLink(stagingdeviceName));
+
+			} else {
+				textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, deviceName);
+				foundation.objectClick(DeviceList.BTN_SUBMIT);
+				foundation.threadWait(Constants.SHORT_TIME);
+				foundation.objectClick(deviceList.deveiceLink(deviceName));
+			}
 
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
@@ -1256,8 +1336,9 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "143203-QAA-104-ADM>Location Summary>Devices>Duration Link")
-	public void verifyDurationLink() {
+	public void verifyDurationLink(String environment) {
 		try {
 			final String CASE_NUM = "143203";
 
@@ -1266,6 +1347,8 @@ public class Location extends TestInfra {
 
 			String device = rstDeviceListData.get(CNDeviceList.DEVICE);
 			String location = rstDeviceListData.get(CNDeviceList.LOCATION);
+			String stagingdeviceName = propertyFile.readPropertyFile(Configuration.STAGING_DEVICE_ID,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// Select Menu and Menu Item
 			browser.navigateURL(
@@ -1278,8 +1361,13 @@ public class Location extends TestInfra {
 			// Navigate to location summary and verify duration link
 			locationList.selectLocationName(location);
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
-			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-			foundation.click(LocationSummary.LBL_DURATION);
+			if (environment.equals(Constants.STAGING)) {
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, stagingdeviceName);
+				foundation.click(LocationSummary.BTN_LNK_DEVICE_SUMMARY);
+			} else {
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+				foundation.click(LocationSummary.LBL_DURATION);
+			}
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.TXT_DEVICE_STATUS));
 
 		} catch (Exception exc) {
@@ -1597,7 +1685,9 @@ public class Location extends TestInfra {
 
 //			foundation.refreshPage();
 			foundation.click(LocationSummary.LBL_TAX_MAPPING);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(LocationSummary.DPD_TAX_CAT, requiredData.get(0), Constants.TEXT);
+			foundation.threadWait(Constants.TWO_SECOND);
 			dropDown.selectItem(LocationSummary.DPD_TAX_RATE, requiredData.get(1), Constants.TEXT);
 			foundation.click(LocationSummary.LBL_TAX_CAT_SAVE);
 
@@ -2406,13 +2496,14 @@ public class Location extends TestInfra {
 	/**
 	 * @author sakthir Date:30-09-2022
 	 */
+	@Parameters({ "environment" })
 	@Test(description = "176240-Verify FreedomPay Integration > ADM Premium Payment"
 			+ "176137 - ADM >>location Summary >> Devices >> Device Summary Page"
 			+ "176134- ADM >>Device Summary Page >>Premium Payment >> Freedom Pay Configuration"
 			+ "176132-ADM >>Device Summary Page >>Premium Payment>>Drop down"
 			+ "176131-ADM >>Device Summary Page >>Premium Payment option"
 			+ "176133-ADM >> Device Summary Page >> Premium Payment >>Premium Pay ID")
-	public void verifyADMPremiumPaymentAndFreedomPayConfigurationInDeviceSummary() {
+	public void verifyADMPremiumPaymentAndFreedomPayConfigurationInDeviceSummary(String environment) {
 		final String CASE_NUM = "176240";
 
 		// Reading test data from DataBase
@@ -2422,6 +2513,10 @@ public class Location extends TestInfra {
 
 		List<String> data = Arrays
 				.asList(rstDeviceListData.get(CNDeviceList.SERIAL_NUMBER).split(Constants.DELIMITER_TILD));
+		List<String> location = Arrays
+				.asList(rstLocationListData.get(CNLocationList.LOCATION_NAME).split(Constants.DELIMITER_TILD));
+		String stagingdeviceName = propertyFile.readPropertyFile(Configuration.STAGING_DEVICE_ID,
+				FilePath.PROPERTY_CONFIG_FILE);
 
 		// Launch ADM as super
 		navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -2431,14 +2526,27 @@ public class Location extends TestInfra {
 		navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 		// select Location and verify Location Summary Heading
-		locationList.selectLocationName(rstLocationListData.get(CNLocationList.LOCATION_NAME));
-		CustomisedAssert.assertTrue(foundation.getText(LocationSummary.LBL_LOCATION_SUMMARY)
-				.contains(rstLocationListData.get(CNLocationList.LOCATION_NAME)));
-		foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+		if (environment.equals(Constants.STAGING)) {
+			locationList.selectLocationName(location.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_LOCATION_SUMMARY, Constants.THREE_SECOND);
+			CustomisedAssert
+					.assertTrue(foundation.getText(LocationSummary.LBL_LOCATION_SUMMARY).contains(location.get(0)));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, stagingdeviceName);
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationSummary.selectDeviceName(stagingdeviceName);
+		} else {
+			locationList.selectLocationName(location.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.LBL_LOCATION_SUMMARY, Constants.THREE_SECOND);
+			CustomisedAssert
+					.assertTrue(foundation.getText(LocationSummary.LBL_LOCATION_SUMMARY).contains(location.get(0)));
+			foundation.objectFocus(LocationSummary.BTN_DEPLOY_DEVICE);
 
-		// enter device and select device
-		textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstDeviceListData.get(CNDeviceList.DEVICE));
-		locationSummary.selectDeviceName(rstDeviceListData.get(CNDeviceList.DEVICE));
+			// enter device and select device
+			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, rstDeviceListData.get(CNDeviceList.DEVICE));
+			foundation.threadWait(Constants.THREE_SECOND);
+			locationSummary.selectDeviceName(rstDeviceListData.get(CNDeviceList.DEVICE));
+		}
 		CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 
 		// select payment and freedom payment
@@ -2689,9 +2797,9 @@ public class Location extends TestInfra {
 
 			// create location under automation Organization location
 			navigationBar.navigateToMenuItem(menu.get(2));
-			locationList.createLocation(locationName, requireddata.get(0),requireddata.get(1));
-			
-			//Search with created location and verify Distributor dropDown
+			locationList.createLocation(locationName, requireddata.get(0), requireddata.get(1));
+
+			// Search with created location and verify Distributor dropDown
 			locationSummary.searchLocationAndVerifyDistributor(locationName, requiredData.get(0), requireddata.get(2));
 
 		} catch (Exception exc) {

@@ -1871,7 +1871,7 @@ public class GlobalProducts extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 			foundation.waitforElementToBeVisible(GlobalProduct.TBL_HEADER, 5);
-			globalProduct.changeRecordDataAndVerify(globalProduct.selectRecord(data.get(1)), data.get(0));
+			globalProduct.changeRecordDataAndVerify(globalProduct.selectRecord(data.get(2)), data.get(3));
 
 			// Navigate to super->xyz location and verify page show records number
 			navigationBar.navigateToMenuItem(menu.get(2));
@@ -1889,16 +1889,16 @@ public class GlobalProducts extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 
 			// Product verify page show records number
-			locationSummary.validateProductTabRecord(locationSummary.selectRecordProduct(data.get(1)), data.get(0));
+			locationSummary.validateProductTabRecord(locationSummary.selectRecordProduct(data.get(2)), data.get(3));
 
 			// Inventory verify page show records number
-			locationSummary.validateInventoryTabRecord(locationSummary.selectRecordInventory(data.get(1)), data.get(0));
+			locationSummary.validateInventoryTabRecord(locationSummary.selectRecordInventory(data.get(2)), data.get(3));
 
 			// Navigate to Admin ->Device and verify page show records number cut off
 			navigationBar.navigateToMenuItem(menu.get(3));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 			foundation.waitforElementToBeVisible(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD, 5);
-			globalProduct.changeRecordDataAndVerify(deviceDashboard.selectRecord(data.get(1)), data.get(0));
+			globalProduct.changeRecordDataAndVerify(deviceDashboard.selectRecord(data.get(2)), data.get(3));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2173,7 +2173,8 @@ public class GlobalProducts extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		}
+		finally {
 
 			// Operator Product Catalog Change
 			globalProductChange.selectProductOPC(product.get(1));
@@ -2224,14 +2225,14 @@ public class GlobalProducts extends TestInfra {
 			// verify the loyalty value in extend location are same
 			foundation.scrollIntoViewElement(GlobalProduct.BTN_EXTEND_LOC);
 			foundation.waitforElementToBeVisible(GlobalProduct.BTN_EXTEND_LOC, 5);
-			foundation.threadWait(Constants.MEDIUM_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.TBL_EXTEND).contains(product.get(2)));
 
 			// Add new location in extend and verify the loyalty value in extend location
 			// are same
 			globalProduct.verifyAddLocationInExtend(location.get(1));
 			foundation.waitforElementToBeVisible(GlobalProduct.TBL_EXTEND, Constants.MEDIUM_TIME);
-			foundation.threadWait(Constants.MEDIUM_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.TBL_EXTEND).contains(product.get(2)));
 
 		} catch (Exception exc) {
@@ -2243,7 +2244,7 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 			foundation.waitforElementToBeVisible(GlobalProduct.GBL_PRODUCT_DATA, 5);
 			textBox.enterText(GlobalProduct.TXT_FILTER, product.get(0));
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 			globalProduct.disableProduct(product.get(3), product.get(0));
 		}
 	}
@@ -2291,7 +2292,6 @@ public class GlobalProducts extends TestInfra {
 
 			// Add new location in extend and verify the loyalty value in extend location
 			// are same
-			foundation.threadWait(3);
 			globalProduct.verifyAddLocationInExtend(location.get(1));
 
 		} catch (Exception exc) {
@@ -2362,7 +2362,8 @@ public class GlobalProducts extends TestInfra {
 			login.logout();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+		finally {
 
 			// Reset location
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -2523,12 +2524,15 @@ public class GlobalProducts extends TestInfra {
 			List<String> UPCRange = foundation.getTextofListElement(GlobalProductChange.TABLE_PRODUCT);
 
 			// verify ProductIDRange
-			globalProductChange.verifyStartAndEnd(data.get(6), data.get(8), data.get(9));
+			globalProductChange.verifyStartAndEnd(data.get(6), (
+					propertyFile.readPropertyFile(Configuration.PRODUCT_ID_RANGE1, FilePath.PROPERTY_CONFIG_FILE)), (
+							propertyFile.readPropertyFile(Configuration.PRODUCT_ID_RANGE2, FilePath.PROPERTY_CONFIG_FILE)));
 			foundation.threadWait(3);
 			List<String> ProductIDRange = foundation.getTextofListElement(GlobalProductChange.TABLE_PRODUCT);
 
 			// verify ProductID
-			globalProductChange.verifyExactMatch(data.get(7), data.get(10));
+			globalProductChange.verifyExactMatch(data.get(7), (
+					propertyFile.readPropertyFile(Configuration.PRODUCT_ID, FilePath.PROPERTY_CONFIG_FILE)));
 			foundation.threadWait(3);
 			List<String> ProductID = foundation.getTextofListElement(GlobalProductChange.TABLE_PRODUCT);
 
@@ -2737,8 +2741,9 @@ public class GlobalProducts extends TestInfra {
 					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
 					globalProduct.uploadSmallImage2MB(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE2MB_PNG , rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE));
+					foundation.threadWait(5);
 					
-		            //Upload small Image with larger than 2MB
+		            //Upload Large Image with larger than 2MB
 					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 					globalProduct.uploadLargeImage2MB(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE2MB_PNG , rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE));
@@ -2782,7 +2787,7 @@ public class GlobalProducts extends TestInfra {
 					globalProduct.selectGlobalProduct(data.get(0));
 					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 					
-					//Click Show Image and verify Images grid
+					//Click  Image and verify Images grid
 					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.BTN_SHOW_IMAGES));
 					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
@@ -2837,10 +2842,9 @@ public class GlobalProducts extends TestInfra {
 					foundation.click(GlobalProduct.LBL_SAVE_DONE);
 					
 					//Select Image Uploaded product
-					foundation.threadWait(Constants.MEDIUM_TIME);
 					navigationBar.navigateToMenuItem(menu);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
-					foundation.threadWait(5);
+					foundation.threadWait(3);
 					globalProduct.selectGlobalProduct(data.get(6));
 					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 					
@@ -2872,10 +2876,13 @@ public class GlobalProducts extends TestInfra {
 		  			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 		  			foundation.waitforElementToBeVisible(GlobalProduct.DISABLE_PRODUCT, 3);
 		  			dropDown.selectItem(GlobalProduct.DISABLE_PRODUCT, data.get(8), Constants.TEXT);
+		  			foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE, 5);
+		  			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
 		  			foundation.threadWait(3);
-		  			foundation.waitforElementToBeVisible(ProductSummary.BTN_SAVE, 5);
-		  			foundation.scrollIntoViewElement(ProductSummary.BTN_SAVE);
+		  			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
 		  			foundation.click(ProductSummary.BTN_SAVE);
+		  			textBox.enterText(GlobalProduct.TXT_FILTER,data.get(6));
+
 		}
 			}
 }
