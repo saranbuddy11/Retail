@@ -2328,7 +2328,8 @@ public class ReportsSmokeTest extends TestInfra {
 	}
 
 	@Test(description = "167011- This test validates Data existance and Excel file exportaion of Financial Recap Report")
-	public void financialRecap() {
+	@Parameters({ "environment" })
+	public void financialRecap(String environment) {
 		try {
 			final String CASE_NUM = "167011";
 
@@ -2356,7 +2357,7 @@ public class ReportsSmokeTest extends TestInfra {
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			financialRecapReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			financialRecapReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME), environment);
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);

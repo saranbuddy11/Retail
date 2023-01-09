@@ -1488,7 +1488,6 @@ public class Report extends TestInfra {
 			} else {
 				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 			}
-			;
 
 			// apply calculation and update data
 			canadaMultiTax.updateData(canadaMultiTax.getTableHeaders().get(0),
@@ -1672,7 +1671,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143189-This test validates Folio Billing Report Data Calculation")
-	public void folioBillingReportData() {
+	@Parameters({ "environment" })
+	public void folioBillingReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "143189";
@@ -1688,23 +1688,34 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			folioBilling.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			folioBilling.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
 
 			// Select the Report Date range ,Location and Group By
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(1));
+			}else{
+				reportList.selectReport(reportName.get(0));
+			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			folioBilling.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				itemStockout.verifyReportName(reportName.get(1));
+			} else {
+				itemStockout.verifyReportName(reportName.get(0));
+			}
 			folioBilling.getTblRecordsUI();
 			folioBilling.getIntialData().putAll(folioBilling.getReportsData());
 			folioBilling.getRequiredRecord((String) folioBilling.getJsonData().get(Reports.TRANS_DATE),
@@ -2429,7 +2440,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "120387-This test validates Financial Recap Report Data Calculation")
-	public void financialRecapReportData() {
+	@Parameters({ "environment" })
+	public void financialRecapReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "120387";
@@ -2463,7 +2475,7 @@ public class Report extends TestInfra {
 
 			// run and read report
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME), environment);
 			financialRecap.getTblRecordsUI();
 			financialRecap.getIntialData().putAll(financialRecap.getReportsData());
 			financialRecap.getFinancialRecapTotalData().putAll(financialRecap.getReportsTotalData());
@@ -2479,14 +2491,14 @@ public class Report extends TestInfra {
 			consumerSearch.verifyConsumerSummary(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA));
 			financialRecap.adjustBalance(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
 					rstConsumerSummaryData.get(CNConsumerSummary.REASON));
-			financialRecap.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			financialRecap.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), environment);
 			navigationBar.navigateToMenuItem(menu.get(0));
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
-			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			financialRecap.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME), environment);
 			financialRecap.getTblRecordsUI();
 
 			// apply calculation and update data
