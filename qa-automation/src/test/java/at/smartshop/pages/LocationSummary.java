@@ -464,7 +464,8 @@ public class LocationSummary extends Factory {
 	 */
 	public void selectTab(String tabName) {
 		try {
-			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
+			foundation.scrollIntoViewElement(By.xpath("//ul[@class='nav nav-tabs']//li//a[text()='" + tabName + "']"));
+			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[contains(text(),'" + tabName + "')]"));
 			foundation.WaitForAjax(Constants.FIFTEEN_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
