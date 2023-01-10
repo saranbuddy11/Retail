@@ -551,6 +551,7 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadSmallImage(String name, String Filepath) throws Exception {
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -580,6 +581,7 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadSmallImage2MB(String name, String Filepath, String message) throws Exception {
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -605,6 +607,7 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadLargeImage(String name, String Filepath) throws Exception {
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -633,6 +636,7 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadLargeImage2MB(String name, String Filepath, String message) throws Exception {
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -655,6 +659,7 @@ public class GlobalProduct extends Factory {
 	 * @param data
 	 */
 	public void uploadSmallImageInGlobalProduct(String data) {
+		foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(BTN_SMALL_CHANGE);
 	foundation.click(CHOOSE_SMALL_IMAGE);
 	foundation.waitforElementToBeVisible(selectSmallImage(data), 3);
@@ -668,6 +673,7 @@ public class GlobalProduct extends Factory {
 	 * @param data
 	 */
 	public void uploadLargeImageInGlobalProduct(String data) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(BTN_LARGE_CHANGE);
 		foundation.click(CHOOSE_LARGE_IMAGE);
 		foundation.waitforElementToBeVisible(selectLargeImage(data), 3);
