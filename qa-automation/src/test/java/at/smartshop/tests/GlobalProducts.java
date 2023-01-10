@@ -1275,6 +1275,11 @@ public class GlobalProducts extends TestInfra {
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// Navigate to org summary and select dropDown from tax method
+			navigationBar.navigateToMenuItem(menus.get(2));
+			orgsummary.selectDropdownValues(OrgSummary.DPD_TAX_METHOD,rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+						
 			navigationBar.navigateToMenuItem(menus.get(0));
 
 			// verify the select in Operator Product Catalog Change
@@ -1345,7 +1350,8 @@ public class GlobalProducts extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+		finally {
 			navigationBar.navigateToMenuItem(menus.get(0));
 
 			// verify the select in Operator Product Catalog Change
@@ -1666,7 +1672,7 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.verifyRecordData(dropdown.get(10), dropdown.get(11));
 			globalProductChange.verifyRecordData(dropdown.get(14), dropdown.get(12));
 			globalProductChange.verifyRecordData(dropdown.get(15), dropdown.get(13));
-			foundation.threadWait(5);
+			foundation.threadWait(3);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

@@ -662,7 +662,7 @@ public class SOSLoad extends TestInfra {
 			
 			//Get Org list from SOS loader
 			foundation.click(NavigationBar.DPD_ORG);
-			List<String> SOSOrg=foundation.getTextofListElement(Login.DPD_ORG);
+			int SOSOrg=foundation.getSizeofListElement(Login.DPD_ORG);
 			
 			//verify log out button and sign out from login user
 			foundation.click(NavigationBar.DPD_ORG);
@@ -675,12 +675,12 @@ public class SOSLoad extends TestInfra {
 			
 			//get Org list from ADM
 			foundation.click(NavigationBar.DPD_ORG);
-			List<String> ADMOrg=foundation.getTextofListElement(Login.DPD_ORG);
+			int ADMOrg=foundation.getSizeofListElement(Login.DPD_ORG);
 			
 			//verify SOS org and ADM org
 			System.out.println(ADMOrg);
 			System.out.println(SOSOrg);
-			CustomisedAssert.assertTrue(SOSOrg.equals(ADMOrg));
+			CustomisedAssert.assertEquals(SOSOrg,ADMOrg);
 			
 			
 		}
