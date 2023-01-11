@@ -75,5 +75,5 @@ public class Configuration {
 	public static final String PRODUCT_ID = "Product_Id";
 	public static final String PRODUCT_ID_RANGE1 = "Product_Id_Range1";
 	public static final String PRODUCT_ID_RANGE2 = "Product_Id_Range2";
-
+	public static final String AUTOMATIONSOSLOAD_ORG = "AutomationSOS_Org";
 }

@@ -24,6 +24,7 @@ import at.smartshop.database.columns.CNLocationList;
 import at.smartshop.database.columns.CNLocationSummary;
 import at.smartshop.database.columns.CNLoginPage;
 import at.smartshop.database.columns.CNNavigationMenu;
+import at.smartshop.database.columns.CNProduct;
 import at.smartshop.database.columns.CNProductSummary;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
@@ -72,6 +73,7 @@ public class SOSLoad extends TestInfra {
 	private Map<String, String> rstLocationSummaryData;
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstLoginPageData;
+	private Map<String, String> rstProductData;
 
 	int requiredValue = numbers.generateRandomNumber(0, 999999);
 	String requiredDatas = strings.getRandomCharacter();
@@ -693,7 +695,8 @@ public class SOSLoad extends TestInfra {
 	 * @author Afrose
 	 * Date:10-11-2022
 	 */
-	@Test(description = "152469-SOSLoad - Upload Product")
+	@Test(description = "152469-SOSLoad - Upload Product"
+			+"223164-verify Uploading proper formatted Excel and verify In ADM location Summary Page Under Product Tab with delete existing as 'No'")
 	public void verifyThatProductUploadedFromSOSLoadIsGettingAddedInProductTabForLocationInADM() {
 		final String CASE_NUM = "152469";
 		     
@@ -704,13 +707,11 @@ public class SOSLoad extends TestInfra {
 			
 			List<String> menu = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			List<String> data = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 			List<String> location = Arrays
 					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_TILD));
 			String deleteExisting =rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT);
 			String requiredData = strings.getRandomCharacter()+"RoseMilk";
-			String requiredString = ( requiredData  + "#" + " " + "#" + "Milk" + "#" + "23433332" + "#"
+			String requiredString = ( requiredData  + "#" + " " + "#" + "Milk" + "#" + "234" + "#"
 					+ "Juice" + "#" + "Drinks" + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + "11" + "#" + "13" + "#" + " " 
 					+ "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " 
 					+ "#" + "Below Maximum" + "#" + "11" + "#" + "13" + "#" + " " + "#" + " " + "#" + " " + "#" + " " );
@@ -742,7 +743,7 @@ public class SOSLoad extends TestInfra {
 //			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + data.get(0));
 			excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadProduct.SHEET,"1#1#2",requiredString);
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
-			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(deleteExisting))
+			if(!foundation.getText(LoadProduct.DELETE_EXISTING_PRODUCT).equals(deleteExisting))
 			foundation.click(LoadProduct.BTN_SUBMIT);
 			foundation.threadWait(Constants.TEN_SECOND);
 			sosHome.logout();
@@ -923,14 +924,14 @@ public class SOSLoad extends TestInfra {
 			foundation.click(loadProduct.clickLocation(location.get(0)));
 			
 			//Creating product with improper price via Template in SOS Load
-			String requiredString = (" " + "#" + " " + "#" + "Milk" + "#" + "23433332" + "#"
+			String requiredString = (" " + "#" + " " + "#" + "Milk" + "#" + "234" + "#"
 					+ "Juice" + "#" + "Drinks" + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + "11" + "#" + "13" + "#" + " " 
 					+ "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " 
 					+ "#" + "Below Maximum" + "#" + "11" + "#" + "13" + "#" + " " + "#" + " " + "#" + " " + "#" + " " );
 			excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadProduct.SHEET,location.get(1), requiredString);
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
 			foundation.threadWait(Constants.SHORT_TIME);
-			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(delectExisting))
+			if(!foundation.getText(LoadProduct.DELETE_EXISTING_PRODUCT).equals(delectExisting))
 				foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LoadProduct.BTN_SUBMIT);
 			foundation.threadWait(Constants.TEN_SECOND);
@@ -1211,4 +1212,243 @@ public class SOSLoad extends TestInfra {
             CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(location.get(4)));
         }
 	}
+		
+		/**
+		 * @author sakthir 
+		 * Date:06-01-2023
+		 */
+		@Test(description ="223154-Verify All Field In Load Product Parameters"
+                +"223155-SOSLoad>Product>verify select All button Functionality"
+				+"223156-SOSLoad>Product>verify select None button Functionality"
+                +"223157-SOSLoad>Product>verify Load Type DropDown Options"
+                +"223160-SOSLoad>Product>verify Choose File button"
+				+"223161-SOSLoad>Product>verify Delete Existing Products field DropDown Options"
+				+"223162-SOSLoad>Product>verify OnHandQty field DropDown Options"
+				+"223159-verify Able to click any location and header message from location field in load Product Parameters")
+		public void verifyAllFieldInLoadProductParameters() {
+			final String CASE_NUM = "223154";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLoadProduct = dataBase.getLoadProductData(Queries.LOAD_PRODUCT, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+							
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> data =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			List<String> loadType =Arrays
+					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_TILD));
+			List<String> deleteExisting =Arrays
+					.asList(rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT).split(Constants.DELIMITER_TILD));
+			List<String> onHandQty =Arrays
+					.asList(rstProductData.get(CNProduct.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to Product
+			navigationBar.navigateToMenuItem(menu);
+			
+			//verify All fields in load Product Parameters
+		    loadProduct.verifyProductFields();
+		    
+		    //verify Select All button functionality
+		    foundation.click(LoadProduct.BTN_SELECTALL);
+		    CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(data.get(0)));
+		   
+		    //verify Select None button functionality
+		    foundation.click(LoadProduct.BTN_SELECTNONE);
+		    CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(data.get(1)));
+
+		    //verify Load Type Dropdown Option
+		    CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.DPD_LOAD_TYPE).equals(loadType));
+
+		    //verify Delete Existing Products Dropdown Option
+		    CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.DPD_DELETE_EXISTING_PRODUCT).equals(deleteExisting));
+		   
+		    //verify Update OnHandQty Dropdown Option
+		    CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.DPD_UPDATE_ONHAND_QTY).equals(onHandQty));
+		    
+		    //verify Able to click location from location list
+		    foundation.click(loadProduct.clickLocation(data.get(2)));
+		    CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.SELECTED_LOCATION).equals(data.get(3)));
+		    
+		    //verify for header message in location field
+		    CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_LOCATION_MESSAGE));
+		    
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+     
+	}	
+		
+		/**
+		 * @author sakthir 
+		 * Date:10-01-2023
+		 */
+		@Test(description ="223158-SOSLoad>Product>verify location list match with ADM Location list")
+		public void verifyAllADMLocationListsPresentInSOSLocationLists() {
+			final String CASE_NUM = "223158";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+							
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to Product
+			navigationBar.navigateToMenuItem(menu);
+			
+			//Get location count from location list in Load Product Parameters
+			int SOSlocationCount=foundation.getSizeofListElement(LoadProduct.DPD_LOCATION);
+			List<String> SOSlocationList=foundation.getTextofListElement(LoadProduct.DPD_LOCATION);
+			sosHome.logout();
+	
+			//login as super user in ADM
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//get location count from location page
+			int ADMlocationCount=foundation.getSizeofListElement(LocationList.GET_LOCATION_LIST);	
+			List<String> ADMlocationList=foundation.getTextofListElement(LocationList.GET_LOCATION_LIST);
+			
+			//verify that ADM location list match with SOS location list count 
+			CustomisedAssert.assertEquals(SOSlocationCount,ADMlocationCount);
+			CustomisedAssert.assertTrue(SOSlocationList.equals(ADMlocationList));
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
+	}
+		
+		/**
+		 * @author sakthir 
+		 * Date:11-01-2023
+		 */
+		@Test(description ="223168-SOSLoad>DeviceIDs>verify Processor DropDown Options"
+				+"223169-SOSLoad>DeviceIDs>verify Choose File button")
+		public void verifyAllFieldAndProcessorFieldDropDownOptions() {
+			final String CASE_NUM = "223168";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+							
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> option =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to DeviceId
+			navigationBar.navigateToMenuItem(menu);
+			
+			//verify All Fields in DeviceID Page
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_MIDDID));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_PROCESSOR));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.PROCESSOR_MESSAGE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_FILE_NAME));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.BTN_CHOOSE_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.BTN_SUBMIT));
+			
+			//Processor Dropdown option
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadDeviceID.DPD_PROCESSOR_OPTION).equals(option));
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+		
+		/**
+		 * @author sakthir 
+		 * Date:11-01-2023
+		 */
+		@Test(description ="223163-verify Uploading proper formatted Excel and verify In ADM location Summary Page Under Product Tab with delete existing as 'Yes'")
+		public void verifyADMLocationPageAddedProductCountWithSelectingDeleteExistingOptionsAsYesInSOSLoad() {
+			final String CASE_NUM = "223163";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLoadProduct = dataBase.getLoadProductData(Queries.LOAD_PRODUCT, CASE_NUM);
+							
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> location =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			List<String> deleteExisting =Arrays
+					.asList(rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT).split(Constants.DELIMITER_TILD));
+			String requiredData = strings.getRandomCharacter()+"RoseMilk";
+			String requiredString = (requiredData  + "#" + " " + "#" + "Milk" + "#" + "234");
+			
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to Product
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT));
+			
+			//Select location for product to Add
+			foundation.click(loadProduct.clickLocation(location.get(0)));
+			
+			//Creating product with Delete 'yes' option SOS Load
+			loadProduct.uploadExcelAndSelectDeleteOption(requiredString, deleteExisting.get(0));
+			textBox.enterText(LoadProduct.TXT_DELETE_POPUP, location.get(4));
+			foundation.click(LoadProduct.BTN_DELETE);
+			CustomisedAssert.assertTrue(foundation.getText(LoadProduct.SUCCESS_MESSAGE).equals(location.get(5)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_RESULT));
+			sosHome.logout();
+			
+			//log in ADM as super user
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//select product verify added location from location list product tab
+			locationSummary.verifyAddedProductCount(location.get(0), requiredString, location.get(2));
+			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+		
+	
 }
