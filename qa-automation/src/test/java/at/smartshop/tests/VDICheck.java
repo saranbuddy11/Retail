@@ -266,7 +266,7 @@ public class VDICheck extends TestInfra {
 					Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_USER_KEY, string.getRandomCharacter());
 			foundation.click(LocationSummary.BTN_VDI_PLUS);
-			CustomisedAssert.assertFalse(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
+			CustomisedAssert.assertTrue(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
 			foundation.click(LocationSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_NO, Constants.SHORT_TIME);
 			String popup_Header = foundation.getText(OrgSummary.LBL_POPUP_HEADER);
@@ -352,7 +352,7 @@ public class VDICheck extends TestInfra {
 					Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_USER_KEY, string.getRandomCharacter());
 			foundation.click(LocationSummary.BTN_VDI_PLUS);
-			CustomisedAssert.assertFalse(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
+			CustomisedAssert.assertTrue(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
 			foundation.click(LocationSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_NO, Constants.SHORT_TIME);
 			String popup_Header = foundation.getText(OrgSummary.LBL_POPUP_HEADER);
@@ -375,7 +375,7 @@ public class VDICheck extends TestInfra {
 			foundation.threadWait(Constants.TWO_SECOND);
 			String isReadOnly = locationSummary.getTextAttribute(locationSummary.objProductPrice(requiredData.get(5)),
 					Constants.ATTRIBUTE_READ);
-			CustomisedAssert.assertTrue(Boolean.parseBoolean(isReadOnly));
+			CustomisedAssert.assertFalse(Boolean.parseBoolean(isReadOnly));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -479,7 +479,7 @@ public class VDICheck extends TestInfra {
 			dropDown.selectItem(LocationSummary.DPD_VDI_PROVDIER, vdiProvider.get(0), Constants.TEXT);
 			textBox.enterText(LocationSummary.TXT_USER_KEY, string.getRandomCharacter());
 			foundation.click(LocationSummary.BTN_VDI_PLUS);
-			CustomisedAssert.assertFalse(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
+			CustomisedAssert.assertTrue(checkBox.isChkEnabled(LocationSummary.CHK_VDI));
 			foundation.click(LocationSummary.BTN_VDI_DEL);
 			foundation.waitforElement(OrgSummary.BTN_NO, Constants.SHORT_TIME);
 			String popup_Header = foundation.getText(OrgSummary.LBL_POPUP_HEADER);

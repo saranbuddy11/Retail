@@ -48,7 +48,7 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By SELECT_ROW = By.xpath("//tbody[@role='alert']//td");
 	public static final By ERROR_DISPLAY_NAME = By.id("displayName-error");
 	public static final By ERROR_BTN_SEARCH = By.id("einErrorText");
-	public static final By STYLE_DISPLAY_NAME= By.xpath("//textarea[@placeholder='OUR LADY OF VICTORY CHURCH']");
+	public static final By STYLE_DISPLAY_NAME= By.xpath("//textarea[@placeholder='WESTERN PRESBYTERIAN CHURCH']");
 	public static final By DISABLE_LOCATION= By.xpath("//span[contains(@class,'select2-container--disabled')]");
 	public static final By GET_DPD_LOCATION= By.xpath("//ul[@id='select2-locationDropdown-results']//li//strong");
 	public static final By VIEW_LOCATION = By.id("viewLocBtn");
