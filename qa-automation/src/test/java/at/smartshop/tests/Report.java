@@ -1481,12 +1481,14 @@ public class Report extends TestInfra {
 			System.out.println("report" + canadaMultiTax.getIntialData());
 			System.out.println("report" + canadaMultiTax.getReportsData());
 
+			List<String> deviceIDList = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
+
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
-						FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIDList.get(1);
 			} else {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIDList.get(0);
 			}
 
 			// apply calculation and update data
@@ -1575,8 +1577,12 @@ if (environment.equals(Constants.STAGING)) {
 					Constants.TEXT);
 
 			// run and read report
-			foundation.click(ReportList.BTN_RUN_REPORT);
-			productSalesCategory.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME), environment);
+			foundation.click(ReportList.BTN_RUN_REPORT);		
+			if (environment.equals(Constants.STAGING)) {
+				productSalesCategory.verifyReportName(reportName.get(1), environment);
+			} else {
+				productSalesCategory.verifyReportName(reportName.get(0), environment);
+			}
 			textBox.enterText(productSalesCategory.SEARCH_RESULT,
 					rstProductSummaryData.get(CNProductSummary.CATEGORY2));
 
@@ -2308,13 +2314,14 @@ if (environment.equals(Constants.STAGING)) {
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
 
 //			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			List<String> deviceIDList = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
-						FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIDList.get(1);
 			} else {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIDList.get(0);
 			}
 
 			List<String> locationDetails = Arrays
@@ -2355,8 +2362,7 @@ if (environment.equals(Constants.STAGING)) {
 			aviSubFee.getTblRecordsUI();
 
 			// apply calculation and update data
-			aviSubFee.updateData(aviSubFee.getTableHeaders().get(0),
-					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+			aviSubFee.updateData(aviSubFee.getTableHeaders().get(0), locationId);
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(2),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			aviSubFee.updateData(aviSubFee.getTableHeaders().get(1),
@@ -4460,7 +4466,6 @@ if (environment.equals(Constants.STAGING)) {
 				reportList.selectDateRangeDateofType2(locationData.get(1), InventoryVariance.DATA_EXISTING_DATE_STAGING,
 						InventoryVariance.DATA_EXISTING_DATE_STAGING);
 			}
-			;
 
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(InventoryVariance.LBL_REPORT_NAME, Constants.SHORT_TIME);
@@ -4479,7 +4484,6 @@ if (environment.equals(Constants.STAGING)) {
 			} else {
 				inventoryVariance.verifyReportData(expectedData.get(0));
 			}
-			;
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -4529,7 +4533,7 @@ if (environment.equals(Constants.STAGING)) {
 				reportList.selectDateRangeOfSinglrDateofType3(dataRangeMonth.get(1),
 						InventoryList.DATA_EXISTING_DATE_STAGING);
 			} else {
-				reportList.selectDateRangeOfSinglrDateofType3(dataRangeMonth.get(1), InventoryList.DATA_EXISTING_DATE);
+				reportList.selectDateRangeOfSinglrDateofType3(dataRangeMonth.get(0), InventoryList.DATA_EXISTING_DATE);
 			}
 
 			reportList.selectLocation(locationName);

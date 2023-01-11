@@ -54,7 +54,7 @@ public class DateAndTime {
 	        c.setTime(date);
 
 	        // Perform addition/subtraction
-	        c.add(Calendar.MINUTE, 2);
+	        c.add(Calendar.MINUTE, 1);
 	        Date currentDateMinusOne = c.getTime();
 //		} catch (Exception exc) {
 //			Assert.fail(exc.toString());

@@ -41,11 +41,13 @@ public class ProductSalesByCategoryReport extends Factory {
 
 	private static final By TBL_PRODUCT_SALES_BY_CATEGORY = By.id("productSalesByCategoryGrid");
 	private static final By LBL_REPORT_NAME = By.id("Product Sales by Category Report");
+	private static final By LBL_REPORT_NAME_STAGING = By.id("Product Sales By Category");
 	private static final By TBL_PRODUCT_SALES_BY_CATEGORY_GRID = By.cssSelector("#productSalesByCategoryGrid > tbody");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#productSalesByCategoryGrid > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By
+			.cssSelector("#productSalesByCategoryGrid > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
-	
+
 	private List<String> tableHeaders = new ArrayList<>();
 	private int recordCount;
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -97,11 +99,17 @@ public class ProductSalesByCategoryReport extends Factory {
 		}
 	}
 
-	public void verifyReportName(String reportName) {
+	public void verifyReportName(String reportName, String environment) {
 		try {
-			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
-			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
+			if (environment.equals(Constants.STAGING)) {
+				foundation.waitforElement(LBL_REPORT_NAME_STAGING, Constants.EXTRA_LONG_TIME);
+				String reportTitle = foundation.getText(LBL_REPORT_NAME_STAGING);
+				CustomisedAssert.assertTrue(reportTitle.contains(reportName));
+			} else {
+				foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
+				String reportTitles = foundation.getText(LBL_REPORT_NAME);
+				CustomisedAssert.assertTrue(reportTitles.contains(reportName));
+			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -125,7 +133,7 @@ public class ProductSalesByCategoryReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void updateSalesAmount() {
 		try {
 			String initialSalesAmount = intialData.get(recordCount).get(tableHeaders.get(5))
@@ -152,14 +160,14 @@ public class ProductSalesByCategoryReport extends Factory {
 			String deposit = (String) jsonData.get(Reports.DEPOSIT);
 			String discount = (String) jsonData.get(Reports.DISCOUNT);
 			double updatedAmount = Double.parseDouble(initialSalesAmount) + Double.parseDouble(price)
-				 + Double.parseDouble(deposit) - Double.parseDouble(discount);
+					+ Double.parseDouble(deposit) - Double.parseDouble(discount);
 			updatedAmount = Math.round(updatedAmount * 100.0) / 100.0;
 			intialData.get(recordCount).put(tableHeaders.get(1), String.valueOf(updatedAmount));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void updateTax() {
 		try {
 			String initialTax = intialData.get(recordCount).get(tableHeaders.get(2)).replaceAll(Reports.REPLACE_DOLLOR,
@@ -205,10 +213,10 @@ public class ProductSalesByCategoryReport extends Factory {
 		}
 	}
 
-	public void processAPI(String scancode, String category) {
+	public void processAPI(String scancode, String category, String environment) {
 		try {
-			generateJsonDetails();
-			salesJsonDataUpdate(scancode, category);
+			generateJsonDetails(environment);
+			salesJsonDataUpdate(scancode, category, environment);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
@@ -218,14 +226,22 @@ public class ProductSalesByCategoryReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			}
+			;
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
@@ -271,11 +287,18 @@ public class ProductSalesByCategoryReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate(String scancode, String category) {
+	private void salesJsonDataUpdate(String scancode, String category, String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			}
+			;
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

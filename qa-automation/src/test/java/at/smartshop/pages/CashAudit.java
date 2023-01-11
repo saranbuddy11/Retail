@@ -461,7 +461,7 @@ public class CashAudit extends Factory {
 		if (environment.equals(Constants.STAGING)) {
 			reportList.selectLocationForSecondTypeDropdown(location);
 		}else{
-			reportList.selectLocation(location);
+			reportList.selectLocationForSecondTypeDropdown(location);
 		}
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
