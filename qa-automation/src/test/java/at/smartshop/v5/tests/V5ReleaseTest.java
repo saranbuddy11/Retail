@@ -539,7 +539,7 @@ public class V5ReleaseTest extends TestInfra {
 			browser.close();
 
 			// launch v5 application
-			foundation.threadWait(800);
+//			foundation.threadWait(800);
 			foundation.threadWait(Constants.TWO_SECOND);
 			browser.launch(Constants.REMOTE, Constants.CHROME);
 			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
