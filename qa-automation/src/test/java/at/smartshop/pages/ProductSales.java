@@ -46,6 +46,10 @@ public class ProductSales extends Factory {
 
 	private static final By TBL_SALES_ANALYSIS = By.cssSelector("#rptdt");
 	private static final By TBL_SALES_ANALYSIS_GRID = By.cssSelector("#rptdt > tbody");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(4)");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();

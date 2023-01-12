@@ -43,11 +43,15 @@ public class ProductCannedReport extends Factory {
 	private Foundation foundation = new Foundation();
 
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.first-child > label");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#Automation-365 > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#Automation-365 > tbody > tr:nth-child(1), #Test-Market> tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
-	private static final By TBL_PRODUCT_CANNED = By.cssSelector("#Automation-365");
-	private static final By TBL_PRODUCT_CANNED_GRID = By.cssSelector("#Automation-365 > tbody");
+	private static final By TBL_PRODUCT_CANNED = By.cssSelector("#Automation-365, #Test-Market> tbody");
+	private static final By TBL_PRODUCT_CANNED_GRID = By.cssSelector("#Automation-365 > tbody, #Test-Market> tbodys");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
