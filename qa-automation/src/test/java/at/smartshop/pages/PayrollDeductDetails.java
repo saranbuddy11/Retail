@@ -54,6 +54,11 @@ public class PayrollDeductDetails extends Factory {
 	private static final By TABLE_GRID = By.cssSelector("#dataGridPayrollDeductDetails>tbody");
 	private static final By DPD_LOCATION = By.id("select2-locdt-container");
 	public final static By TXT_SEARCH_FILTER = By.cssSelector("div.ui-igeditor-input-container>#filterType");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+
 
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
 	private List<String> tableHeaders = new ArrayList<>();

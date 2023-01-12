@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -50,8 +51,8 @@ public class Device extends TestInfra {
 	private LocationList locationList = new LocationList();
 	private LocationSummary locationSummary = new LocationSummary();
 	private DeviceSummary deviceSummary = new DeviceSummary();
-	private DeviceDashboard deviceDashboard=new DeviceDashboard();
-	
+	private DeviceDashboard deviceDashboard = new DeviceDashboard();
+
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstDeviceListData;
 
@@ -149,12 +150,13 @@ public class Device extends TestInfra {
 
 			// navigate to admin>device and verify serial number sort functionality
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			 foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			 foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
-			 Constants.ASCENDING);
-			 foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
-			 foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER,
-			 Constants.DESCENDING);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.ASCENDING);
+			foundation.click(DeviceList.COLUMN_SERIAL_NUMBER);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.verifySortText(DeviceList.LIST_SERIAL_NUMBER, Constants.DESCENDING);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -401,7 +403,8 @@ public class Device extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.adjustBrowerSize("0.8");
 			foundation.threadWait(Constants.THREE_SECOND);
-			//CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER), serialNumberDeviceList);
+			// CustomisedAssert.assertEquals(foundation.getText(DeviceList.LIST_SERIAL_NUMBER),
+			// serialNumberDeviceList);
 			foundation.objectClick(deviceList.DeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertEquals(foundation.getText(DeviceSummary.LBL_SERIAL_NUMBER), serialNumberDeviceList);
@@ -736,75 +739,82 @@ public class Device extends TestInfra {
 		}
 	}
 
-	//commenting below two testcase as per william , operator and driver user should not have any records and no create New Button
-	
-	/* @Test(description = "164079-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Operator user")
-	public void demoOptionOperatorUser() {
-		try {
-			final String CASE_NUM = "164079";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+	// commenting below two testcase as per william , operator and driver user
+	// should not have any records and no create New Button
 
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
-			foundation.click(DeviceList.BTN_SUBMIT);
-			foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),
-					Constants.MEDIUM_TIME);
-
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
-
-			// Verifying Cooler Type is not Present
-			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			CustomisedAssert
-					.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
-
-	@Test(description = "164080-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Driver user")
-	public void demoOptionDriverUser() {
-		try {
-			final String CASE_NUM = "164080";
-			// Reading test data from DataBase
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-
-			browser.navigateURL(
-					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.DRIVER_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
-			// navigate to admin>device
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
-			foundation.click(DeviceList.BTN_SUBMIT);
-			foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)),
-					Constants.MEDIUM_TIME);
-
-			foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList.DEVICE)));
-			foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.MEDIUM_TIME);
-
-			// Verifying Cooler Type is not Present
-			List<String> coolerType = foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
-			CustomisedAssert
-					.assertTrue(!coolerType.toString().contains(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	} */
+	/*
+	 * @Test(description =
+	 * "164079-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Operator user"
+	 * ) public void demoOptionOperatorUser() { try { final String CASE_NUM =
+	 * "164079"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM);
+	 * 
+	 * browser.navigateURL( propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * rstDeviceListData.get(CNDeviceList.DEVICE));
+	 * foundation.click(DeviceList.BTN_SUBMIT);
+	 * foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(
+	 * CNDeviceList.DEVICE)), Constants.MEDIUM_TIME);
+	 * 
+	 * foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList
+	 * .DEVICE))); foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY,
+	 * Constants.MEDIUM_TIME);
+	 * 
+	 * // Verifying Cooler Type is not Present List<String> coolerType =
+	 * foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
+	 * CustomisedAssert
+	 * .assertTrue(!coolerType.toString().contains(rstDeviceListData.get(
+	 * CNDeviceList.PRODUCT_NAME))); } catch (Exception exc) {
+	 * TestInfra.failWithScreenShot(exc.toString()); } }
+	 * 
+	 * @Test(description =
+	 * "164080-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Driver user"
+	 * ) public void demoOptionDriverUser() { try { final String CASE_NUM =
+	 * "164080"; // Reading test data from DataBase rstNavigationMenuData =
+	 * dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+	 * rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST,
+	 * CASE_NUM);
+	 * 
+	 * browser.navigateURL( propertyFile.readPropertyFile(Configuration.CURRENT_URL,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * login.login(propertyFile.readPropertyFile(Configuration.DRIVER_USER,
+	 * FilePath.PROPERTY_CONFIG_FILE),
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD,
+	 * FilePath.PROPERTY_CONFIG_FILE)); navigationBar.selectOrganization(
+	 * propertyFile.readPropertyFile(Configuration.CURRENT_ORG,
+	 * FilePath.PROPERTY_CONFIG_FILE));
+	 * 
+	 * // navigate to admin>device
+	 * navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.
+	 * MENU_ITEM)); textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,
+	 * rstDeviceListData.get(CNDeviceList.DEVICE));
+	 * foundation.click(DeviceList.BTN_SUBMIT);
+	 * foundation.waitforElement(deviceList.objDeveiceLink(rstDeviceListData.get(
+	 * CNDeviceList.DEVICE)), Constants.MEDIUM_TIME);
+	 * 
+	 * foundation.click(deviceList.objDeveiceLink(rstDeviceListData.get(CNDeviceList
+	 * .DEVICE))); foundation.waitforElement(DeviceSummary.LBL_DEVICE_SUMMARY,
+	 * Constants.MEDIUM_TIME);
+	 * 
+	 * // Verifying Cooler Type is not Present List<String> coolerType =
+	 * foundation.getTextofListElement(DeviceSummary.DPD_COOLER_TYPE);
+	 * CustomisedAssert
+	 * .assertTrue(!coolerType.toString().contains(rstDeviceListData.get(
+	 * CNDeviceList.PRODUCT_NAME))); } catch (Exception exc) {
+	 * TestInfra.failWithScreenShot(exc.toString()); } }
+	 */
 
 	@Test(description = "164081-QAA-12-Validate Demo option is displayed in Cooler dropdown when logged in as Super user")
 	public void demoOptionCoolerDropdownSuperUser() {
@@ -902,7 +912,6 @@ public class Device extends TestInfra {
 			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.click(KioskCreate.BTN_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
-			
 
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			locationList.selectLocationName(location);
@@ -1229,8 +1238,9 @@ public class Device extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "165988-QAA-89-Verify Commission page is displayed")
-	public void verifyCommissionPage() {
+	public void verifyCommissionPage(String environment) {
 		try {
 			final String CASE_NUM = "165988";
 
@@ -1270,9 +1280,16 @@ public class Device extends TestInfra {
 
 			foundation.click(DeviceList.BTN_COMMISSION);
 			foundation.waitforElement(Commission.LBL_COMMISSION, Constants.SHORT_TIME);
-			textBox.enterText(Commission.TXT_SEARCH, "VSH1444");
-			foundation.threadWait(Constants.TWO_SECOND);
-			table.selectRow("VSH1444");
+			if (environment.equals(Constants.STAGING)) {
+				textBox.enterText(Commission.TXT_SEARCH, "VSH1444");
+				foundation.threadWait(Constants.TWO_SECOND);
+				table.selectrow("VSH1444");
+			} else {
+				textBox.enterText(Commission.TXT_SEARCH, "KSK_TEST_ELOR");
+				foundation.threadWait(Constants.TWO_SECOND);
+				table.selectrow("KSK_TEST_ELOR");
+			}
+
 			// rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
 			foundation.waitforElement(AssignDeviceToOrg.LBL_ASSIGN, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AssignDeviceToOrg.LBL_ASSIGN));
@@ -1286,8 +1303,9 @@ public class Device extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "165989-QAA-89-Verify Search, Sorting in Commission page")
-	public void verifySearchAndSortingInCommissionPage() {
+	public void verifySearchAndSortingInCommissionPage(String environment) {
 		try {
 			final String CASE_NUM = "165989";
 
@@ -1326,8 +1344,16 @@ public class Device extends TestInfra {
 			foundation.click(Commission.TBL_NAME_COLUMN);
 			foundation.verifySortText(Commission.TBL_COMMISSION, Constants.DESCENDING);
 			foundation.click(Commission.TBL_NAME_COLUMN);
+			foundation.threadWait(Constants.THREE_SECOND);
+			List<String> data = Arrays
+					.asList(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
 
-			textBox.enterText(Commission.TXT_SEARCH, rstDeviceListData.get(CNDeviceList.PRODUCT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				textBox.enterText(Commission.TXT_SEARCH, data.get(0));
+			} else {
+				textBox.enterText(Commission.TXT_SEARCH, data.get(1));
+			}
+
 			foundation.threadWait(Constants.SHORT_TIME);
 			Map<String, String> tableData = table.getTblSingleRowRecordUI(Commission.TBL_COMMISSION,
 					Commission.TBL_ROW);
@@ -1339,7 +1365,7 @@ public class Device extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	@Test(description = "197371 -SOS-30517-Verify the Duplicate device is not present on Super>Device page")
 	public void verifyDuplicateDeviceNotPresentONDeviceDashboard() {
 		try {
@@ -1347,7 +1373,7 @@ public class Device extends TestInfra {
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-	
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -1355,7 +1381,7 @@ public class Device extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
-			// navigate to super>Device and verify that duplicate device is not present 
+			// navigate to super>Device and verify that duplicate device is not present
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, rstDeviceListData.get(CNDeviceList.DEVICE));
 			foundation.click(DeviceList.BTN_SEARCH);
@@ -1363,69 +1389,71 @@ public class Device extends TestInfra {
 //			foundation.adjustBrowerSize("0.8");
 //			foundation.waitforElementToBeVisible(DeviceList.TXT_RECORDS_DATA, Constants.THREE_SECOND);
 
-			//Bug is present as Data is not visible on 100% resolution - https://365retailmarkets.atlassian.net/browse/SOS-29342
-			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA).equals(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
-			
+			// Bug is present as Data is not visible on 100% resolution -
+			// https://365retailmarkets.atlassian.net/browse/SOS-29342
+			Assert.assertTrue(foundation.getText(DeviceList.TXT_RECORDS_DATA)
+					.equals(rstDeviceListData.get(CNDeviceList.PRODUCT_NAME)));
+
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * @author sakthir Date: 14-09-2022
 	 */
 	@Test(description = "197605-SOS-29862-Add option to include 'No MSR' within ADM")
 	public void verifyInEncryptMSROptionForNoMSR() {
-		   final String CASE_NUM = "197605";
-		
-		    // Reading test data from DataBase
-		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		    rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
-		    String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		    String device=rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
-		    List<String> data = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		final String CASE_NUM = "197605";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		String device = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		try {
 
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-					
-			// navigate to super>Device and search for device 
+
+			// navigate to super>Device and search for device
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
 			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
 			foundation.click(DeviceList.BTN_SEARCH);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.adjustBrowerSize("0.8");
 			foundation.waitforElementToBeVisible(DeviceList.TXT_TABLE_RECORD, 3);
 			foundation.objectClick(DeviceList.TXT_TABLE_RECORD);
 			foundation.threadWait(Constants.SHORT_TIME);
-			
-			//Select freedom pay and enter client id, store id and pay label
+
+			// Select freedom pay and enter client id, store id and pay label
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_SELECT_PAYMENT);
-			dropDown.selectItem(DeviceSummary.DPD_SELECT_PAYMENT,data.get(0), Constants.TEXT);
+			dropDown.selectItem(DeviceSummary.DPD_SELECT_PAYMENT, data.get(0), Constants.TEXT);
 			foundation.click(DeviceSummary.TXT_PAYID);
 			textBox.enterText(DeviceSummary.TXT_PAYID, data.get(1));
 			deviceSummary.freedomPayConfig(data.get(1));
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_MSR);
 			foundation.click(DeviceSummary.DPD_MSR);
-			dropDown.selectItem(DeviceSummary.DPD_MSR,data.get(2), Constants.TEXT);
+			dropDown.selectItem(DeviceSummary.DPD_MSR, data.get(2), Constants.TEXT);
 			foundation.click(DeviceSummary.BTN_SAVE);
-			
-			//validating the No MSR option
-			
+
+			// validating the No MSR option
+
 //			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.TXT_DEVICE_LIST));
 //			foundation.click(DeviceList.TXT_SEARCH);
 //			textBox.enterText(DeviceList.TXT_SEARCH, device);
 //			foundation.click(DeviceList.TBL_DEVICE_NAME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
 			foundation.click(DeviceList.TXT_SEARCH_DEVICE);
-			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE,device);
+			textBox.enterText(DeviceList.TXT_SEARCH_DEVICE, device);
 			foundation.click(DeviceList.BTN_SEARCH);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.adjustBrowerSize("0.8");
@@ -1434,18 +1462,15 @@ public class Device extends TestInfra {
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_MSR_CHECK).equals(data.get(2)));
-		}
-		catch (Exception exc) {
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally
-		{
-			//resetting
+		} finally {
+			// resetting
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_SELECT_PAYMENT);
-			dropDown.selectItem(DeviceSummary.DPD_SELECT_PAYMENT,data.get(3), Constants.TEXT);
+			dropDown.selectItem(DeviceSummary.DPD_SELECT_PAYMENT, data.get(3), Constants.TEXT);
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_MSR);
 			foundation.click(DeviceSummary.DPD_MSR);
-			dropDown.selectItem(DeviceSummary.DPD_MSR,data.get(4), Constants.TEXT);
+			dropDown.selectItem(DeviceSummary.DPD_MSR, data.get(4), Constants.TEXT);
 			foundation.click(DeviceSummary.BTN_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
 		}
@@ -1455,71 +1480,71 @@ public class Device extends TestInfra {
 	 * @author sakthir Date: 19-09-2022
 	 */
 	@Test(description = "198515-SOS-28841-To Verify the Device Level Rates in Existing Device"
-			+"198516-SOS-28842-To Verify the Device Level Rates in New Device"
-			+"198514-SOS-28840-To Verify Add Rate Fields is displayed under Device Summary Page")
+			+ "198516-SOS-28842-To Verify the Device Level Rates in New Device"
+			+ "198514-SOS-28840-To Verify Add Rate Fields is displayed under Device Summary Page")
 	public void verifyNewRateFieldsInDeviceSummary() {
-		   final String CASE_NUM = "198515";
-		
-		    // Reading test data from DataBase
-		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		    rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
-		    List<String> menu= Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		    List<String> device=Arrays
-					.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
-		    List<String> data = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		final String CASE_NUM = "198515";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+		List<String> device = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-		
+
 			// navigate to location, select location and get existing device
 			navigationBar.navigateToMenuItem(menu.get(0));
 			locationList.selectLocationName(device.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
-			String device_name=foundation.getText(LocationSummary.DEVICE_NAME);
+			String device_name = foundation.getText(LocationSummary.DEVICE_NAME);
 			System.out.println(device_name);
-			
-			//verify the new Fields location level
+
+			// verify the new Fields location level
 			locationSummary.verifyRateFields(data.get(2));
-			
-			//change location level rate values
-			locationSummary.enterRateValueForFields(data.get(3),data.get(5));
+
+			// change location level rate values
+			locationSummary.enterRateValueForFields(data.get(3), data.get(5));
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.threadWait(Constants.SHORT_TIME);
-			
-			//navigate to Admin->Device and search for existing device
+
+			// navigate to Admin->Device and search for existing device
 			navigationBar.navigateToMenuItem(menu.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 			deviceDashboard.selectDeviceName(device_name);
-			
-			//verify the new Fields Device level Option as Default as Inherit from location
+
+			// verify the new Fields Device level Option as Default as Inherit from location
 			deviceSummary.verifyNewFields(data.get(0));
-			
-			//verify changes rate on device level 
+
+			// verify changes rate on device level
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_GMR).equals(data.get(9)));
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_NANOGMR).equals(data.get(9)));
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_CREDIT).equals(data.get(9)));
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.TXT_ORG_NANOCREDIT).equals(data.get(9)));
-								
+
 			// navigate to location, select location and add new device
 			navigationBar.navigateToMenuItem(menu.get(0));
 			locationList.selectLocationName(device.get(0));
 			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
 			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.addDeviceAndVerify(data.get(1));
-			
-			//verify error msg after three decimal point in location Summary
+
+			// verify error msg after three decimal point in location Summary
 			dropDown.selectItem(LocationSummary.DPD_GMR, data.get(3), Constants.TEXT);
 			foundation.click(LocationSummary.TXT_LOCATION_GMR);
 			textBox.enterText(LocationSummary.TXT_LOCATION_GMR, data.get(8));
 			dropDown.selectItem(LocationSummary.DPD_NANOGMR, data.get(3), Constants.TEXT);
 			foundation.click(LocationSummary.TXT_LOCATION_NANOGMR);
-			textBox.enterText(LocationSummary.TXT_LOCATION_NANOGMR, data.get(8));			
+			textBox.enterText(LocationSummary.TXT_LOCATION_NANOGMR, data.get(8));
 			dropDown.selectItem(LocationSummary.DPD_CREDIT, data.get(3), Constants.TEXT);
 			foundation.click(LocationSummary.TXT_LOCATION_CREDIT);
 			textBox.enterText(LocationSummary.TXT_LOCATION_CREDIT, data.get(8));
@@ -1531,16 +1556,16 @@ public class Device extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.NANOGMR_ERROR).equals(data.get(10)));
 			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.CREDIT_ERROR).equals(data.get(10)));
 			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.NANOCREDIT_ERROR).equals(data.get(10)));
-			
-    		//navigate to Admin->Device and search for new device
+
+			// navigate to Admin->Device and search for new device
 			navigationBar.navigateToMenuItem(menu.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
-    		deviceDashboard.selectDeviceName(data.get(1));
-					
-    		//verify the new Fields Device level Option as Default as Inherit from location
-			deviceSummary.verifyNewFields(data.get(0));	
-			
-			//verify DropDown Options
+			deviceDashboard.selectDeviceName(data.get(1));
+
+			// verify the new Fields Device level Option as Default as Inherit from location
+			deviceSummary.verifyNewFields(data.get(0));
+
+			// verify DropDown Options
 			deviceSummary.verifyNewFields(data.get(0));
 			dropDown.selectItem(DeviceSummary.DPD_GMR, data.get(4), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_OPTION_GMR).equals(data.get(4)));
@@ -1550,153 +1575,155 @@ public class Device extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_OPTION_CREDIT).equals(data.get(4)));
 			dropDown.selectItem(DeviceSummary.DPD_NANOCREDIT, data.get(4), Constants.TEXT);
 			CustomisedAssert.assertTrue(foundation.getText(DeviceSummary.DPD_OPTION_NANOCREDIT).equals(data.get(4)));
-			
-		}catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}finally
-	    {
-		   //resetting 
-		   navigationBar.navigateToMenuItem(menu.get(0));
-		   locationList.selectLocationName(device.get(0));
-		   locationSummary.enterRateValueForFields(data.get(3),data.get(6));
-		   dropDown.selectItem(LocationSummary.DPD_GMR, data.get(2), Constants.TEXT);
-		   dropDown.selectItem(LocationSummary.DPD_NANOGMR, data.get(2), Constants.TEXT);
-		   dropDown.selectItem(LocationSummary.DPD_CREDIT, data.get(2), Constants.TEXT);
-		   dropDown.selectItem(LocationSummary.DPD_NANOCREDIT, data.get(2), Constants.TEXT);
-		   foundation.click(LocationSummary.BTN_SAVE);
-		   CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG));
-		   locationList.selectLocationName(device.get(0));
-		   foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
-		   locationSummary.removeDevice(data.get(1));
-	    }
+		} finally {
+			// resetting
+			navigationBar.navigateToMenuItem(menu.get(0));
+			locationList.selectLocationName(device.get(0));
+			locationSummary.enterRateValueForFields(data.get(3), data.get(6));
+			dropDown.selectItem(LocationSummary.DPD_GMR, data.get(2), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_NANOGMR, data.get(2), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_CREDIT, data.get(2), Constants.TEXT);
+			dropDown.selectItem(LocationSummary.DPD_NANOCREDIT, data.get(2), Constants.TEXT);
+			foundation.click(LocationSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_SPINNER_MSG));
+			locationList.selectLocationName(device.get(0));
+			foundation.scrollIntoViewElement(LocationSummary.BTN_DEVICE);
+			locationSummary.removeDevice(data.get(1));
+		}
 	}
-	
+
 	/**
 	 * @author sakthir Date: 28-09-2022
 	 */
 	@Test(description = "176138-ADM >> Admin >> Device >> Device Summary Page"
-			+"205000-SOS-23697:ADM >Device Summary Page> Verify on CC Processor Dropdown verify new Added Option"
-			+"205001-SOS-31843:ADM >Device Summary Page>Verify on CC Processor Dropdown verify update existing option"
-			+"205002-SOS-31843:ADM >Device Summary Page>Create new Device and Verify on CC Processor Dropdown verify new Added Option"
-			+"205003-SOS-31843:ADM >Device Summary Page>Create new Device and Verify on CC Processor Dropdown verify update existing option")
+			+ "205000-SOS-23697:ADM >Device Summary Page> Verify on CC Processor Dropdown verify new Added Option"
+			+ "205001-SOS-31843:ADM >Device Summary Page>Verify on CC Processor Dropdown verify update existing option"
+			+ "205002-SOS-31843:ADM >Device Summary Page>Create new Device and Verify on CC Processor Dropdown verify new Added Option"
+			+ "205003-SOS-31843:ADM >Device Summary Page>Create new Device and Verify on CC Processor Dropdown verify update existing option")
 	public void verifyHeaderAndNewAddedOptionAndUpdatedOptionInCCProcessor() {
-		   final String CASE_NUM = "176138";
-		
-		    // Reading test data from DataBase
-		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		    rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
-		   String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		   List<String> device=Arrays
-					.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
-		   List<String> data =Arrays
-							.asList( rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+		final String CASE_NUM = "176138";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> device = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
+		List<String> data = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
-			//navigate to Admin->Device 
+
+			// navigate to Admin->Device
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 
-            //Click new Device and verify the new Added option in CCProcessor
+			// Click new Device and verify the new Added option in CCProcessor
 			foundation.click(DeviceDashboard.BTN_CREATENEW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(KioskCreate.TITLE_KIOSK_CREATE));
-			
-			//verify the Existing newly Added option in CCProcessor
+
+			// verify the Existing newly Added option in CCProcessor
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_CLICK_CCPROCESSOR);
 			foundation.click(DeviceSummary.DPD_CLICK_CCPROCESSOR);
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(1)));
-			
-			//verify the Existing updated option in CCProcessor
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(2)));
-			
-			//navigate to Admin->Device and verify the table header
-			navigationBar.navigateToMenuItem(menu);	
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(1)));
+
+			// verify the Existing updated option in CCProcessor
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(2)));
+
+			// navigate to Admin->Device and verify the table header
+			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 			foundation.waitforElementToBeVisible(DeviceDashboard.TABLE_HEADER, 3);
 			Map<String, String> uiTableHeaders = table.getTblHeadersDevice(DeviceDashboard.TABLE_HEADER);
 			List<String> uiListHeaders = new ArrayList<String>(uiTableHeaders.keySet());
 			Collections.sort(uiListHeaders);
 			CustomisedAssert.assertTrue(uiListHeaders.equals(data));
-			
-			//Select Device and verify the new Added option in CCProcessor
+
+			// Select Device and verify the new Added option in CCProcessor
 			deviceDashboard.selectDeviceName(device.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_CLICK_CCPROCESSOR);
 			foundation.click(DeviceSummary.DPD_CLICK_CCPROCESSOR);
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(1)));
-			
-			//verify the Existing updated option in CCProcessor
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(2)));
-			
-			
-			}
-		catch (Exception exc) {
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(1)));
+
+			// verify the Existing updated option in CCProcessor
+			CustomisedAssert.assertTrue(
+					foundation.getTextofListElement(DeviceSummary.DPD_OPTION_CCPROCESSOR).contains(device.get(2)));
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/**
 	 * @author sakthir Date: 14-10-2022
 	 */
 	@Test(description = "204917-Verify stock well is displayed in type drop down field of kiosk create page"
-			+"204918-Verify stock well option is displayed correctly when it is saved in Kiosk create page & device Summary page"
-			+"204919-Verify stock well is displayed in type drop down field of Device Summary page")
+			+ "204918-Verify stock well option is displayed correctly when it is saved in Kiosk create page & device Summary page"
+			+ "204919-Verify stock well is displayed in type drop down field of Device Summary page")
 	public void verifyTypeDropdownStockwellOptionForNewAndExistingLocationInDeviceSummary() {
-		   final String CASE_NUM = "204917";
-		
-		    // Reading test data from DataBase
-		    rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		    rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
-			
-		   String menu=rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
-		   List<String> device=Arrays
-					.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
-		  String data =rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
+		final String CASE_NUM = "204917";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstDeviceListData = dataBase.getDeviceListData(Queries.DEVICE_LIST, CASE_NUM);
+
+		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> device = Arrays
+				.asList(rstDeviceListData.get(CNDeviceList.LOCATION).split(Constants.DELIMITER_TILD));
+		String data = rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION);
 		try {
 			// Select Org & Menu
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
-			
-			//navigate to Admin->Device 
+
+			// navigate to Admin->Device
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 
-            //Click new Device and verify Stock well dropdown option in new location
+			// Click new Device and verify Stock well dropdown option in new location
 			foundation.click(DeviceDashboard.BTN_CREATENEW);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(KioskCreate.TITLE_KIOSK_CREATE));
 			foundation.click(KioskCreate.DPD_TYPE);
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(KioskCreate.DPD_OPTION_TYPE).contains(data));
-			textBox.enterText(KioskCreate.TXT_NAME,string.getRandomCharacter());
-			String value=foundation.getText(KioskCreate.TXT_NAME);
+			textBox.enterText(KioskCreate.TXT_NAME, string.getRandomCharacter());
+			String value = foundation.getText(KioskCreate.TXT_NAME);
 			dropDown.selectItem(KioskCreate.DPD_ORG, device.get(1), Constants.TEXT);
 			dropDown.selectItem(KioskCreate.DPD_PROCESSOR, device.get(2), Constants.TEXT);
 			textBox.enterText(KioskCreate.TXT_TERMINAL_ID, String.valueOf(numbers.generateRandomNumber(0, 99999)));
 			foundation.waitforElement(KioskCreate.BTN_SAVE, Constants.SHORT_TIME);
 			foundation.scrollIntoViewElement(KioskCreate.BTN_SAVE);
 			foundation.click(KioskCreate.BTN_SAVE);
-			
-			//Click on newly created and verify Stock well dropdown option in new location
+
+			// Click on newly created and verify Stock well dropdown option in new location
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 			deviceDashboard.selectDeviceName(value);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_TYPE);
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_TYPE).contains(data));
-			
-			//Click existing Device and verify Stock well dropdown option in existing location
+
+			// Click existing Device and verify Stock well dropdown option in existing
+			// location
 			navigationBar.navigateToMenuItem(menu);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceDashboard.LBL_ADMIN_DEVICE_DASHBOARD));
 			deviceDashboard.selectDeviceName(device.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceSummary.LBL_DEVICE_SUMMARY));
 			foundation.scrollIntoViewElement(DeviceSummary.DPD_TYPE);
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(DeviceSummary.DPD_TYPE).contains(data));
-			
-		}catch (Exception exc) {
+
+		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}

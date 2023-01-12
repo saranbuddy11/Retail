@@ -878,7 +878,7 @@ public class LocationSummary extends Factory {
 	 * @param deviceName
 	 */
 	public void selectDeviceName(String deviceName) {
-		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')"));
+		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')]"));
 	}
 
 	/**
@@ -1065,11 +1065,20 @@ public class LocationSummary extends Factory {
 		foundation.waitforElement(DPD_KIOSK_LANGUAGE, Constants.SHORT_TIME);
 		dropDown.selectItem(DPD_KIOSK_LANGUAGE, defaultLanguage, Constants.TEXT);
 		dropDown.selectItem(DPD_ALTERNATE_LANGUAGE, altLanguage, Constants.TEXT);
-		foundation.click(BTN_SYNC);
-		foundation.threadWait(Constants.SHORT_TIME);
-		foundation.click(BTN_SAVE);
-		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
-		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_FULL_SYNC, Constants.THREE_SECOND);
+		foundation.scrollIntoViewElement(LocationSummary.DEVICE_BTN);
+		foundation.click(LocationSummary.DEVICE_BTN);
+		foundation.waitforElementToBeVisible(DeviceSummary.LBL_DEVICE_SUMMARY, Constants.SHORT_TIME);
+		foundation.click(DeviceSummary.SUPER_BTN);
+		foundation.waitforElement(DeviceSummary.FULL_SYNC, Constants.SHORT_TIME);
+		foundation.click(DeviceSummary.FULL_SYNC);
+		foundation.threadWait(Constants.EXTRA_LONG_TIME);
+//		foundation.click(BTN_SYNC);
+//		foundation.threadWait(Constants.SHORT_TIME);
+//		foundation.click(BTN_SAVE);
+//		foundation.waitforElementToDisappear(LocationList.TXT_SPINNER_MSG, Constants.EXTRA_LONG_TIME);
+//		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 		browser.close();
 	}
 

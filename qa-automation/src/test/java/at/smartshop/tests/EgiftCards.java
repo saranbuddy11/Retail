@@ -545,11 +545,13 @@ public class EgiftCards extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
 			foundation.click(UserList.BTN_MANAGE_ROLES);
 			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(0), Tab);
+			foundation.threadWait(Constants.THREE_SECOND);
 			consumerEngagement.verifyAllCheckboxesStatus(lblRowRecord.get(1), "true");
 
 			// navigating back to verify Super Role Permissions
 			foundation.navigateToBackPage();
 			consumerEngagement.searchUserRolesAndNavigateToRolePermissions(lblRowRecord.get(2), Tab);
+			foundation.threadWait(Constants.THREE_SECOND);
 			consumerEngagement.verifyAllCheckboxesStatus(lblRowRecord.get(1), "true");
 
 			// navigating back to verify Other Role Permissions(Driver,Finance,Reporter and

@@ -47,6 +47,11 @@ public class SalesTimeDetailsByDevice extends Factory {
 
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE = By.cssSelector("#table1");
 	private static final By TBL_SALES_TIME_DETAILS_BY_DEVICE_GRID = By.cssSelector("#table1 > tbody");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
+
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, String> tableFooterData = new LinkedHashMap<>();

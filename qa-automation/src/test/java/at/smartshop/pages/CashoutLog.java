@@ -54,6 +54,11 @@ public class CashoutLog extends Factory {
 	public static final By TABLE_CASH_OUT_LOG = By.cssSelector("table[id='rptdt']");
 	public static final By TABLE_CASH_OUT_LOG_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_SEARCH_FILTER = By.cssSelector("#rptdt_filter > label > [aria-controls='rptdt']");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(5)");
+
 
 	/**
 	 * Verify Report Name
