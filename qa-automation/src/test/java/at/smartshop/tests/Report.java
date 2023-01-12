@@ -454,8 +454,10 @@ public class Report extends TestInfra {
 
 	}
 
+	// This Report is only for RDS
 	@Test(description = "135696-This test validates Product Pricing Report Data Calculation")
-	public void productPricingReportData() {
+	@Parameters({ "environment" })
+	public void productPricingReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "135696";
@@ -1562,11 +1564,11 @@ public class Report extends TestInfra {
 
 			// Select the Report Date range ,Location and Group By
 			List<String> reportName = Arrays
-					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));	
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
 
-if (environment.equals(Constants.STAGING)) {
+			if (environment.equals(Constants.STAGING)) {
 				reportList.selectReport(reportName.get(1));
-			}else{
+			} else {
 				reportList.selectReport(reportName.get(0));
 			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -1577,7 +1579,7 @@ if (environment.equals(Constants.STAGING)) {
 					Constants.TEXT);
 
 			// run and read report
-			foundation.click(ReportList.BTN_RUN_REPORT);		
+			foundation.click(ReportList.BTN_RUN_REPORT);
 			if (environment.equals(Constants.STAGING)) {
 				productSalesCategory.verifyReportName(reportName.get(1), environment);
 			} else {
@@ -1709,14 +1711,14 @@ if (environment.equals(Constants.STAGING)) {
 
 			// Select Menu and Menu Item
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			
+
 			List<String> reportName = Arrays
 					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
 
 			// Select the Report Date range ,Location and Group By
 			if (environment.equals(Constants.STAGING)) {
 				reportList.selectReport(reportName.get(1));
-			}else{
+			} else {
 				reportList.selectReport(reportName.get(0));
 			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -1914,13 +1916,16 @@ if (environment.equals(Constants.STAGING)) {
 
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+						FilePath.PROPERTY_CONFIG_FILE);
 			} else {
 				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-			};
+			}
+			;
 
 			// process sales API to generate data
-			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId, environment);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId,
+					environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1945,7 +1950,8 @@ if (environment.equals(Constants.STAGING)) {
 			integrationPayments.getRequiredRecord(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 					Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL);
-			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId, environment);
+			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId,
+					environment);
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -1970,7 +1976,8 @@ if (environment.equals(Constants.STAGING)) {
 	}
 
 	@Test(description = "143532-Verify Gross Margin value in Sales Analysis Report uisng new formula")
-	public void verifyGMPercentage() {
+	@Parameters({ "environment" })
+	public void verifyGMPercentage(String environment) {
 		try {
 
 			final String CASE_NUM = "143532";
@@ -1986,7 +1993,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			List<String> reportName = Arrays
@@ -1996,13 +2003,21 @@ if (environment.equals(Constants.STAGING)) {
 			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 
-			reportList.selectReport(reportName.get(0));
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(2));
+			} else {
+				reportList.selectReport(reportName.get(0));
+			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(SalesAnalysisReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			salesAnalysisReport.verifyReportName(reportName.get(0));
+			if (environment.equals(Constants.STAGING)) {
+				salesAnalysisReport.verifyReportName(reportName.get(2), environment);
+			} else {
+				salesAnalysisReport.verifyReportName(reportName.get(0), environment);
+			}
 			double expectedGMValue = salesAnalysisReport.getGMValueUsingCalculation(productPrice, productName,
 					columnName.get(0), columnName.get(1), columnName.get(2));
 			double actualGMValue = salesAnalysisReport.getGMValue(columnName.get(3), productName);
@@ -2601,7 +2616,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(PersonalChargeReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			personalCharge.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			textBox.enterText(personalCharge.SEARCH_RESULT,
@@ -2685,7 +2700,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(UnsoldReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			unsold.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			unsold.getTblRecordsUI(columnName.get(0));
@@ -2736,7 +2751,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(LoyaltyUserReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			loyaltyUser.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			loyaltyUser.getTblRecordsUI();
@@ -2801,7 +2816,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(CrossOrgLoyaltyReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			crossOrgLoyalty.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			textBox.enterText(crossOrgLoyalty.SEARCH_RESULT,
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -2884,7 +2899,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(AlcoholSoldDetailsReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 
 			if (environment.equals(Constants.STAGING)) {
 				alcoholSoldDetails.verifyReportName(reportName.get(1));
@@ -3152,7 +3167,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(CashFlow.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			cashFlow.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			cashFlow.getTblRecordsUI();
 			cashFlow.getIntialData().putAll(cashFlow.getReportsData());
@@ -3227,7 +3242,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(MultiTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			multiTaxReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			multiTaxReport.getTblRecordsUI();
 			multiTaxReport.getIntialData().putAll(multiTaxReport.getReportsData());
@@ -3260,7 +3275,8 @@ if (environment.equals(Constants.STAGING)) {
 	}
 
 	@Test(description = "168454-Verify the Data Validation of Sales Analysis Report")
-	public void salesAnalysisReportDataValication() {
+	@Parameters({ "environment" })
+	public void salesAnalysisReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "168454";
 			browser.navigateURL(
@@ -3276,15 +3292,22 @@ if (environment.equals(Constants.STAGING)) {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
+			List<String> reportName = Arrays
+					.asList(rstReportListData.get(CNReportList.REPORT_NAME).split(Constants.DELIMITER_HASH));
 			List<String> groupBy = Arrays
 					.asList(rstReportListData.get(CNReportList.GROUPBY_DROPDOWN).split(Constants.DELIMITER_HASH));
 
 			// Data validation for Report Based on Groupby ITEMS
 			// Select the Report Date range and Location and run report
-			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+
+			if (environment.equals(Constants.STAGING)) {
+				reportList.selectReport(reportName.get(1));
+			} else {
+				reportList.selectReport(reportName.get(0));
+			}
 			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
@@ -3292,14 +3315,18 @@ if (environment.equals(Constants.STAGING)) {
 			reportList.selectGroupByOption(groupBy.get(0), Constants.TEXT);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(SalesAnalysisReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			salesAnalysisReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				salesAnalysisReport.verifyReportName(reportName.get(1), environment);
+			} else {
+				salesAnalysisReport.verifyReportName(reportName.get(0), environment);
+			}
 
 			// Read the Report the Data
 			salesAnalysisReport.getTblRecordsUI();
 			salesAnalysisReport.getIntialData().putAll(salesAnalysisReport.getReportsData());
 
 			// process sales API to generate data
-			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesAnalysisReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -3334,7 +3361,11 @@ if (environment.equals(Constants.STAGING)) {
 			reportList.selectGroupByOption(groupBy.get(1), Constants.TEXT);
 			foundation.threadWait(Constants.TWO_SECOND);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			salesAnalysisReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			if (environment.equals(Constants.STAGING)) {
+				salesAnalysisReport.verifyReportName(reportName.get(1), environment);
+			} else {
+				salesAnalysisReport.verifyReportName(reportName.get(0), environment);
+			}
 			foundation.click(SalesAnalysisReport.TBL_EXPAND_ROW);
 			foundation.threadWait(Constants.TWO_SECOND);
 			salesAnalysisReport.getUITblRecordsGroupbyLocations();
@@ -4017,7 +4048,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(SalesItemDetailsReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			salesItemDetailsReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			textBox.enterText(SalesItemDetailsReport.TXT_SEARCH,
@@ -4089,7 +4120,7 @@ if (environment.equals(Constants.STAGING)) {
 
 			// run and read report
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(ProductTaxReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(CrossOrgRateReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			crossOrgRate.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			crossOrgRate.getTblRecordsUI();
 
@@ -4294,7 +4325,8 @@ if (environment.equals(Constants.STAGING)) {
 	}
 
 	@Test(description = "197249-Verify the Remaining Guest Pass Liability Report data validation")
-	public void RemainingGuestPassLiabilityReportDataValidation() {
+	@Parameters({ "environment" })
+	public void RemainingGuestPassLiabilityReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "197249";
 
@@ -6764,7 +6796,7 @@ if (environment.equals(Constants.STAGING)) {
 			navigationBar.navigateToMenuItem(menu.get(1));
 			if (environment.equals(Constants.STAGING)) {
 				reportList.selectReport(reportName.get(1));
-			}else{
+			} else {
 				reportList.selectReport(reportName.get(0));
 			}
 
@@ -6825,7 +6857,7 @@ if (environment.equals(Constants.STAGING)) {
 			// Select the Report Date range and Location and Re-run report
 			if (environment.equals(Constants.STAGING)) {
 				reportList.selectReport(reportName.get(1));
-			}else{
+			} else {
 				reportList.selectReport(reportName.get(0));
 			}
 
@@ -7927,7 +7959,7 @@ if (environment.equals(Constants.STAGING)) {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			
+
 			List<String> deviceIDList = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 
