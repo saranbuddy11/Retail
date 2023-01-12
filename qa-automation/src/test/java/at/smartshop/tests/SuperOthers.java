@@ -815,6 +815,7 @@ public class SuperOthers extends TestInfra {
 			dropDown.selectItem(OrgSummary.DPD_SYSTEM, dbData.get(3), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_PAGESET, dbData.get(4), Constants.TEXT);
 			dropDown.selectItem(OrgSummary.DPD_CURRENCY, dbData.get(5), Constants.TEXT);
+			foundation.objectFocus(OrgSummary.TXT_OPERATOR);
 			textBox.enterText(OrgSummary.TXT_OPERATOR, orgName);
 			textBox.enterText(OrgSummary.TXT_DISBURSEMENT_EMAIL, dbData.get(6));
 			// Click on Save Button
@@ -1731,6 +1732,8 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_DIC_HEADING), dicRule_Page);
 			foundation.click(DICRules.BTN_CREATE_NEW);
 			textBox.enterText(DICRules.TXTBX_NAME, existing_DICRule);
+			foundation.click(DICRules.TXTBX_TYPE);
+			textBox.enterText(DICRules.TXTBX_TYPE, string.getRandomCharacter());
 			textBox.enterText(DICRules.TXTBX_SEQNBR, existing_seqNbr);
 			foundation.click(DICRules.BTN_SAVE);
 			CustomisedAssert.assertEquals(foundation.getText(DICRules.TXT_NAME_ERROR), existing_DIC);
@@ -1988,6 +1991,7 @@ public class SuperOthers extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(NationalAccounts.LBL_NATIONAL_ACCOUNT));
 			foundation.waitforElement(NationalAccounts.TBL_BODY, Constants.SHORT_TIME);
 			textBox.enterText(NationalAccounts.TXT_FILTER, nationalAccount);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(table.getTblRowCount(NationalAccounts.TBL_ROW) <= 1);
 			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.GRID_NAME), nationalAccount);
 			textBox.enterText(NationalAccounts.TXT_ACCOUNT_NAME, nationalAccount + Constants.ACCOUNT_NAME);
@@ -2247,7 +2251,9 @@ public class SuperOthers extends TestInfra {
 			// Reset the details
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 			textBox.enterText(PageSet.TXTBX_SEARCHBOX, updatedData.get(1));
+			foundation.waitforElementToBeVisible(PageSet.SELECT_GRID, Constants.THREE_SECOND);
 			foundation.click(PageSet.SELECT_GRID);
+			foundation.waitforElementToBeVisible(PageSet.TXTBX_PAGESET, Constants.THREE_SECOND);
 			textBox.enterText(PageSet.TXTBX_PAGESET, updatedData.get(0));
 			foundation.click(PageSet.BTN_SAVE);
 		}
@@ -2394,14 +2400,15 @@ public class SuperOthers extends TestInfra {
 
 		} catch (Throwable exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			// Resetting the data
+			foundation.waitforElement(AppReferral.TXTBX_SEARCH, 10);
+			textBox.enterText(AppReferral.TXTBX_SEARCH, newReferral_Org);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(AppReferral.SELECT_GRID);
+			foundation.click(AppReferral.BTN_END_REFERRAL);
+			foundation.click(AppReferral.BTN_EXPIRE_REFERRAL);
 		}
-		// Resetting the data
-		foundation.waitforElement(AppReferral.TXTBX_SEARCH, 10);
-		textBox.enterText(AppReferral.TXTBX_SEARCH, newReferral_Org);
-		foundation.threadWait(Constants.SHORT_TIME);
-		foundation.click(AppReferral.SELECT_GRID);
-		foundation.click(AppReferral.BTN_END_REFERRAL);
-		foundation.click(AppReferral.BTN_EXPIRE_REFERRAL);
 	}
 
 	@Test(description = "164102- Validation of Corporate List and Corporate Summary")
@@ -3018,7 +3025,6 @@ public class SuperOthers extends TestInfra {
 			pageset.navigateToPagesetSummaryAndVerifyFieldsInAddPageDef(values.get(0), values.get(2), values.get(5),
 					values.get(6));
 			pageset.verifyAddPageDefValidation(values.get(2), values.get(5), values.get(6));
-			
 
 			// Select service as "CS" and verify all fields in pagedef
 			pageset.navigateToPagesetSummaryAndVerifyFieldsInAddPageDef(values.get(0), values.get(3), values.get(5),

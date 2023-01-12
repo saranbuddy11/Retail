@@ -161,8 +161,8 @@ public class ConsumerFeedbackSurvey extends Factory {
 			textBox.enterKeypadTextWithCaseSensitive(product);
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
 			foundation.threadWait(Constants.ONE_SECOND);

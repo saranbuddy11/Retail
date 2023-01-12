@@ -69,7 +69,13 @@ public class Configuration {
 	public static final String AUTOFUND_LOC = "AutoFund_Location";
 	public static final String KCO_TRANS_KEY = "kioskcashout_trans";
 	public static final String SALE_CANCEL_TRANS = "salecancel_trans";
-	
+	public static final String ROUND_UP_CHARITY_ORG = "RoundUpCharity_Org";
+	public static final String STAGING_DEVICE_ID= "Staging_Device_Id";
+	public static final String SOS_LOCATION_ID = "sos_location_id";
+	public static final String PRODUCT_ID = "Product_Id";
+	public static final String PRODUCT_ID_RANGE1 = "Product_Id_Range1";
+	public static final String PRODUCT_ID_RANGE2 = "Product_Id_Range2";
+
 	public static final String STAGING_STEAVE_ORG="StagingSteveOrg";
 	public static final String STAGING_STEAVE_LOCATION="SteveLocStaging";
 	
@@ -98,4 +104,5 @@ public class Configuration {
 	public static final String AMERICN_AIRLINES_TEAM_1= "American_Airlines_Team_1";
 	public static final String CAESARS_HORSESHOE_CASINO= "Caesars_Horseshoe_Casino";
 	public static final String IKEA= "IKEA";
+
 }

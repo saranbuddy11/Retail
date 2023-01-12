@@ -13,17 +13,21 @@ import at.framework.ui.TextBox;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
+import at.smartshop.pages.AgeVerificationDetails;
+import at.smartshop.pages.Login;
 
 public class Payments {
 	private Foundation foundation = new Foundation();
 	private Browser browser = new Browser();
+	private Login login=new Login();
 	private PropertyFile propertyFile = new PropertyFile();
 	private TextBox textBox = new TextBox();
+	private AgeVerificationDetails ageVerificationDetails = new AgeVerificationDetails();
 	private Order order = new Order();
 
 //	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
 //	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.4.0']");
-	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.4']");
+	public static final By ACCOUNT_EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
 	public static final By EMAIL_ACCOUNT = By.xpath("//img[@data-reactid='.0.3.1.0.1.1.2.0']");
 	public static final By EMAIL = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
 	public static final By EMAIL_lOGIN_BTN = By.id("email-login-btn-id");
@@ -32,8 +36,13 @@ public class Payments {
 	public static final By BTN_EMAIL_LOGIN = By.id("email-login-btn-id");
 	public static final By LBL_INSUFFICIENT_FUND = By.xpath("//h1[@data-reactid='.0.q.0.0.1']");
 	public static final By EMAIL_ACCOUNT_BTN = By.xpath("//div[@data-reactid='.0.3.1.0.1.1.2']");
+	public static final By BTN_EMAIL_ACCOUNT=By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.4.1']");
 	public static final By BTN_EMAIL = By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.2.1']");
 	public static final By BTN_TAB = By.xpath("//div[@data-reactid='.0.0.0.0.0']");
+	public static final By BTN_CAPITAL_LETTER = By.xpath("//div[@class='key key_capitalletterleft']");
+	public static final By BTN_NUMBER = By.xpath("//div[@class='key key_number']");
+	public static final By EMAIL_ACC = By.xpath("//h3[@data-reactid='.0.3.1.0.1.1.4.1']");
+	public static final By EMAIL_DELETE=By.id("delete");
 
 	public By objText(String text) {
 		return By.xpath("//*[normalize-space(text())='" + text + "']");
@@ -70,17 +79,20 @@ public class Payments {
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
 		textBox.enterKeypadText(product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ProductSearch.BTN_PRODUCT);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(orderpage)));
-		foundation.click(Payments.BTN_EMAIL);
-		foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
-//		foundation.click(Payments.BTN_EMAIL_LOGIN);
-		foundation.threadWait(Constants.ONE_SECOND);
+//		foundation.click(Payments.BTN_EMAIL);
+		foundation.waitforElement(Payments.BTN_EMAIL_ACCOUNT, Constants.SHORT_TIME);
+		foundation.click(Payments.BTN_EMAIL_ACCOUNT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(Payments.EMAIL_lOGIN_BTN);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(AccountLogin.BTN_CAMELCASE);
 		textBox.enterKeypadText(email);
 		foundation.click(AccountLogin.BTN_NEXT);
 		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
-		foundation.threadWait(Constants.TWO_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterPin(pin);
 		foundation.click(AccountLogin.BTN_PIN_NEXT);
 		foundation.threadWait(Constants.SHORT_TIME);
@@ -89,16 +101,84 @@ public class Payments {
 		browser.close();
 	}
 
-//	public void launchV5DeviceAnd(String product,String email,String pin,String orderpage,String payment) {
-//		foundation.threadWait(Constants.THREE_SECOND);
-//		browser.launch(Constants.REMOTE, Constants.CHROME);
-//		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
-//		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
-//		foundation.doubleClick(BTN_TAB);
-//		foundation.doubleClick(BTN_TAB);
-//		foundation.click(BTN_TAB);
-//		
-//	}
+	/**
+	 * create account in v5 device
+	 * 
+	 * @param email
+	 * @param pin
+	 * @param fname
+	 * @param lname
+	 */
+	public void createAccountInV5Device(String email, String pin, String fname, String lname) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+		foundation.click(LandingPage.LBL_CREATE_ACCOUNT);
+		foundation.waitforElementToBeVisible(CreateAccount.BTN_EMAIL, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.BTN_EMAIL);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.waitforElementToBeVisible(CreateAccount.BTN_NEXT, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.BTN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterPin(pin);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CreateAccount.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterPin(pin);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(CreateAccount.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.waitforElement(CreateAccount.TXT_FIRST_NAME, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.TXT_FIRST_NAME);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(fname);
+		foundation.click(CreateAccount.TXT_LAST_NAME);
+		textBox.enterKeypadText(lname);
+		foundation.waitforElement(CreateAccount.NEXT_BTN, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.NEXT_BTN);
+		foundation.waitforElement(CreateAccount.ADD_LATER, Constants.SHORT_TIME);
+		foundation.click(CreateAccount.ADD_LATER);
+		foundation.threadWait(Constants.LONG_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(CreateAccount.ALL_SET));
+		foundation.threadWait(Constants.THREE_SECOND);
+	}
+
+	/**
+	 * v5 transaction
+	 * 
+	 * @param product
+	 * @param email
+	 * @param pin
+	 */
+	public void v5Transaction(String product, String email, String pin) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(product);
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		foundation.waitforElementToBeVisible(Payments.EMAIL_ACC, Constants.THREE_SECOND);
+		foundation.click(Payments.EMAIL_ACC);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(Payments.BTN_EMAIL_LOGIN);
+		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.LONG_TIME);
+		browser.close();
+	}
 
 	/**
 	 * Do Payment using GMA verified account to purchase
@@ -124,4 +204,76 @@ public class Payments {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(order.objText(status)));
 		foundation.waitforElement(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 	}
+
+	/**
+	 * v5 transaction
+	 * 
+	 * @param product
+	 * @param email
+	 * @param pin
+	 */
+	public void v5TransactionForDigitalPrint(String product, String num, String email, String pin) {
+		foundation.threadWait(Constants.THREE_SECOND);
+		browser.launch(Constants.REMOTE, Constants.CHROME);
+		browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
+		foundation.click(LandingPage.IMG_SEARCH_ICON);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(product);
+		foundation.click(ProductSearch.BTN_PRODUCT);
+		foundation.waitforElementToBeVisible(Payments.EMAIL_ACC, Constants.THREE_SECOND);
+		foundation.click(Payments.EMAIL_ACC);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.click(Payments.BTN_EMAIL_LOGIN);
+		foundation.threadWait(Constants.ONE_SECOND);
+		textBox.enterKeypadNumbersInDevice(num);
+		foundation.waitforElementToBeVisible(BTN_CAPITAL_LETTER, Constants.ONE_SECOND);
+		foundation.click(BTN_CAPITAL_LETTER);
+		foundation.waitforElementToBeVisible(AccountLogin.BTN_CAMELCASE, Constants.TWO_SECOND);
+		foundation.click(AccountLogin.BTN_CAMELCASE);
+		textBox.enterKeypadText(email);
+		foundation.click(AccountLogin.BTN_NEXT);
+		foundation.waitforElement(AccountLogin.BTN_PIN_NEXT, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
+		textBox.enterPin(pin);
+		foundation.click(AccountLogin.BTN_PIN_NEXT);
+		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(PaymentSuccess.EMAIL_BUTTON, Constants.TWO_SECOND);
+		foundation.click(PaymentSuccess.EMAIL_BUTTON);
+		foundation.threadWait(Constants.SHORT_TIME);
+		browser.close();
+	}
+
+	/**
+	 * opening folder and verifying the data
+	 * 
+	 * @param keyword
+	 * @param location
+	 * @param productName
+	 * @param amount
+	 */
+	public void openingFolderAndVerifyingTheDatas(String keyword, String location, String productName, String amount) {
+		foundation.objectClick(AgeVerificationDetails.MAIL_FOLDER);
+		foundation.threadWait(Constants.LONG_TIME);
+		foundation.objectClick(ageVerificationDetails.objEmailList(keyword));
+		foundation.waitforElementToBeVisible(AgeVerificationDetails.LBL_LOCATION_NAME, Constants.SHORT_TIME);
+		String text = foundation.getText(AgeVerificationDetails.LBL_LOCATION_NAME);
+		CustomisedAssert.assertEquals(text, location);
+		text = foundation.getText(AgeVerificationDetails.LBL_PRODUCT_NAME);
+		CustomisedAssert.assertEquals(text, productName);
+		text = foundation.getText(AgeVerificationDetails.LBL_PRODUCT_AMOUNT);
+		CustomisedAssert.assertEquals(text, amount);
+	}
+
+	/**
+	 * Deleting the Outlook Mail and Logout
+	 */
+	public void deleteOutLookMailAndLogout() {
+		foundation.objectClick(EMAIL_DELETE);
+		foundation.threadWait(Constants.SHORT_TIME);
+		login.outLookLogout();
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
 }

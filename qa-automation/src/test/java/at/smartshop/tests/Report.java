@@ -918,9 +918,9 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(MemberPurchaseSummaryReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			memberPurchaseSummary.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			memberPurchaseSummary.getTblRecordsUI();
 			textBox.enterText(MemberPurchaseSummaryReport.TXT_SEARCH,
 					rstProductSummaryData.get(CNProductSummary.SHORT_NAME));
+			memberPurchaseSummary.getTblRecordsUI();
 			memberPurchaseSummary.getIntialData().putAll(memberPurchaseSummary.getReportsData());
 
 			// Process GMA and sales API
@@ -3372,8 +3372,8 @@ public class Report extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
@@ -3563,8 +3563,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
@@ -3649,8 +3649,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -3820,8 +3820,8 @@ public class Report extends TestInfra {
 //			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-			foundation.click(Payments.EMAIL_lOGIN_BTN);
+//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+//			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
 			foundation.threadWait(Constants.ONE_SECOND);

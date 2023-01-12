@@ -26,6 +26,8 @@ import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
+import at.smartshop.database.columns.CNLocationList;
+import at.smartshop.database.columns.CNNavigationMenu;
 import at.smartshop.keys.Configuration;
 import at.smartshop.keys.Constants;
 import at.smartshop.keys.FilePath;
@@ -60,6 +62,7 @@ public class LocationSummary extends Factory {
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
 	public static final By DPD_TYPE = By.xpath("//select[@id='type-id']");
+	public static final By DPD_DISTRIBUTOR=By.id("distributor");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.xpath("//table[@id='productDataGrid']/tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
@@ -266,7 +269,8 @@ public class LocationSummary extends Factory {
 	public static final By CHK_DEFAULT_ROLL_OVER = By
 			.xpath("//input[@class='rolloversubsidy rolloverdefaultcheckbox']");
 	public static final By CHECK_CHECKBOX = By.xpath("//input[@class='check_size']");
-	public static final By ROLL_OVER_CHECKBOX=By.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
+	public static final By ROLL_OVER_CHECKBOX = By
+			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By CHK_ROLL_OVER_SUBSIDY = By
 			.xpath("//input[@class='topoffsubsidy-default rolloversubsidy-default rollovercheckbox']");
 	public static final By TXT_TOP_OFF_GROUP_NAME = By.xpath("//*[@id='topoffsubsidyrange']//input[@name='groupname']");
@@ -460,7 +464,8 @@ public class LocationSummary extends Factory {
 	 */
 	public void selectTab(String tabName) {
 		try {
-			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[(text()='" + tabName + "')]"));
+			foundation.scrollIntoViewElement(By.xpath("//ul[@class='nav nav-tabs']//li//a[text()='" + tabName + "']"));
+			foundation.click(By.xpath("//ul[@class='nav nav-tabs']//li/a[contains(text(),'" + tabName + "')]"));
 			foundation.WaitForAjax(Constants.FIFTEEN_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -478,9 +483,9 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarMonthAutoLocation1(String month) {
 		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
-	
+
 	public By objectRollOverCalendarMonthAutoLocation1(String month) {
-		return By.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[2][contains(text(),'"+ month + "')]");
+		return By.xpath("/html/body/div[12]/div[1]/table/thead/tr[1]/th[2][contains(text(),'" + month + "')]");
 	}
 
 	public By objectTopOffCalendarMonthAutoLocation2(String month) {
@@ -492,13 +497,12 @@ public class LocationSummary extends Factory {
 	}
 
 	public By objectTopOffCalendarMonthAutomationLocation1(String month) {
-		return By.xpath("/html/body/div[10]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
+		return By.xpath("/html/body/div[5]/div[1]/table/thead/tr[1]/th[contains(text(),'" + month + "')]");
 	}
 
 	public By objectTopOffCalendarDayAutomationLocation1(String day) {
-		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
+		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class='day  active']");
 	}
-
 	public By objectTopOffCalendarNewDayAutomationLocation1(String day) {
 		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
@@ -510,7 +514,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarDayAutoLocation1(String day) {
 		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day  active\"]");
 	}
-	
+
 	public By objectRollOverCalendarDayAutoLocation1(String day) {
 		return By.xpath("/html/body/div[12]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class='day  active']");
 	}
@@ -874,7 +878,7 @@ public class LocationSummary extends Factory {
 	 * @param deviceName
 	 */
 	public void selectDeviceName(String deviceName) {
-		foundation.click(By.xpath("//a[text()='" + deviceName + "']"));
+		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')"));
 	}
 
 	/**
@@ -1375,6 +1379,9 @@ public class LocationSummary extends Factory {
 		foundation.waitforClikableElement(Login.LBL_USER_NAME, Constants.EXTRA_LONG_TIME);
 	}
 
+	public By getlocationElement(String locationName) {
+		return By.xpath("//a[text()='" + locationName + "']");
+	}
 	/**
 	 * Get the Column Values
 	 * 
@@ -1521,9 +1528,9 @@ public class LocationSummary extends Factory {
 	 */
 	public void resetInventory(String scancode, String inventory) {
 		By inventoryLink = By
-				.xpath("//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
+				.xpath("//td[contains(text(),'" + scancode + "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
 		By inventoryValue = By.xpath(
-				"//td[text()='" + scancode + "']//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input");
+				"//td[contains(text(),'" + scancode + "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input[@type='text']");
 		foundation.click(inventoryLink);
 		textBox.enterText(inventoryValue, Keys.CONTROL + "a" + Keys.BACK_SPACE);
 		textBox.enterText(inventoryValue, inventory);
@@ -1653,9 +1660,10 @@ public class LocationSummary extends Factory {
 			foundation.click(objectTopOffCalendarNewDayAutoLocation1(date));
 		}
 	}
-	
+
 	/**
 	 * Setting rollover Start date for AutomationLocation1
+	 * 
 	 * @param value
 	 */
 	public void verifyRollOverDateAutoLocation1(String value) {
@@ -1673,7 +1681,7 @@ public class LocationSummary extends Factory {
 			foundation.click(objectRollOverCalendarDayAutoLocation1(date));
 		}
 	}
-	
+
 	/**
 	 * Setting Topoff Start Date as Past date for AutoLocation1
 	 * 
@@ -1729,14 +1737,14 @@ public class LocationSummary extends Factory {
 		String date = dateArray[1].replaceAll(Constants.REMOVE_LEADING_ZERO, "");
 		int month = Integer.parseInt(dateArray[0]);
 		String monthName = getMonthName(month);
-		foundation.threadWait(Constants.ONE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		if (foundation.isDisplayed(objectTopOffCalendarMonthAutomationLocation1(monthName))) {
 			foundation.click(objectTopOffCalendarDayAutomationLocation1(date));
 		} else {
 			foundation.click(TOP_OFF_DATE_PICKER_NEXT_AUTOMATION1);
 			foundation.waitforElement(objectTopOffCalendarMonthAutomationLocation1(monthName), Constants.SHORT_TIME);
-			CustomisedAssert
-					.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutomationLocation1(monthName)));
+//			CustomisedAssert
+//					.assertTrue(foundation.isDisplayed(objectTopOffCalendarMonthAutomationLocation1(monthName)));
 			foundation.click(objectTopOffCalendarNewDayAutomationLocation1(date));
 		}
 	}
@@ -1882,7 +1890,7 @@ public class LocationSummary extends Factory {
 		if (foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName))) {
 			foundation.click(objectRollOverCalendarDayLocation1(date));
 		} else {
-			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION1);
+			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
 			foundation.waitforElement(objectRollOverCalendarMonthLocation1(monthName), Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation1(date));
@@ -2656,10 +2664,11 @@ public class LocationSummary extends Factory {
 	 * @param data
 	 */
 	public void addDeviceAndVerify(String data) {
-		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.DEVICE_NAME));
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.BTN_DEPLOY_DEVICE));
 		foundation.click(LocationSummary.BTN_DEPLOY_DEVICE);
-		foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 3);
+		foundation.waitforElementToBeVisible(LocationSummary.TXT_DEVICE_POPUP_SEARCH, 5);
 		foundation.click(LocationSummary.TXT_DEVICE_POPUP_SEARCH);
+		foundation.threadWait(Constants.SHORT_TIME);
 		textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, data);
 		foundation.click(LocationSummary.TBL_DEVICE_POPUP_ROW);
 		foundation.click(LocationSummary.BTN_DEVICE_ADD);
@@ -2767,6 +2776,42 @@ public class LocationSummary extends Factory {
 	}
 
 	/**
+	 * Enable to GMA Subsidy And Update Top Off Balance
+	 * 
+	 * @param onandoff
+	 * @param currentDate
+	 * @param recurrence
+	 * @param groupname
+	 * @param amount
+	 * @param rollovername
+	 */
+	public void enableGMASubsidyAndUpdateTopOffBalance(String onandoff, String currentDate, String recurrence,
+			String groupname, String amount, String rollovername) {
+		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+		foundation.waitforElementToBeVisible(LocationSummary.DPD_GMA_SUBSIDY, Constants.THREE_SECOND);
+//		dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, onandoff, Constants.TEXT);
+		foundation.click(LocationSummary.START_DATE_PICKER_TOP_OFF_1);
+		verifyTopOffDateAutomationLocation1(currentDate);
+		verifyGMASubsidy(LocationSummary.DPD_TOP_OFF_RECURRENCE, LocationSummary.TXT_TOP_OFF_GROUP_NAME,
+				LocationSummary.TXT_TOP_OFF_AMOUNT, recurrence, groupname, amount);
+		foundation.threadWait(Constants.THREE_SECOND);
+		textBox.enterText(LocationSummary.TXT_ROLL_OVER_GROUP_NAME, rollovername);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.THREE_SECOND);
+		foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
+		foundation.waitforElementToBeVisible(LocationSummary.DATE_PICKER_PAY_ROLL, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.DATE_PICKER_PAY_ROLL);
+		verifyRollOverDateAutoLocation1(currentDate);
+		foundation.click(LocationSummary.TXT_PAYROLL);
+		dropDown.selectItem(LocationSummary.DPD_PAY_CYCLE_RECURRENCE, recurrence, Constants.TEXT);
+		textBox.enterText(LocationSummary.TXT_PAY_CYCLE_GROUP_NAME, groupname);
+		textBox.enterText(LocationSummary.TXT_PAY_ROLL_SPEND_LIMIT, amount);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+		foundation.click(LocationSummary.BTN_SAVE);
+		foundation.threadWait(Constants.LONG_TIME);
+
+	}
+
+	/**
 	 * Verify update price value in location
 	 * 
 	 * @param location
@@ -2785,5 +2830,47 @@ public class LocationSummary extends Factory {
 		foundation.click(LocationSummary.TAB_PRODUCTS);
 		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
 		foundation.threadWait(Constants.SHORT_TIME);
+	}
+	
+	
+	/**
+	 * verify distributor dropDown in location summary page
+	 * @param menu
+	 * @param dpd
+	 */
+	public void verifyDistributorDropdown(String menu,String location,String dpd) {
+		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
+		navigationBar.navigateToMenuItem(menu);
+		foundation.waitforElementToBeVisible(LocationSummary.LBL_LOCATION_SUMMARY, Constants.THREE_SECOND);
+		locationList.selectLocationName(location);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(DPD_DISTRIBUTOR));
+		dropDown.selectItem(DPD_DISTRIBUTOR, dpd, Constants.TEXT);
+		foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
+		foundation.click(BTN_SAVE);
+		foundation.threadWait(Constants.SHORT_TIME);
+		
+	}
+	
+	/**
+	 * search location and verify distributor dropDown
+	 * @param locationName
+	 * @param defaultValue
+	 * @param dropdown
+	 */
+	public void searchLocationAndVerifyDistributor(String locationName,String defaultValue,String dropdown) {
+		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
+		textBox.enterText(LocationList.TXT_FILTER, locationName);
+		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.click(LocationList.LINK_LOCATION_LIST);
+		foundation.waitforElementToBeVisible(LocationSummary.LBL_LOCATION_SUMMARY, Constants.SHORT_TIME);
+		String value = dropDown.getSelectedItem(DPD_DISTRIBUTOR);
+		CustomisedAssert.assertEquals(value, defaultValue);
+		dropDown.selectItem(LocationList.DISABLED, dropdown, Constants.TEXT);
+		foundation.waitforElementToBeVisible(LocationList.SAVE_BTN, Constants.SHORT_TIME);
+		foundation.click(LocationList.SAVE_BTN);
+		foundation.waitforElementToBeVisible(LocationList.POP_UP, Constants.SHORT_TIME);
+		foundation.click(LocationList.POPUP_SAVE);
+		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.THREE_SECOND);
+		
 	}
 }

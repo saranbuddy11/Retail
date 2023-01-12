@@ -1,10 +1,15 @@
 package at.smartshop.keys;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
+
+import at.framework.generic.Strings;
 import at.smartshop.pages.ReportList;
 
 public class FilePath {
@@ -12,6 +17,7 @@ public class FilePath {
 	}
 
 	private static ReportList reportList = new ReportList();
+	private static Strings strings = new Strings();
 
 	public static final String FILE = "file:\\\\";
 	public static final String PATH = System.getProperty("user.dir");
@@ -24,6 +30,7 @@ public class FilePath {
 	public static final String JSON_MKA = PATH + "\\src\\test\\resources\\MKAAccount.json";
 	public static final String JSON_KIOSK_CASH_OUT = PATH + "\\src\\test\\resources\\KioskCashOut.json";
 	public static final String JSON_SALES_CREATION = PATH + "\\src\\test\\resources\\SalesCreation.json";
+	public static final String JSON_FINGERPRINT_SALES_CREATION = PATH + "\\src\\test\\resources\\SalesFP.json";
 	public static final String JSON_SALES_CREATION_UFS_BY_DEVICE = PATH
 			+ "\\src\\test\\resources\\SalesCreation_UFSByDevice.json";
 	public static final String CANCEL_SALE_CREATION = PATH + "\\src\\test\\resources\\CancelSaleCreation.json";
@@ -45,10 +52,10 @@ public class FilePath {
 	public static final String EXCEL_DEVICE_EXPORT_SRC = HOME_PATH + "\\Downloads\\device.xlsx";
 	public static final String EXCEL_DEVICE_EXPORT_TAR = PATH + "\\src\\test\\resources\\device.xlsx";
 	public static final String EXCEL_DISBURSEMENT_EXPORT_SRC = HOME_PATH
-			+ "\\Downloads\\Disbursement Report 09-29-2021.xls";
+			+ "\\Downloads\\Disbursement Report 12-09-2022.xls";
 	public static final String EXCEL_VARIANCE_EXPORT_SRC = HOME_PATH
-			+ "\\Downloads\\EFT Variance Report 09-29-2021.xls";
-	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH + "\\Downloads\\Upload_ 09-29-2021.csv";
+			+ "\\Downloads\\EFT Variance Report 12-09-2022.xls";
+	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH + "\\Downloads\\Upload_ 12-09-2022.csv";
 	public static final String EXCEL_CONTACT_SRC = HOME_PATH + "\\Downloads\\contact.xls";
 	public static final String EXCEL_CONSUMER = HOME_PATH + "\\Downloads\\consumer_list.xls";
 	public static final String PATH_TO_DOWNLOAD = HOME_PATH + "\\Downloads";
@@ -59,7 +66,12 @@ public class FilePath {
 	public static final String PICK_LIST = HOME_PATH + "\\Downloads\\Pick List";
 	public static final String PRODUCT_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductTemplate.xls";
 	public static final String MIDDID_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_testMID_DID_Template.xls";
-	public static final String HOME_COMMERCIAL_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_HomeCommercial_Template.xls";
+	public static final String HOME_COMMERCIAL_TEMPLATE = PATH
+			+ "\\src\\test\\resources\\SOS_HomeCommercial_Template.xls";
+	public static final String IMAGE_JPEG = PATH+"\\src\\test\\resources\\chocolateCakeJpgImage.jpg";
+	public static final String IMAGE_PNG = PATH+"\\src\\test\\resources\\ChocolateCakepngImage.png";
+	public static final String IMAGE2MB_PNG = PATH+"\\src\\test\\resources\\Larger2MBImage.png";
+	public static final String PRODUCT_PRICING_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductPricing_Template.xls";
 
 
 	public static String reportFilePath(String filename) {
@@ -100,8 +112,8 @@ public class FilePath {
 		Date day = calendar.getTime();
 		String date = reportList.getTodaysDate(formate);
 		String currentDay = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(day.getTime());
-		System.out.println(HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls");
-		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + " " + currentDay + " " + date + ".xls";
+		System.out.println(HOME_PATH + "\\Downloads\\" + filename + "" + currentDay + " " + date + ".xls");
+		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + "" + currentDay + " " + date + ".xls";
 		return EXCEL_REPORT;
 	}
 
@@ -122,5 +134,22 @@ public class FilePath {
 		} else {
 			PROPERTY_CONFIG_FILE = PATH + "\\src\\test\\resources\\ConfigTest4.properties";
 		}
+	}
+
+	public File copyFile(String fileName) throws IOException {
+		String fileName1 = fileName.replace(".", "%");
+		String[] sp = fileName1.split("%");
+		File uploadFile = new File(PATH + "\\src\\test\\resources\\" + strings.getRandomCharacter() + "." + sp[1]);
+		FileUtils.copyFile(new File(fileName), uploadFile);
+		return uploadFile;
+	}
+
+	public String getFileAbsolutePath(File file) {
+		return file.getAbsolutePath();
+	}
+
+	public void deleteFile(String path) {
+		File f = new File(path);
+		f.delete();
 	}
 }

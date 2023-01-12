@@ -82,6 +82,7 @@ public class Menu extends TestInfra {
 			locationList.selectLocationName(rstLocationData.get(CNLocation.LOCATION_NAME));
 			foundation.click(LocationSummary.BUTTON_LOCATION_INFO);
 			dropDown.selectItem(LocationSummary.DPD_PRINTGROUP, printGroupName, Constants.TEXT);
+			foundation.threadWait(3);
 			foundation.click(LocationSummary.BTN_SAVE);
 			foundation.waitforElement(LocationSummary.LBL_SPINNER_MSG, Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(2));
@@ -305,7 +306,7 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_SHOW);
 			foundation.click(SelfService.BTN_SAVE);
-
+            foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
 			table.selectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
@@ -516,8 +517,11 @@ public class Menu extends TestInfra {
 			foundation.threadWait(3);
 			foundation.click(SelfService.BTN_ADD_PRODUCT);
 			textBox.enterText(SelfService.SEARCH_ADD_PRODUCT, data.get(10));
+			foundation.threadWait(3);
 			foundation.click(selfService.selectProductToAdd(data.get(10)));
+			foundation.threadWait(5);
 			foundation.click(SelfService.BTN_ADD_PRODUCT_POPUP);
+			foundation.threadWait(3);
 			foundation.click(SelfService.BTN_SAVE);
 			
 			//select location and search for new menu

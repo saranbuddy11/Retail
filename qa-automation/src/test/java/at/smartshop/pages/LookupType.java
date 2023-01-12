@@ -59,7 +59,7 @@ public class LookupType extends Factory{
 			CustomisedAssert.assertTrue(resultText.contains(validating_record));
 			
 			//Update the details
-			table.selectRow(existing_lookup);
+			foundation.click( By.xpath("//tr//td//span[contains(text(),'" + existing_lookup + "')]"));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_SHOW_HEADING),lookup_Show_Page);
 			textBox.enterText(TXTBX_TYPE, updated_lookup);
 			foundation.click(LookupType.BTN_SAVE);

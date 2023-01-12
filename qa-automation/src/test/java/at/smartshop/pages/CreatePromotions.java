@@ -14,6 +14,7 @@ import com.aventstack.extentreports.Status;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
 import at.framework.reportsetup.ExtFactory;
+import at.framework.ui.CheckBox;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -27,6 +28,7 @@ public class CreatePromotions extends Factory {
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
 	private TextBox textBox = new TextBox();
+	private CheckBox checkBox = new CheckBox();
 	private NavigationBar navigationBar = new NavigationBar();
 
 	public static final By LBL_BASICINFO = By.xpath("//div[@id='section1']//h4");
@@ -140,8 +142,12 @@ public class CreatePromotions extends Factory {
 	public static final By LBL_BUNDLE_LIST = By.xpath("//div[text()='Bundle List']");
 	public static final By CHOCOLATE_PRODUCT = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",true,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By CHOCOLATE_PRODUCT_STAGING = By.xpath(
+			"//input[@onclick='setCheckBox(\"21114c28d91bcc57bbd9d4e1ef675f13\",true,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By PRODUCT_UNCHECK = By.xpath(
 			"//input[@onclick='setCheckBox(\"29c6a79201bc3f424b8bab93a5ed0c89\",false,\"itemdatatable\",\"itemcheckbox\")']");
+	public static final By PRODUCT_UNCHECK_STAGING = By.xpath(
+			"//input[@onclick='setCheckBox(\"21114c28d91bcc57bbd9d4e1ef675f13\",false,\"itemdatatable\",\"itemcheckbox\")']");
 	public static final By CAT_CATEGORY = By.xpath(
 			"//input[@onclick='setCheckBox(\"AUTOMATIONACHATPVQYB\",true,\"categorydatatable\",\"categorycheckbox\")']");
 	public static final By CATEGORY_UNCHECK = By.xpath(
@@ -239,6 +245,8 @@ public class CreatePromotions extends Factory {
 	public static final By BTN_SELECT_ORG = By.xpath("//select[@id='org-select']//option[text()='AutomationOrg']");
 	public static final By ITEM_BUNDLE_ALL_CHECKBOX = By.id("itemBundleAllCheckbox");
 	public static final By POPUP_HEADER = By.cssSelector(".ajs-header");
+	public static final By BTN_ADD_ITEM = By.cssSelector("#itemSelect>.btn-mini");
+	public static final By ITEM_MODAL_TITLE = By.id("bundleItemModal-title");
 
 	public By objLocation(String value) {
 		return By.xpath("//li[contains(text(),'" + value + "')]");
@@ -246,6 +254,10 @@ public class CreatePromotions extends Factory {
 
 	public By Product(String product) {
 		return By.xpath("//tr[@data-id='259ccd00a61aab13b7774cba6f677537']//td[text()='" + product + "']");
+	}
+
+	public By ProductStaging(String product) {
+		return By.xpath("//tr[@data-id='bda83b7e82c726eef6f7ac7511f26921']//td[text()='" + product + "']");
 	}
 
 	public By dropdownBuildBundle(String dropdown) {
@@ -420,12 +432,12 @@ public class CreatePromotions extends Factory {
 	}
 
 	/**
-	 * Selecting Bundle Promotion Duration
+	 * Selecting Promotion Duration
 	 * 
 	 * @param discountTime
 	 * @param discountDuration
 	 */
-	public void selectBundlePromotionTimes(String discountTime, String discountDuration) {
+	public void selectPromotionTimes(String discountTime, String discountDuration) {
 		try {
 			dropDown.selectItem(DPD_DISCOUNT_TIME, discountTime, Constants.TEXT);
 			if (!Constants.DELIMITER_SPACE.equals(discountDuration))
@@ -433,6 +445,36 @@ public class CreatePromotions extends Factory {
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
+	}
+
+	/**
+	 * Selecting Single Item for On-Screen Promotion
+	 * 
+	 * @param Product
+	 */
+	public void selectOnScreenItem(String product) {
+		foundation.click(TXT_AMOUNT);
+		foundation.click(BTN_ADD_ITEM);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ITEM_MODAL_TITLE));
+		textBox.enterText(ITEM_SEARCH_TXT, product);
+		foundation.threadWait(Constants.SHORT_TIME);
+		checkBox.check(SELECT_ITEM_PRODUCT);
+		foundation.click(BTN_CANCEL_ITEM_POPUP);
+		foundation.threadWait(Constants.SHORT_TIME);
+	}
+
+	/**
+	 * Selecting All Item for On-Screen Promotion
+	 */
+	public void selectOnScreenAllItem() {
+		foundation.click(TXT_AMOUNT);
+		foundation.click(BTN_ADD_ITEM);
+		foundation.threadWait(Constants.SHORT_TIME);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(ITEM_MODAL_TITLE));
+		foundation.click(ITEM_BUNDLE_ALL_CHECKBOX);
+		foundation.click(BTN_CANCEL_ITEM_POPUP);
+		foundation.threadWait(Constants.SHORT_TIME);
 	}
 
 	/**
@@ -464,6 +506,29 @@ public class CreatePromotions extends Factory {
 			dropDown.selectItem(MULTI_SELECT_TENDER_TYPES, tenderType, Constants.TEXT);
 			dropDown.selectItem(DPD_DISCOUNT_TYPE, discountType, Constants.TEXT);
 			dropDown.selectItem(DPD_APPLY_DISCOUNT_TO, applyDIscountTo, Constants.TEXT);
+			if (foundation.isDisplayed(TXT_AMOUNT))
+				textBox.enterText(TXT_AMOUNT, discountAmount);
+			else
+				textBox.enterText(TXT_DISCOUNT_PERCENTAGE, discountAmount);
+			textBox.enterText(TXT_TRANSACTION_MIN, transactionAmount);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * Setting On-Screen Details
+	 * 
+	 * @param discountType
+	 * @param applyDIscountTo
+	 * @param discountAmount
+	 * @param transactionAmount
+	 */
+	public void onScreenDetails(String discountBy, String discountType, String discountAmount,
+			String transactionAmount) {
+		try {
+			dropDown.selectItem(ON_SCREEN_TENDER_DETAILS, discountBy, Constants.TEXT);
+			dropDown.selectItem(DPD_DISCOUNT_TYPE, discountType, Constants.TEXT);
 			if (foundation.isDisplayed(TXT_AMOUNT))
 				textBox.enterText(TXT_AMOUNT, discountAmount);
 			else
