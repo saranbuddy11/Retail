@@ -612,9 +612,9 @@ public class ReportList extends Factory {
 				}
 				foundation.click(BTN_PREVIOUS_MONTH);
 			}
-			foundation.click(date);
 			foundation.threadWait(Constants.ONE_SECOND);
-			foundation.objectClick(APPLY_DATE_RANGE_BUTTON);
+			foundation.click(date);
+//			foundation.objectClick(APPLY_DATE_RANGE_BUTTON);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
@@ -316,8 +317,8 @@ public class Location extends TestInfra {
 			} else {
 				locationSummary.addHomeCommercials(address.get(0));
 			}
-			locationSummary.addHomeCommercials(homecommercial.get(0));
-			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
+			
+//			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(locationName);
 
@@ -1018,7 +1019,9 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_SEARCH_TAX_MAPPING, Constants.THREE_SECOND);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 
@@ -1651,7 +1654,9 @@ public class Location extends TestInfra {
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_SEARCH_TAX_MAPPING, Constants.THREE_SECOND);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 		}
@@ -1693,7 +1698,7 @@ public class Location extends TestInfra {
 
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 			locationSummary.selectTab(tabName);

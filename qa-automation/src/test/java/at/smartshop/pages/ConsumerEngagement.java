@@ -318,6 +318,7 @@ public class ConsumerEngagement extends Factory {
 		try {
 			foundation.scrollIntoViewElement(getFeatureInRolePermission(text));
 			List<String> list = foundation.getAttributeValueofListElement(getFeatureInRolePermission(text), "checked");
+			System.out.println(list);
 			boolean response = false;
 			for (int i = 0; i < list.size(); i++) {
 				response = list.get(i).equals(expected);

@@ -90,6 +90,7 @@ public class ConsumerMove extends Factory {
 	}
 
 	public boolean moveConsumer(String consumer, String toOrg, String toLocation) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		table.selectRow(consumer);
 		foundation.click(ConsumerMove.BTN_MOVE);
 		foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);

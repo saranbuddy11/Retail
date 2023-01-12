@@ -2034,6 +2034,7 @@ public class Consumer extends TestInfra {
 				consumerMove.moveConsumer(consumerName, toOrg, toLocation);
 				navigationBar.navigateToMenuItem(menuItem.get(0));
 				boolean isConsumerMoved = consumerMove.searchConsumer(consumerName, toOrg, toLocation);
+				foundation.threadWait(Constants.THREE_SECOND);
 				CustomisedAssert.assertTrue(isConsumerMoved);
 			} else {
 				consumerMove.searchConsumer(consumerName, toOrg, toLocation);

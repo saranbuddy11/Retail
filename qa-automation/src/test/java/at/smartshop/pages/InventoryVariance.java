@@ -36,8 +36,6 @@ public class InventoryVariance extends Factory {
 			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(3)");
 	public static final By DATA_EXISTING_DATE_STAGING_E2E = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(2)");
-	// body > div:nth-child(25) > div.drp-calendar.right > div.calendar-table >
-	// table > tbody > tr:nth-child(4) > td.in-range.available
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();
