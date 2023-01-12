@@ -76,4 +76,33 @@ public class Configuration {
 	public static final String PRODUCT_ID_RANGE1 = "Product_Id_Range1";
 	public static final String PRODUCT_ID_RANGE2 = "Product_Id_Range2";
 
+	public static final String STAGING_STEAVE_ORG="StagingSteveOrg";
+	public static final String STAGING_STEAVE_LOCATION="SteveLocStaging";
+	
+	public static final String STAGING_SUPPORT_US_365="365Support_US";
+	public static final String STAGING_SUPPORT_US_365_LOCATION="365Support_US_Location";
+	public static final String STAGING_SUPPORT_US_365_PERFORMANCE_LOCATION="365Support_US_PerformanceLocation"; 
+	public static final String STAGING_SUPPORT_US_365_NOODLE_HUT="365Support_US_NoodeHut";
+	
+	public static final String ROYALVENDING="RoyalVending";
+	public static final String AVIFOODSYSTEMS_ORGANIZATION = "AVIfoodsystems_organization";
+	public static final String ARAMARK_DETROIT_ORGANIZATION = "Aramark_Detroit_organization";
+	public static final String CANTEEN_CHARLOTTE_ORGANIZATION = "CanteenCharlotte_organization";
+	public static final String SELECTA_UK_ORGANIZATION = "Selecta_UK_organization";
+	public static final String FIVESTARCINCINNATI_ORGANIZATION = "FiveStarCincinnati_organization";
+	public static final String BUFFALOROCKCOMPANY_ORGANIZATION = "BuffaloRockCompany_organization";
+	public static final String SODEXO_ECOLAB_TX="Sodexo-Ecolab-TX";
+	public static final String WESTERN_STAR_PRODUCTION_FLOOR="Western_Star_Production_Floor";
+	public static final String RETAIL_MARKET_365_LOC = "365retailMarkets_loc";
+	public static final String SHUTTERFLY_PRODUCTION_BREAKROOM_LOC = "Shutterfly_Production_BreakRoom_loc";
+	public static final String NGKN_AREOSPACE_SERVICES_LIMITED_LOC = "nGKN_Aerospace_Services_Limited_loc";
+	public static final String PECO_FOODS_LIMITED_LOC = "Peco_Foods_loc";
+	public static final String HIRAM_COLLEGE_LOC = "Hiram_College_loc";
+	public static final String FDR_JANUS_HOUSE_F2J_AB_LOC = "FDR_Janus_House_F2_A&B_loc";
+	public static final String AMAZON_CVG5_LOC = "Amazon_CVG5_loc";
+	public static final String BMO_HARRIS_BANK= "BMO_Harris_Bank";
+	public static final String AMERICN_AIRLINES_TEAM_1= "American_Airlines_Team_1";
+	public static final String CAESARS_HORSESHOE_CASINO= "Caesars_Horseshoe_Casino";
+	public static final String IKEA= "IKEA";
+
 }

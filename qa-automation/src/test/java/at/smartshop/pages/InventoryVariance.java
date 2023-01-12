@@ -33,7 +33,7 @@ public class InventoryVariance extends Factory {
 			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td.available");
 
 	public static final By DATA_EXISTING_DATE_STAGING = By.cssSelector(
-			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(3)");
+			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(3) > td:nth-child(3)");
 	// body > div:nth-child(25) > div.drp-calendar.right > div.calendar-table >
 	// table > tbody > tr:nth-child(4) > td.in-range.available
 

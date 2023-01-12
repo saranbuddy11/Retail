@@ -35,7 +35,7 @@ import at.smartshop.utilities.WebService;
 
 public class SalesAnalysisReport extends Factory {
 
-	public static final By LBL_REPORT_NAME = By.id("Sales Analysis Report");
+	public static final By LBL_REPORT_NAME = By.xpath("//div[@id='Sales Analysis Report'] | //div[@id='Sales Analysis']");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	private static final By TBL_SALES_ANALYSIS = By.cssSelector("#hierarchicalGrid");
@@ -45,6 +45,11 @@ public class SalesAnalysisReport extends Factory {
 			.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td  > div >div >div >table");
 	private static final By TBL_SALES_ANALYSIS_GRID_DETAILED_GROUPBY_LOCATIONS = By
 			.cssSelector("#hierarchicalGrid > tbody > tr:nth-child(2) > td  > div >div >div >table > tbody");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
+
 
 	private Foundation foundation = new Foundation();
 	private WebService webService = new WebService();

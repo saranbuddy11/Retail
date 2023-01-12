@@ -58,6 +58,11 @@ public class CashAudit extends Factory {
 	public static final By TABLE_CASH_AUDIT = By.id("rptdt");
 	public static final By ROW_LAST_PICKUP = By.id("lastpickup");
 	public static final By TXT_SEARCH_FILTER = By.cssSelector("#rptdt_filter > label > [aria-controls='rptdt']");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(3) > td:nth-child(6)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(3) > td:nth-child(6)");
+
 
 	/**
 	 * Verify the Report Name
