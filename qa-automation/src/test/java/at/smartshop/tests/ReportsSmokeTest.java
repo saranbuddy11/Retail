@@ -2634,13 +2634,14 @@ public class ReportsSmokeTest extends TestInfra {
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
 
-			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
-					rstReportListData.get(CNReportList.END_MONTH), CashAudit.DATA_EXISTING_DATE,
-					CashAudit.DATA_EXISTING_DATE);
+//			reportList.selectDateRangeDate(rstReportListData.get(CNReportList.DATE_RANGE),
+//					rstReportListData.get(CNReportList.END_MONTH), CashAudit.DATA_EXISTING_DATE,
+//					CashAudit.DATA_EXISTING_DATE);
 
-			reportList.selectLocation(
-					propertyFile.readPropertyFile(Configuration.ALL_LOCATIONS, FilePath.PROPERTY_CONFIG_FILE));
+			reportList.selectLocationForSecondTypeDropdown(
+					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
@@ -5447,18 +5448,25 @@ public class ReportsSmokeTest extends TestInfra {
 			// Select Organization
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			List<String> dateRange_Data = Arrays
+					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
 
 			// Navigate to Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+//			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			
+			reportList.selectDateRangeDate(dateRange_Data.get(0), dateRange_Data.get(1),
+					CrossOrgGoLive.DATA_EXISTING_DATE, CrossOrgGoLive.DATA_EXISTING_DATE);
+			
 			reportList.selectOrg(propertyFile.readPropertyFile(Configuration.ALL_ORGS, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
 			// Verifying the Report name with with the displayed name on the Front end
-			crossOrgRateReport.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			crossOrgGoLive.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Downloading the Report
 			reportList.clickOnToExcelButton(reportList.TO_EXCEL_BUTTON);
