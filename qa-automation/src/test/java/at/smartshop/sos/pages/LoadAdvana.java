@@ -52,8 +52,7 @@ public class LoadAdvana extends Factory {
 	public void addHomeCommercial(String action,String commercialName,String iterator, String requiredString,String option,String date) {
 	dropDown.selectItem(LoadAdvana.DPD_ACTION,action, Constants.TEXT);
 	textBox.enterText(LoadAdvana.TXT_NAME,commercialName);
-	textBox.enterText(LoadAdvana.BTN_IMAGE_FILE, FilePath.IMAGE_PNG_PATH);
-	
+	textBox.enterText(LoadAdvana.BTN_IMAGE_FILE, FilePath.IMAGE_PNG_PATH);	
 	excel.writeToExcel(FilePath.HOME_COMMERCIAL_TEMPLATE,SHEET,iterator, requiredString);
 	textBox.enterText(LoadAdvana.BTN_CHOOSE_FILE, FilePath.HOME_COMMERCIAL_TEMPLATE);
 	if(!foundation.getText(LoadAdvana.DPD_ADVANA_COMMERCIAL).equals(option)) {
@@ -65,7 +64,7 @@ public class LoadAdvana extends Factory {
 	foundation.threadWait(3);
 	textBox.enterText(LoadAdvana.SELECT_END_DATE, date);
 	foundation.click(LoadAdvana.BTN_SAVE);
-	foundation.threadWait(5);
+	foundation.threadWait(Constants.SHORT_TIME);
 }
 	
 	/**

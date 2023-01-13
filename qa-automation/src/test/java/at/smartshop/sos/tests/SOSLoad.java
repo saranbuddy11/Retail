@@ -1102,8 +1102,8 @@ public class SOSLoad extends TestInfra {
 								
 				//Upload image and File writing excel with Invalid location Id
 				loadAdvana.addHomeCommercial(location.get(0),location.get(1),location.get(2),requiredString,location.get(3),currentDate);
-				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).contains(location.get(5)));
+				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
 				foundation.threadWait(Constants.SHORT_TIME);
@@ -1441,7 +1441,7 @@ public class SOSLoad extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//select product verify added location from location list product tab
-			locationSummary.verifyAddedProductCount(location.get(0), requiredString, location.get(2));
+			locationSummary.verifyAddedProductCount(location.get(0), location.get(2));
 			
 		}
 		catch (Exception exc) {
@@ -1449,6 +1449,178 @@ public class SOSLoad extends TestInfra {
 		}
 	}
 
+		/**
+		 * @author sakthir 
+		 * Date:12-01-2023
+		 */
+		@Test(description ="223166-verify Uploading improper formatted Excel and verify failure message with delete existing as yes"
+				+"223167-verify Uploading improper formatted Excel and verify failure message with delete existing as No"
+				+"223165-Verify Delete Popup message and Buttons")
+		public void verifyFailureMessageWhileUploadingImproperExcelWithDeleteExistingaAsYesAndNo() {
+			final String CASE_NUM = "223166";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLoadProduct = dataBase.getLoadProductData(Queries.LOAD_PRODUCT, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
+							
+			String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+			List<String> data =Arrays
+					.asList(rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT).split(Constants.DELIMITER_TILD));
+			List<String> header =Arrays
+					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_HASH));
+			List<String> content =Arrays
+					.asList(rstProductData.get(CNProduct.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
+			List<String> message =Arrays
+					.asList(rstProductData.get(CNProduct.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			String requiredString = (" "+ "#" + " " + "#" + "Milk" + "#" + "234");
+			
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to Product
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT));
+			
+			//Select location for product to Add
+			foundation.click(loadProduct.clickLocation(data.get(2)));
+			
+			//Creating product with Delete 'yes' option SOS Load
+			loadProduct.uploadExcelAndSelectDeleteOption(requiredString, data.get(0));
+			
+			//verify Delete Popup
+			loadProduct.verifyDeletePopupFunctionalityAndButton();
+			textBox.enterText(LoadProduct.TXT_DELETE_POPUP, data.get(3));
+			foundation.click(LoadProduct.BTN_DELETE);
+			
+			//verify error message
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.SUCCESS_MESSAGE).equals(message));
+            CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_ERROR));
+			
+			//verify the error page header
+   			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.TBL_PRODUCT_ERROR_HEADER).equals(header));
+			
+			//verify the error page content
+            CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.TBL_PRODUCT_ERROR_CONTENT).equals(content));
+			
+			//navigate to ProductPricing
+			navigationBar.navigateToMenuItem(menu);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT));
+			
+			//Select location for product to Add
+			foundation.click(loadProduct.clickLocation(data.get(2)));
+			
+			//Creating product with Delete 'No' option SOS Load
+			loadProduct.uploadExcelAndSelectDeleteOption(requiredString, data.get(1));
+			
+			//verify error message
+			 CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_ERROR));
+			
+			//verify the error page header
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.TBL_PRODUCT_ERROR_HEADER).equals(header));
+			
+			//verify the error page content
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.TBL_PRODUCT_ERROR_CONTENT).equals(content));
+			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}	
 		
+		/**
+		 * @author sakthir 
+		 * Date:13-01-2023
+		 */
+		@Test(description ="223682-To Verify the Table Headers of 'Queue' in SOSLoad"
+				+"223683-To Verify the Show Count Record Options"
+				+"223684-To Verify the Page navigations and Record"
+				+"223685-To Verify the search field in Queue Processes page"
+				+"223690-Verify the data displayed below each column in Queue")
+		public void verify() {
+			final String CASE_NUM = "223682";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstLoadProduct = dataBase.getLoadProductData(Queries.LOAD_PRODUCT, CASE_NUM);
+			 
+			List<String> menu =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			List<String> option =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			List<String> header =Arrays
+					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_TILD));
+			String requiredString = ("c9fe79b15");
+			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_M_DD_YYYY, Constants.TIME_ZONE_INDIA);
+			
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to Advana
+			navigationBar.navigateToMenuItem(menu.get(1));
+			
+			//Upload image and File writing excel with Invalid location Id
+			loadAdvana.addHomeCommercial(option.get(0),option.get(1),option.get(2),requiredString,option.get(3),currentDate);
+			CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).contains(option.get(4)));
+			
+			//navigate to Queue
+			navigationBar.navigateToMenuItem(menu.get(0));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadQueue.LBL_QUEUE));
+			
+			//verify the table header
+			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadQueue.TBL_HEADER).equals(header));
+			
+			//verify search functionality
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadQueue.TXT_SEARCH));
+			textBox.enterText(LoadQueue.TXT_SEARCH,option.get(5));
+			List <String> data=foundation.getTextofListElement(LoadQueue.TBL_REQUIRED_DATA);
+			CustomisedAssert.assertTrue(data.contains(option.get(5)));
+			
+			//verify data column
+			CustomisedAssert.assertTrue(data.contains(option.get(6)) && data.contains(option.get(7)) && data.contains(option.get(5))
+					&& foundation.getText(LoadQueue.GET_TIME).contains(currentDate) && data.contains(option.get(8)),"[Fail]: No text found");
+			
+			//verify the record
+			foundation.waitforElementToBeVisible(LoadQueue.LBL_RECORDS_COUNT, 5);
+			String s = foundation.getText(LoadQueue.LBL_RECORDS_COUNT);
+			String[] str = s.split(" ");
+			for (int i = 0; i < str.length; i++) {
+			System.out.println(str[i]);
+			}
+			CustomisedAssert.assertTrue(s.contains("1 - ") && s.contains("of") && s.contains("records"),
+					"[Fail]: No total record text found");
+			CustomisedAssert.assertTrue(str[2].equals(str[4]));
+			
+			//verify Page navigation
+			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadQueue.LBL_PAGE_NAVIGATION));
+			CustomisedAssert.assertTrue(foundation.getBGColor(LoadQueue.PAGE_NAVIGATION).equals(option.get(9)));
+			
+			//verify show count
+			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.LBL_SHOW_RECORD).contains(option.get(10)) && 
+					foundation.getText(LoadQueue.LBL_SHOW_RECORD).contains(option.get(11)),"[Fail]: No text found");
+		   
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}	
 	
 }

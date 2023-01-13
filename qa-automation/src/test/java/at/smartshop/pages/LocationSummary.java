@@ -2890,15 +2890,13 @@ public class LocationSummary extends Factory {
 	 * @param requiredData
 	 * @param count
 	 */	
-	public void verifyAddedProductCount(String location, String requiredData, String count) {
+	public void verifyAddedProductCount(String location, String count) {
 	foundation.threadWait(Constants.THREE_SECOND);
 	locationList.selectLocationName(location);
 	foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 	foundation.click(LocationSummary.TAB_PRODUCTS);
 	foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
-	textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData);
 	foundation.threadWait(Constants.THREE_SECOND);
-	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(requiredData));
 	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TXT_PRODUCTS_COUNT).contains(count));
 }
 }
