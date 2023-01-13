@@ -4998,7 +4998,8 @@ public class Report extends TestInfra {
 	 * @date: 28-07-2022
 	 */
 	@Test(description = "198561 - Sold Details Report data validation")
-	public void soldDetailsReportDataValidation() {
+	@Parameters({ "environment" })
+	public void soldDetailsReportDataValidation(String environment) {
 		final String CASE_NUM = "198561";
 
 		// Reading Test Data from DB
@@ -5022,7 +5023,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			String date = soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			String date = soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(menu.get(1));
 			reportList.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -5084,7 +5085,8 @@ public class Report extends TestInfra {
 	 * 
 	 */
 	@Test(priority = 1, description = "202034-Verify the Data Validation of Daily Sales Summary Report")
-	public void salesSummaryAndCostReportDataValication() {
+	@Parameters({ "environment" })
+	public void salesSummaryAndCostReportDataValication(String environment) {
 		try {
 			final String CASE_NUM = "202034";
 
@@ -5104,7 +5106,7 @@ public class Report extends TestInfra {
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-			salesSummaryAndCost.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesSummaryAndCost.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -5123,7 +5125,7 @@ public class Report extends TestInfra {
 			salesSummaryAndCost.getIntialData().putAll(salesSummaryAndCost.getReportsData());
 
 			// process sales API to generate data
-			salesSummaryAndCost.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesSummaryAndCost.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -5253,7 +5255,8 @@ public class Report extends TestInfra {
 	 * 
 	 */
 	@Test(description = "202038-Verify the Data Validation of Sales Time Details Report")
-	public void SalesTimeDetailsReportDataValidation() {
+	@Parameters({ "environment" })
+	public void SalesTimeDetailsReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "202038";
 
@@ -5273,7 +5276,7 @@ public class Report extends TestInfra {
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -5283,7 +5286,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(locationName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(SalesTimeDetailsReport.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			salesTimeDetailsReport.verifyReportName(locationName);
 
 			// Read the Report the Data
@@ -5292,7 +5295,7 @@ public class Report extends TestInfra {
 			salesTimeDetailsReport.getUpdatedTableFooters().putAll(salesTimeDetailsReport.getTableFooters());
 
 			// process sales API to generate data
-			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesTimeDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -5345,7 +5348,8 @@ public class Report extends TestInfra {
 	 */
 
 	@Test(description = "202035-Verify the Data Validation of Sold Details Int Report")
-	public void soldDetailsIntReportDataValidation() {
+	@Parameters({ "environment" })
+	public void soldDetailsIntReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "202035";
 
@@ -5364,7 +5368,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			soldDetailsInt.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			soldDetailsInt.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			String txnId = (String) soldDetailsInt.getJsonData().get(Reports.TRANS_ID);
 			List<String> txnDate_and_Time = soldDetailsInt.txnDateAndTime();
@@ -5390,7 +5394,17 @@ public class Report extends TestInfra {
 			// update the report date based on calculation
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+//			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
+			List<String> deviceIdData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
+			
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = deviceIdData.get(1);
+			} else {
+				deviceId = deviceIdData.get(0);
+			};
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 
@@ -5799,7 +5813,8 @@ public class Report extends TestInfra {
 	 * 
 	 */
 	@Test(description = "203347-Verify the Data Validation of Sales Time Details By Device Report")
-	public void SalesTimeDetailsByDeviceReportDataValidation() {
+	@Parameters({ "environment" })
+	public void SalesTimeDetailsByDeviceReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "203347";
 
@@ -5819,7 +5834,8 @@ public class Report extends TestInfra {
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-			salesTimeDetailsByDevice.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesTimeDetailsByDevice.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -5829,8 +5845,14 @@ public class Report extends TestInfra {
 			reportList.selectLocation(locationName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
-			salesTimeDetailsByDevice.verifyReportName(rstProductSummaryData.get(CNProductSummary.DEVICE_ID));
+			foundation.waitforElement(SalesTimeDetailsByDevice.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			List<String> deviceId = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
+			if (environment.equals(Constants.STAGING)) {
+				salesTimeDetailsByDevice.verifyReportName(locationName + Constants.DELIMITER_HYPHEN + deviceId.get(1));
+			} else {
+				salesTimeDetailsByDevice.verifyReportName(locationName + Constants.DELIMITER_HYPHEN + deviceId.get(0));
+			}
 
 			// Read the Report the Data
 			salesTimeDetailsByDevice.getTblRecordsUI();
@@ -5838,7 +5860,8 @@ public class Report extends TestInfra {
 			salesTimeDetailsByDevice.getUpdatedTableFooters().putAll(salesTimeDetailsByDevice.getTableFooters());
 
 			// process sales API to generate data
-			salesTimeDetailsByDevice.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesTimeDetailsByDevice.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -6912,7 +6935,8 @@ public class Report extends TestInfra {
 	 * 
 	 */
 	@Test(description = "205070-Verify the Data Validation of Sales By 15 mins Report")
-	public void salesBy15MinsReportDataValidation() {
+	@Parameters({ "environment" })
+	public void salesBy15MinsReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "205070";
 
@@ -6932,7 +6956,7 @@ public class Report extends TestInfra {
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -6942,7 +6966,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(locationName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(SalesBy15Minutes.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			salesBy15Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
@@ -6954,7 +6978,7 @@ public class Report extends TestInfra {
 			salesBy15Minutes.getUpdatedTableFooters().putAll(salesBy15Minutes.getTableFooters());
 
 			// process sales API to generate data
-			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesBy15Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -7006,7 +7030,8 @@ public class Report extends TestInfra {
 	 * 
 	 */
 	@Test(description = "206144-Verify the Data Validation of Sales By 30 mins Report")
-	public void salesBy30MinsReportDataValidation() {
+	@Parameters({ "environment" })
+	public void salesBy30MinsReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "206144";
 
@@ -7026,7 +7051,7 @@ public class Report extends TestInfra {
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -7036,7 +7061,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(locationName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(SalesSummaryAndCost.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(salesBy30Minutes.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			salesBy30Minutes.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
@@ -7048,7 +7073,7 @@ public class Report extends TestInfra {
 			salesBy30Minutes.getUpdatedTableFooters().putAll(salesBy30Minutes.getTableFooters());
 
 			// process sales API to generate data
-			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			salesBy30Minutes.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
