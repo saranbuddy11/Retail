@@ -45,6 +45,15 @@ public class Table extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	public void selectrow(String text) {
+		try {
+			By rowData = By.xpath("//tr//span[contains(text(),'" + text + "')]");
+			foundation.click(rowData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	public Map<String, String> getTblSingleRowRecordUI(By tableGrid, By tableRow) {
 		Map<String, String> uiTblRowValues = new HashMap<>();

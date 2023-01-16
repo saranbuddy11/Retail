@@ -1651,7 +1651,7 @@ public class Location extends TestInfra {
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 		}
@@ -1693,7 +1693,7 @@ public class Location extends TestInfra {
 
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 			locationSummary.selectTab(tabName);

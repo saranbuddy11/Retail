@@ -877,7 +877,7 @@ public class LocationSummary extends Factory {
 	 * @param deviceName
 	 */
 	public void selectDeviceName(String deviceName) {
-		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')"));
+		foundation.click(By.xpath("//a[contains(text(),'" + deviceName + "')]"));
 	}
 
 	/**
@@ -938,6 +938,7 @@ public class LocationSummary extends Factory {
 	public void addHomeCommercials(String imagePath) {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_ADD_HOME_COMMERCIAL);
 		foundation.waitforElementToBeVisible(SEARCH_TXT, Constants.THREE_SECOND);
 		textBox.enterText(SEARCH_TXT, imagePath);
