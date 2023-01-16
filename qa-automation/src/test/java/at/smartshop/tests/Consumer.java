@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -57,7 +58,7 @@ public class Consumer extends TestInfra {
 	private Numbers numbers = new Numbers();
 	private LocationSummary locationSummary = new LocationSummary();
 	private DataSourceManager datasourcemanager = new DataSourceManager();
-	private OrgSummary orgSummary=new OrgSummary();
+	private OrgSummary orgSummary = new OrgSummary();
 	// private Excel excel = new Excel();
 	private ConsumerMove consumerMove = new ConsumerMove();
 	private CreateLocation createLocation = new CreateLocation();
@@ -2373,7 +2374,7 @@ public class Consumer extends TestInfra {
 						Constants.TEXT);
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
+				table.selectRowWithoutContains(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 
 				foundation.click(ConsumerMove.BTN_MOVE);
 				foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
@@ -2889,7 +2890,7 @@ public class Consumer extends TestInfra {
 			consumerSearch.verifyEditConsumerAndClickOnPayoutAndClose(inputs.get(6));
 
 			// Search with same user
-			consumerSearch.enterSearchFields(inputs.get(7), inputs.get(1),inputs.get(0), inputs.get(8));
+			consumerSearch.enterSearchFields(inputs.get(7), inputs.get(1), inputs.get(0), inputs.get(8));
 
 			// verify consumer not there
 			String text = foundation.getText(ConsumerSearch.TXT_NO_CONSUMER_FOUND);
@@ -2900,11 +2901,12 @@ public class Consumer extends TestInfra {
 	}
 
 	/**
-	 * @author afrosean
-	 * Date:10-10-2022
+	 * @author afrosean Date:10-10-2022
 	 */
+
+	@Parameters({ "environment" })
 	@Test(description = "206162-ADM > Consumer > Verify hiding the adjust button for balances of USC consumer account")
-	public void verifyAdjustLinkHiddenInConsumerSummaryWhenUSConnectSelected() {
+	public void verifyAdjustLinkHiddenInConsumerSummaryWhenUSConnectSelected(String environment) {
 		final String CASE_NUM = "206162";
 
 		// Reading test data from DataBase
@@ -2917,41 +2919,60 @@ public class Consumer extends TestInfra {
 		try {
 
 			// Launch Browser and Login to ADM with Super user
-			navigationBar.launchBrowserAsSuperAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.USCONNECT, FilePath.PROPERTY_CONFIG_FILE));
+			if (environment.equals(Constants.STAGING)) {
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.USCONNECTSTAGING, FilePath.PROPERTY_CONFIG_FILE));
+				navigationBar.navigateToMenuItem(menu.get(3));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+			} else {
+				navigationBar.launchBrowserAsSuperAndSelectOrg(
+						propertyFile.readPropertyFile(Configuration.USCONNECT, FilePath.PROPERTY_CONFIG_FILE));
 
-			// Select menu & menu item
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
-			
-			//Change Special type "US Connect"
+				// Select menu & menu item
+				navigationBar.navigateToMenuItem(menu.get(0));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
+
+			}
+
+			// Change Special type "US Connect"
 			orgSummary.changeSpecialType(inputs.get(0));
-			
-			//Location summary Change in Special type , Theme And Market card edit
+
+			// Location summary Change in Special type , Theme And Market card edit
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationList.selectLocationName(inputs.get(3));
-			locationSummary.changeSpecialTypeThemeMarketCardEdit(inputs.get(0),inputs.get(0), inputs.get(1), inputs.get(2));
-			
-			//Navigate to Admin > Consumer and create consumer
+			locationSummary.changeSpecialTypeThemeMarketCardEdit(inputs.get(0), inputs.get(0), inputs.get(1),
+					inputs.get(2));
+
+			// Navigate to Admin > Consumer and create consumer
 			navigationBar.navigateToMenuItem(menu.get(2));
 			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
-			consumerSearch.createConsumerInConsumerSearch(inputs.get(3), inputs.get(4), inputs.get(5), inputs.get(6), inputs.get(7), inputs.get(8));
-			consumerSearch.verifyAdjustButtonInConsumerSummary();		
+			if (environment.equals(Constants.STAGING)) {
+				consumerSearch.createConsumerInConsumerSearch(inputs.get(13), inputs.get(4), inputs.get(5),
+						inputs.get(6), inputs.get(7), inputs.get(8));
+			} else {
+				consumerSearch.createConsumerInConsumerSearch(inputs.get(3), inputs.get(4), inputs.get(5),
+						inputs.get(6), inputs.get(7), inputs.get(8));
+			}
+			consumerSearch.verifyAdjustButtonInConsumerSummary();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		}
-		finally {
-			//Resetting the data in location summary
+		} finally {
+			// Resetting the data in location summary
 			navigationBar.navigateToMenuItem(menu.get(1));
 			locationList.selectLocationName(inputs.get(3));
-			locationSummary.changeSpecialTypeThemeMarketCardEdit(inputs.get(9),inputs.get(10), inputs.get(11), inputs.get(12));
-			
-			//change special type in orgsummary
-			navigationBar.navigateToMenuItem(menu.get(0));
+			locationSummary.changeSpecialTypeThemeMarketCardEdit(inputs.get(9), inputs.get(10), inputs.get(11),
+					inputs.get(12));
+
+			// change special type in orgsummary
+			if (environment.equals(Constants.STAGING)) {
+				navigationBar.navigateToMenuItem(menu.get(3));
+			} else {
+				navigationBar.navigateToMenuItem(menu.get(0));
+			}
+
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgSummary.LBL_ORG_SUMMARY));
 			orgSummary.changeSpecialType(inputs.get(9));
-			
-			
+
 		}
 	}
 }

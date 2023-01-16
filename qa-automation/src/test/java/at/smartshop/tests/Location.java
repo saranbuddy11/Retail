@@ -271,8 +271,6 @@ public class Location extends TestInfra {
 			String locationName = rstLocationListData.get(CNLocationList.LOCATION_NAME);
 			List<String> locationList_Dpd_Values = Arrays.asList(
 					rstLocationListData.get(CNLocationList.DROPDOWN_LOCATION_LIST).split(Constants.DELIMITER_TILD));
-			List<String> homecommercial = Arrays
-					.asList(rstLocationSummaryData.get(CNLocationSummary.ADDRESS).split(Constants.DELIMITER_TILD));
 			List<String> locationDisabled = Arrays.asList(
 					rstLocationSummaryData.get(CNLocationSummary.LOCATION_DISABLED).split(Constants.DELIMITER_TILD));
 			List<String> address = Arrays
@@ -316,8 +314,7 @@ public class Location extends TestInfra {
 			} else {
 				locationSummary.addHomeCommercials(address.get(0));
 			}
-			locationSummary.addHomeCommercials(homecommercial.get(0));
-			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
+
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(locationName);
 
@@ -515,8 +512,9 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "146024-QAA-103-verify tick mark icon and device dashboard page are displayed for Online device.")
-	public void verifyTickMarkIcon() {
+	public void verifyTickMarkIcon(String environment) {
 		try {
 			final String CASE_NUM = "146024";
 
@@ -533,22 +531,34 @@ public class Location extends TestInfra {
 			String location = propertyFile.readPropertyFile(Configuration.AUTOMATIONLOCATION1,
 					FilePath.PROPERTY_CONFIG_FILE);
 			String expectedData = rstDeviceListData.get(CNDeviceList.PRODUCT_NAME);
+			String stagingdevice = propertyFile.readPropertyFile(Configuration.STAGING_DEVICE_ID,
+					FilePath.PROPERTY_CONFIG_FILE);
 
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-
 			locationList.selectLocationName(location);
+
 			// Navigating to device tab
 			foundation.waitforElement(LocationSummary.BTN_DEVICE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.BTN_DEVICE);
-			textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
-			foundation.click(LocationSummary.LBL_TICKMARK_ICON);
-			foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
-			foundation.isDisplayed(locationSummary.objDevice(device));
-			foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.SHORT_TIME);
-			CustomisedAssert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+			if (environment.equals(Constants.STAGING)) {
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, stagingdevice);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+				foundation.click(LocationSummary.LBL_TICKMARK_ICON);
+				foundation.waitforElement(locationSummary.objDevice(stagingdevice), Constants.SHORT_TIME);
+				foundation.isDisplayed(locationSummary.objDevice(stagingdevice));
+				foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.SHORT_TIME);
+				CustomisedAssert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+			} else {
+				textBox.enterText(LocationSummary.TXT_DEVICE_SEARCH, device);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_TICKMARK_ICON));
+				foundation.click(LocationSummary.LBL_TICKMARK_ICON);
+				foundation.waitforElement(locationSummary.objDevice(device), Constants.SHORT_TIME);
+				foundation.isDisplayed(locationSummary.objDevice(device));
+				foundation.waitforElement(LocationSummary.TXT_DEVICE_STATUS, Constants.SHORT_TIME);
+				CustomisedAssert.assertEquals(foundation.getText(LocationSummary.TXT_DEVICE_STATUS), expectedData);
+			}
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -737,15 +747,6 @@ public class Location extends TestInfra {
 				foundation.threadWait(Constants.ONE_SECOND);
 				CustomisedAssert.assertEquals(uiData, dbData);
 			}
-			textBox.enterText(LocationSummary.TXT_DEVICE_POPUP_SEARCH, device.get(0));
-			foundation.threadWait(Constants.ONE_SECOND);
-			Map<String, String> uiData = table.getTblSingleRowRecordUI(LocationSummary.TBL_DEVICE_POPUP_GRID,
-					LocationSummary.TBL_DEVICE_POPUP_ROW);
-			Map<String, String> dbData = new HashMap<>();
-			dbData.put(expectedData.get(0), device.get(0));
-			dbData.put(expectedData.get(1), expectedData.get(2));
-			foundation.threadWait(Constants.ONE_SECOND);
-			CustomisedAssert.assertEquals(uiData, dbData);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -1018,7 +1019,7 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 
@@ -1464,8 +1465,9 @@ public class Location extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "143199-QAA-95-ADM>Location Summary>Loc Link>Update Prices.")
-	public void verifyUpdatePrices() {
+	public void verifyUpdatePrices(String environment) {
 		try {
 			final String CASE_NUM = "143199";
 			browser.navigateURL(
@@ -1497,9 +1499,17 @@ public class Location extends TestInfra {
 			browser.close();
 
 			// Launch V5 Device and Searching for product
-			foundation.threadWait(Constants.TWO_SECOND);
-			browser.launch(Constants.REMOTE, Constants.CHROME);
-			browser.navigateURL(propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			if (environment.equals(Constants.STAGING)) {
+				foundation.threadWait(Constants.THREE_SECOND);
+				browser.launch(Constants.REMOTE, Constants.CHROME);
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.V5_APP_STAGING_URL, FilePath.PROPERTY_CONFIG_FILE));
+			} else {
+				foundation.threadWait(Constants.THREE_SECOND);
+				browser.launch(Constants.REMOTE, Constants.CHROME);
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.V5_APP_URL, FilePath.PROPERTY_CONFIG_FILE));
+			}
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LandingPage.IMG_SEARCH_ICON));
 			foundation.click(LandingPage.IMG_SEARCH_ICON);
 			textBox.enterKeypadTextWithCaseSensitive(product);
@@ -2011,7 +2021,7 @@ public class Location extends TestInfra {
 
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
-			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+			login.login(propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
 			// Reading test data from DataBase

@@ -117,7 +117,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
 	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
 	public static final By BTN_UPLOAD_INPUT = By.xpath("//div[@class ='qq-upload-button btn btn-success']/input");
-	public static final By BTN_ADD_HOME_COMMERCIAL = By.xpath("//a[text()='Add Home Commercial']");
+	public static final By BTN_ADD_HOME_COMMERCIAL = By.id("addHome");
 	public static final By TXT_UPLOAD_NEW = By.xpath("//a[text()='Upload New']");
 	public static final By BTN_UPLOAD_IMAGE = By.xpath("//div[@class ='qq-upload-button btn btn-success']");
 	public static final By TXT_ADD_NAME = By.xpath("//input[@id = 'cmrhometext']");
