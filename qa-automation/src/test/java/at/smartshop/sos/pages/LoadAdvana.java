@@ -50,18 +50,21 @@ public class LoadAdvana extends Factory {
 	 * 
 	 */
 	public void addHomeCommercial(String action,String commercialName,String iterator, String requiredString,String option,String date) {
+		foundation.threadWait(Constants.THREE_SECOND);
 	dropDown.selectItem(LoadAdvana.DPD_ACTION,action, Constants.TEXT);
 	textBox.enterText(LoadAdvana.TXT_NAME,commercialName);
-	textBox.enterText(LoadAdvana.BTN_IMAGE_FILE, FilePath.IMAGE_PNG_PATH);	
+	textBox.enterText(LoadAdvana.BTN_IMAGE_FILE, FilePath.IMAGE_PNG_PATH);
+	foundation.threadWait(Constants.THREE_SECOND);
 	excel.writeToExcel(FilePath.HOME_COMMERCIAL_TEMPLATE,SHEET,iterator, requiredString);
 	textBox.enterText(LoadAdvana.BTN_CHOOSE_FILE, FilePath.HOME_COMMERCIAL_TEMPLATE);
 	if(!foundation.getText(LoadAdvana.DPD_ADVANA_COMMERCIAL).equals(option)) {
 		dropDown.selectItem(LoadAdvana.DPD_ADVANA_COMMERCIAL, option, Constants.TEXT);
 	}
+	foundation.threadWait(Constants.THREE_SECOND);
 	foundation.click(LoadAdvana.SELECT_START_DATE);
-	foundation.threadWait(3);
+	foundation.threadWait(Constants.THREE_SECOND);
 	textBox.enterText(LoadAdvana.SELECT_START_DATE, date);
-	foundation.threadWait(3);
+	foundation.threadWait(Constants.THREE_SECOND);
 	textBox.enterText(LoadAdvana.SELECT_END_DATE, date);
 	foundation.click(LoadAdvana.BTN_SAVE);
 	foundation.threadWait(Constants.SHORT_TIME);

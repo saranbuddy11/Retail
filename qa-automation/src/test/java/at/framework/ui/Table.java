@@ -39,7 +39,15 @@ public class Table extends Factory {
 
 	public void selectRow(String text) {
 		try {
-			By rowData = By.xpath("//tr//td/span[contains(text(),'" + text + "')]");
+			By rowData = By.xpath("//tr//td[text()='" + text + "']");
+			foundation.click(rowData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	public void selectRowWithoutContain(String text) {
+		try {
+			By rowData = By.xpath("//tr//td[contains(text(),'" + text + "')]");
 			foundation.click(rowData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

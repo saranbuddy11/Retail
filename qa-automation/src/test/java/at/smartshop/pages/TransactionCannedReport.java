@@ -237,6 +237,8 @@ public class TransactionCannedReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("reportsData : "+ reportsData);
+			System.out.println("intialData : "+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					if (iter == 3 || iter == 5 || iter == 6) {
@@ -258,12 +260,12 @@ public class TransactionCannedReport extends Factory {
 		}
 	}
 
-	public void processAPI(String paymentType, String deviceId) {
+	public void processAPI(String paymentType, String deviceId, String environment) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 			for (int paymentCount = 0; paymentCount < payType.size(); paymentCount++) {
 				generateJsonDetails(deviceId);
-				salesJsonDataUpdate(payType.get(paymentCount));
+				salesJsonDataUpdate(payType.get(paymentCount), environment);
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
@@ -322,11 +324,16 @@ public class TransactionCannedReport extends Factory {
 		}
 	}
 
-	private Map<String, Object> salesJsonDataUpdate(String paymentType) {
+	private Map<String, Object> salesJsonDataUpdate(String paymentType, String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

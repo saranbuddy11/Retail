@@ -28,6 +28,7 @@ import at.smartshop.pages.GlobalProduct;
 import at.smartshop.pages.LocationList;
 import at.smartshop.pages.LocationSummary;
 import at.smartshop.pages.NavigationBar;
+import at.smartshop.pages.OrgSummary;
 import at.smartshop.pages.ProductSummary;
 import at.smartshop.tests.TestInfra;
 import at.smartshop.v5.pages.LandingPage;
@@ -48,6 +49,7 @@ public class V5ReleaseTest extends TestInfra {
 	private GlobalProduct globalProduct = new GlobalProduct();
 	private LocationList locationList = new LocationList();
 	private LocationSummary locationSummary = new LocationSummary();
+	private OrgSummary orgsummary = new OrgSummary();
 	private Order order = new Order();
 
 	private Map<String, String> rstV5DeviceData;
@@ -488,6 +490,10 @@ public class V5ReleaseTest extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.RNOUS_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
+			//verify Tax cat
+			navigationBar.navigateToMenuItem(menuItem.get(3));
+			orgsummary.selectDropdownValues(OrgSummary.DPD_TAX_METHOD,rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			
 			// navigate to new category page
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.click(CategoryList.BTN_CREATE_NEW_CATEGORY);
@@ -552,7 +558,8 @@ public class V5ReleaseTest extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+			finally {
 			// reset data
 			// reset- category name
 			browser.close();
