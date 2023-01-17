@@ -45,6 +45,14 @@ public class Table extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	public void selectRowWithoutContain(String text) {
+		try {
+			By rowData = By.xpath("//tr//td[contains(text(),'" + text + "')]");
+			foundation.click(rowData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	public void selectrow(String text) {
 		try {
