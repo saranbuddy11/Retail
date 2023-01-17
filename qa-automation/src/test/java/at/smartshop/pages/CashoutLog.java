@@ -179,12 +179,22 @@ public class CashoutLog extends Factory {
 	 * 
 	 * @throws Exception
 	 */
-	public void generateJsonDetails() throws Exception {
+	public void generateJsonDetails(String environment) throws Exception {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 		LocalDateTime tranDate = LocalDateTime.now();
 		transDate = tranDate.format(dateFormat);
-		transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-				+ Constants.DELIMITER_HYPHEN + transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+		if (environment.equals(Constants.STAGING)) {
+			 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+		} else {
+			 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+		};
+		
+//		transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+//				+ Constants.DELIMITER_HYPHEN + transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
 		data.put(Reports.TRANS_DATE_TIME, tranDate);
 	}
 
@@ -194,10 +204,10 @@ public class CashoutLog extends Factory {
 	 * @param timeFormat
 	 * @throws Exception
 	 */
-	public void processAPI(String timeFormat) throws Exception {
+	public void processAPI(String timeFormat, String environment) throws Exception {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(timeFormat);
-		generateJsonDetails();
-		kioskCashOutJsonDataUpdate();
+		generateJsonDetails(environment);
+		kioskCashOutJsonDataUpdate(environment);
 		String kcoDate = ((LocalDateTime) data.get(Reports.TRANS_DATE_TIME)).format(dateFormat);
 		webService.apiReportPostRequest(
 				propertyFile.readPropertyFile(Configuration.KCO_TRANS_KEY, FilePath.PROPERTY_CONFIG_FILE),
@@ -211,8 +221,13 @@ public class CashoutLog extends Factory {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> kioskCashOutJsonDataUpdate() throws Exception {
-		String jsonKioskCashout = jsonFunctions.readFileAsString(FilePath.JSON_KIOSK_CASH_OUT);
+	public Map<String, Object> kioskCashOutJsonDataUpdate(String environment) throws Exception {
+		String jsonKioskCashout;
+		if (environment.equals(Constants.STAGING)) {
+			 jsonKioskCashout = jsonFunctions.readFileAsString(FilePath.JSON_KIOSK_CASH_OUT_STAGING);
+		} else {
+			 jsonKioskCashout = jsonFunctions.readFileAsString(FilePath.JSON_KIOSK_CASH_OUT);
+		};
 		JsonObject jsonKioskCashoutData = jsonFunctions.convertStringToJson(jsonKioskCashout);
 		jsonKioskCashoutData.addProperty(Reports.TRANS_ID, transID);
 		jsonKioskCashoutData.addProperty(Reports.TRANS_DATE, transDate);

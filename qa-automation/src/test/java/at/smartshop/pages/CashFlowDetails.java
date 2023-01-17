@@ -362,14 +362,14 @@ public class CashFlowDetails extends Factory {
 	 * @param paymentType
 	 * @throws Exception
 	 */
-	public void processAPI(String transStatus, String paymentType, String deviceID, String value) throws Exception {
+	public void processAPI(String transStatus, String paymentType, String deviceID, String value, String environment) throws Exception {
 		requiredCount.clear();
 		List<String> tStatus = Arrays.asList(transStatus.split(Constants.DELIMITER_HASH));
 		List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 		for (int iterator = 0; iterator < payType.size(); iterator++) {
 			for (int iter = 0; iter < tStatus.size(); iter++) {
-				generateJsonDetails(value);
-				salesJsonDataUpdate(tStatus.get(iter), payType.get(iterator), deviceID);
+				generateJsonDetails(value, environment);
+				salesJsonDataUpdate(tStatus.get(iter), payType.get(iterator), deviceID, environment);
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
@@ -400,16 +400,25 @@ public class CashFlowDetails extends Factory {
 	 * 
 	 * @param reportFormat
 	 */
-	private void generateJsonDetails(String reportFormat) {
+	private void generateJsonDetails(String reportFormat, String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
 			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			};
+
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
@@ -425,11 +434,16 @@ public class CashFlowDetails extends Factory {
 	 * @param paymentType
 	 * @param deviceID
 	 */
-	private void salesJsonDataUpdate(String transStatus, String paymentType, String deviceID) {
+	private void salesJsonDataUpdate(String transStatus, String paymentType, String deviceID, String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
