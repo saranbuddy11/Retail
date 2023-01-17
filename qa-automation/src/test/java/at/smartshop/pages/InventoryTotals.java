@@ -115,7 +115,9 @@ public class InventoryTotals extends Factory {
 	public void verifyReportData(String expectedData) {
 		try {
 			List<String> expectedDataList = Arrays.asList(expectedData.split(Constants.DELIMITER_HASH));
-			for (int iter = 0; iter < tableHeaders.size() - 1; iter++) {
+			System.out.println("reportsData : "+ reportsData);
+			System.out.println("expectedDataList : "+ expectedDataList);
+			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(
 						reportsData.get(0).get(tableHeaders.get(iter)).contains(expectedDataList.get(iter)));
 			}

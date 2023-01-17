@@ -89,10 +89,10 @@ public class ProductCannedReport extends Factory {
 		}
 	}
 
-	public void processAPI(String value) {
+	public void processAPI(String value, String environment) {
 		try {
-			generateJsonDetails(value);
-			salesJsonDataUpdate();
+			generateJsonDetails(value, environment);
+			salesJsonDataUpdate(environment);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
@@ -102,16 +102,23 @@ public class ProductCannedReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails(String reportFormat) {
+	private void generateJsonDetails(String reportFormat, String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
 			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			};
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 			jsonData.put(Reports.TRANS_DATE_TIME, reportDate);
@@ -120,11 +127,16 @@ public class ProductCannedReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate() {
+	private void salesJsonDataUpdate(String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
@@ -185,7 +197,6 @@ public class ProductCannedReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
-			System.out.println("reportsData : " + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -197,7 +208,6 @@ public class ProductCannedReport extends Factory {
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
 				if (intialData.get(rowCount).get(tableHeaders.get(0)).equals(productName)) {
 					recordCount = rowCount;
-					System.out.println(rowCount);
 					break;
 				}
 			}
@@ -296,7 +306,6 @@ public class ProductCannedReport extends Factory {
 			df.setRoundingMode(RoundingMode.FLOOR);
 			String result = df.format(percent);
 			intialData.get(recordCount).put(columnName, String.valueOf(result));
-			System.out.println("result : "+ result);
 	}
 
 	/**
@@ -321,7 +330,6 @@ public class ProductCannedReport extends Factory {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(recordCount).get(tableHeaders.get(iter))
 							.contains(intialData.get(recordCount).get(tableHeaders.get(iter))));
-					System.out.println("iter : "+ iter);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -335,8 +343,6 @@ public class ProductCannedReport extends Factory {
 	public void verifyReportHeaders(String columnNames) {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
-			System.out.println("columnName :" + columnName);
-			System.out.println("tableHeaders :" + tableHeaders);
 			foundation.threadWait(Constants.ONE_SECOND);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
