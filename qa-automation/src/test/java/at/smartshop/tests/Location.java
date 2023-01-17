@@ -1160,43 +1160,43 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
 
 //			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
-			foundation.threadWait(Constants.LONG_TIME);
-
-			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
-					LocationSummary.TBL_PRODUCTS_GRID);
-			System.out.println(uidata);
-			uidata.remove(expectedData.get(0));
-			uidata.remove(expectedData.get(1));
-			uidata.remove(expectedData.get(2));
-
-			List<String> uiList = new ArrayList<String>(uidata.values());
-
-			// excel data validation
-			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
-			Map<String, String> excelData = excel.getExcelAsMapFromXSSFWorkbook(FilePath.EXCEL_LOCAL_PROD);
-
-			Map<String, String> expectedValues = new HashMap<String, String>();
-			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
-				expectedValues.put(uiListHeaders.get(iter), excelData.get(uiListHeaders.get(iter)));
-			}
-
-			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
-				if (uiListHeaders.get(iter).equals("Price")) {
-					uiList.set(iter, Constants.DELIMITER_COMMA
-							+ uiList.get(iter).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
-				}
-			}
-
-			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
-				if (uiListHeaders.get(iter).equals("Deposit")) {
-					expectedValues.put(uiListHeaders.get(iter),
-							Constants.DOLLAR_SYMBOL + expectedValues.get(uiListHeaders.get(iter)));
-				}
-				if (uiListHeaders.get(iter).equals("Price")) {
-					expectedValues.put(uiListHeaders.get(iter), Constants.DOLLAR_SYMBOL + expectedValues
-							.get(uiListHeaders.get(iter)).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
-				}
-			}
+//			foundation.threadWait(Constants.LONG_TIME);
+//
+//			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
+//					LocationSummary.TBL_PRODUCTS_GRID);
+//			System.out.println(uidata);
+//			uidata.remove(expectedData.get(0));
+//			uidata.remove(expectedData.get(1));
+//			uidata.remove(expectedData.get(2));
+//
+//			List<String> uiList = new ArrayList<String>(uidata.values());
+//
+//			// excel data validation
+//			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
+//			Map<String, String> excelData = excel.getExcelAsMapFromXSSFWorkbook(FilePath.EXCEL_LOCAL_PROD);
+//
+//			Map<String, String> expectedValues = new HashMap<String, String>();
+//			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+//				expectedValues.put(uiListHeaders.get(iter), excelData.get(uiListHeaders.get(iter)));
+//			}
+//
+//			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+//				if (uiListHeaders.get(iter).equals("Price")) {
+//					uiList.set(iter, Constants.DELIMITER_COMMA
+//							+ uiList.get(iter).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+//				}
+//			}
+//
+//			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+//				if (uiListHeaders.get(iter).equals("Deposit")) {
+//					expectedValues.put(uiListHeaders.get(iter),
+//							Constants.DOLLAR_SYMBOL + expectedValues.get(uiListHeaders.get(iter)));
+//				}
+//				if (uiListHeaders.get(iter).equals("Price")) {
+//					expectedValues.put(uiListHeaders.get(iter), Constants.DOLLAR_SYMBOL + expectedValues
+//							.get(uiListHeaders.get(iter)).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+//				}
+//			}
 			// locationList.verifyData(uiListHeaders, uiList, expectedValues);
 //			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_LOCAL_PROD, 1));
 
