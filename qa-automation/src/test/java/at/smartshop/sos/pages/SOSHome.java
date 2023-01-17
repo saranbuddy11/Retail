@@ -34,6 +34,7 @@ public class SOSHome extends Factory {
 			foundation.click(DPD_ORG);
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
+			foundation.threadWait(Constants.THREE_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

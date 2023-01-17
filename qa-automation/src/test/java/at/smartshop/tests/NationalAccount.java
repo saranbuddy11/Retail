@@ -279,7 +279,7 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying rule type dropdown values
 			foundation.refreshPage();
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
 			List<String> ruleType = Arrays
 					.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE).split(Constants.DELIMITER_TILD));
@@ -307,7 +307,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Selecting National Category rule type and rule category
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2), Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_NA_CATEGORY, ruleCategory.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
@@ -321,7 +321,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// getting rule price from UI
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			double uiRulePrice = Double
 					.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE, Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
@@ -342,7 +342,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to No Less Than
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(2), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -356,7 +356,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to Force Exact Price
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -370,7 +370,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
 
 			// Setting rule status to Inactive
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
@@ -382,7 +382,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
 
 			// Setting rule status to Active
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.check(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -392,7 +392,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
 
 			// Setting Location tagged
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(AdminNationalAccounts.BTN_LOCATION_CLEAR_RULE);
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_RULE,
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), Constants.TEXT);
@@ -405,7 +405,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 
 			// Validating Location Add or Remove Location from Rule prompt from table
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
@@ -485,7 +485,7 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying rule type dropdown values
 			foundation.refreshPage();
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
 			List<String> ruleType = Arrays
 					.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE).split(Constants.DELIMITER_TILD));
@@ -513,7 +513,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Selecting National Category rule type and rule category
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2), Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_NA_CATEGORY, ruleCategory.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
@@ -527,7 +527,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// getting rule price from UI
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			double uiRulePrice = Double
 					.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE, Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
@@ -548,7 +548,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to No Less Than
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(2), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -562,7 +562,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to Force Exact Price
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -576,7 +576,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
 
 			// Setting rule status to Inactive
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
@@ -588,7 +588,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
 
 			// Setting rule status to Active
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.check(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -598,7 +598,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
 
 			// Setting Location tagged
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(AdminNationalAccounts.BTN_LOCATION_CLEAR_RULE);
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_RULE,
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), Constants.TEXT);
@@ -611,7 +611,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 
 			// Validating Location Add or Remove Location from Rule prompt from table
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
@@ -933,7 +933,7 @@ public class NationalAccount extends TestInfra {
 			// Click manage
 			adminNationalAccounts.clickManageRule(accountName, gridName);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			table.selectRow(ruleName);
+			table.selectRowInRule(ruleName);
 			CustomisedAssert.assertEquals(foundation.getText(AdminNationalAccounts.TXT_PAGE_TITLE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);
@@ -1687,7 +1687,7 @@ public class NationalAccount extends TestInfra {
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			table.selectRow(ruleName);
+			table.selectRowInRule(ruleName);
 			CustomisedAssert.assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
 			foundation.click(CreateNewRule.BTN_CANCEL);
