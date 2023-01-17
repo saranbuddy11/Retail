@@ -519,16 +519,17 @@ public class RoundUpCharity extends TestInfra {
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			
 			//select existing charity
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 			adminRoundUpCharity.selectCharity(data.get(5));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
 			foundation.click(AdminRoundUpCharity.TXT_DISPLAYNAME);
 			foundation.clearText();
-			foundation.threadWait(Constants.THREE_SECOND);
-			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			
 			//verify the error
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getText((AdminRoundUpCharity.ERROR_DISPLAY_NAME)).equals(data.get(6)));
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			}

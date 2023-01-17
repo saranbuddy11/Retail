@@ -78,12 +78,14 @@ public class NavigationBar extends Factory {
 		login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		selectOrganization(org);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	public void launchBrowserAndSelectOrg(String user, String org) {
 		browser.navigateURL(propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 		login.login(user, propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 		selectOrganization(org);
+		foundation.threadWait(Constants.THREE_SECOND);
 	}
 
 	public By getMainMenuObj(String mainMenuName) {
