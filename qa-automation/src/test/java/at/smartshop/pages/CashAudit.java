@@ -346,12 +346,20 @@ public class CashAudit extends Factory {
 	 * 
 	 * @throws Exception
 	 */
-	public void generateJsonDetails() throws Exception {
+	public void generateJsonDetails(String environment) throws Exception {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 		LocalDateTime tranDate = LocalDateTime.now();
 		transDate = tranDate.format(dateFormat);
-		transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-				+ Constants.DELIMITER_HYPHEN + transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+		if (environment.equals(Constants.STAGING)) {
+			transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+		} else {
+			transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll(Constants.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+		};
+
 		data.put(Reports.TRANS_DATE_TIME, tranDate);
 	}
 
@@ -362,18 +370,18 @@ public class CashAudit extends Factory {
 	 * @param timeFormat
 	 * @throws Exception
 	 */
-	public void processAPI(String amount, String timeFormat) throws Exception {
+	public void processAPI(String amount, String timeFormat, String environment) throws Exception {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(timeFormat);
-		generateJsonDetails();
-		gmaAddValueJsonDataUpdate(amount);
+		generateJsonDetails(environment);
+		gmaAddValueJsonDataUpdate(amount, environment);
 		String gmaDate = ((LocalDateTime) data.get(Reports.TRANS_DATE_TIME)).format(dateFormat);
 		webService.apiReportPostRequest(
 				propertyFile.readPropertyFile(Configuration.TRANS_GMA, FilePath.PROPERTY_CONFIG_FILE),
 				(String) data.get(Reports.GMA_JSON));
 		requiredGMAJsonData.add(gmaDate);
 		requiredGMAJsonData.add(amount);
-		generateJsonDetails();
-		kioskCashOutJsonDataUpdate();
+		generateJsonDetails(environment);
+		kioskCashOutJsonDataUpdate(environment);
 		String kcoDate = ((LocalDateTime) data.get(Reports.TRANS_DATE_TIME)).format(dateFormat);
 		webService.apiReportPostRequest(
 				propertyFile.readPropertyFile(Configuration.KCO_TRANS_KEY, FilePath.PROPERTY_CONFIG_FILE),
@@ -388,8 +396,15 @@ public class CashAudit extends Factory {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> gmaAddValueJsonDataUpdate(String amount) throws Exception {
-		String jsonGMAAddValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE);
+	public Map<String, Object> gmaAddValueJsonDataUpdate(String amount, String environment) throws Exception {
+
+		String jsonGMAAddValue;
+		if (environment.equals(Constants.STAGING)) {
+			 jsonGMAAddValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE_STAGING);
+		} else {
+			 jsonGMAAddValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE);
+		};
+
 		JsonObject jsonGMAAddValueData = jsonFunctions.convertStringToJson(jsonGMAAddValue);
 		jsonGMAAddValueData.addProperty(Reports.TRANS_ID, transID);
 		jsonGMAAddValueData.addProperty(Reports.TRANS_DATE, transDate);
@@ -410,8 +425,15 @@ public class CashAudit extends Factory {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> kioskCashOutJsonDataUpdate() throws Exception {
-		String jsonKioskCashout = jsonFunctions.readFileAsString(FilePath.JSON_KIOSK_CASH_OUT);
+	public Map<String, Object> kioskCashOutJsonDataUpdate(String environment) throws Exception {
+		
+		String jsonKioskCashout;
+		if (environment.equals(Constants.STAGING)) {
+			 jsonKioskCashout = jsonFunctions.readFileAsString(FilePath.JSON_KIOSK_CASH_OUT_STAGING);
+		} else {
+			 jsonKioskCashout = jsonFunctions.readFileAsString(FilePath.JSON_KIOSK_CASH_OUT);
+		};
+		
 		JsonObject jsonKioskCashoutData = jsonFunctions.convertStringToJson(jsonKioskCashout);
 		jsonKioskCashoutData.addProperty(Reports.TRANS_ID, transID);
 		jsonKioskCashoutData.addProperty(Reports.TRANS_DATE, transDate);
@@ -436,12 +458,16 @@ public class CashAudit extends Factory {
 	 * @param date
 	 * @param location
 	 */
-	public void selectAndRunReport(String menu, String reportName, String date, String location) {
+	public void selectAndRunReport(String menu, String reportName, String date, String location, String environment) {
 		navigationBar.navigateToMenuItem(menu);
 		reportList.selectReport(reportName);
 		reportList.selectDate(date);
 		foundation.threadWait(Constants.SHORT_TIME);
-		reportList.selectLocation(location);
+		if (environment.equals(Constants.STAGING)) {
+			reportList.selectLocationForSecondTypeDropdown(location);
+		}else{
+			reportList.selectLocationForSecondTypeDropdown(location);
+		}
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 		foundation.click(ReportList.BTN_RUN_REPORT);
