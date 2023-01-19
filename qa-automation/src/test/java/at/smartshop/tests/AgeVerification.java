@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -1206,7 +1207,8 @@ public class AgeVerification extends TestInfra {
 
 	@Test(description = "169162-check the other devices on the location after age verification is enabled on one device"
 			+ "169163-check the other devices on the location after age verification is disabled on one device")
-	public void verifyOtherDeviceInAgeVerification() {
+	@Parameters({ "environment" })
+	public void verifyOtherDeviceInAgeVerification(String environment) {
 		final String CASE_NUM = "169162";
 
 		// Reading test data from database
@@ -1276,7 +1278,11 @@ public class AgeVerification extends TestInfra {
 			locationList.selectLocationName(location.get(0));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.SECOND_DEVICE);
+			if (environment.equals(Constants.STAGING)) {
+				foundation.click(LocationSummary.SECOND_DEVICE_STAGING);
+			} else {
+				foundation.click(LocationSummary.SECOND_DEVICE);
+			}
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			foundation.click(LocationSummary.CANCEL_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
@@ -1296,7 +1302,11 @@ public class AgeVerification extends TestInfra {
 			locationList.selectLocationName(location.get(0));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.SECOND_DEVICE);
+			if (environment.equals(Constants.STAGING)) {
+				foundation.click(LocationSummary.SECOND_DEVICE_STAGING);
+			} else {
+				foundation.click(LocationSummary.SECOND_DEVICE);
+			}
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			foundation.click(LocationSummary.CANCEL_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));
@@ -1493,7 +1503,8 @@ public class AgeVerification extends TestInfra {
 	}
 
 	@Test(description = "168928-verify all the devices summary page on that location devices after disabling age verification on that location")
-	public void verifyPromptDisableInDevice() {
+	@Parameters({ "environment" })
+	public void verifyPromptDisableInDevice(String environment) {
 		final String CASE_NUM = "168928";
 
 		// Reading test data from database
@@ -1564,7 +1575,11 @@ public class AgeVerification extends TestInfra {
 			locationList.selectLocationName(location.get(0));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.SECOND_DEVICE);
+			if (environment.equals(Constants.STAGING)) {
+				foundation.click(LocationSummary.SECOND_DEVICE_STAGING);
+			} else {
+				foundation.click(LocationSummary.SECOND_DEVICE);
+			}
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			checkBox.check(LocationSummary.AGE_VERIFICATION);
 			foundation.click(LocationSummary.BTN_SAVE);
@@ -1588,7 +1603,11 @@ public class AgeVerification extends TestInfra {
 			locationList.selectLocationName(location.get(0));
 			foundation.click(LocationSummary.BTN_LOCATION_SETTINGS);
 			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(LocationSummary.SECOND_DEVICE);
+			if (environment.equals(Constants.STAGING)) {
+				foundation.click(LocationSummary.SECOND_DEVICE_STAGING);
+			} else {
+				foundation.click(LocationSummary.SECOND_DEVICE);
+			}
 			CustomisedAssert.assertFalse(foundation.isDisplayed(LocationSummary.AGE_VERIFICATION));
 			foundation.click(LocationSummary.CANCEL_BTN);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(DeviceList.SUPER_DEVICE));

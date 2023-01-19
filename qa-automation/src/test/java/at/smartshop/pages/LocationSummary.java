@@ -62,7 +62,7 @@ public class LocationSummary extends Factory {
 			.cssSelector("#productDataGrid_hiding_modalDialog_content > ul");
 	public static final By DPD_TIME_ZONE = By.xpath("//select[@id='timezone']");
 	public static final By DPD_TYPE = By.xpath("//select[@id='type-id']");
-	public static final By DPD_DISTRIBUTOR=By.id("distributor");
+	public static final By DPD_DISTRIBUTOR = By.id("distributor");
 	public static final By TBL_PRODUCTS = By.id("productDataGrid");
 	public static final By TBL_PRODUCTS_GRID = By.xpath("//table[@id='productDataGrid']/tbody");
 	public static final By TBL_PRODUCTS_LIST = By.cssSelector("#productDataGrid > tbody > td");
@@ -295,6 +295,7 @@ public class LocationSummary extends Factory {
 			.xpath("//input[@name='topoffsubsidystartdate' and @id='date1']");
 	public static final By DEVICE_BTN = By.cssSelector("td[aria-describedby='deviceDataGrid_table_namelink']>a");
 	public static final By SECOND_DEVICE = By.xpath("(//a[@style='color: #2555D9;'])[4]");
+	public static final By SECOND_DEVICE_STAGING = By.xpath("(//a[@style='color: #2555D9;'])[1]");
 	public static final By START_DATE_PICKER_ROLL_OVER = By
 			.xpath("//input[@name='rolloversubsidydate' and @id='date2']");
 	public static final By START_DATE_PICKER_ROLL_OVER_1 = By
@@ -503,6 +504,7 @@ public class LocationSummary extends Factory {
 	public By objectTopOffCalendarDayAutomationLocation1(String day) {
 		return By.xpath("/html/body/div[5]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class='day  active']");
 	}
+
 	public By objectTopOffCalendarNewDayAutomationLocation1(String day) {
 		return By.xpath("/html/body/div[10]/div[1]/table/tbody/tr/td[text()='" + day + "' and @class=\"day \"]");
 	}
@@ -1391,6 +1393,7 @@ public class LocationSummary extends Factory {
 	public By getlocationElement(String locationName) {
 		return By.xpath("//a[text()='" + locationName + "']");
 	}
+
 	/**
 	 * Get the Column Values
 	 * 
@@ -1536,10 +1539,10 @@ public class LocationSummary extends Factory {
 	 * @param inventory
 	 */
 	public void resetInventory(String scancode, String inventory) {
-		By inventoryLink = By
-				.xpath("//td[contains(text(),'" + scancode + "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
-		By inventoryValue = By.xpath(
-				"//td[contains(text(),'" + scancode + "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input[@type='text']");
+		By inventoryLink = By.xpath(
+				"//td[contains(text(),'" + scancode + "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']");
+		By inventoryValue = By.xpath("//td[contains(text(),'" + scancode
+				+ "')]//..//td[@aria-describedby='inventoryDataGrid_qtyonhand']//input[@type='text']");
 		foundation.click(inventoryLink);
 		textBox.enterText(inventoryValue, Keys.CONTROL + "a" + Keys.BACK_SPACE);
 		textBox.enterText(inventoryValue, inventory);
@@ -2840,14 +2843,14 @@ public class LocationSummary extends Factory {
 		CustomisedAssert.assertEquals(foundation.getText(LocationSummary.COL_PRICE), price);
 		foundation.threadWait(Constants.SHORT_TIME);
 	}
-	
-	
+
 	/**
 	 * verify distributor dropDown in location summary page
+	 * 
 	 * @param menu
 	 * @param dpd
 	 */
-	public void verifyDistributorDropdown(String menu,String location,String dpd) {
+	public void verifyDistributorDropdown(String menu, String location, String dpd) {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 		navigationBar.navigateToMenuItem(menu);
 		foundation.waitforElementToBeVisible(LocationSummary.LBL_LOCATION_SUMMARY, Constants.THREE_SECOND);
@@ -2857,16 +2860,17 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationSummary.BTN_SAVE, Constants.SHORT_TIME);
 		foundation.click(BTN_SAVE);
 		foundation.threadWait(Constants.SHORT_TIME);
-		
+
 	}
-	
+
 	/**
 	 * search location and verify distributor dropDown
+	 * 
 	 * @param locationName
 	 * @param defaultValue
 	 * @param dropdown
 	 */
-	public void searchLocationAndVerifyDistributor(String locationName,String defaultValue,String dropdown) {
+	public void searchLocationAndVerifyDistributor(String locationName, String defaultValue, String dropdown) {
 		foundation.waitforElement(getlocationElement(locationName), Constants.SHORT_TIME);
 		textBox.enterText(LocationList.TXT_FILTER, locationName);
 		foundation.threadWait(Constants.THREE_SECOND);
@@ -2880,7 +2884,7 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationList.POP_UP, Constants.SHORT_TIME);
 		foundation.click(LocationList.POPUP_SAVE);
 		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.THREE_SECOND);
-		
+
 	}
 	
 	/**
