@@ -347,7 +347,7 @@ public class ConsumerEngagement extends Factory {
 		foundation.waitforElementToBeVisible(UserList.TXT_SEARCH_ROLE, Constants.SHORT_TIME);
 		textBox.enterText(UserList.TXT_SEARCH_ROLE, text);
 		foundation.threadWait(Constants.THREE_SECOND);
-		table.selectRow(text);
+		table.selectRowWithoutContain(text);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(selectTabName(tab)));
 		foundation.click(selectTabName(tab));
 	}

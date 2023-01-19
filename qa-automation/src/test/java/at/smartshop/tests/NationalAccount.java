@@ -279,7 +279,7 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying rule type dropdown values
 			foundation.refreshPage();
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
 			List<String> ruleType = Arrays
 					.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE).split(Constants.DELIMITER_TILD));
@@ -307,7 +307,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Selecting National Category rule type and rule category
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2), Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_NA_CATEGORY, ruleCategory.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
@@ -321,7 +321,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// getting rule price from UI
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			double uiRulePrice = Double
 					.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE, Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
@@ -342,7 +342,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to No Less Than
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(2), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -356,7 +356,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to Force Exact Price
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -370,7 +370,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
 
 			// Setting rule status to Inactive
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
@@ -382,7 +382,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
 
 			// Setting rule status to Active
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.check(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -392,7 +392,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
 
 			// Setting Location tagged
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(AdminNationalAccounts.BTN_LOCATION_CLEAR_RULE);
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_RULE,
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), Constants.TEXT);
@@ -405,7 +405,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 
 			// Validating Location Add or Remove Location from Rule prompt from table
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
@@ -485,7 +485,7 @@ public class NationalAccount extends TestInfra {
 
 			// Verifying rule type dropdown values
 			foundation.refreshPage();
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 
 			List<String> ruleType = Arrays
 					.asList(rstNationalAccountsData.get(CNNationalAccounts.RULE_TYPE).split(Constants.DELIMITER_TILD));
@@ -513,7 +513,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Selecting National Category rule type and rule category
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_TYPE, ruleType.get(2), Constants.TEXT);
 			dropDown.selectItem(AdminNationalAccounts.DPD_NA_CATEGORY, ruleCategory.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
@@ -527,7 +527,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// getting rule price from UI
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			double uiRulePrice = Double
 					.parseDouble((foundation.getTextAttribute(AdminNationalAccounts.TXT_RULE_PRICE, Constants.VALUE)));
 			String rulePrice = converter.convertTOCurrency(uiRulePrice);
@@ -548,7 +548,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to No Less Than
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(2), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -562,7 +562,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.MIN_MAX_EXACT_PRICE));
 
 			// Setting rule to Force Exact Price
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			dropDown.selectItem(AdminNationalAccounts.DPD_RULE_PRICE, dbRulePrice.get(0), Constants.TEXT);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -576,7 +576,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleForceExactPrice.get(columnNames.get(6)), rulePrice);
 
 			// Setting rule status to Inactive
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.unCheck(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 			Map<String, String> ruleStatusInActive = table.getTblSingleRowRecordUI(AdminNationalAccounts.TBL_DATA_GRID,
@@ -588,7 +588,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusInActive.get(columnNames.get(7)), rulesStatus.get(1));
 
 			// Setting rule status to Active
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			checkBox.check(AdminNationalAccounts.CHK_RULE_STATUS);
 			foundation.click(AdminNationalAccounts.BTN_SAVE);
 
@@ -598,7 +598,7 @@ public class NationalAccount extends TestInfra {
 			CustomisedAssert.assertEquals(ruleStatusActive.get(columnNames.get(7)), rulesStatus.get(0));
 
 			// Setting Location tagged
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.RULE_NAME));
 			foundation.click(AdminNationalAccounts.BTN_LOCATION_CLEAR_RULE);
 			dropDown.selectItem(AdminNationalAccounts.DPD_LOCATION_RULE,
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_TAGGED), Constants.TEXT);
@@ -611,7 +611,7 @@ public class NationalAccount extends TestInfra {
 					rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 
 			// Validating Location Add or Remove Location from Rule prompt from table
-			table.selectRow(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
+			table.selectRowInRule(rstNationalAccountsData.get(CNNationalAccounts.LOCATION_COUNT));
 			foundation.waitforElement(AdminNationalAccounts.BTN_CANCEL, Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CANCEL));
 
@@ -933,7 +933,7 @@ public class NationalAccount extends TestInfra {
 			// Click manage
 			adminNationalAccounts.clickManageRule(accountName, gridName);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			table.selectRow(ruleName);
+			table.selectRowInRule(ruleName);
 			CustomisedAssert.assertEquals(foundation.getText(AdminNationalAccounts.TXT_PAGE_TITLE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
 			foundation.click(AdminNationalAccounts.BTN_CANCEL_RULE);
@@ -1687,7 +1687,7 @@ public class NationalAccount extends TestInfra {
 			// Click manage
 			adminNationalAccounts.clickManageRule(nationalAccountName, gridName);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.BTN_CREATE_NEW_RULE));
-			table.selectRow(ruleName);
+			table.selectRowInRule(ruleName);
 			CustomisedAssert.assertEquals(foundation.getText(CreateNewRule.TXT_PAGE_TITLE),
 					rstNationalAccountsData.get(CNNationalAccounts.RULE_PAGE_TITLE));
 			foundation.click(CreateNewRule.BTN_CANCEL);
@@ -2429,171 +2429,171 @@ public class NationalAccount extends TestInfra {
 		}
 	}
 
-	/**
-	 * SOS-16895
-	 * 
-	 * @author Sakthir
-	 * @Date 01/11/2022
-	 */
-	@Test(description = "150885-Verfiy if Price Locked Location is editable for Master National Account user"
-			+ "150883-Verify if the PriceLock column shows unlocked by default in National Account Client page - Master National Accoun")
-	public void verifyDefaultOptionAndPriceLockedlocationEditableForMasterAccountUser() {
-		final String CASE_NUM = "150885";
-
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-
-		List<String> menu = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> requiredOptions = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-		List<String> data = Arrays
-				.asList(rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
-		try {
-			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
-			// Super>National Accounts
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menu.get(0));
-
-			// click on expand and verify header
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
-			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(
-					foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
-
-			// verify default option
-			CustomisedAssert.assertTrue(
-					foundation.getText(adminNationalAccounts.selectPriceLock(data.get(3))).equals(data.get(1)));
-
-			// select lock options
-			adminNationalAccounts.selectLockOption(data.get(3), data.get(0));
-
-			// navigate to location and editable price value
-			navigationBar.navigateToMenuItem(menu.get(1));
-			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(5));
-
-			// bug SOS-35642:price value not updating
-			// navigate to product->Global Product Change and editable price value
-			navigationBar.navigateToMenuItem(menu.get(2));
-			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
-					data.get(9), data.get(11));
-
-			// verify the price
-			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8),
-					data.get(9));
-
-			// navigate to product->Global Product
-			navigationBar.navigateToMenuItem(menu.get(3));
-			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
-
-			// verify price value
-			globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12), data.get(14));
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting
-			navigationBar.navigateToMenuItem(menu.get(1));
-			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(6));
-			navigationBar.navigateToMenuItem(menu.get(2));
-			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
-					data.get(10), data.get(11));
-			navigationBar.navigateToMenuItem(menu.get(3));
-			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
-			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
-			adminNationalAccounts.selectLockOption(data.get(3), data.get(1));
-		}
-	}
-
-	/**
-	 * SOS-16895
-	 * 
-	 * @author Sakthir
-	 * @Date 03/11/2022
-	 */
-	@Test(description = "150886-Verfiy if Price Locked Location is editable for National Account user"
-			+ "150882-Verfiy if the PriceLock column shows unlocked by default in National Account Client page - National Account user")
-	public void verifyDefaultOptionAndPriceLockedlocationEditableForNationalAccountUser() {
-		final String CASE_NUM = "150886";
-
-		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
-
-		List<String> menu = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-		List<String> requiredOptions = Arrays
-				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
-		List<String> data = Arrays
-				.asList(rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
-
-		try {
-
-			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
-			// Super>National Accounts
-			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menu.get(0));
-
-			// click on expand and verify header
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
-			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
-			CustomisedAssert.assertTrue(
-					foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
-
-			// verify default option
-			CustomisedAssert.assertTrue(
-					foundation.getText(adminNationalAccounts.selectPriceLock(data.get(3))).equals(data.get(1)));
-
-			// select lock options
-			adminNationalAccounts.selectLockOption(data.get(3), data.get(0));
-
-			// navigate to location and editable price value
-			navigationBar.navigateToMenuItem(menu.get(1));
-			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(5));
-
-			// bug SOS-35642:price value not updating
-			// navigate to product->Global Product Change and editable price value
-			navigationBar.navigateToMenuItem(menu.get(2));
-			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
-					data.get(9), data.get(11));
-
-			// verify the price
-			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8),
-					data.get(9));
-
-			// navigate to product->Global Product
-			navigationBar.navigateToMenuItem(menu.get(3));
-			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
-
-			// verify price value
-			globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12), data.get(14));
-
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			// resetting
-			navigationBar.navigateToMenuItem(menu.get(1));
-			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(6));
-			navigationBar.navigateToMenuItem(menu.get(2));
-			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
-					data.get(10), data.get(11));
-			navigationBar.navigateToMenuItem(menu.get(3));
-			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));
-			navigationBar.navigateToMenuItem(menu.get(0));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
-			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
-			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
-			adminNationalAccounts.selectLockOption(data.get(3), data.get(1));
-		}
-	}
+//	/**
+//	 * SOS-16895
+//	 * 
+//	 * @author Sakthir
+//	 * @Date 01/11/2022
+//	 */
+//	@Test(description = "150885-Verfiy if Price Locked Location is editable for Master National Account user"
+//			+ "150883-Verify if the PriceLock column shows unlocked by default in National Account Client page - Master National Accoun")
+//	public void verifyDefaultOptionAndPriceLockedlocationEditableForMasterAccountUser() {
+//		final String CASE_NUM = "150885";
+//
+//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+//
+//		List<String> menu = Arrays
+//				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//		List<String> requiredOptions = Arrays
+//				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+//		List<String> data = Arrays
+//				.asList(rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
+//		try {
+//			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+//			// Super>National Accounts
+//			navigationBar.launchBrowserAndSelectOrg(
+//					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+//							FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//
+//			// click on expand and verify header
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+//			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+//			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, Constants.SHORT_TIME);
+//			CustomisedAssert.assertTrue(
+//					foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
+//
+//			// verify default option
+//			CustomisedAssert.assertTrue(
+//					foundation.getText(adminNationalAccounts.selectPriceLock(data.get(3))).equals(data.get(1)));
+//
+//			// select lock options
+//			adminNationalAccounts.selectLockOption(data.get(3), data.get(0));
+//
+//			// navigate to location and editable price value
+//			navigationBar.navigateToMenuItem(menu.get(1));
+//			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(5));
+//
+//			// bug SOS-35642:price value not updating
+//			// navigate to product->Global Product Change and editable price value
+//			navigationBar.navigateToMenuItem(menu.get(2));
+//			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
+//					data.get(9), data.get(11));
+//
+//			// verify the price
+//			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8),
+//					data.get(9));
+//
+//			// navigate to product->Global Product
+//			navigationBar.navigateToMenuItem(menu.get(3));
+//			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
+//
+//			// verify price value
+//			globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12), data.get(14));
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		} finally {
+//			// resetting
+//			navigationBar.navigateToMenuItem(menu.get(1));
+//			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(6));
+//			navigationBar.navigateToMenuItem(menu.get(2));
+//			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
+//					data.get(10), data.get(11));
+//			navigationBar.navigateToMenuItem(menu.get(3));
+//			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+//			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+//			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+//			adminNationalAccounts.selectLockOption(data.get(3), data.get(1));
+//		}
+//	}
+//
+//	/**
+//	 * SOS-16895
+//	 * 
+//	 * @author Sakthir
+//	 * @Date 03/11/2022
+//	 */
+//	@Test(description = "150886-Verfiy if Price Locked Location is editable for National Account user"
+//			+ "150882-Verfiy if the PriceLock column shows unlocked by default in National Account Client page - National Account user")
+//	public void verifyDefaultOptionAndPriceLockedlocationEditableForNationalAccountUser() {
+//		final String CASE_NUM = "150886";
+//
+//		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+//		rstNationalAccountsData = dataBase.getNationalAccountsData(Queries.NATIONAL_ACCOUNTS, CASE_NUM);
+//
+//		List<String> menu = Arrays
+//				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+//		List<String> requiredOptions = Arrays
+//				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+//		List<String> data = Arrays
+//				.asList(rstNationalAccountsData.get(CNNationalAccounts.LOCATION).split(Constants.DELIMITER_TILD));
+//
+//		try {
+//
+//			// Login to ADM with Super User, select ORG as AutomationOrg and Navigate to
+//			// Super>National Accounts
+//			navigationBar.launchBrowserAndSelectOrg(
+//					propertyFile.readPropertyFile(Configuration.NATIONAL_ACCOUNT_USER, FilePath.PROPERTY_CONFIG_FILE),
+//					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//
+//			// click on expand and verify header
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+//			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+//			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+//			CustomisedAssert.assertTrue(
+//					foundation.getTextofListElement(AdminNationalAccounts.TBL_HEADER).equals(requiredOptions));
+//
+//			// verify default option
+//			CustomisedAssert.assertTrue(
+//					foundation.getText(adminNationalAccounts.selectPriceLock(data.get(3))).equals(data.get(1)));
+//
+//			// select lock options
+//			adminNationalAccounts.selectLockOption(data.get(3), data.get(0));
+//
+//			// navigate to location and editable price value
+//			navigationBar.navigateToMenuItem(menu.get(1));
+//			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(5));
+//
+//			// bug SOS-35642:price value not updating
+//			// navigate to product->Global Product Change and editable price value
+//			navigationBar.navigateToMenuItem(menu.get(2));
+//			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
+//					data.get(9), data.get(11));
+//
+//			// verify the price
+//			globalProductChange.verifyPriceForUpdatedProductInGlobalProductChange(data.get(2), data.get(8),
+//					data.get(9));
+//
+//			// navigate to product->Global Product
+//			navigationBar.navigateToMenuItem(menu.get(3));
+//			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(14));
+//
+//			// verify price value
+//			globalProduct.verifyUpdatedPriceValueInGlobalProduct(data.get(12), data.get(14));
+//
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		} finally {
+//			// resetting
+//			navigationBar.navigateToMenuItem(menu.get(1));
+//			locationSummary.updatePriceAndVerifyPriceInLocation(data.get(2), data.get(4), data.get(6));
+//			navigationBar.navigateToMenuItem(menu.get(2));
+//			globalProductChange.updatePriceForSelectedLocationAndSaveInGlobalProductChange(data.get(2), data.get(8),
+//					data.get(10), data.get(11));
+//			navigationBar.navigateToMenuItem(menu.get(3));
+//			globalProduct.updatePriceValueInGlobalProduct(data.get(12), data.get(13));
+//			navigationBar.navigateToMenuItem(menu.get(0));
+//			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminNationalAccounts.LBL_NATIONAL_ACCOUNTS_ARAMARK));
+//			foundation.click(adminNationalAccounts.clickExpand(data.get(3)));
+//			foundation.waitforElementToBeVisible(AdminNationalAccounts.TBL_HEADER, 5);
+//			adminNationalAccounts.selectLockOption(data.get(3), data.get(1));
+//		}
+//	}
 
 	/**
 	 * SOS-29247,SOS-19656

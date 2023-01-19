@@ -212,11 +212,13 @@ public class PickLists extends TestInfra {
 			// selecting select all location on Picklist Manager
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.click(PickList.BTN_APPLY);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(PickList.LBL_SELECT_ALL, Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_SELECTALL);
 			foundation.click(PickList.BTN_PICKLIST_PLAN);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT, Constants.SHORT_TIME);
 			foundation.click(PickList.LBL_ADD_PRODUCT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.waitforElement(PickList.LBL_ADD_PRODUCT_PICKLIST, Constants.SHORT_TIME);
 
 			// verifying Location is present or not
@@ -330,11 +332,13 @@ public class PickLists extends TestInfra {
 
 			// click on create new and check for dropdown values
 			foundation.click(PickList.BTN_CREATE_NEW_ROUTE);
+			foundation.threadWait(Constants.SHORT_TIME);
 			List<String> routeValues = dropDown.getAllItems(PickList.DRP_ROUTE_DRIVER);
 			routeValues.set(0, "Default");
 			Collections.sort(routeValues);
 
 			// navigate to Product > Picklist
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			foundation.click(PickList.BTN_SELECT_ALL);
 			foundation.click(PickList.TXT_FILTERBY);
@@ -383,7 +387,8 @@ public class PickLists extends TestInfra {
 			dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "Yes", Constants.TEXT);
 			foundation.threadWait(3);
 		    foundation.click(PickList.BTN_SAVE_LIGHTSPEED);}
-		    foundation.threadWait(3);
+		    foundation.threadWait(Constants.TEN_SECOND);
+		    
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 
 			// validating Picklist Manager Page
@@ -1095,8 +1100,8 @@ public class PickLists extends TestInfra {
             // Navigating to Super >Org Summary
 			navigationBar.navigateToMenuItem(menuItem.get(1));
 			pickList.selectingLightSpeed(sendToLightSpeedPopup.get(0));	
-//			foundation.click(OrgSummary.BTN_SAVE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(0));
 
 			// selecting required location on Picklist Manager
@@ -1133,7 +1138,7 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.BTN_SEND_TO_LIGHTSPEED);
 
 			// Verifying the details on confirm Popup for sending to Lightspeed
-			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_SEND_PICKLIST), sendToLightSpeedPopup.get(1));
 			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_CONFIRM_SENDING),
 					sendToLightSpeedPopup.get(2));
@@ -1142,6 +1147,7 @@ public class PickLists extends TestInfra {
 			CustomisedAssert.assertEquals(foundation.getText(PickList.BTN_YES), sendToLightSpeedPopup.get(5));
 
 			// Select yes and send to Lightspeed
+			foundation.threadWait(5);
 			foundation.click(PickList.BTN_YES);
 			foundation.threadWait(Constants.LONG_TIME);
 			foundation.click(pickList.selectLocationFromList(rstPickListData.get(CNPickList.LOCATIONS)));
@@ -1683,9 +1689,10 @@ public class PickLists extends TestInfra {
 			foundation.click(PickList.TXT_NEED);
 			foundation.waitforElement(PickList.TXT_NEED, Constants.LONG_TIME);
 			foundation.clearText();
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)));
 			CustomisedAssert.assertTrue(foundation.getText(PickList.ERROR_TXT_NEED).equals(rstPickListData.get(CNPickList.NEED)));
-			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.threadWait(Constants.TEN_SECOND);
 			foundation.click(PickList.BTN_CLOSE);
 
 			// select location in pick list page ,click Add product and Verifying location
@@ -2304,10 +2311,12 @@ public class PickLists extends TestInfra {
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
 				
 					//click scheduling button
+					foundation.threadWait(Constants.THREE_SECOND);
 					foundation.click(PickList.BTN_SCHEDULING);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
 					
 					//verify Select All in location tab
+					foundation.threadWait(Constants.THREE_SECOND);
 					foundation.click(PickList.BTN_SELECT_ALL);
 					CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED_LOCATIONS).equals(data.get(0)));
 					
@@ -2327,7 +2336,7 @@ public class PickLists extends TestInfra {
 					foundation.click(PickList.BTN_SCHEDULE_CANCEL);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.PAGE_TITLE));
 										
-
+					foundation.threadWait(Constants.THREE_SECOND);
 					foundation.click(PickList.BTN_SCHEDULING);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.TXT_ROUTE_SCHEDULING));
 					foundation.click(pickList.selectLocationFromList(location.get(0)));
@@ -2336,6 +2345,7 @@ public class PickLists extends TestInfra {
 					foundation.click(PickList.BTN_APPLY);
 					
 					//verify table header
+					foundation.threadWait(Constants.THREE_SECOND);
 					CustomisedAssert.assertTrue(foundation.getTextofListElement(PickList.TBL_HEADER).equals(header));
 					
 					//verify selected location on grid
@@ -2349,9 +2359,7 @@ public class PickLists extends TestInfra {
 					foundation.clearText();
 					foundation.threadWait(Constants.THREE_SECOND);
 					textBox.enterText(PickList.TXT_SECHEDULE_SEARCH,location.get(1));
-					CustomisedAssert.assertTrue(foundation.getText(PickList.LBL_LOCATION).equals(location.get(1)));
-					foundation.clearText();
-					
+					CustomisedAssert.assertTrue(foundation.getText(PickList.LBL_LOCATION).equals(location.get(1)));					
 										
 				}catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
