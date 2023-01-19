@@ -1764,7 +1764,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143527-This test validates Queued Credit Transactions Report Data Calculation")
-	public void queuedCreditTransactionsReportData() {
+	@Parameters({ "environment" })
+	public void queuedCreditTransactionsReportData(String environment) {
 		try {
 			final String CASE_NUM = "143527";
 
@@ -1779,7 +1780,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			queuedCreditTrans.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			queuedCreditTrans.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2029,7 +2030,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "145708-This test validates Tender Transactions Log Report Data Calculation")
-	public void tenderTransactionLogData() {
+	@Parameters({ "environment" })
+	public void tenderTransactionLogData(String environment) {
 		try {
 
 			final String CASE_NUM = "145708";
@@ -2052,7 +2054,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			tenderTransactionLog.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2935,7 +2937,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "167829-Verify the UnRedeemed Promtions for Tender Discount Promotion with Tender type as Cash of Promtion Analysis")
-	public void PromtionAnalysisReportDataValidtionOfUnredeemedPromtionswithTenderDiscount() {
+	@Parameters({ "environment" })
+	public void PromtionAnalysisReportDataValidtionOfUnredeemedPromtionswithTenderDiscount(String environment) {
 		final String CASE_NUM = "167829";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -6453,7 +6456,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 20-09-2022
 	 */
-	@Test(description = "204450-Verify the Data Validation of Product Canned Report")
+	@Test(description = "204450-Verify the Data Validation of Product Canned Report.")
 	@Parameters({ "environment" })
 	public void productCannedReportDataValidation(String environment) {
 		try {
