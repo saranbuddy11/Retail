@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.Parameters;
 
 import com.aventstack.extentreports.Status;
 import com.google.gson.JsonArray;
@@ -55,6 +56,11 @@ public class CancelReport extends Factory {
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public static final By TABLE_CANCEL = By.id("rptdt");
 	public static final By TABLE_CANCEL_GRID = By.cssSelector("#rptdt > tbody");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(3) > td:nth-child(4)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(3) > td:nth-child(4)");
+
 
 	/**
 	 * Verify Report Name
@@ -284,15 +290,24 @@ public class CancelReport extends Factory {
 	 * @return
 	 * @throws Exception
 	 */
-	public String saleCancelJsonDataUpdate() throws Exception {
+	public String saleCancelJsonDataUpdate(String environment) throws Exception {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 		tranDate = LocalDateTime.now();
 		String transDate = tranDate.format(dateFormat);
 		String cancelHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 				Constants.EMPTY_STRING);
-		String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-				+ Constants.DELIMITER_HYPHEN + transDate.replaceAll("[^a-zA-Z0-9]", Constants.EMPTY_STRING);
-		String jsonString = jsonFunctions.readFileAsString(FilePath.CANCEL_SALE_CREATION);
+		String transID;
+		String jsonString;
+		if (environment.equals(Constants.STAGING)) {
+			 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
+					+ transDate.replaceAll("[^a-zA-Z0-9]", Constants.EMPTY_STRING);
+			 jsonString = jsonFunctions.readFileAsString(FilePath.CANCEL_SALE_CREATION_STAGING);
+		} else {
+			 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+					+ Constants.DELIMITER_HYPHEN + transDate.replaceAll("[^a-zA-Z0-9]", Constants.EMPTY_STRING);
+			 jsonString = jsonFunctions.readFileAsString(FilePath.CANCEL_SALE_CREATION);
+		};
 		jsonData = jsonFunctions.convertStringToJson(jsonString);
 		jsonData.addProperty(Reports.ID, cancelHeaderID);
 		jsonData.addProperty(Reports.TRANS_ID, transID);

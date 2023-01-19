@@ -52,10 +52,10 @@ public class FilePath {
 	public static final String EXCEL_DEVICE_EXPORT_SRC = HOME_PATH + "\\Downloads\\device.xlsx";
 	public static final String EXCEL_DEVICE_EXPORT_TAR = PATH + "\\src\\test\\resources\\device.xlsx";
 	public static final String EXCEL_DISBURSEMENT_EXPORT_SRC = HOME_PATH
-			+ "\\Downloads\\Disbursement Report 09-29-2021.xls";
+			+ "\\Downloads\\Disbursement Report 12-09-2022.xls";
 	public static final String EXCEL_VARIANCE_EXPORT_SRC = HOME_PATH
-			+ "\\Downloads\\EFT Variance Report 09-29-2021.xls";
-	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH + "\\Downloads\\Upload_ 09-29-2021.csv";
+			+ "\\Downloads\\EFT Variance Report 12-09-2022.xls";
+	public static final String EXCEL_CSV_REPORT_EXPORT_SRC = HOME_PATH + "\\Downloads\\Upload_ 12-09-2022.csv";
 	public static final String EXCEL_CONTACT_SRC = HOME_PATH + "\\Downloads\\contact.xls";
 	public static final String EXCEL_CONSUMER = HOME_PATH + "\\Downloads\\consumer_list.xls";
 	public static final String PATH_TO_DOWNLOAD = HOME_PATH + "\\Downloads";
@@ -73,7 +73,14 @@ public class FilePath {
 	public static final String IMAGE2MB_PNG = PATH+"\\src\\test\\resources\\Larger2MBImage.png";
 	public static final String PRODUCT_PRICING_TEMPLATE = PATH + "\\src\\test\\resources\\SOS_ProductPricing_Template.xls";
 
-
+	public static final String CANCEL_SALE_CREATION_STAGING = PATH + "\\src\\test\\resources\\CancelSaleCreation_Staging.json";
+	public static final String JSON_SALES_CREATION_STAGING = PATH + "\\src\\test\\resources\\SalesCreation_Staging.json";
+	public static final String JSON_GMA_ADD_VALUE_STAGING = PATH + "\\src\\test\\resources\\GMAAddValue_Staging.json";
+	public static final String JSON_SALES_CREATION_WITH_DEPOSIT_AND_DISCOUNT_STAGING = PATH
+			+ "\\src\\test\\resources\\SalesCreationWithDepositandDiscount_Staging.json";
+	public static final String JSON_BAD_SCAN_STAGING = PATH + "\\src\\test\\resources\\BadScan_Staging.json";
+	public static final String JSON_KIOSK_CASH_OUT_STAGING = PATH + "\\src\\test\\resources\\KioskCashOut_Staging.json";
+	
 	public static String reportFilePath(String filename) {
 		String EXCEL_REPORT = HOME_PATH + "\\Downloads\\" + filename + ".xlsx";
 		return EXCEL_REPORT;

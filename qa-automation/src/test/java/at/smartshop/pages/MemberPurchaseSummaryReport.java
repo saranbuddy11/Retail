@@ -47,6 +47,11 @@ public class MemberPurchaseSummaryReport extends Factory {
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(5)");
+
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
@@ -189,11 +194,11 @@ public class MemberPurchaseSummaryReport extends Factory {
 		}
 	}
 
-	public void processAPI() {
+	public void processAPI(String environment) {
 		try {
-			generateJsonDetails();
-			salesJsonDataUpdate();
-			gmaJsonDataUpdate();
+			generateJsonDetails(environment);
+			salesJsonDataUpdate(environment);
+			gmaJsonDataUpdate(environment);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
@@ -220,14 +225,21 @@ public class MemberPurchaseSummaryReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			};
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
@@ -255,11 +267,17 @@ public class MemberPurchaseSummaryReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate() {
+	private void salesJsonDataUpdate(String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
+			
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
@@ -278,9 +296,15 @@ public class MemberPurchaseSummaryReport extends Factory {
 		}
 	}
 
-	private void gmaJsonDataUpdate() {
+	private void gmaJsonDataUpdate(String environment) {
 		try {
-			String gmaValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE);
+			String gmaValue;
+			if (environment.equals(Constants.STAGING)) {
+				 gmaValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE_STAGING);
+			} else {
+				 gmaValue = jsonFunctions.readFileAsString(FilePath.JSON_GMA_ADD_VALUE);
+			};
+			
 			JsonObject gmaJson = jsonFunctions.convertStringToJson(gmaValue);
 			gmaJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			gmaJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

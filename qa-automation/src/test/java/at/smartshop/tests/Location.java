@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
@@ -316,8 +317,8 @@ public class Location extends TestInfra {
 			} else {
 				locationSummary.addHomeCommercials(address.get(0));
 			}
-			locationSummary.addHomeCommercials(homecommercial.get(0));
-			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
+			
+//			locationSummary.addHomeCommercials(rstLocationSummaryData.get(CNLocationSummary.ADDRESS));
 			foundation.threadWait(Constants.THREE_SECOND);
 			locationList.selectLocationName(locationName);
 
@@ -1018,7 +1019,9 @@ public class Location extends TestInfra {
 			foundation.click(LocationSummary.LBL_TAX_CAT_CANCEL);
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_SEARCH_TAX_MAPPING, Constants.THREE_SECOND);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 
@@ -1157,43 +1160,43 @@ public class Location extends TestInfra {
 			CustomisedAssert.assertTrue(excel.isFileDownloaded(FilePath.EXCEL_LOCAL_PROD));
 
 //			foundation.copyFile(FilePath.EXCEL_LOCAL_PROD, FilePath.EXCEL_PROD);
-			foundation.threadWait(Constants.LONG_TIME);
-
-			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
-					LocationSummary.TBL_PRODUCTS_GRID);
-			System.out.println(uidata);
-			uidata.remove(expectedData.get(0));
-			uidata.remove(expectedData.get(1));
-			uidata.remove(expectedData.get(2));
-
-			List<String> uiList = new ArrayList<String>(uidata.values());
-
-			// excel data validation
-			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
-			Map<String, String> excelData = excel.getExcelAsMapFromXSSFWorkbook(FilePath.EXCEL_LOCAL_PROD);
-
-			Map<String, String> expectedValues = new HashMap<String, String>();
-			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
-				expectedValues.put(uiListHeaders.get(iter), excelData.get(uiListHeaders.get(iter)));
-			}
-
-			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
-				if (uiListHeaders.get(iter).equals("Price")) {
-					uiList.set(iter, Constants.DELIMITER_COMMA
-							+ uiList.get(iter).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
-				}
-			}
-
-			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
-				if (uiListHeaders.get(iter).equals("Deposit")) {
-					expectedValues.put(uiListHeaders.get(iter),
-							Constants.DOLLAR_SYMBOL + expectedValues.get(uiListHeaders.get(iter)));
-				}
-				if (uiListHeaders.get(iter).equals("Price")) {
-					expectedValues.put(uiListHeaders.get(iter), Constants.DOLLAR_SYMBOL + expectedValues
-							.get(uiListHeaders.get(iter)).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
-				}
-			}
+//			foundation.threadWait(Constants.LONG_TIME);
+//
+//			Map<String, String> uidata = table.getTblSingleRowRecordUI(LocationSummary.TBL_PRODUCTS,
+//					LocationSummary.TBL_PRODUCTS_GRID);
+//			System.out.println(uidata);
+//			uidata.remove(expectedData.get(0));
+//			uidata.remove(expectedData.get(1));
+//			uidata.remove(expectedData.get(2));
+//
+//			List<String> uiList = new ArrayList<String>(uidata.values());
+//
+//			// excel data validation
+//			List<String> uiListHeaders = new ArrayList<String>(uidata.keySet());
+//			Map<String, String> excelData = excel.getExcelAsMapFromXSSFWorkbook(FilePath.EXCEL_LOCAL_PROD);
+//
+//			Map<String, String> expectedValues = new HashMap<String, String>();
+//			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+//				expectedValues.put(uiListHeaders.get(iter), excelData.get(uiListHeaders.get(iter)));
+//			}
+//
+//			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+//				if (uiListHeaders.get(iter).equals("Price")) {
+//					uiList.set(iter, Constants.DELIMITER_COMMA
+//							+ uiList.get(iter).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+//				}
+//			}
+//
+//			for (int iter = 0; iter < uiListHeaders.size(); iter++) {
+//				if (uiListHeaders.get(iter).equals("Deposit")) {
+//					expectedValues.put(uiListHeaders.get(iter),
+//							Constants.DOLLAR_SYMBOL + expectedValues.get(uiListHeaders.get(iter)));
+//				}
+//				if (uiListHeaders.get(iter).equals("Price")) {
+//					expectedValues.put(uiListHeaders.get(iter), Constants.DOLLAR_SYMBOL + expectedValues
+//							.get(uiListHeaders.get(iter)).replace(Constants.DELIMITER_COMMA, Constants.EMPTY_STRING));
+//				}
+//			}
 			// locationList.verifyData(uiListHeaders, uiList, expectedValues);
 //			CustomisedAssert.assertTrue(excel.verifyExcelData(uiList, FilePath.EXCEL_LOCAL_PROD, 1));
 
@@ -1651,7 +1654,9 @@ public class Location extends TestInfra {
 					.asList(rstLocationData.get(CNLocation.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			foundation.threadWait(Constants.SHORT_TIME);
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			foundation.waitforElementToBeVisible(LocationSummary.TXT_SEARCH_TAX_MAPPING, Constants.THREE_SECOND);
+			textBox.enterText(LocationSummary.TXT_SEARCH_TAX_MAPPING, requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 		}
@@ -1693,7 +1698,7 @@ public class Location extends TestInfra {
 
 			foundation.refreshPage();
 			locationSummary.selectTab(tabName);
-			table.selectRow(requiredData.get(0));
+			table.selectrow(requiredData.get(0));
 			foundation.waitforElement(LocationSummary.LBL_TAX_CAT_REMOVE, Constants.SHORT_TIME);
 			foundation.click(LocationSummary.LBL_TAX_CAT_REMOVE);
 			locationSummary.selectTab(tabName);

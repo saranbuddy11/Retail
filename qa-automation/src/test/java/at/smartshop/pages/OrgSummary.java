@@ -172,6 +172,7 @@ public class OrgSummary extends Factory {
 		foundation.waitforElementToBeVisible(OrgSummary.BTN_SAVE, 3);
 		foundation.click(OrgSummary.BTN_SAVE);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
+		foundation.threadWait(Constants.THREE_SECOND);
 
 	}
 	
@@ -202,6 +203,8 @@ public class OrgSummary extends Factory {
 		dropDown.selectItem(OrgSummary.DPD_TAX_METHOD, data, Constants.TEXT);
 		foundation.click(OrgSummary.BTN_SAVE);
 		foundation.waitforElement(OrgSummary.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+		foundation.threadWait(Constants.TWO_SECOND);
+		CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 	}
 
 	/**

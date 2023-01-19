@@ -29,6 +29,7 @@ public class IntlWebAppFunding extends Factory {
 	private static final By TBL_INTL_WEB_APP_FUNDING_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(5) > td:nth-child(3)");
+	public static final By DATA_EXISTING_DATE_STAGING = By.cssSelector("body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(2)");
 	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();

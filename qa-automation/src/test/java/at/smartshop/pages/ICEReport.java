@@ -244,6 +244,8 @@ public class ICEReport extends Factory {
 	public void verifyReportData(String scancode) {
 		try {
 			int recordCount = 0;
+			System.out.println("reportsData :"+ reportsData);
+			System.out.println("intialData :"+ intialData);
 			for (recordCount = 0; recordCount < productsData.size(); recordCount++) {
 				if ((intialData.get(recordCount).get(tableHeaders.get(2))).equals(scancode)) {
 					break;
@@ -258,10 +260,10 @@ public class ICEReport extends Factory {
 		}
 	}
 	
-	public void processAPI() {
+	public void processAPI(String environment) {
 		try {
-			generateJsonDetails();
-			salesJsonDataUpdate();
+			generateJsonDetails(environment);
+			salesJsonDataUpdate(environment);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
@@ -270,14 +272,22 @@ public class ICEReport extends Factory {
 		}
 	}
 	
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
-					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			};
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
@@ -301,11 +311,17 @@ public class ICEReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate() {
+	private void salesJsonDataUpdate(String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

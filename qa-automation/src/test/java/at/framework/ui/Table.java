@@ -39,7 +39,34 @@ public class Table extends Factory {
 
 	public void selectRow(String text) {
 		try {
-			By rowData = By.xpath("//tr//td//a[contains(text(),'" + text + "')]");
+			By rowData = By.xpath("//tr//td[text()='" + text + "']");
+			foundation.click(rowData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void selectRowInRule(String text) {
+		try {
+			By rowData = By.xpath("//tr//td/a[contains(text(),'" + text + "')]");
+			foundation.click(rowData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void selectRowWithoutContain(String text) {
+		try {
+			By rowData = By.xpath("//tr//td[contains(text(),'" + text + "')]");
+			foundation.click(rowData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	public void selectrow(String text) {
+		try {
+			By rowData = By.xpath("//tr//span[contains(text(),'" + text + "')]");
 			foundation.click(rowData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());

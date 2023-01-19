@@ -2034,12 +2034,14 @@ public class Consumer extends TestInfra {
 				consumerMove.moveConsumer(consumerName, toOrg, toLocation);
 				navigationBar.navigateToMenuItem(menuItem.get(0));
 				boolean isConsumerMoved = consumerMove.searchConsumer(consumerName, toOrg, toLocation);
+				foundation.threadWait(Constants.THREE_SECOND);
 				CustomisedAssert.assertTrue(isConsumerMoved);
 			} else {
 				consumerMove.searchConsumer(consumerName, toOrg, toLocation);
 				consumerMove.moveConsumer(consumerName, fromOrg, fromLocation);
 				navigationBar.navigateToMenuItem(menuItem.get(0));
 				boolean isConsumerMoved = consumerMove.searchConsumer(consumerName, fromOrg, fromLocation);
+				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(isConsumerMoved);
 			}
 		} catch (Exception exc) {
@@ -2240,7 +2242,7 @@ public class Consumer extends TestInfra {
 						Constants.TEXT);
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
-				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
+				table.selectRowWithoutContain(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 
 				foundation.click(ConsumerMove.BTN_MOVE);
 				foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
@@ -2351,7 +2353,7 @@ public class Consumer extends TestInfra {
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 				foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
+				table.selectRowWithoutContain(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 
 				foundation.click(ConsumerMove.BTN_MOVE);
 				foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
