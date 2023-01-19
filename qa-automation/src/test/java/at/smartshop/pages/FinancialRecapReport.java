@@ -52,7 +52,7 @@ public class FinancialRecapReport extends Factory {
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
 	private static final By LBL_REPORT_NAME_STAGING = By.id("Financial Recap");
 	private static final By TBL_FINANCIAL_RECAP_GRID = By.cssSelector("#rptdt > tbody");
-	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#dataGrid > tbody > tr:nth-child(1)");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(6)");
