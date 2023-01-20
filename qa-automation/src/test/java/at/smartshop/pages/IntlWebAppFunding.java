@@ -22,7 +22,7 @@ public class IntlWebAppFunding extends Factory {
 	private Foundation foundation = new Foundation();
 
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
-	private static final By REPORT_GRID_FIRST_ROW = By.xpath("//tbody//tr[@class='odd'][1]");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	private static final By TBL_INTL_WEB_APP_FUNDING = By.id("rptdt");
