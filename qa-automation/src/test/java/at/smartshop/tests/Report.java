@@ -251,17 +251,17 @@ public class Report extends TestInfra {
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 
-//	@Parameters({ "driver", "browser", "reportsDB" })
-//	@BeforeClass
-//	public void beforeTest(String drivers, String browsers, String reportsDB) {
-//		try {
-//			browser.launch(drivers, browsers);
-//			dataSourceManager.switchToReportsDB(reportsDB);
-//			browser.close();
-//		} catch (Exception exc) {
-//			TestInfra.failWithScreenShot(exc.toString());
-//		}
-//	}
+	@Parameters({ "driver", "browser", "reportsDB" })
+	@BeforeClass
+	public void beforeTest(String drivers, String browsers, String reportsDB) {
+		try {
+			browser.launch(drivers, browsers);
+			dataSourceManager.switchToReportsDB(reportsDB);
+			browser.close();
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	public void accountAdjustmentReport() {
@@ -587,7 +587,6 @@ public class Report extends TestInfra {
 			} else {
 				transactionCanned.verifyReportName(reportName.get(0));
 			}
-			;
 //			transactionCanned.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 			transactionCanned.getTblRecordsUI();
 			transactionCanned.getIntialData().putAll(transactionCanned.getReportsData());
@@ -1765,7 +1764,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "143527-This test validates Queued Credit Transactions Report Data Calculation")
-	public void queuedCreditTransactionsReportData() {
+	@Parameters({ "environment" })
+	public void queuedCreditTransactionsReportData(String environment) {
 		try {
 			final String CASE_NUM = "143527";
 
@@ -1780,7 +1780,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			queuedCreditTrans.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			queuedCreditTrans.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2030,7 +2030,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "145708-This test validates Tender Transactions Log Report Data Calculation")
-	public void tenderTransactionLogData() {
+	@Parameters({ "environment" })
+	public void tenderTransactionLogData(String environment) {
 		try {
 
 			final String CASE_NUM = "145708";
@@ -2053,7 +2054,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			tenderTransactionLog.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
-					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA));
+					rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2655,7 +2656,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "146147 -This test validates Unsold Report Data Calculation")
-	public void unsoldReportData() {
+	@Parameters({ "environment" })
+	public void unsoldReportData(String environment) {
 		try {
 
 			final String CASE_NUM = "146147";
@@ -2672,7 +2674,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			unsold.processAPI();
+			unsold.processAPI(environment);
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -2935,7 +2937,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "167829-Verify the UnRedeemed Promtions for Tender Discount Promotion with Tender type as Cash of Promtion Analysis")
-	public void PromtionAnalysisReportDataValidtionOfUnredeemedPromtionswithTenderDiscount() {
+	@Parameters({ "environment" })
+	public void PromtionAnalysisReportDataValidtionOfUnredeemedPromtionswithTenderDiscount(String environment) {
 		final String CASE_NUM = "167829";
 
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
@@ -3566,8 +3569,8 @@ public class Report extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
@@ -3755,8 +3758,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
@@ -3841,8 +3844,8 @@ public class Report extends TestInfra {
 			foundation.click(ProductSearch.BTN_PRODUCT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -4012,8 +4015,8 @@ public class Report extends TestInfra {
 //			foundation.waitforElement(Payments.ACCOUNT_EMAIL, Constants.ONE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(Order.BTN_CANCEL_ORDER));
 			foundation.click(Payments.ACCOUNT_EMAIL);
-//			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
-//			foundation.click(Payments.EMAIL_lOGIN_BTN);
+			foundation.waitforElement(Payments.EMAIL_lOGIN_BTN, Constants.ONE_SECOND);
+			foundation.click(Payments.EMAIL_lOGIN_BTN);
 			foundation.waitforElement(Payments.EMAIL_LOGIN_TXT, Constants.ONE_SECOND);
 			foundation.click(Payments.EMAIL_LOGIN_TXT);
 			foundation.threadWait(Constants.ONE_SECOND);
@@ -6048,7 +6051,7 @@ public class Report extends TestInfra {
 	 */
 	@Test(description = "203698-This test validates Entry Summary Report Data Calculation")
 	@Parameters({ "environment" })
-	public void entrySummaryReportDataValidation() {
+	public void entrySummaryReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "203698";
 
@@ -6134,7 +6137,7 @@ public class Report extends TestInfra {
 	 */
 	@Test(description = "203720-This test validates Delete Summary Report Data Calculation")
 	@Parameters({ "environment" })
-	public void deleteSummaryReportDataValidation() {
+	public void deleteSummaryReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "203720";
 
@@ -6220,7 +6223,8 @@ public class Report extends TestInfra {
 	 * @author ravindhara Date: 08-09-2022
 	 */
 	@Test(description = "203834-Verify the Data Validation of Sold Item COGS Report")
-	public void soldItemCOGSReportDataValidation() {
+	@Parameters({ "environment" })
+	public void soldItemCOGSReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "203834";
 
@@ -6240,7 +6244,7 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -6250,7 +6254,7 @@ public class Report extends TestInfra {
 			reportList.selectLocation(locationName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
-			foundation.waitforElement(soldItemCOGS.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			foundation.waitforElement(SoldItemCOGS.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			soldItemCOGS.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
 
 			// Read the Report the Data
@@ -6259,7 +6263,7 @@ public class Report extends TestInfra {
 			soldItemCOGS.getUpdatedTableFooters().putAll(soldItemCOGS.getTableFooters());
 
 			// process sales API to generate data
-			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+			soldItemCOGS.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// rerun and reread report
 			foundation.click(ReportList.BTN_RUN_REPORT);
@@ -6452,7 +6456,7 @@ public class Report extends TestInfra {
 	 * 
 	 * @author ravindhara Date: 20-09-2022
 	 */
-	@Test(description = "204450-Verify the Data Validation of Product Canned Report")
+	@Test(description = "204450-Verify the Data Validation of Product Canned Report.")
 	@Parameters({ "environment" })
 	public void productCannedReportDataValidation(String environment) {
 		try {
@@ -7321,7 +7325,8 @@ public class Report extends TestInfra {
 	 * @author KarthikR Date: 12-09-2022
 	 */
 	@Test(description = "119931 - Account Funding Report data validation")
-	public void accountFundingReportDataValidation() {
+	@Parameters({ "environment" })
+	public void accountFundingReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "119931";
 
@@ -7350,7 +7355,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			accountFunding.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			// Navigate To Report Tab and Select the Report Date range & Location, run
 			// report
@@ -7393,7 +7398,7 @@ public class Report extends TestInfra {
 
 			// process sales API again to generate new data
 			accountFunding.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
-					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			foundation.threadWait(Constants.THREE_SECOND);
 			// Navigate to Report again to read Updated Report Data
