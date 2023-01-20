@@ -45,7 +45,7 @@ public class LoadProduct extends Factory{
 	public static final By SELECTED_LOCATION = By.xpath("//select[@id='location']/option[text()='AutoLocation1']");
 	public static final By LBL_LOCATION_MESSAGE = By.xpath("//label[text()='Extend Product to Selected Location(s):']");
 	public static final By TXT_DELETE_POPUP = By.xpath("//input[@type='text']");
-	public static final By SUCCESS_MESSAGE = By.xpath("//div[contains(@class,'humane ')]");
+	public static final By SUCCESS_MESSAGE = By.xpath("//div[contains(@class,'humane')]");
 	public static final By LBL_PRODUCT_RESULT = By.xpath("//li[text()='Load Product Results']");
 	public static final By TBL_PRODUCT_ERROR_HEADER = By.xpath("//table//tr[@role='row']");
 	public static final By TBL_PRODUCT_ERROR_CONTENT = By.xpath("//tbody//tr[@class='odd']//td");

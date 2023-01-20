@@ -65,6 +65,7 @@ public class SOSLoad extends TestInfra {
 	private LoadAdvana loadAdvana = new LoadAdvana();
 	private DateAndTime dateAndTime = new DateAndTime();
 	private LoadProductPricing loadProductPricing = new LoadProductPricing();
+	private LoadQueue loadQueue = new LoadQueue();
 	
 	private Map<String, String> rstProductSummaryData;
 	private Map<String, String> rstLocationListData;
@@ -1297,6 +1298,7 @@ public class SOSLoad extends TestInfra {
 		    CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(data.get(1)));
 
 		    //verify Load Type Dropdown Option
+		    foundation.threadWait(Constants.THREE_SECOND);
 		    CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.DPD_LOAD_TYPE).equals(loadType));
 
 		    //verify Delete Existing Products Dropdown Option
@@ -1498,8 +1500,8 @@ public class SOSLoad extends TestInfra {
 					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_HASH));
 			List<String> content =Arrays
 					.asList(rstProductData.get(CNProduct.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			List<String> message =Arrays
-					.asList(rstProductData.get(CNProduct.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
+			String message =rstProductData.get(CNProduct.PRODUCT_NAME);
+			
 			String requiredString = (" "+ "#" + " " + "#" + "Milk" + "#" + "234");
 			
 		try {
@@ -1527,10 +1529,12 @@ public class SOSLoad extends TestInfra {
 			//verify Delete Popup
 			loadProduct.verifyDeletePopupFunctionalityAndButton();
 			textBox.enterText(LoadProduct.TXT_DELETE_POPUP, data.get(3));
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LoadProduct.BTN_DELETE);
 			
 			//verify error message
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadProduct.SUCCESS_MESSAGE).equals(message));
+		    foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.getText(LoadProduct.SUCCESS_MESSAGE).equals(message));
             CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_ERROR));
 			
 			//verify the error page header
@@ -1572,13 +1576,18 @@ public class SOSLoad extends TestInfra {
 				+"223683-To Verify the Show Count Record Options"
 				+"223684-To Verify the Page navigations and Record"
 				+"223685-To Verify the search field in Queue Processes page"
-				+"223690-Verify the data displayed below each column in Queue")
-		public void verify() {
+				+"223686-To Verify the Show Count Record Options in Process logs"
+				+"223687-To Verify the Page navigations and Record in Process logs"
+				+"223688-To Verify the search field in Process logs page"
+				+"223689-To Verify the Process logs page message"
+				+"223714-Verify the data displayed below each column match with Table header")
+		public void verifyAllFunctionalityInQueueAndProcessLog() {
 			final String CASE_NUM = "223682";
 			     
 			// Reading test data from DataBase
 			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 			rstLoadProduct = dataBase.getLoadProductData(Queries.LOAD_PRODUCT, CASE_NUM);
+			rstProductData = dataBase.getProductData(Queries.PRODUCT, CASE_NUM);
 			 
 			List<String> menu =Arrays
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
@@ -1586,6 +1595,10 @@ public class SOSLoad extends TestInfra {
 					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 			List<String> header =Arrays
 					.asList(rstLoadProduct.get(CNLoadProduct.LOAD_TYPE).split(Constants.DELIMITER_TILD));
+			List<String> processHeader =Arrays
+					.asList(rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT).split(Constants.DELIMITER_TILD));
+			List<String> processContent =Arrays
+					.asList(rstProductData.get(CNProduct.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
 			String requiredString = ("c9fe79b15");
 			String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_M_DD_YYYY, Constants.TIME_ZONE_INDIA);
 			
@@ -1598,7 +1611,7 @@ public class SOSLoad extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 				
 			sosHome.selectOrginazation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 			
 			//navigate to Advana
@@ -1606,48 +1619,142 @@ public class SOSLoad extends TestInfra {
 			
 			//Upload image and File writing excel with Invalid location Id
 			loadAdvana.addHomeCommercial(option.get(0),option.get(1),option.get(2),requiredString,option.get(3),currentDate);
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).contains(option.get(4)));
 			
 			//navigate to Queue
 			navigationBar.navigateToMenuItem(menu.get(0));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadQueue.LBL_QUEUE));
-			
-			//verify the table header
-			CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadQueue.TBL_HEADER).equals(header));
-			
-			//verify search functionality
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadQueue.TXT_SEARCH));
 			textBox.enterText(LoadQueue.TXT_SEARCH,option.get(5));
-			List <String> data=foundation.getTextofListElement(LoadQueue.TBL_REQUIRED_DATA);
-			CustomisedAssert.assertTrue(data.contains(option.get(5)));
 			
-			//verify data column
-			CustomisedAssert.assertTrue(data.contains(option.get(6)) && data.contains(option.get(7)) && data.contains(option.get(5))
-					&& foundation.getText(LoadQueue.GET_TIME).contains(currentDate) && data.contains(option.get(8)),"[Fail]: No text found");
+			//verify table data's and page navigation
+			loadQueue.verifyAllFieldAndFunctionalityInQueuePage(header,option.get(5),option.get(6),option.get(7),currentDate,option.get(8),
+					option.get(9), option.get(10),option.get(11));
+		
+			//click table data
+			foundation.click(LoadQueue.CLICK_TYPE);
+            CustomisedAssert.assertTrue(foundation.isDisplayed(LoadQueue.LBL_PROCESS));
 			
-			//verify the record
-			foundation.waitforElementToBeVisible(LoadQueue.LBL_RECORDS_COUNT, 5);
-			String s = foundation.getText(LoadQueue.LBL_RECORDS_COUNT);
-			String[] str = s.split(" ");
-			for (int i = 0; i < str.length; i++) {
-			System.out.println(str[i]);
-			}
-			CustomisedAssert.assertTrue(s.contains("1 - ") && s.contains("of") && s.contains("records"),
-					"[Fail]: No total record text found");
-			CustomisedAssert.assertTrue(str[2].equals(str[4]));
-			
-			//verify Page navigation
-			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadQueue.LBL_PAGE_NAVIGATION));
-			CustomisedAssert.assertTrue(foundation.getBGColor(LoadQueue.PAGE_NAVIGATION).equals(option.get(9)));
-			
-			//verify show count
-			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.LBL_SHOW_RECORD).contains(option.get(10)) && 
-					foundation.getText(LoadQueue.LBL_SHOW_RECORD).contains(option.get(11)),"[Fail]: No text found");
-		   
+			//verify table data's and page navigation In Process Log
+			loadQueue.verifyAllFieldAndFunctionalityInProcesslog(processHeader,processContent.get(0),processContent,option.get(9),
+					option.get(10),option.get(11));
+            
 		}
 		catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}	
+		
+		/**
+		 * @author sakthir 
+		 * Date:18-11-2022
+		 */
+		@Test(description = "223692-verify the upload is successful without start and end date"
+				+"223691-verify the upload is successful with valid start and end date"
+				+"223693-verify the upload is not successful with invalid start and end date"
+				+"223694-verify the upload is successful with Has No end checked"
+				+"223695-verify the upload is not successful with valid start and without end date"
+				+"223696-verify the upload is not successful with valid start and invalid end date"
+				+"223697-verify the upload is not successful without providing start and valid end date"
+				+"223698-verify the upload is not successful with invalid start and valid end date"
+				+"225518-verify the upload is not successful with invalid start date and with selecting checkbox 'Has No End Date'")
+		public void verifyErrorMessageWhileEnterValidInvalidStartAndEndDate() {
+			
+				final String CASE_NUM = "223692";
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstGmaUser = dataBase.getGmaUserData(Queries.GMA_USER, CASE_NUM);
+				
+				String menu =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+				String currentDate = dateAndTime.getDateAndTime(Constants.REGEX_DD_MM_YYYY, Constants.TIME_ZONE_INDIA);
+				List<String> location =Arrays
+						.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+				
+		try {
+			
+				// Login into SOS application
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				sosHome.selectOrginazation(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+				
+				//navigate to home commercial
+				foundation.threadWait(Constants.THREE_SECOND);
+				navigationBar.navigateToMenuItem(menu);
+								
+				//verify error message without enter state and end date
+				foundation.threadWait(Constants.THREE_SECOND);
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadAdvana.LBL_ADVANA));
+				loadAdvana.addHomeCommercialFileWithoutDate(location.get(0),location.get(1),location.get(2),(
+						propertyFile.readPropertyFile(Configuration.SOS_LOCATION_ID, FilePath.PROPERTY_CONFIG_FILE)),location.get(3));
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(4)));
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_END_MSG).equals(location.get(4)));
+				foundation.threadWait(Constants.THREE_SECOND);
+				
+				//verify error message enter without start date and valid end date
+				textBox.enterText(LoadAdvana.SELECT_END_DATE, currentDate);
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(4)));
+				foundation.threadWait(Constants.THREE_SECOND);
+				
+				//verify error message with invalid state and end date
+				textBox.enterText(LoadAdvana.SELECT_START_DATE, location.get(8));
+				foundation.threadWait(Constants.THREE_SECOND);
+				textBox.enterText(LoadAdvana.SELECT_END_DATE, location.get(8));
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
+				foundation.threadWait(Constants.THREE_SECOND);
+				
+				//verify error message enter valid start date and without end date
+				textBox.enterText(LoadAdvana.SELECT_START_DATE, currentDate);
+				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_END_MSG).equals(location.get(4)));
+				foundation.threadWait(Constants.THREE_SECOND);
+				
+				//verify error message enter valid start date and invalid end date
+				textBox.enterText(LoadAdvana.SELECT_START_DATE, currentDate);
+				foundation.threadWait(Constants.THREE_SECOND);
+				textBox.enterText(LoadAdvana.SELECT_END_DATE, location.get(8));
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_END_MSG).equals(location.get(6)));
+				foundation.threadWait(Constants.THREE_SECOND);
+				
+				//verify error message enter valid start date and invalid end date
+				textBox.enterText(LoadAdvana.SELECT_START_DATE,location.get(8));
+				foundation.threadWait(Constants.THREE_SECOND);
+				textBox.enterText(LoadAdvana.SELECT_END_DATE, currentDate);
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
+				foundation.threadWait(Constants.THREE_SECOND);
+				
+				//check HasNoCheck box with invalid start data
+				textBox.enterText(LoadAdvana.SELECT_START_DATE, location.get(8));
+				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.click(LoadAdvana.CHECK_HAS_NO_END_DATE);
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
+				foundation.threadWait(Constants.THREE_SECOND);
+				
+				//check HasNoCheck box with valid start data
+				navigationBar.navigateToMenuItem(menu);
+				loadAdvana.addHomeCommercialFileWithoutDate(location.get(0),location.get(1),location.get(2),(
+						propertyFile.readPropertyFile(Configuration.SOS_LOCATION_ID, FilePath.PROPERTY_CONFIG_FILE)),location.get(3));
+				textBox.enterText(LoadAdvana.SELECT_START_DATE, currentDate);
+				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.click(LoadAdvana.CHECK_HAS_NO_END_DATE);
+				foundation.click(LoadAdvana.BTN_SAVE);
+				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(7)));
+				
+				
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
+		}
 	
 }
