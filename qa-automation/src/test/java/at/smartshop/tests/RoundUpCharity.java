@@ -282,7 +282,7 @@ public class RoundUpCharity extends TestInfra {
 			
 			// login as Operator
 			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.ROUND_UP_CHARITY_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//Navigate to Admin->Round Up Charity and verify page
@@ -428,25 +428,28 @@ public class RoundUpCharity extends TestInfra {
 			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			
 			//verify the error message for button search
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.ERROR_BTN_SEARCH).equals(Name.get(1)));
 			
 			//Click on Add Charity and enter EIN fields and click on save
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SEARCH));
 			foundation.click(AdminRoundUpCharity.BTN_SEARCH);
-			foundation.threadWait(3);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SAVE));
 			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			
 			//verify the error message for display name
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.ERROR_DISPLAY_NAME).equals(Name.get(0)));
 			
 			//Click on Add Charity and enter EIN fields and click on save
 			textBox.enterText(AdminRoundUpCharity.TXT_DISPLAYNAME, value.get(4));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_SAVE));
-			foundation.threadWait(3);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			
 			//verify that location is not mandatory and it should saved
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 			textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, value.get(3));
 			CustomisedAssert.assertTrue(foundation.getTextofListElement(AdminRoundUpCharity.SELECT_ROW).equals(data));
@@ -502,7 +505,7 @@ public class RoundUpCharity extends TestInfra {
 			CustomisedAssert.assertFalse(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
 			
 			//enter EIN and Search
-			adminRoundUpCharity.enterEINAndSearch( data.get(2));
+			adminRoundUpCharity.enterEINAndSearch(data.get(2));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
 			
 			//verify the font-style in italic
@@ -516,14 +519,17 @@ public class RoundUpCharity extends TestInfra {
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			
 			//select existing charity
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 			adminRoundUpCharity.selectCharity(data.get(5));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
 			foundation.click(AdminRoundUpCharity.TXT_DISPLAYNAME);
 			foundation.clearText();
-			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+//			foundation.threadWait(Constants.THREE_SECOND);
+//			foundation.click(AdminRoundUpCharity.BTN_SAVE);
 			
 			//verify the error
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getText((AdminRoundUpCharity.ERROR_DISPLAY_NAME)).equals(data.get(6)));
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			}
@@ -622,7 +628,7 @@ public class RoundUpCharity extends TestInfra {
 			try {
 			// login as Operator
 			navigationBar.launchBrowserAndSelectOrg(
-					propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.ROUND_UP_CHARITY_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			
 			//Navigate to Admin->Round Up Charity and verify page
@@ -757,7 +763,7 @@ public class RoundUpCharity extends TestInfra {
 				
 				// login as Operator
 				navigationBar.launchBrowserAndSelectOrg(
-						propertyFile.readPropertyFile(Configuration.OPERATOR_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 						propertyFile.readPropertyFile(Configuration.ROUND_UP_CHARITY_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				
 				//Navigate to Admin->Round Up Charity and verify page
@@ -786,6 +792,7 @@ public class RoundUpCharity extends TestInfra {
 				CustomisedAssert.assertFalse(foundation.getSizeofListElement(AdminRoundUpCharity.SELECT_ROW_CAUSENAME)==listValue);
 				
 				//verify location hypertext under dropdown
+				foundation.threadWait(Constants.THREE_SECOND);
 				foundation.click(AdminRoundUpCharity.BTN_ADDCHARITY);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ADD_CHARITY));
 				textBox.enterText(AdminRoundUpCharity.TXT_EIN_SEARCH, value.get(2));

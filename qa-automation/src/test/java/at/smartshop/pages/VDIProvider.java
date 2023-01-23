@@ -3,6 +3,7 @@ package at.smartshop.pages;
 import org.openqa.selenium.By;
 import at.framework.browser.Factory;
 import at.framework.generic.CustomisedAssert;
+import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
 import at.framework.ui.TextBox;
@@ -12,6 +13,7 @@ public class VDIProvider extends Factory{
 	private TextBox textBox = new TextBox();
 	private Foundation foundation = new Foundation();
 	private Dropdown dropDown = new Dropdown();
+	private Strings string = new Strings();
 	
 		public static final By BTN_CREATE = By.id("newBtn");
 		public static final By LBL_VPI_PROVIDER_LIST = By.id("VDI Provider List");
@@ -58,7 +60,7 @@ public class VDIProvider extends Factory{
 		    foundation.click(VDIProvider.BTN_CREATE);
 		    CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.LBL_VPI_PROVIDER_CREATE));
 		    foundation.click(VDIProvider.TXT_NAME);
-		    textBox.enterText(VDIProvider.TXT_NAME,Name);
+		    textBox.enterText(VDIProvider.TXT_NAME,Name+string.getRandomCharacter());
 		    foundation.click(VDIProvider.DPD_VERSION);
 		    dropDown.selectItem(VDIProvider.DPD_VERSION, version,  Constants.TEXT);
 		    CustomisedAssert.assertTrue(foundation.isDisplayed(VDIProvider.BTN_GENERATE));

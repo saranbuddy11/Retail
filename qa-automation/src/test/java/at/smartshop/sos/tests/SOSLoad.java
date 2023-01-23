@@ -662,7 +662,7 @@ public class SOSLoad extends TestInfra {
 			
 			//Get Org list from SOS loader
 			foundation.click(NavigationBar.DPD_ORG);
-			List<String> SOSOrg=foundation.getTextofListElement(Login.DPD_ORG);
+			int SOSOrg=foundation.getSizeofListElement(Login.DPD_ORG);
 			
 			//verify log out button and sign out from login user
 			foundation.click(NavigationBar.DPD_ORG);
@@ -675,12 +675,12 @@ public class SOSLoad extends TestInfra {
 			
 			//get Org list from ADM
 			foundation.click(NavigationBar.DPD_ORG);
-			List<String> ADMOrg=foundation.getTextofListElement(Login.DPD_ORG);
+			int ADMOrg=foundation.getSizeofListElement(Login.DPD_ORG);
 			
 			//verify SOS org and ADM org
 			System.out.println(ADMOrg);
 			System.out.println(SOSOrg);
-			CustomisedAssert.assertTrue(SOSOrg.equals(ADMOrg));
+			CustomisedAssert.assertEquals(SOSOrg,ADMOrg);
 			
 			
 		}
@@ -731,6 +731,7 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT));
 			
 			//Select location for product 
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LoadProduct.BTN_SELECTALL);
 			CustomisedAssert.assertTrue(foundation.getBGColor(LoadProduct.DPD_LOCATION).equals(location.get(2)));
 			foundation.click(LoadProduct.BTN_SELECTNONE);
@@ -739,13 +740,14 @@ public class SOSLoad extends TestInfra {
 			foundation.click(loadProduct.clickLocation(location.get(0)));
 			
 			//Creating product with price via Template in SOS Load
+			foundation.threadWait(Constants.THREE_SECOND);
 //			String requiredStringData = (requiredString + Constants.DELIMITER_HASH + data.get(0));
 			excel.writeToExcel(FilePath.PRODUCT_TEMPLATE,loadProduct.SHEET,"1#1#2",requiredString);
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
 			if(!foundation.getText(LoadProduct.BTN_DELETE).equals(deleteExisting))
 			foundation.click(LoadProduct.BTN_SUBMIT);
-			foundation.threadWait(Constants.TEN_SECOND);
 			sosHome.logout();
+			foundation.threadWait(Constants.THREE_SECOND);
 			
 			//log in ADM as super user
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -756,6 +758,7 @@ public class SOSLoad extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, requiredData );
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(requiredData));
@@ -766,6 +769,7 @@ public class SOSLoad extends TestInfra {
 		finally {
 			foundation.click(LocationSummary.PRODUCT_NAME);
 			foundation.waitforElement(LocationSummary.BTN_EDIT_PRODUCT, Constants.MEDIUM_TIME);
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LocationSummary.BTN_EDIT_PRODUCT);
 			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
@@ -804,10 +808,12 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
 			    //navigate to Device Id
+				foundation.threadWait(Constants.THREE_SECOND);
 				navigationBar.navigateToMenuItem(menu.get(0));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_MIDDID));
 				
 				//select processor and upload invalid file
+				foundation.threadWait(Constants.SHORT_TIME);
 				foundation.click(loadDeviceID.clickLocation(menu.get(1)));
 				int requiredValue = numbers.generateRandomNumber(0, 999999);
 				String requiredData = strings.getRandomCharacter();
@@ -815,16 +821,16 @@ public class SOSLoad extends TestInfra {
 						+ requiredData + "#" + requiredValue + "#" + requiredValue + "#" + requiredValue );
 
 				// Write excel and upload file
+				foundation.threadWait(Constants.THREE_SECOND);
 				excel.writeToExcel(FilePath.MIDDID_TEMPLATE, loadDeviceID.SHEET,
 					menu.get(2) , requiredString);
 				textBox.enterText(LoadDeviceID.BTN_CHOOSE_FILE,FilePath.MIDDID_TEMPLATE);
 				foundation.threadWait(Constants.SHORT_TIME);
 				foundation.click(LoadDeviceID.BTN_SUBMIT);
-				foundation.threadWait(Constants.TEN_SECOND);
+				foundation.threadWait(Constants.THREE_SECOND);
 				
 				//verify the error page
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_ERROR_MSG));
-				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadDeviceID.TBL_ERROR_DATA).contains(location));
 				
 				}catch (Exception exc) {
@@ -920,9 +926,11 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT));
 					
 			//write Invalid excel and upload the file
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(loadProduct.clickLocation(location.get(0)));
 			
 			//Creating product with improper price via Template in SOS Load
+			foundation.threadWait(Constants.THREE_SECOND);
 			String requiredString = (" " + "#" + " " + "#" + "Milk" + "#" + "23433332" + "#"
 					+ "Juice" + "#" + "Drinks" + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + "11" + "#" + "13" + "#" + " " 
 					+ "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " 
@@ -978,31 +986,38 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
 				//navigate to home commercial
+				foundation.threadWait(Constants.THREE_SECOND);
 				navigationBar.navigateToMenuItem(menu.get(0));
 								
 				//Upload image and File writing excel with location Id
+				foundation.threadWait(Constants.THREE_SECOND);
 				loadAdvana.addHomeCommercial(location.get(0),location.get(1),location.get(2),(
 						propertyFile.readPropertyFile(Configuration.SOS_LOCATION_ID, FilePath.PROPERTY_CONFIG_FILE)),location.get(3),currentDate);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
 				
 				//verify in Queue
+				foundation.threadWait(Constants.THREE_SECOND);
 				navigationBar.navigateToMenuItem(menu.get(1));
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 
 				//navigate to home commercial
+				foundation.threadWait(Constants.THREE_SECOND);
 				navigationBar.navigateToMenuItem(menu.get(0));
 				
 				//Upload same image and File with different commercial name
+				foundation.threadWait(Constants.THREE_SECOND);
 				loadAdvana.addHomeCommercial(location.get(0),location.get(9),location.get(2),(
 						propertyFile.readPropertyFile(Configuration.SOS_LOCATION_ID, FilePath.PROPERTY_CONFIG_FILE)),location.get(3),currentDate);
 				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
 				
 				//verify in Queue
+				foundation.threadWait(Constants.THREE_SECOND);
 				navigationBar.navigateToMenuItem(menu.get(1));
 				foundation.threadWait(Constants.SHORT_TIME);
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 				sosHome.logout();
+				foundation.threadWait(Constants.THREE_SECOND);
 				
 				// Launch ADM as super
 				navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -1020,6 +1035,7 @@ public class SOSLoad extends TestInfra {
 				textBox.enterText(LocationSummary.TXT_CMR_FILTER, location.get(9));
 				CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_HOME_COMMERCIAL).contains(location.get(9)));
 				login.logout();
+				foundation.threadWait(Constants.THREE_SECOND);
 				
 				// Login into SOS application
 				browser.navigateURL(
@@ -1031,6 +1047,7 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
 				//navigate to home commercial
+				foundation.threadWait(Constants.THREE_SECOND);
 				navigationBar.navigateToMenuItem(menu.get(0));
 				foundation.threadWait(Constants.SHORT_TIME);
 				loadAdvana.removeHomeCommercial(location.get(4),location.get(2),(
@@ -1038,15 +1055,17 @@ public class SOSLoad extends TestInfra {
 				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
-				foundation.threadWait(Constants.SHORT_TIME);
+				foundation.threadWait(Constants.THREE_SECOND);
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
 				sosHome.logout();
+				foundation.threadWait(Constants.THREE_SECOND);
 				
 				// Launch ADM as super
 				navigationBar.launchBrowserAsSuperAndSelectOrg(
 						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				
 				//select commercial Added location and Click commercial Tab
+				foundation.threadWait(Constants.THREE_SECOND);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 				foundation.threadWait(Constants.SHORT_TIME);
 				locationList.selectLocationName(location.get(6));
@@ -1156,10 +1175,12 @@ public class SOSLoad extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(0));
 						
 			//Creating product with improper Product pricing via Template in SOS Load
+			foundation.threadWait(Constants.SHORT_TIME);
 			String requiredString = ( "123456788" + "#" + "12.6" );
 			excel.writeToExcel(FilePath.PRODUCT_PRICING_TEMPLATE,loadProductPricing.SHEET,location.get(2), requiredString);
 			textBox.enterText(LoadProductPricing.BTN_CHOOSE_FILE, FilePath.PRODUCT_PRICING_TEMPLATE);
-                        textBox.enterText(LoadProductPricing.TXT_LOCATION_NUMBER, location.get(0));
+            textBox.enterText(LoadProductPricing.TXT_LOCATION_NUMBER, location.get(0));
+            foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(LoadProductPricing.BTN_SUBMIT);
 			
 			//verify Success msg page
@@ -1169,13 +1190,16 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 			
 			//verify the Queue page
+			foundation.threadWait(Constants.THREE_SECOND);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(1)));
 
             //navigate to ProductPricing
+			foundation.threadWait(Constants.THREE_SECOND);
 			navigationBar.navigateToMenuItem(menu.get(0));
 						
 			//Creating product with proper Product pricing via Template in SOS Load
+			foundation.threadWait(Constants.SHORT_TIME);
 			String price=("20.6");  
 			excel.writeToExcel(FilePath.PRODUCT_PRICING_TEMPLATE,loadProductPricing.SHEET,location.get(2), data + "#" + price );
 			textBox.enterText(LoadProductPricing.BTN_CHOOSE_FILE, FilePath.PRODUCT_PRICING_TEMPLATE);
@@ -1184,9 +1208,11 @@ public class SOSLoad extends TestInfra {
 			foundation.threadWait(Constants.THREE_SECOND);
 			
 			//verify the Queue page
+			foundation.threadWait(Constants.THREE_SECOND);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(3)));
 			sosHome.logout();
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Launch ADM as super
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
@@ -1197,6 +1223,7 @@ public class SOSLoad extends TestInfra {
 			foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
 			foundation.click(LocationSummary.TAB_PRODUCTS);
 			foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(LocationSummary.TXT_PRODUCT_FILTER, data);
 			foundation.threadWait(Constants.SHORT_TIME);
             CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TBL_PRODUCTS_GRID).contains(price));

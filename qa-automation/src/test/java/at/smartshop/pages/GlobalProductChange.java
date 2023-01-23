@@ -339,6 +339,7 @@ public class GlobalProductChange extends Factory {
 	 * select location and click on products
 	 */
 	public void selectLocationAndProductClickOnNext(String location, String product) {
+		foundation.threadWait(Constants.THREE_SECOND);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 5);
 		selectLocationAndClickOnApply(objLocation(location));
@@ -356,6 +357,7 @@ public class GlobalProductChange extends Factory {
 	 * @throws AWTException
 	 */
 	public void updateDepositeAndTaxField(String deposit, String tax1, String tax2) throws AWTException {
+		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.waitforElementToBeVisible(GlobalProductChange.LBL_PRODUCT_FIELD_CHANGE, 5);
 		textBox.enterText(GlobalProductChange.DEPOSIT_CAT, deposit);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.DEPOSITE_CHECKED));
@@ -377,9 +379,8 @@ public class GlobalProductChange extends Factory {
 	public void verifyButtonOkayInGPC() throws AWTException {
 		foundation.click(GlobalProductChange.BUTTON_OK);
 		foundation.waitforElementToBeVisible(INPUT_TEXT, 3);
-		textBox.enterText(INPUT_TEXT, "CONFIRM");
-		foundation.threadWait(1);
-		foundation.clickEnter();
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP, "CONFIRM");
+		textBox.enterText(GlobalProductChange.TXT_CONFIRM_POPUP, Keys.ENTER);
 		foundation.threadWait(Constants.MEDIUM_TIME);
 		foundation.waitforElementToBeVisible(REASON_BTNOK, 5);
 		foundation.click(REASON_BTNOK);

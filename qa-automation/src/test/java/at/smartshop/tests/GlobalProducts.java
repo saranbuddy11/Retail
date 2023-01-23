@@ -1275,6 +1275,11 @@ public class GlobalProducts extends TestInfra {
 			// Select Menu Item & verify the select in Global Product Change for Location(s)
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			// Navigate to org summary and select dropDown from tax method
+			navigationBar.navigateToMenuItem(menus.get(2));
+			orgsummary.selectDropdownValues(OrgSummary.DPD_TAX_METHOD,rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+						
 			navigationBar.navigateToMenuItem(menus.get(0));
 
 			// verify the select in Operator Product Catalog Change
@@ -1345,7 +1350,8 @@ public class GlobalProducts extends TestInfra {
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
+		} 
+		finally {
 			navigationBar.navigateToMenuItem(menus.get(0));
 
 			// verify the select in Operator Product Catalog Change
@@ -1413,7 +1419,6 @@ public class GlobalProducts extends TestInfra {
 			foundation.threadWait(3);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getX()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
-			foundation.threadWait(3);
 			CustomisedAssert.assertEquals(String.valueOf(coordinates.getY()),
 					rstGlobalProductChangeData.get(CNGlobalProductChange.TOOL_TIP_MESSAGE));
 			foundation.threadWait(Constants.TWO_SECOND);
@@ -1666,7 +1671,7 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.verifyRecordData(dropdown.get(10), dropdown.get(11));
 			globalProductChange.verifyRecordData(dropdown.get(14), dropdown.get(12));
 			globalProductChange.verifyRecordData(dropdown.get(15), dropdown.get(13));
-			foundation.threadWait(5);
+			foundation.threadWait(3);
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -2104,7 +2109,7 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.clickConfirmMsgInGPC(data.get(4));
 
 			// Disable Tax column in super->org summary
-			orgsummary.enableTax2Column(menu.get(2), data.get(0));
+			orgsummary.enableTax2Column(menu.get(2), data.get(5));
 		}
 	}
 
@@ -2122,7 +2127,8 @@ public class GlobalProducts extends TestInfra {
 
 		List<String> product = Arrays.asList(
 				rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME).split(Constants.DELIMITER_TILD));
-		String menu = rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);
+		List<String> menu = Arrays
+				.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
 		List<String> data = Arrays
 				.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
 		List<String> location = Arrays.asList(
@@ -2135,9 +2141,13 @@ public class GlobalProducts extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
+			//verify Tax cat
+			navigationBar.navigateToMenuItem(menu.get(1));
+			orgsummary.selectDropdownValues(OrgSummary.DPD_TAX_METHOD,data.get(8));
+			
 			// Navigate to Global Product Change and Validating Min, Max have checkmarks for
 			// negative values
-			navigationBar.navigateToMenuItem(menu);
+			navigationBar.navigateToMenuItem(menu.get(0));
 			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
 			globalProductChange.verifyCheckmarksInGPC(data.get(1), data.get(0));
 			globalProductChange.clickConfirmMsgInGPC(data.get(5));
@@ -2165,17 +2175,18 @@ public class GlobalProducts extends TestInfra {
 			globalProductChange.verifyCheckmarksInOPC(data.get(3), data.get(2), data.get(2));
 			globalProductChange.clickConfirmMsgInOPC();
 
-			// reset value for Global Product Change
-			navigationBar.navigateToMenuItem(menu);
-			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
-			globalProductChange.verifyCheckmarksInGPC(data.get(4), data.get(4));
-			globalProductChange.clickConfirmMsgInGPC(data.get(5));
+			
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 		finally {
-
+			// reset value for Global Product Change
+			navigationBar.navigateToMenuItem(menu.get(0));
+			globalProductChange.selectProductInGPC(location.get(0), product.get(1));
+			globalProductChange.verifyCheckmarksInGPC(data.get(4), data.get(4));
+			globalProductChange.clickConfirmMsgInGPC(data.get(5));
+			
 			// Operator Product Catalog Change
 			globalProductChange.selectProductOPC(product.get(1));
 			globalProductChange.verifyCheckmarksInOPC(data.get(6), data.get(7), data.get(4));
@@ -2722,7 +2733,7 @@ public class GlobalProducts extends TestInfra {
 					
 				
 					 //Upload Large PNG
-					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
+//					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
 					globalProduct.uploadLargeImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE_PNG);
 					
@@ -2733,7 +2744,7 @@ public class GlobalProducts extends TestInfra {
 							FilePath.IMAGE_JPEG);
 					
 		            //Upload Large JPG
-					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
+//					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
 					globalProduct.uploadLargeImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE_JPEG);
 					
@@ -2744,7 +2755,7 @@ public class GlobalProducts extends TestInfra {
 					foundation.threadWait(5);
 					
 		            //Upload Large Image with larger than 2MB
-					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+//					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 					globalProduct.uploadLargeImage2MB(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE2MB_PNG , rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE));
 									
@@ -2800,10 +2811,12 @@ public class GlobalProducts extends TestInfra {
 					foundation.click(ProductSummary.BTN_SAVE);
 					
 					//Select Image Uploaded product
+					foundation.threadWait(Constants.SHORT_TIME);
 					globalProduct.selectGlobalProduct(data.get(0));
 					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 					
 					//verify the Uploaded image as save
+					foundation.threadWait(Constants.SHORT_TIME);
 					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
 					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
 					CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.LBL_SMALL_IMAGE_NAME).equals(data.get(3)));
@@ -2811,6 +2824,7 @@ public class GlobalProducts extends TestInfra {
 					foundation.click(GlobalProduct.BTN_CANCEL);
 					
 					//Click Create New and enter required fields
+					foundation.threadWait(Constants.SHORT_TIME);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 					foundation.click(GlobalProduct.BTN_CREATE);
 					foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -2821,6 +2835,7 @@ public class GlobalProducts extends TestInfra {
 					textBox.enterText(GlobalProduct.TXT_SCAN_CODE, strings.getRandomCharacter());
 					
 					//Click Show Image and verify Images grid
+					foundation.threadWait(Constants.SHORT_TIME);
 					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.BTN_SHOW_IMAGES));
 					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
@@ -2832,6 +2847,7 @@ public class GlobalProducts extends TestInfra {
 					globalProduct.uploadLargeImageInGlobalProduct(data.get(9));
 					
 					//Save with Extend location
+					foundation.threadWait(Constants.SHORT_TIME);
 					foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE_EXTEND, 2);
 					foundation.click(GlobalProduct.BTN_SAVE_EXTEND);
 					foundation.waitforElementToBeVisible(GlobalProduct.POPUP_DROPDOWN, 5);
@@ -2842,13 +2858,15 @@ public class GlobalProducts extends TestInfra {
 					foundation.click(GlobalProduct.LBL_SAVE_DONE);
 					
 					//Select Image Uploaded product
+					foundation.threadWait(Constants.SHORT_TIME);
 					navigationBar.navigateToMenuItem(menu);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
-					foundation.threadWait(3);
+					foundation.threadWait(Constants.SHORT_TIME);
 					globalProduct.selectGlobalProduct(data.get(6));
 					CustomisedAssert.assertTrue(foundation.isDisplayed(ProductSummary.LBL_PRODUCT_SUMMMARY));
 					
 					//verify the Uploaded image as save
+					foundation.threadWait(Constants.SHORT_TIME);
 					foundation.scrollIntoViewElement(GlobalProduct.BTN_SHOW_IMAGES);
 					foundation.click(GlobalProduct.BTN_SHOW_IMAGES);
 					CustomisedAssert.assertTrue(foundation.getText(GlobalProduct.LBL_SMALL_IMAGE_NAME).equals(data.get(3)));
@@ -2861,6 +2879,7 @@ public class GlobalProducts extends TestInfra {
 		          }
 				finally {
 			        //resetting
+					foundation.threadWait(Constants.SHORT_TIME);
 					navigationBar.navigateToMenuItem(menu);
 					CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 		        	globalProduct.selectGlobalProduct(data.get(0));
@@ -2870,6 +2889,7 @@ public class GlobalProducts extends TestInfra {
 		  			globalProduct.uploadSmallImageInGlobalProduct(data.get(5));
 		  			globalProduct.uploadLargeImageInGlobalProduct(data.get(4));
 		  			foundation.click(ProductSummary.BTN_SAVE);
+		  			foundation.threadWait(Constants.SHORT_TIME);
 		  			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.LBL_GLOBAL_PRODUCT));
 		  			foundation.threadWait(3);
 		        	globalProduct.selectGlobalProduct(data.get(6));
@@ -2878,8 +2898,7 @@ public class GlobalProducts extends TestInfra {
 		  			dropDown.selectItem(GlobalProduct.DISABLE_PRODUCT, data.get(8), Constants.TEXT);
 		  			foundation.waitforElementToBeVisible(GlobalProduct.BTN_SAVE, 5);
 		  			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
-		  			foundation.threadWait(3);
-		  			foundation.scrollIntoViewElement(GlobalProduct.BTN_SAVE);
+		  			foundation.threadWait(Constants.SHORT_TIME);
 		  			foundation.click(ProductSummary.BTN_SAVE);
 		  			textBox.enterText(GlobalProduct.TXT_FILTER,data.get(6));
 

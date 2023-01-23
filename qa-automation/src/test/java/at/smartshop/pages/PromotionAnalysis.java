@@ -39,6 +39,11 @@ public class PromotionAnalysis extends Factory {
 //			.cssSelector("#promoLocationLevel_c35ea2fb3ff6ee6479a9ac5ffb2ba5d2_secondLevel_child > tbody");
 	public static final By EXPAND_ROW = By.xpath("//span[@title='Collapse Row']");
 	public final By REPORT_GROUPBY_DPD = By.xpath("//select[@id='sorting']");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(3)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(2)");
+
 
 	public List<String> tableHeaders = new ArrayList<>();
 	public List<String> tableHeadersForGroupbyLocation = new ArrayList<>();

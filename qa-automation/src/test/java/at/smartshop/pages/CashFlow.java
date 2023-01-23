@@ -125,12 +125,12 @@ public class CashFlow extends Factory {
 		}
 	}
 
-	public void processAPI(String paymentType) {
+	public void processAPI(String paymentType, String environment) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < payType.size(); iter++) {
-				generateJsonDetails();
-				salesJsonDataUpdate(payType.get(iter));
+				generateJsonDetails(environment);
+				salesJsonDataUpdate(payType.get(iter), environment);
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
@@ -153,14 +153,21 @@ public class CashFlow extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			};
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
@@ -187,11 +194,16 @@ public class CashFlow extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate(String paymentType) {
+	private void salesJsonDataUpdate(String paymentType, String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));
@@ -215,6 +227,8 @@ public class CashFlow extends Factory {
 		try {
 			List<String> columnName = Arrays.asList(columnNames.split(Constants.DELIMITER_HASH));
 //			foundation.threadWait(Constants.ONE_SECOND);
+			System.out.println("columnName : "+ columnName);
+			System.out.println("tableHeaders : "+ tableHeaders);
 			for (int iter = 0; iter < tableHeaders.size(); iter++) {
 				CustomisedAssert.assertTrue(tableHeaders.get(iter).equals(columnName.get(iter)));
 			}
@@ -226,13 +240,12 @@ public class CashFlow extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
-			System.out.println("reportsData :"+ reportsData);
-			System.out.println("intialData :"+ intialData);
+		System.out.println("reportsData : "+ reportsData);
+		System.out.println("intialData : "+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
-					System.out.println(iter);
 				}
 			}
 		} catch (Exception exc) {

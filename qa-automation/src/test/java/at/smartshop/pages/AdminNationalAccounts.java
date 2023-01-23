@@ -348,7 +348,7 @@ public class AdminNationalAccounts extends Factory {
 	public void verifySearchFunctionality(String ruleName) {
 		textBox.enterText(TXT_FILTER, ruleName);
 		CustomisedAssert.assertTrue(table.getTblRowCount(TBL_DATA_ROW) == 1);
-		table.selectRow(ruleName);
+		table.selectRowInRule(ruleName);
 	}
 
 	/**

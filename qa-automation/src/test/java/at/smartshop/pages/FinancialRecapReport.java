@@ -50,9 +50,15 @@ public class FinancialRecapReport extends Factory {
 	private static final By TBL_FINANCIAL_RECAP = By.id("rptdt");
 	private static final By LBL_REPORT_NAME = By
 			.cssSelector("#report-container > div > div.col-12.comment-table-heading");
+	private static final By LBL_REPORT_NAME_STAGING = By.id("Financial Recap");
 	private static final By TBL_FINANCIAL_RECAP_GRID = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(6)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(6)");
+
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
@@ -103,11 +109,17 @@ public class FinancialRecapReport extends Factory {
 		return reportsData;
 	}
 
-	public void verifyReportName(String reportName) {
+	public void verifyReportName(String reportName, String environment) {
 		try {
-			foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
-			String reportTitle = foundation.getText(LBL_REPORT_NAME);
-			CustomisedAssert.assertTrue(reportTitle.contains(reportName));
+			if (environment.equals(Constants.STAGING)) {
+				foundation.waitforElement(LBL_REPORT_NAME_STAGING, Constants.EXTRA_LONG_TIME);
+				String reportTitle = foundation.getText(LBL_REPORT_NAME_STAGING);
+				CustomisedAssert.assertTrue(reportTitle.contains(reportName));
+			} else {
+				foundation.waitforElement(LBL_REPORT_NAME, Constants.EXTRA_LONG_TIME);
+				String reportTitles = foundation.getText(LBL_REPORT_NAME);
+				CustomisedAssert.assertTrue(reportTitles.contains(reportName));
+			};
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -287,12 +299,12 @@ public class FinancialRecapReport extends Factory {
 		}
 	}
 
-	public void processAPI(String paymentType) {
+	public void processAPI(String paymentType, String environment) {
 		try {
 			List<String> payType = Arrays.asList(paymentType.split(Constants.DELIMITER_HASH));
 			for (int iter = 0; iter < payType.size(); iter++) {
-				generateJsonDetails();
-				salesJsonDataUpdate(payType.get(iter));
+				generateJsonDetails(environment);
+				salesJsonDataUpdate(payType.get(iter), environment);
 				webService.apiReportPostRequest(
 						propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 						(String) jsonData.get(Reports.JSON));
@@ -317,14 +329,21 @@ public class FinancialRecapReport extends Factory {
 		}
 	}
 
-	private void generateJsonDetails() {
+	private void generateJsonDetails(String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
-					+ Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			};
 			jsonData.put(Reports.TRANS_ID, transID);
 			jsonData.put(Reports.TRANS_DATE, transDate);
 		} catch (Exception exc) {
@@ -351,11 +370,16 @@ public class FinancialRecapReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate(String paymentType) {
+	private void salesJsonDataUpdate(String paymentType, String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

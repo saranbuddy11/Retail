@@ -91,6 +91,8 @@ public class ConsumerMove extends Factory {
 
 	public boolean moveConsumer(String consumer, String toOrg, String toLocation) {
 		table.selectRowWithoutContains(consumer);
+		foundation.threadWait(Constants.THREE_SECOND);
+		table.selectRowWithoutContain(consumer);
 		foundation.click(ConsumerMove.BTN_MOVE);
 		foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
 		foundation.click(ConsumerMove.BTN_MOVE_LIST_OK);
@@ -112,6 +114,7 @@ public class ConsumerMove extends Factory {
 		foundation.waitforElementToBeVisible(ConsumerMove.TXT_SEARCH_FILTER, 3);
 		textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, consumer);
 		return foundation.isDisplayed(By.xpath("//tr//*[text()='" + consumer + "']"));
+		
 	}
 
 }

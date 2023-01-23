@@ -22,13 +22,14 @@ public class IntlWebAppFunding extends Factory {
 	private Foundation foundation = new Foundation();
 
 	public static final By LBL_REPORT_NAME = By.cssSelector("#report-container > div > div.col-12.comment-table-heading");
-	private static final By REPORT_GRID_FIRST_ROW = By.xpath("//tbody//tr[@class='odd'][1]");
+	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 
 	private static final By TBL_INTL_WEB_APP_FUNDING = By.id("rptdt");
 	private static final By TBL_INTL_WEB_APP_FUNDING_GRID = By.cssSelector("#rptdt > tbody");
 	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
 	public static final By DATA_EXISTING_DATE = By.cssSelector("body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(5) > td:nth-child(3)");
+	public static final By DATA_EXISTING_DATE_STAGING = By.cssSelector("body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(2)");
 	
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> reportsData = new LinkedHashMap<>();

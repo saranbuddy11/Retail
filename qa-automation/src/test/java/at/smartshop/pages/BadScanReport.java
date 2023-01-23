@@ -42,6 +42,11 @@ public class BadScanReport extends Factory {
 	private By tblBadScanGrid = By.cssSelector("#rptdt > tbody");
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#rptdt > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
+	public static final By TXT_SEARCH = By.cssSelector("input[aria-controls='rptdt']");
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(2)");
+	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(2)");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> scancodeData = new LinkedList<>();
@@ -123,8 +128,8 @@ public class BadScanReport extends Factory {
 
 	public void updateData(String columnName, String values) {
 		try {
-			for (int iter = 0; iter < requiredData.size(); iter++) {
-				intialData.get(requiredData.get(iter)).put(columnName, values);
+			for (int iter = 0; iter < intialData.size(); iter++) {
+				intialData.get(0).put(columnName, values);
 			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -158,9 +163,9 @@ public class BadScanReport extends Factory {
 		}
 	}
 
-	public void processAPI(String value) {
+	public void processAPI(String value, String environment) {
 		try {
-			badScanJsonDataUpdate(value);
+			badScanJsonDataUpdate(value, environment);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_BAD_SCAN, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
@@ -182,17 +187,32 @@ public class BadScanReport extends Factory {
 		}
 	}
 
-	private Map<String, Object> badScanJsonDataUpdate(String reportFormat) {
+	private Map<String, Object> badScanJsonDataUpdate(String reportFormat, String environment) {
 		try {
 			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(Reports.DATE_FORMAT);
 			DateTimeFormatter reqFormat = DateTimeFormatter.ofPattern(reportFormat);
 			LocalDateTime tranDate = LocalDateTime.now();
 			String transDate = tranDate.format(dateFormat);
 			String reportDate = tranDate.format(reqFormat);
-			String transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID,
-					FilePath.PROPERTY_CONFIG_FILE) + Constants.DELIMITER_HYPHEN
-					+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
-			String badScanValue = jsonFile.readFileAsString(FilePath.JSON_BAD_SCAN);
+			
+			String transID;
+			if (environment.equals(Constants.STAGING)) {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			} else {
+				 transID = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE)
+						+ Constants.DELIMITER_HYPHEN
+						+ transDate.replaceAll(Reports.REGEX_TRANS_DATE, Constants.EMPTY_STRING);
+			};
+			
+			String badScanValue;
+			if (environment.equals(Constants.STAGING)) {
+				badScanValue = jsonFile.readFileAsString(FilePath.JSON_BAD_SCAN_STAGING);
+			} else {
+				badScanValue = jsonFile.readFileAsString(FilePath.JSON_BAD_SCAN);
+			};
+			
 			JsonObject badScanJson = jsonFile.convertStringToJson(badScanValue);
 			badScanJson.addProperty(Reports.TRANS_ID, transID);
 			badScanJson.addProperty(Reports.TRANS_DATE, transDate);

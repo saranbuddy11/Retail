@@ -52,7 +52,9 @@ public class AVISubFeeReport extends Factory {
 	private static final By REPORT_GRID_FIRST_ROW = By.cssSelector("#subFeeGrid  > tbody > tr:nth-child(1)");
 	private static final By NO_DATA_AVAILABLE_IN_TABLE = By.xpath("//td[@class='dataTables_empty']");
 	public final By SEARCH_RESULT = By.xpath("//input[@id='filterType']");
-
+	public final By DATA_EXISTING_DATE_FOR_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.single.auto-apply.opensright.show-calendar > div.drp-calendar.left.single > div.calendar-table > table > tbody > tr:nth-child(2) > td:nth-child(4)");
+			
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> requiredJsonData = new LinkedList<>();
 	private Map<String, Object> jsonData = new HashMap<>();
@@ -82,6 +84,7 @@ public class AVISubFeeReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData : "+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -221,6 +224,8 @@ public class AVISubFeeReport extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("reportsData : "+ reportsData);
+			System.out.println("intialData : "+ intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -232,10 +237,10 @@ public class AVISubFeeReport extends Factory {
 		}
 	}
 
-	public void processAPI(String deviceId) {
+	public void processAPI(String deviceId, String environment) {
 		try {
 			generateJsonDetails(deviceId);
-			salesJsonDataUpdate();
+			salesJsonDataUpdate(environment);
 			webService.apiReportPostRequest(
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
@@ -285,11 +290,17 @@ public class AVISubFeeReport extends Factory {
 		}
 	}
 
-	private void salesJsonDataUpdate() {
+	private void salesJsonDataUpdate(String environment) {
 		try {
 			String salesHeaderID = UUID.randomUUID().toString().replace(Constants.DELIMITER_HYPHEN,
 					Constants.EMPTY_STRING);
-			String saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			
+			String saleValue;
+			if (environment.equals(Constants.STAGING)) {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+			} else {
+				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			};
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

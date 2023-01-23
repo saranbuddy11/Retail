@@ -74,10 +74,10 @@ public class AgeVerificationDetails extends Factory {
 	public static final By LBL_LOCATION_NAME = By.cssSelector(
 			"#divBdy > div > div > div > font:nth-child(2) > table > tbody > tr:nth-child(1) > td > font > span > b");
 	public static final By EMAIL_BODY = By.xpath("//div[@id='divItmPrts']//div[@id='divBdy']//tbody//b");
-	public static final By LBL_PRODUCT_NAME=By.xpath("//b[text()='Apple Juice']");
+	public static final By LBL_PRODUCT_NAME = By.xpath("//b[text()='Apple Juice']");
 	public static final By EMAIL_DELETE = By.xpath("(//div[@id='divMsgItemTB'])[2]//a[@id='delete']");
-	public static final By LBL_PRODUCT_AMOUNT=By.xpath("//td[@align='right']/font");
-	public static final By MAIL_FOLDER=By.id("spnFldrNm");
+	public static final By LBL_PRODUCT_AMOUNT = By.xpath("//td[@align='right']/font");
+	public static final By MAIL_FOLDER = By.id("spnFldrNm");
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<Integer, Map<String, String>> tableData = new LinkedHashMap<>();
@@ -216,7 +216,7 @@ public class AgeVerificationDetails extends Factory {
 		dropDown.selectItem(AgeVerificationDetails.DPD_LENGTH, value, Constants.TEXT);
 		foundation.scrollIntoViewElement(AgeVerificationDetails.TXT_STATUS);
 		dropDown.selectItem(AgeVerificationDetails.DPD_STATUS, status, Constants.TEXT);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		Map<Integer, Map<String, String>> uiTableData = getTblRecordsUI();
 		int record = uiTableData.size();
 		CustomisedAssert.assertEquals(String.valueOf(record), value);
