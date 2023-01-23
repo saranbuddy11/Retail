@@ -15,6 +15,7 @@ public class Configuration {
 	public static final String DASHBOARD_URL = "dashboard_url";
 	public static final String HUB_URL = "Hub_url";
 	public static final String V5_APP_URL = "V5_application_url";
+	public static final String V5_APP_STAGING_URL="V5_application_staging_url";
 	public static final String V5_DRIVER_PIN = "V5_Driver_Pin";
 	public static final String SOS_CURRENT_URL = "sos_current_url";
 	public static final String CURRENT_ROLE = "current_role";
@@ -22,6 +23,7 @@ public class Configuration {
 	public static final String DEVICE_ID = "device_id";
 	public static final String DEVICE_ID_STAGING = "device_id_Staging";
 	public static final String USCONNECT= "usconnect";
+	public static final String USCONNECTSTAGING="usconnectstaging";
 	public static final String NATIONAL_ACCOUNT_USER = "NationalAccountUser";
 	public static final String MASTER_NATIONAL_ACCOUNT_USER = "MasterNAUser";
 	public static final String DRIVER = "driver";
