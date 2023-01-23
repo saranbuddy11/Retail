@@ -79,6 +79,7 @@ public class LoadProduct extends Factory{
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.BTN_CHOOSE_FILE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.BTN_SUBMIT));
 }
+	
 	/**
 	 * upload Excel and Select Delete Option
 	 * 

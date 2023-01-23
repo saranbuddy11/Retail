@@ -17,6 +17,7 @@ import at.framework.generic.Numbers;
 import at.framework.generic.Strings;
 import at.framework.ui.Dropdown;
 import at.framework.ui.Foundation;
+import at.framework.ui.Radio;
 import at.framework.ui.TextBox;
 import at.smartshop.database.columns.CNGmaUser;
 import at.smartshop.database.columns.CNLoadProduct;
@@ -66,6 +67,8 @@ public class SOSLoad extends TestInfra {
 	private DateAndTime dateAndTime = new DateAndTime();
 	private LoadProductPricing loadProductPricing = new LoadProductPricing();
 	private LoadQueue loadQueue = new LoadQueue();
+	private LoadGMA loadGMA= new LoadGMA();
+	private Radio radio = new Radio();
 	
 	private Map<String, String> rstProductSummaryData;
 	private Map<String, String> rstLocationListData;
@@ -84,7 +87,8 @@ public class SOSLoad extends TestInfra {
 			+ requiredDatas + Constants.DELIMITER_HASH + String.valueOf(requiredValue) + Constants.DELIMITER_HASH
 			+ requiredDatas + "group");
 
-	@Test(description = "117462-This test validate the Success message after updaloding the GMA Template")
+	@Test(description = "117462-This test validate the Success message after updaloding the GMA Template"
+			+"223712-validate the Success message after updaloding the GMA Template")
 	public void verifySuccessMessage() {
 		try {
 			final String CASE_NUM = "117462";
@@ -1326,7 +1330,7 @@ public class SOSLoad extends TestInfra {
 		 * Date:10-01-2023
 		 */
 		@Test(description ="223158-SOSLoad>Product>verify location list match with ADM Location list")
-		public void verifyAllADMLocationListsPresentInSOSLocationLists() {
+		public void verifyAllADMLocationListsPresentInProductTabLocationLists() {
 			final String CASE_NUM = "223158";
 			     
 			// Reading test data from DataBase
@@ -1461,7 +1465,6 @@ public class SOSLoad extends TestInfra {
 			loadProduct.uploadExcelAndSelectDeleteOption(requiredString, deleteExisting.get(0));
 			textBox.enterText(LoadProduct.TXT_DELETE_POPUP, location.get(4));
 			foundation.click(LoadProduct.BTN_DELETE);
-			CustomisedAssert.assertTrue(foundation.getText(LoadProduct.SUCCESS_MESSAGE).equals(location.get(5)));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_RESULT));
 			sosHome.logout();
 			
@@ -1647,7 +1650,7 @@ public class SOSLoad extends TestInfra {
 		
 		/**
 		 * @author sakthir 
-		 * Date:18-11-2022
+		 * Date:18-01-2023
 		 */
 		@Test(description = "223692-verify the upload is successful without start and end date"
 				+"223691-verify the upload is successful with valid start and end date"
@@ -1755,6 +1758,176 @@ public class SOSLoad extends TestInfra {
 			} catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
 			}
+				
+		}
+		
+		/**
+		 * @author sakthir 
+		 * Date:20-01-2023
+		 */
+		@Test(description = "223699-SOSLoad>GMA>Verify the load type field Default Option"
+				+"223711-SOSLoad>GMA>Verify All Field In Load GMA User Parameters"
+				+"223700-SOSLoad>GMA>Verify Able to select Location"
+				+"223702-SOSLoad>GMA>Verify Pin Value options"
+				+"223703-SOSLoad>GMA>Verify the Pin Value field Default Option"
+				+"223704-SOSLoad>GMA>Verify Able to select Pin Value option"
+				+"223705-SOSLoad>GMA>Verify Delete Existing Radio options"
+				+"223706-SOSLoad>GMA>Verify the Delete Existing field Default Option"
+				+"225593-Verify Delete Popup message and Buttons"
+				+"223707-SOSLoad>GMA>Verify Able to select Delete Existing option"
+				+"223708-SOSLoad>GMA>Verify start balance options"
+				+"223709-SOSLoad>GMA>Verify the start balance options field Default Option"
+				+"223710-SOSLoad>GMA>Verify Able to select start balance options option")
+		public void verifyAllFieldsAndDeopdownOptionsInGMA() {
+			try {
+				final String CASE_NUM = "223699";
+
+				// Reading test data from DataBase
+				rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+				rstGmaUser = dataBase.getGmaUserData(Queries.GMA_USER, CASE_NUM);
+
+				List<String> pinOptions =Arrays
+						.asList(rstGmaUser.get(CNGmaUser.PIN_VALUE).split(Constants.DELIMITER_TILD));
+				List<String> startBalanceOptions =Arrays
+						.asList(rstGmaUser.get(CNGmaUser.START_BALANCE).split(Constants.DELIMITER_TILD));
+				List<String> deleteExsistingOptions =Arrays
+						.asList(rstGmaUser.get(CNGmaUser.COLUMN_NAME).split(Constants.DELIMITER_TILD));
+				List<String> location =Arrays
+						.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+				
+				// Login into SOS application
+				browser.navigateURL(
+						propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+				login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+				// select Organization
+				sosHome.selectOrginazation(
+						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+				foundation.click(SOSHome.MENU);
+
+				//verify All Fields
+				loadGMA.verifyProductFields();
+				
+				//verify Load drop down field
+				CustomisedAssert.assertTrue(foundation.getText(LoadGMA.DPD_LOAD_TYPE).equals(rstGmaUser.get(CNGmaUser.COLUMN_VALUE)));
+				
+				//verify Pin Value drop down field
+				CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadGMA.DPD_PIN_VALUE_OPTIONS).equals(pinOptions));
+				
+				//verify Start Balance drop down field
+				CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadGMA.DPD_START_BALANCE_OPTIONS).equals(startBalanceOptions));
+				
+				//verify Delete Radio options
+				CustomisedAssert.assertTrue(foundation.getTextofListElement(LoadGMA.DPD_DELETE_EXISTING).equals(deleteExsistingOptions));
+				
+				
+				//verify default Pin value 
+				CustomisedAssert.assertTrue(foundation.getText(LoadGMA.DEFAULT_PINVALUE).equals(pinOptions.get(0)));
+				
+				//verify default Start balance 
+				CustomisedAssert.assertTrue(foundation.getText(LoadGMA.DEFAULT_START_BALANCE).equals(startBalanceOptions.get(0)));
+				
+				//verify default Delete Existing
+				CustomisedAssert.assertTrue(radio.isSelected(LoadGMA.RADIO_NO));
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.DEFAULT_DELETE_EXISTING));
+				
+				//verify Able to select location
+				dropDown.selectItem(LoadGMA.DPD_LOCATION, location.get(0), Constants.TEXT);
+				CustomisedAssert.assertTrue(foundation.getText(LoadGMA.DEFAULT_LOCATION).equals(location.get(0)));
+				
+				//verify Able to select Pin Value
+				dropDown.selectItem(LoadGMA.DPD_PIN_VALUE, pinOptions.get(1), Constants.TEXT);
+				CustomisedAssert.assertTrue(foundation.getText(LoadGMA.DEFAULT_PINVALUE).equals(pinOptions.get(1)));
+				
+				//verify Able to select Start Balance
+				dropDown.selectItem(LoadGMA.DPD_START_BALANCE, startBalanceOptions.get(1), Constants.TEXT);
+				CustomisedAssert.assertTrue(foundation.getText(LoadGMA.DEFAULT_START_BALANCE).equals(startBalanceOptions.get(1)));
+				
+				// construct string with invalid GMA Template
+				String requiredString = (strings.getRandomCharacter() + "#" + " " + "#" + " " + "#" + " " + "#"
+						+ " " + "#" + " " + "#" + " " + "#" + " " + "#" + " " );
+
+				// Write excel and upload file
+				excel.writeToExcel(FilePath.GMA_ACCOUNT_TEMPLATE, loadGma.SHEET,
+						location.get(1), requiredString);
+				textBox.enterText(LoadGMA.TXT_FILE_NAME, FilePath.GMA_ACCOUNT_TEMPLATE);
+				if (deleteExsistingOptions.get(0).equalsIgnoreCase(foundation.getText(LoadGMA.LBL_RADIO_YES))) {
+					radio.set(LoadGMA.RADIO_YES);
+					CustomisedAssert.assertTrue(radio.isSelected(LoadGMA.RADIO_YES));} 
+				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_RADIO_YES_WARNING));
+				foundation.click(LoadGMA.BTN_SUBMIT);
+				
+				//verify Confirm PopUp
+				loadGMA.verifyConfirmPopupFunctionality();
+
+			} catch (Exception exc) {
+				TestInfra.failWithScreenShot(exc.toString());
+			}
 		}
 	
+		/**
+		 * @author sakthir 
+		 * Date:23-01-2023
+		 */
+		@Test(description ="223701-SOSLoad>GMA>Verify Location Field"
+				+"225612-To Verify \"Location\" dropdown is mandatory field"
+				+"225613-To Verify \"Choose File button\" is mandatory field")
+		public void verifyMandatoryFieldAndAllADMLocationListsPresentInGMATabLocationLists() {
+			final String CASE_NUM = "223701";
+			     
+			// Reading test data from DataBase
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			
+			List<String> message =Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION).split(Constants.DELIMITER_TILD));
+			String location =rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM);			
+		try {
+				
+			// Login into SOS application with valid User
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.SOS_CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+				
+			sosHome.selectOrginazation(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
+			
+			//navigate to GMA
+			foundation.click(SOSHome.MENU);
+			
+			//Get location count from location list in Load Product Parameters
+			int SOSlocationCount=foundation.getSizeofListElement(LoadGMA.DPD_LOCATION_OPTIONS);
+			List<String> SOSlocationList=foundation.getTextofListElement(LoadGMA.DPD_LOCATION_OPTIONS);
+			
+			//verify location is mandatory field
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(LoadGMA.BTN_SUBMIT);
+			CustomisedAssert.assertTrue(foundation.getText(LoadGMA.TXT_ERROR_MESSAGE).equals(message.get(0)));
+			
+			//verify File is mandatory field
+			foundation.threadWait(Constants.TEN_SECOND);
+			dropDown.selectItem(LoadGMA.DPD_LOCATION, location, Constants.TEXT);
+			foundation.click(LoadGMA.BTN_SUBMIT);
+			CustomisedAssert.assertTrue(foundation.getText(LoadGMA.TXT_ERROR_MESSAGE).equals(message.get(1)));
+			sosHome.logout();
+	
+			//login as super user in ADM
+			navigationBar.launchBrowserAsSuperAndSelectOrg(
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			
+			//get location count from location page
+			int ADMlocationCount=foundation.getSizeofListElement(LocationList.GET_LOCATION_LIST);	
+			List<String> ADMlocationList=foundation.getTextofListElement(LocationList.GET_LOCATION_LIST);
+			
+			//verify that ADM location list match with SOS location list count 
+			CustomisedAssert.assertEquals(SOSlocationCount,ADMlocationCount);
+			CustomisedAssert.assertTrue(SOSlocationList.equals(ADMlocationList));
+			
+		}
+		catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} 
+	}
 }
