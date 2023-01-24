@@ -1661,7 +1661,7 @@ public class SOSLoad extends TestInfra {
 				+"223697-verify the upload is not successful without providing start and valid end date"
 				+"223698-verify the upload is not successful with invalid start and valid end date"
 				+"225518-verify the upload is not successful with invalid start date and with selecting checkbox 'Has No End Date'")
-		public void verifyErrorMessageWhileEnterValidInvalidStartAndEndDate() {
+		public void verifyErrorMessageWhileEnterValidInvalidStartAndEndDateInAdvanaPage() {
 			
 				final String CASE_NUM = "223692";
 
@@ -1728,7 +1728,7 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_END_MSG).equals(location.get(6)));
 				foundation.threadWait(Constants.THREE_SECOND);
 				
-				//verify error message enter valid start date and invalid end date
+				//verify error message enter invalid start date and valid end date
 				textBox.enterText(LoadAdvana.SELECT_START_DATE,location.get(8));
 				foundation.threadWait(Constants.THREE_SECOND);
 				textBox.enterText(LoadAdvana.SELECT_END_DATE, currentDate);
@@ -1736,7 +1736,7 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
 				foundation.threadWait(Constants.THREE_SECOND);
 				
-				//check HasNoCheck box with invalid start data
+				//check HasNoEndDate Check box with invalid start date
 				textBox.enterText(LoadAdvana.SELECT_START_DATE, location.get(8));
 				foundation.threadWait(Constants.THREE_SECOND);
 				foundation.click(LoadAdvana.CHECK_HAS_NO_END_DATE);
@@ -1744,7 +1744,7 @@ public class SOSLoad extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
 				foundation.threadWait(Constants.THREE_SECOND);
 				
-				//check HasNoCheck box with valid start data
+				//check HasNoCheck box with valid start date
 				navigationBar.navigateToMenuItem(menu);
 				loadAdvana.addHomeCommercialFileWithoutDate(location.get(0),location.get(1),location.get(2),(
 						propertyFile.readPropertyFile(Configuration.SOS_LOCATION_ID, FilePath.PROPERTY_CONFIG_FILE)),location.get(3));
@@ -1778,7 +1778,7 @@ public class SOSLoad extends TestInfra {
 				+"223708-SOSLoad>GMA>Verify start balance options"
 				+"223709-SOSLoad>GMA>Verify the start balance options field Default Option"
 				+"223710-SOSLoad>GMA>Verify Able to select start balance options option")
-		public void verifyAllFieldsAndDeopdownOptionsInGMA() {
+		public void verifyAllFieldsAndDropdownOptionsInGMA() {
 			try {
 				final String CASE_NUM = "223699";
 
