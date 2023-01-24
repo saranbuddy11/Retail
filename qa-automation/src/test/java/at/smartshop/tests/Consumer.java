@@ -2220,7 +2220,7 @@ public class Consumer extends TestInfra {
 				foundation.click(ConsumerMove.BTN_GO);
 				textBox.enterText(ConsumerMove.TXT_SEARCH_FILTER, rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 				foundation.waitforElement(ConsumerMove.BTN_MOVE, Constants.SHORT_TIME);
-				table.selectRow(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
+				table.selectRowWithoutContains(rstConsumerSearchData.get(CNConsumerSearch.SEARCH));
 
 				foundation.click(ConsumerMove.BTN_MOVE);
 				foundation.waitforElement(ConsumerMove.BTN_MOVE_LIST_OK, Constants.SHORT_TIME);
