@@ -2643,7 +2643,11 @@ public class ReportsSmokeTest extends TestInfra {
 //					rstReportListData.get(CNReportList.END_MONTH), CashAudit.DATA_EXISTING_DATE,
 //					CashAudit.DATA_EXISTING_DATE);
 
-			reportList.selectLocationForSecondTypeDropdown(
+//			reportList.selectLocationForSecondTypeDropdown(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			
+			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 

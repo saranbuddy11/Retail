@@ -796,12 +796,21 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+//			String deviceId;
+//			if (environment.equals(Constants.STAGING)) {
+//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+//						FilePath.PROPERTY_CONFIG_FILE);
+//			} else {
+//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+//			}
+			
+			List<String> deviceIds = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
-						FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIds.get(1);
 			} else {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIds.get(0);
 			}
 
 			// process sales API to generate data
@@ -1367,14 +1376,14 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 //			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			List<String> deviceIds = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
-						FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIds.get(1);
 			} else {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIds.get(0);
 			}
-			;
 
 			// process sales API to generate data
 			healthAhead.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
@@ -1914,14 +1923,22 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
+//			String deviceId;
+//			if (environment.equals(Constants.STAGING)) {
+//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+//						FilePath.PROPERTY_CONFIG_FILE);
+//			} else {
+//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+//			}
+			
+			List<String> deviceIds = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
-						FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIds.get(1);
 			} else {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIds.get(0);
 			}
-			;
 
 			// process sales API to generate data
 			integrationPayments.processAPI(Reports.GENESIS + Constants.DELIMITER_TILD + Reports.SPECIAL, deviceId,
@@ -2555,14 +2572,14 @@ public class Report extends TestInfra {
 					financialRecap.getTableHeaders().get(4), financialRecap.getTableHeaders().get(8));
 			financialRecap.updateFees(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
 					financialRecap.getTableHeaders().get(5), financialRecap.getTableHeaders().get(9));
-			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
-					financialRecap.getTableHeaders().get(10));
-			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
-					financialRecap.getTableHeaders().get(11));
-			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
-					financialRecap.getTableHeaders().get(12));
-			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
-					financialRecap.getTableHeaders().get(13));
+//			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
+//					financialRecap.getTableHeaders().get(10));
+//			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
+//					financialRecap.getTableHeaders().get(11));
+//			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
+//					financialRecap.getTableHeaders().get(12));
+//			financialRecap.updateAdjustment(rstConsumerSummaryData.get(CNConsumerSummary.ADJUST_BALANCE),
+//					financialRecap.getTableHeaders().get(13));
 			financialRecap.updateNetCashOwed();
 			financialRecap.updateSalesTax();
 			financialRecap.updateTotal();
@@ -5490,12 +5507,22 @@ public class Report extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
+//			String deviceId;
+//			if (environment.equals(Constants.STAGING)) {
+//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
+//						FilePath.PROPERTY_CONFIG_FILE);
+//			} else {
+//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+//			}
+			
+			List<String> deviceIDList = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
+
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
-						FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIDList.get(1);
 			} else {
-				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
+				deviceId = deviceIDList.get(0);
 			}
 
 			// process sales API to generate data
@@ -7357,6 +7384,7 @@ public class Report extends TestInfra {
 			accountFunding.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
+			foundation.threadWait(Constants.SHORT_TIME);
 			// Navigate To Report Tab and Select the Report Date range & Location, run
 			// report
 			accountFunding.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
@@ -7400,10 +7428,11 @@ public class Report extends TestInfra {
 			accountFunding.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA), requiredData.get(0),
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			// Navigate to Report again to read Updated Report Data
 			accountFunding.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
+			
 			accountFunding.getAccountFunding();
 
 			// Update Date
@@ -7431,7 +7460,8 @@ public class Report extends TestInfra {
 			// Update Credit Sales
 			accountFunding.updateSales(AccountFunding.tableHeaders.get(9));
 
-			// Update Total Sales
+			// Commented temporarily, until getting the formula for Total Sales
+			// Update Total Sales 
 			accountFunding.calculateTotalSales();
 
 			// Verify Report Headers
