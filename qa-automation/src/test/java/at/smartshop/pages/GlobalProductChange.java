@@ -343,7 +343,7 @@ public class GlobalProductChange extends Factory {
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.TXT_HEADER));
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_HEADER, 5);
 		selectLocationAndClickOnApply(objLocation(location));
-		table.selectRow(product);
+		table.menuSelectRow(product);
 		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
 		foundation.click(GlobalProductChange.BTN_NEXT);
 	}
@@ -396,6 +396,7 @@ public class GlobalProductChange extends Factory {
 		foundation.waitforElementToBeVisible(GlobalProductChange.TXT_PRICE, 3);
 		foundation.click(GlobalProductChange.TXT_PRICE);
 		textBox.enterText(GlobalProductChange.TXT_PRICE, price);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(GlobalProductChange.CHECK_ALL_LOC, 3);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.CHECK_ALL_LOC));
 		foundation.click(GlobalProductChange.CHECK_ALL_LOC);
@@ -413,7 +414,7 @@ public class GlobalProductChange extends Factory {
 			checkBox.check(GlobalProductChange.OPC_CHECK_BOX);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.LBL_FILTERED_PRODUCTS));
 		foundation.threadWait(Constants.SHORT_TIME);
-		foundation.waitforElementToBeVisible(objTableDataOperatorProduct(product), 3);
+		textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH, product);
 		foundation.click(objTableDataOperatorProduct(product));
 		foundation.waitforElementToBeVisible(GlobalProductChange.BTN_NEXT, 3);
 		foundation.click(GlobalProductChange.BTN_NEXT);

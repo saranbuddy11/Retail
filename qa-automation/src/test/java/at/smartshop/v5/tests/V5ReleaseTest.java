@@ -86,6 +86,7 @@ public class V5ReleaseTest extends TestInfra {
 
 			// add tax category
 			categorySummary.addCategory(newTaxCat, requiredData.get(3));
+			foundation.threadWait(Constants.SHORT_TIME);
 
 			// verify newly added category displays in category list page
 			CustomisedAssert.assertTrue(categoryList.verifyCategoryExist(newTaxCat));
@@ -95,16 +96,21 @@ public class V5ReleaseTest extends TestInfra {
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
 			globalProduct.selectGlobalProduct(productName);
 			textBox.enterText(ProductSummary.TXT_PRICE, "5");
 			dropDown.selectItem(ProductSummary.DPD_TAX_CATEGORY, newTaxCat, Constants.TEXT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ProductSummary.BTN_SAVE);
 
 			// edit tax category
 			navigationBar.navigateToMenuItem(menuItem.get(1));
+			foundation.threadWait(Constants.SHORT_TIME);
 			categoryList.selectCategory(newTaxCat);
 			categorySummary.updateName(editedTaxCat);
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
 			globalProduct.selectGlobalProduct(productName);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_TAX_CATEGORY), editedTaxCat);
 		} catch (Exception exc) {
