@@ -36,6 +36,7 @@ public class NavigationBar extends Factory {
 		try {
 			foundation.waitforElement(DPD_ORG, Constants.SHORT_TIME);
 			foundation.click(DPD_ORG);
+			foundation.threadWait(Constants.THREE_SECOND);
 			textBox.enterText(TXT_ORG, selectText);
 			foundation.click(DPD_SELECT_ORG);
 		} catch (Exception exc) {
