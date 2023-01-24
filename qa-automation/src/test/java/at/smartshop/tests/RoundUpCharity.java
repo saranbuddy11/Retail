@@ -460,7 +460,7 @@ public class RoundUpCharity extends TestInfra {
 		}
 			finally {
 			//resetting
-				foundation.threadWait(3);
+				navigationBar.navigateToMenuItem(menu.get(1));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 				textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, value.get(3));
 				foundation.click(AdminRoundUpCharity.BTN_DELETE_CHARITY);

@@ -1171,7 +1171,7 @@ public class GlobalProducts extends TestInfra {
 				textBox.enterText(GlobalProductChange.TXT_PRODUCT_SEARCH,
 						rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
 				foundation.threadWait(2);
-				table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
+				table.menuSelectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.INFO_MESSAGE));
 				foundation.click(GlobalProductChange.BTN_NEXT);
 			}
 
@@ -1403,7 +1403,7 @@ public class GlobalProducts extends TestInfra {
 					.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
 			foundation.threadWait(Constants.TWO_SECOND);
-			table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+			table.menuSelectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
 			foundation.click(GlobalProductChange.BTN_NEXT);
 
 			// Enter the values in field to changes
@@ -1478,7 +1478,7 @@ public class GlobalProducts extends TestInfra {
 					.objLocation(rstGlobalProductChangeData.get(CNGlobalProductChange.LOCATION_NAME)));
 			foundation.click(GlobalProductChange.BTN_LOCATION_APPLY);
 			foundation.threadWait(Constants.TWO_SECOND);
-			table.selectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
+			table.menuSelectRow(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME));
 			foundation.click(GlobalProductChange.BTN_NEXT);
 			globalProductChange.productFieldChange(resetdata);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
@@ -1667,7 +1667,7 @@ public class GlobalProducts extends TestInfra {
 			// verify the deposit
 			foundation.threadWait(Constants.THREE_SECOND);
 			globalProductChange.selectLocationAndClickOnApply(globalProductChange.objLocation(dropdown.get(2)));
-			table.selectRow(dropdown.get(3));
+			table.menuSelectRow(dropdown.get(3));
 			globalProductChange.verifyRecordData(dropdown.get(10), dropdown.get(11));
 			globalProductChange.verifyRecordData(dropdown.get(14), dropdown.get(12));
 			globalProductChange.verifyRecordData(dropdown.get(15), dropdown.get(13));
@@ -2467,7 +2467,7 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.ERROR_MSG));
 
 			// Click Increment tab in Validating error msg
-
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.BTN_INCREMENT));
 			foundation.click(GlobalProductChange.BTN_INCREMENT);
 			globalProductChange.verifyCheckmarksInGPC(data.get(0), data.get(1));
@@ -2476,13 +2476,15 @@ public class GlobalProducts extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.ERROR_MSG));
 
 			// Click Operator Product Catalog Change and Validating error msg
+			foundation.threadWait(Constants.SHORT_TIME);
 			globalProductChange.selectProductOPC(product.get(2));
 			globalProductChange.verifyCheckmarksInOPC(data.get(0), data.get(1), data.get(0));
 			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT, 5);
 			foundation.click(GlobalProductChange.BTN_SUBMIT);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProductChange.ERROR_MSG));
 
-			// Click Increment tab in Validating error msg in OPCC
+			// Click Increment tab in Validating error msg in OPC
+			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(GlobalProductChange.BTN_INCREMENT);
 			globalProductChange.verifyCheckmarksInOPC(data.get(0), data.get(1), data.get(1));
 			foundation.waitforElementToBeVisible(GlobalProductChange.BTN_SUBMIT, 5);
@@ -2730,29 +2732,33 @@ public class GlobalProducts extends TestInfra {
 					 //Upload small PNG
 					globalProduct.uploadSmallImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE_PNG);
+					foundation.threadWait(Constants.TEN_SECOND);
 					
 				
 					 //Upload Large PNG
 //					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
 					globalProduct.uploadLargeImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE_PNG);
+					foundation.threadWait(Constants.TEN_SECOND);
 					
 					
 		            //Upload small JPG
 					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));		
 					globalProduct.uploadSmallImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE_JPEG);
+					foundation.threadWait(Constants.TEN_SECOND);
 					
 		            //Upload Large JPG
 //					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
 					globalProduct.uploadLargeImage(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE_JPEG);
+					foundation.threadWait(Constants.TEN_SECOND);
 					
 					  //Upload small Image with larger than 2MB
 					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));			
 					globalProduct.uploadSmallImage2MB(rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME),
 							FilePath.IMAGE2MB_PNG , rstGlobalProductChangeData.get(CNGlobalProductChange.SUCCESS_MESSAGE));
-					foundation.threadWait(5);
+					foundation.threadWait(Constants.TEN_SECOND);
 					
 		            //Upload Large Image with larger than 2MB
 //					navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
