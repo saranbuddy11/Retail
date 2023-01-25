@@ -1903,8 +1903,8 @@ public class LocationSummary extends Factory {
 			foundation.click(objectRollOverCalendarDayLocation1(date));
 		} else {
 			foundation.click(ROLL_OVER_DATE_PICKER_NEXT_LOCATION2);
-			foundation.waitforElement(objectRollOverCalendarMonthLocation1(monthName), Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation1(monthName)));
+			foundation.waitforElement(objectRollOverCalendarMonthLocation(monthName), Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(objectRollOverCalendarMonthLocation(monthName)));
 			foundation.click(objectRollOverCalendarNewDayLocation1(date));
 		}
 	}

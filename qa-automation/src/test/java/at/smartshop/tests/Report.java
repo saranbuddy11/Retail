@@ -264,7 +264,8 @@ public class Report extends TestInfra {
 	}
 
 	@Test(description = "119928-This test validates account adjustment report")
-	public void accountAdjustmentReport() {
+	@Parameters({ "environment" })
+	public void accountAdjustmentReport(String environment) {
 		try {
 			Map<String, String> dbData = new HashMap<>();
 
@@ -294,15 +295,38 @@ public class Report extends TestInfra {
 //					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
 //					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
 
-			consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
-					rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID),
-					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
-					rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			List<String> consumerID = Arrays
+					.asList(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID).split(Constants.DELIMITER_HASH));
+			
+			
+			
+			if (environment.equals(Constants.STAGING)) {
+				consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+						consumerID.get(1),
+						propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+						rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			} else {
+				consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
+						consumerID.get(0),
+						propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE),
+						rstConsumerSearchData.get(CNConsumerSearch.STATUS));
+			}
 
 			// Split database data
 			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_TILD));
-			foundation.click(consumerSearch.objCell(requiredData.get(5)));
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+			List<String> requiredData_Staging = Arrays
+					.asList(requiredData.get(1).split(Constants.DELIMITER_TILD));
+			List<String> requiredData_Test4 = Arrays
+					.asList(requiredData.get(0).split(Constants.DELIMITER_TILD));
+			
+			if (environment.equals(Constants.STAGING)) {
+				foundation.click(consumerSearch.objCell(requiredData_Staging.get(5)));
+			} else {
+				foundation.click(consumerSearch.objCell(requiredData_Test4.get(5)));
+			}
+			
+			
 			List<String> columnName = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			List<String> tblColumnHeader = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
@@ -360,20 +384,36 @@ public class Report extends TestInfra {
 			// Add db data to Array list
 			dbData.put(tblColumnHeader.get(1),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			dbData.put(tblColumnHeader.get(2), requiredData.get(0));
-			dbData.put(tblColumnHeader.get(3), requiredData.get(1));
-			dbData.put(tblColumnHeader.get(4), rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
-			dbData.put(tblColumnHeader.get(5), requiredData.get(2));
-			dbData.put(tblColumnHeader.get(6), requiredData.get(3));
+			
+			
+			if (environment.equals(Constants.STAGING)) {
+				dbData.put(tblColumnHeader.get(2), requiredData_Staging.get(0));
+				dbData.put(tblColumnHeader.get(3), requiredData_Staging.get(1));
+				dbData.put(tblColumnHeader.get(5), requiredData_Staging.get(2));
+				dbData.put(tblColumnHeader.get(6), requiredData_Staging.get(3));
+				dbData.put(tblColumnHeader.get(11), requiredData_Staging.get(4));
+				dbData.put(tblColumnHeader.get(4), consumerID.get(1));
+			} else {
+				dbData.put(tblColumnHeader.get(2), requiredData_Test4.get(0));
+				dbData.put(tblColumnHeader.get(3), requiredData_Test4.get(1));
+				dbData.put(tblColumnHeader.get(5), requiredData_Test4.get(2));
+				dbData.put(tblColumnHeader.get(6), requiredData_Test4.get(3));
+				dbData.put(tblColumnHeader.get(11), requiredData_Test4.get(4));
+				dbData.put(tblColumnHeader.get(4), consumerID.get(0));
+			}
+			
+//			dbData.put(tblColumnHeader.get(4), consumerID.get(0));
 			dbData.put(tblColumnHeader.get(8), converter.convertTOCurrency(updatedbalance));
 			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
 			dbData.put(CNConsumerSummary.REASON, String.valueOf(rstConsumerSummaryData.get(CNConsumerSummary.REASON)));
-			dbData.put(tblColumnHeader.get(11), requiredData.get(4));
 			dbData.put(tblColumnHeader.get(0), String.valueOf(updatedTime.toUpperCase()));
 			textBox.enterText(AccountAdjustment.TXT_SEARCH, String.valueOf(updatedTime).toUpperCase());
 
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
+			
+			System.out.println("uiData :"+ uiData);
+			System.out.println("dbData :"+ dbData);
 
 			// Validate account adjustment adjusted report data
 			CustomisedAssert.assertEquals(uiData, dbData);
@@ -5188,7 +5228,8 @@ public class Report extends TestInfra {
 	 */
 
 	@Test(description = "198562-Verify the Data Validation of Sales Item Details Report")
-	public void salesItemDetailsReportDataValidation() {
+	@Parameters({ "environment" })
+	public void salesItemDetailsReportDataValidation(String environment) {
 		try {
 			final String CASE_NUM = "198562";
 			browser.navigateURL(
@@ -5209,7 +5250,7 @@ public class Report extends TestInfra {
 
 			// process sales API to generate data
 			String date = salesItemDetailsReport
-					.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
+					.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			String txnId = (String) salesItemDetailsReport.getJsonData().get(Reports.TRANS_ID);
 
@@ -5231,7 +5272,16 @@ public class Report extends TestInfra {
 			// update the report date based on calculation
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
+			
+			List<String> deviceIds = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
+			String deviceId;
+			if (environment.equals(Constants.STAGING)) {
+				deviceId = deviceIds.get(1);
+			} else {
+				deviceId = deviceIds.get(0);
+			}
+//				String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
