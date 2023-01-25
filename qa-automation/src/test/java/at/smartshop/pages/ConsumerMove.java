@@ -90,7 +90,6 @@ public class ConsumerMove extends Factory {
 	}
 
 	public boolean moveConsumer(String consumer, String toOrg, String toLocation) {
-		table.selectRowWithoutContains(consumer);
 		foundation.threadWait(Constants.THREE_SECOND);
 		table.selectRowWithoutContain(consumer);
 		foundation.click(ConsumerMove.BTN_MOVE);

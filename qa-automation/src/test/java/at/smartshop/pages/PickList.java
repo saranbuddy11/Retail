@@ -61,7 +61,7 @@ public class PickList extends Factory {
 	public static final By TXT_NEED = By.xpath("//span//input[@class='ui-igedit-input' and @role='textbox']");// span//input[@type='tel'
 																												// and
 																												// @class='ui-igedit-input']");
-	public static final By ERROR_TXT_NEED = By.xpath("//div[@class='ui-ignotify-content']");
+	public static final By ERROR_TXT_NEED = By.xpath("//div[text()='This field is required']");
 	public static final By TXT_NEED1 = By.xpath("//span//input[@type='text' and @class='ui-igedit-input']");
 	public static final By REFRESH_BTN = By.id("refresh-picklist");
 	public static final By TBL_PRODUCT_GRID = By.id("filter-prd-grid");

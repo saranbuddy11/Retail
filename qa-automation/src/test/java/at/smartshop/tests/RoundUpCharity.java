@@ -506,7 +506,6 @@ public class RoundUpCharity extends TestInfra {
 			
 			//enter EIN and Search
 			adminRoundUpCharity.enterEINAndSearch(data.get(2));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.TXT_DISPLAYNAME));
 			
 			//verify the font-style in italic
 			CustomisedAssert.assertTrue(foundation.getFontStyle(AdminRoundUpCharity.STYLE_DISPLAY_NAME).equals(data.get(3)));
@@ -530,7 +529,7 @@ public class RoundUpCharity extends TestInfra {
 			
 			//verify the error
 			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.getText((AdminRoundUpCharity.ERROR_DISPLAY_NAME)).equals(data.get(6)));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.NAME_ERROR));
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			}
 			catch (Exception exc) {

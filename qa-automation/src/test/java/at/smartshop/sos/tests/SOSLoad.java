@@ -246,6 +246,7 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			locationSummary.enterSubsidyGroupNames(requiredData.get(2), requiredData.get(3));
+			foundation.threadWait(Constants.SHORT_TIME);
 			login.logout();
 
 			// Login into SOS application
@@ -269,6 +270,7 @@ public class SOSLoad extends TestInfra {
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			foundation.threadWait(Constants.SHORT_TIME);
 			sosHome.logout();
 
 			// Again Login to ADM
@@ -341,6 +343,7 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			locationSummary.enterSubsidyGroupNames(requiredData.get(2), requiredData.get(3));
+			foundation.threadWait(Constants.SHORT_TIME);
 			login.logout();
 
 			// Login into SOS application
@@ -364,6 +367,7 @@ public class SOSLoad extends TestInfra {
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			foundation.threadWait(Constants.SHORT_TIME);
 			sosHome.logout();
 
 			// Again Login to ADM
@@ -436,6 +440,7 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertEquals(value, requiredData.get(1));
 			dropDown.selectItem(LocationSummary.DPD_GMA_SUBSIDY, requiredData.get(0), Constants.TEXT);
 			locationSummary.enterSubsidyGroupNames(requiredData.get(2), requiredData.get(3));
+			foundation.threadWait(Constants.SHORT_TIME);
 			login.logout();
 
 			// Login into SOS application
@@ -458,6 +463,7 @@ public class SOSLoad extends TestInfra {
 					rstGmaUser.get(CNGmaUser.START_BALANCE), FilePath.GMA_ACCOUNT_TEMPLATE,
 					rstLoadProduct.get(CNLoadProduct.DELETE_EXISTING_PRODUCT));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_SUCCESS));
+			foundation.threadWait(Constants.SHORT_TIME);
 			sosHome.logout();
 
 			// Again Login to ADM
@@ -810,7 +816,7 @@ public class SOSLoad extends TestInfra {
 						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 					
 				sosHome.selectOrginazation(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
 			    //navigate to Device Id
@@ -924,7 +930,7 @@ public class SOSLoad extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 				
 			sosHome.selectOrginazation(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+					propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 			
 			//navigate to product
@@ -988,7 +994,7 @@ public class SOSLoad extends TestInfra {
 				login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 				sosHome.selectOrginazation(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
 				//navigate to home commercial
@@ -1024,7 +1030,7 @@ public class SOSLoad extends TestInfra {
 								
 				// Launch ADM as super
 				navigationBar.launchBrowserAsSuperAndSelectOrg(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				
 				//select commercial Added location and Click commercial Tab
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
@@ -1045,7 +1051,7 @@ public class SOSLoad extends TestInfra {
 				login.sosLogin(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
 						propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 				sosHome.selectOrginazation(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 				
 				//navigate to home commercial
@@ -1061,7 +1067,7 @@ public class SOSLoad extends TestInfra {
 					
 				// Launch ADM as super
 				navigationBar.launchBrowserAsSuperAndSelectOrg(
-						propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+						propertyFile.readPropertyFile(Configuration.AUTOMATIONSOSLOAD_ORG, FilePath.PROPERTY_CONFIG_FILE));
 				
 				//select commercial Added location and Click commercial Tab
 				foundation.threadWait(Constants.THREE_SECOND);

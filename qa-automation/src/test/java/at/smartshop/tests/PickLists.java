@@ -1714,8 +1714,7 @@ public class PickLists extends TestInfra {
 			foundation.clearText();
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)));
-			CustomisedAssert.assertTrue(foundation.getText(PickList.ERROR_TXT_NEED).equals(rstPickListData.get(CNPickList.NEED)));
-			foundation.threadWait(Constants.TEN_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.ERROR_TXT_NEED));
 			foundation.click(PickList.BTN_CLOSE);
 
 			// select location in pick list page ,click Add product and Verifying location
