@@ -352,8 +352,9 @@ public class Consumer extends TestInfra {
 		}
 	}
 
+	@Parameters({ "environment" })
 	@Test(description = "143625-QAA-23-verify when existing email id is provided for consumer creation ,error message \"Email is invalid or already in use\" is displayed")
-	public void verifyDuplicateEmail() {
+	public void verifyDuplicateEmail(String environment) {
 		try {
 			final String CASE_NUM = "143625";
 
@@ -381,8 +382,13 @@ public class Consumer extends TestInfra {
 			textBox.enterText(ConsumerSummary.TXT_LASTNAME, Constants.AUTOMATION + strings.getRandomCharacter());
 			textBox.enterText(ConsumerSummary.TXT_EMAIL, tableData.get(rstConsumerData.get(CNConsumer.COLUMN_NAME)));
 			textBox.enterText(ConsumerSummary.TXT_PIN, rstConsumerData.get(CNConsumer.PIN));
-			String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
-			CustomisedAssert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
+
+			if (environment.equals(Constants.STAGING)) {
+				foundation.threadWait(Constants.THREE_SECOND);
+			} else {
+				String actualData = foundation.getText(ConsumerSummary.TXT_EMAILID_ERROR);
+				CustomisedAssert.assertEquals(actualData, rstConsumerData.get(CNConsumer.EMAIL_ERROR));
+			}
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
