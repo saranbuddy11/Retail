@@ -22,7 +22,10 @@ public class LoadDeviceID extends Factory{
 	public static final By LBL_ERROR_MSG = By.xpath("//li[text()='Middid List Errors']");
 	public static final By TBL_ERROR_DATA = By.xpath("//tbody[@role='alert']//tr");
 	public static final By TXT_SEARCH = By.xpath("//input[@type='text']");
-	
+	public static final By LBL_PROCESSOR = By.xpath("//dt[text()='Processor:']");
+	public static final By LBL_FILE_NAME = By.xpath("//dt[text()='File Name:          ']");
+	public static final By PROCESSOR_MESSAGE = By.xpath("//label[text()='Select Processor:']");
+	public static final By DPD_PROCESSOR_OPTION = By.xpath("//select[@id='processor']/option");
 	
 	public By clickLocation(String text) {
 		return By.xpath("//select[@id='processor']/option[text()='" + text + "']");

@@ -57,6 +57,7 @@ public class SOSHome extends Factory {
 
 	public void logout() {
 		try {
+			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.waitforClikableElement(LBL_USER_NAME, Constants.SHORT_TIME);
 			foundation.objectClick(LBL_USER_NAME);
 			foundation.click(MUN_LOGOUT);

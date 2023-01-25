@@ -78,15 +78,13 @@ public class Configuration {
 	public static final String PRODUCT_ID = "Product_Id";
 	public static final String PRODUCT_ID_RANGE1 = "Product_Id_Range1";
 	public static final String PRODUCT_ID_RANGE2 = "Product_Id_Range2";
-
+	public static final String AUTOMATIONSOSLOAD_ORG = "AutomationSOS_Org";
 	public static final String STAGING_STEAVE_ORG="StagingSteveOrg";
 	public static final String STAGING_STEAVE_LOCATION="SteveLocStaging";
-	
 	public static final String STAGING_SUPPORT_US_365="365Support_US";
 	public static final String STAGING_SUPPORT_US_365_LOCATION="365Support_US_Location";
 	public static final String STAGING_SUPPORT_US_365_PERFORMANCE_LOCATION="365Support_US_PerformanceLocation"; 
 	public static final String STAGING_SUPPORT_US_365_NOODLE_HUT="365Support_US_NoodeHut";
-	
 	public static final String ROYALVENDING="RoyalVending";
 	public static final String AVIFOODSYSTEMS_ORGANIZATION = "AVIfoodsystems_organization";
 	public static final String ARAMARK_DETROIT_ORGANIZATION = "Aramark_Detroit_organization";
