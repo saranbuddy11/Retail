@@ -208,7 +208,7 @@ public class ConsumerSearch extends Factory {
 		dropdown.selectItem(DPD_LOCATION, location, Constants.TEXT);
 		foundation.click(ConsumerSearch.BTN_GO);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-		table.selectRow(row);
+		table.selectRowWithoutContain(row);
 		foundation.click(ConsumerSearch.ACTION_BTN);
 		foundation.threadWait(Constants.SHORT_TIME);
 		List<String> actualData = foundation.getTextofListElement(BTN_ACTION);
@@ -222,8 +222,8 @@ public class ConsumerSearch extends Factory {
 		foundation.click(ConsumerSearch.BTN_GO);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
 		foundation.threadWait(Constants.SHORT_TIME);
-		table.selectRow(row);
-		table.selectRow(row2);
+		table.selectRowWithoutContain(row);
+		table.selectRowWithoutContain(row2);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ConsumerSearch.ACTION_BTN);
 		foundation.threadWait(Constants.SHORT_TIME);
