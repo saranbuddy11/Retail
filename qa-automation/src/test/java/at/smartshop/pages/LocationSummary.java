@@ -2887,4 +2887,21 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.THREE_SECOND);
 
 	}
+	
+	/**
+	 * select product verify added location from location list product tab
+	 * 
+	 * @param location
+	 * @param requiredData
+	 * @param count
+	 */	
+	public void verifyAddedProductCount(String location, String count) {
+	foundation.threadWait(Constants.THREE_SECOND);
+	locationList.selectLocationName(location);
+	foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+	foundation.click(LocationSummary.TAB_PRODUCTS);
+	foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
+	foundation.threadWait(Constants.THREE_SECOND);
+	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TXT_PRODUCTS_COUNT).contains(count));
+}
 }
