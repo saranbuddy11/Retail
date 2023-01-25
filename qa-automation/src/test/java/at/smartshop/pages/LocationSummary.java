@@ -2504,7 +2504,7 @@ public class LocationSummary extends Factory {
 	 * @param price
 	 */
 	public void updatePriceAndVerifyPrice(String location, String product, String price) {
-
+        
 		locationList.selectLocationName(location);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
 		foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);

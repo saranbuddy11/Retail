@@ -324,15 +324,18 @@ public class PickList extends Factory {
 		foundation.click(selectLocationFromList(location));
 		foundation.scrollIntoViewElement(PickList.BTN_APPLY);
 		foundation.click(PickList.BTN_APPLY);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforElement(objPickList(location), Constants.SHORT_TIME);
 		foundation.click(objPickList(location));
 		foundation.waitforElementToBeVisible(BTN_RESET_NAV_TO_ZERO, 5);
 		foundation.click(PickList.BTN_RESET_NAV_TO_ZERO);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 		String content = foundation.getText(PickList.POPUP_CONTENT);
 		CustomisedAssert.assertTrue(content.contains(contain));
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(PickList.BTN_OKAY);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.isDisplayed(PickList.PAGE_TITLE);
 	}
 
@@ -928,11 +931,8 @@ public class PickList extends Factory {
 	 * @throws AWTException 
 	 */
 	public void selectProductToVerifySelectedMessage(String product, String data) throws AWTException {
-	foundation.click(PickList.REFRESH_BTN);
-	foundation.click(PickList.BTN_YES );
-	foundation.threadWait(5);
+	foundation.threadWait(15);
 	foundation.click(objPickList(product));
-	foundation.threadWait(5);
 	foundation.clickShiftAndDown();
 	foundation.threadWait(5);
 	System.out.println(foundation.getText(PickList.SELECT_COUNT));
@@ -991,9 +991,10 @@ public class PickList extends Factory {
 	 */
 	public void clearPopupFunctionalityInFilteredPickList(String header, String content, String higlighted,String dehiglighted){
 	//verify header clear popup
-	foundation.threadWait(3);
+		foundation.threadWait(Constants.SHORT_TIME);
 	foundation.click(PickList.BTN_FILTER_CANCEL);
 	foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(header));
 	foundation.threadWait(Constants.SHORT_TIME);
 	//verify content message on clear popup
@@ -1003,6 +1004,7 @@ public class PickList extends Factory {
 	//verify x button
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_X_CLEAR));
 	foundation.click(PickList.BTN_X_CLEAR);
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
 	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));	
 	foundation.threadWait(Constants.SHORT_TIME);
@@ -1011,6 +1013,7 @@ public class PickList extends Factory {
 	foundation.click(PickList.BTN_FILTER_CANCEL);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
 	foundation.click(PickList.BTN_CANCEL);
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
 	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));	
 	foundation.threadWait(Constants.SHORT_TIME);
@@ -1019,6 +1022,7 @@ public class PickList extends Factory {
 	foundation.click(PickList.BTN_FILTER_CANCEL);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_YES));
 	foundation.click(PickList.BTN_YES );
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
 	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED).equals(dehiglighted));
 	foundation.threadWait(Constants.SHORT_TIME);
@@ -1078,34 +1082,41 @@ public class PickList extends Factory {
 	 */
 	public void refreshPopupFunctionalityInFilteredPickList(String higlighted, String header, String content,String dehiglighted){
 	 //verify header refresh popup
-	foundation.threadWait(3);
+		foundation.threadWait(Constants.SHORT_TIME);
 	foundation.click(PickList.LBL_SELECT_ALL);
 	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.REFRESH_BTN));
+	foundation.threadWait(Constants.SHORT_TIME);
 	foundation.click(PickList.REFRESH_BTN);
 	foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 	CustomisedAssert.assertTrue(foundation.getText(PickList.POPUP_HEADER).equals(header));
 	//verify content message on clear popup
+	foundation.threadWait(Constants.SHORT_TIME);
 	foundation.waitforElementToBeVisible(PickList.TXT_CLEAR_POPUP_MESSAGE, 5);
 	CustomisedAssert.assertTrue(foundation.getText(PickList.TXT_CLEAR_POPUP_MESSAGE).contains(content));
 	//verify x button
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_X_CLEAR));
 	foundation.click(PickList.BTN_X_CLEAR);
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
 	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));
 	//verify cancel button
+	foundation.threadWait(Constants.SHORT_TIME);
 	foundation.click(PickList.REFRESH_BTN);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_CANCEL));
 	foundation.click(PickList.BTN_CANCEL);
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
 	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.TBL_FILTERED_PICKLIST_GRID).equals(higlighted));
 	//verify Yes button and verify the selected locations deselected
-	foundation.threadWait(3);
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.REFRESH_BTN));
 	foundation.click(PickList.REFRESH_BTN);
+	foundation.threadWait(Constants.SHORT_TIME);
 	foundation.waitforElementToBeVisible(PickList.POPUP_HEADER, 5);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.BTN_YES));
 	foundation.click(PickList.BTN_YES );
+	foundation.threadWait(Constants.SHORT_TIME);
 	CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.LBL_PICK_LIST_TITLE));
 	CustomisedAssert.assertTrue(foundation.getBGColor(PickList.VALIDATE_HIGHLIGHTED).equals(dehiglighted));
 }
