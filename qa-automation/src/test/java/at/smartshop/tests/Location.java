@@ -2512,7 +2512,6 @@ public class Location extends TestInfra {
 	/**
 	 * @author sakthir Date:30-09-2022
 	 */
-	@Parameters({ "environment" })
 	@Test(description = "176240-Verify FreedomPay Integration > ADM Premium Payment"
 			+ "176137 - ADM >>location Summary >> Devices >> Device Summary Page"
 			+ "176134- ADM >>Device Summary Page >>Premium Payment >> Freedom Pay Configuration"
