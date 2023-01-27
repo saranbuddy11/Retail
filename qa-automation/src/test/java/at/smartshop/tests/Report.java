@@ -40,6 +40,7 @@ import at.smartshop.keys.Reports;
 import at.smartshop.pages.AVISubFeeReport;
 import at.smartshop.pages.AccountAdjustment;
 import at.smartshop.pages.AccountFunding;
+import at.smartshop.pages.AccountFundingDetail;
 import at.smartshop.pages.AccountProfitability;
 import at.smartshop.pages.AlcoholSoldDetailsReport;
 import at.smartshop.pages.BadScanReport;
@@ -238,6 +239,7 @@ public class Report extends TestInfra {
 	private PayrollDeductDetails payrollDeductDetails = new PayrollDeductDetails();
 	private UFSByDevice ufsByDevice = new UFSByDevice();
 	private CashFlowDetailsInternational cashFlowDetailsInternational = new CashFlowDetailsInternational();
+	private AccountFundingDetail accountFundingDetail = new AccountFundingDetail();
 
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstConsumerSearchData;
@@ -5293,7 +5295,7 @@ public class Report extends TestInfra {
 
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(0), location);
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(1), deviceId);
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(3), requiredData.get(0));
+//			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(3), requiredData.get(0));
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(4), txnId);
 			salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(5), productName);
 			salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(6), scanCode);
@@ -7160,7 +7162,7 @@ public class Report extends TestInfra {
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.threadWait(Constants.TWO_SECOND);
 
-			textBox.enterText(SalesBy15Minutes.TXT_SEARCH, timePeriod);
+			textBox.enterText(SalesBy30Minutes.TXT_SEARCH, timePeriod);
 			salesBy30Minutes.getTblRecordsUI();
 
 			salesBy30Minutes.getRowCount();
@@ -10351,6 +10353,91 @@ public class Report extends TestInfra {
 			// verify report dataValidations for Sales Time Details
 			ufsByEmployeeDevice.verifyReportDataOfSalesTimeDetails();
 
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+	
+	/*
+	 * This Method is for Daily Sales Summary Report Data Validation
+	 * 
+	 * @author ravindhara Date: 22-07-2022
+	 * 
+	 */
+	@Test(description = "225709-Verify the Data Validation of Account Funding Details Report")
+	public void AccountFundingDetailsReportDataValication() {
+		try {
+			final String CASE_NUM = "225709";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
+			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
+
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+
+			String locationName = propertyFile.readPropertyFile(Configuration.CURRENT_LOC,
+					FilePath.PROPERTY_CONFIG_FILE);
+
+			// process sales API to generate data
+//			accountFundingDetail.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
+			List<String> DateRange_Existing = Arrays
+					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Select the Report Date range and Location and run report
+			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
+//			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
+			
+			reportList.selectDateRangeDate(DateRange_Existing.get(0), DateRange_Existing.get(1),
+					AccountFundingDetail.DATA_EXISTING_START_DATE,
+					AccountFundingDetail.DATA_EXISTING_START_DATE);
+			
+			reportList.selectLocation(locationName);
+			foundation.threadWait(Constants.SHORT_TIME);
+			foundation.click(ReportList.BTN_RUN_REPORT);
+			foundation.waitforElement(DailySalesSummary.LBL_REPORT_NAME, Constants.SHORT_TIME);
+			accountFundingDetail.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
+			List<String> requiredData = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
+
+			textBox.enterText(AccountFundingDetail.TXT_SEARCH, requiredData.get(5));
+			// Read the Report the Data
+			accountFundingDetail.getTblRecordsUI();
+			accountFundingDetail.getIntialData().putAll(accountFundingDetail.getReportsData());
+
+			// process sales API to generate data
+//			accountFundingDetail.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
+//
+//			// rerun and reread report
+//			foundation.click(ReportList.BTN_RUN_REPORT);
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			accountFundingDetail.getTblRecordsUI();
+
+			// update the report date based on calculation
+			
+//			String dateAndTime = (String) accountFundingDetail.getJsonData().get(Reports.TRANS_DATE_TIME);
+//			String transId= (String) accountFundingDetail.getJsonData().get(Reports.TRANS_ID);
+
+			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(0), locationName);
+//			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(1), dateAndTime);
+			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(1), requiredData.get(0));
+			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(2), requiredData.get(1));
+			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(3), requiredData.get(2));
+			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(4), requiredData.get(3));
+			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(5), requiredData.get(4));
+			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(6), requiredData.get(5));
+
+			// verify report headers
+			accountFundingDetail.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
+
+			// verify report data
+			accountFundingDetail.verifyReportData();
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}

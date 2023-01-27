@@ -56,7 +56,6 @@ public class CashFlowEmployeeDevice extends Factory {
 	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(6)");
 
-
 	private Map<String, Object> jsonData = new HashMap<>();
 	private Map<Integer, Map<String, String>> initialReportsData = new HashMap<>();
 	private Map<Integer, Map<String, String>> initialReportTotals = new HashMap<>();

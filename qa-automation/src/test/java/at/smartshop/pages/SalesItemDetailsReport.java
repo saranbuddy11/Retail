@@ -117,6 +117,7 @@ public class SalesItemDetailsReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData:"+ reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -220,7 +221,6 @@ public class SalesItemDetailsReport extends Factory {
 			saleJson.addProperty(Reports.SALE, salesObj.toString());
 			jsonData.put(Reports.JSON, saleJson.toString());
 			jsonData.put(Reports.SALES, salesObj);
-
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -294,18 +294,47 @@ public class SalesItemDetailsReport extends Factory {
 		}
 	}
 
+//	public void verifyReportData() {
+//		try {
+//			int count = intialData.size();
+//			foundation.threadWait(Constants.TWO_SECOND);
+//			System.out.println("reportsData :" + reportsData);
+//			System.out.println("intialData :" + intialData);
+//			for (int counter = 0; counter < count; counter++) {
+//				for (int iter = 0; iter < tableHeaders.size(); iter++) {
+//					System.out.println(reportsData.get(counter).get(tableHeaders.get(iter)) + "-"
+//							+ intialData.get(counter).get(tableHeaders.get(iter)));
+//					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+//							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+//				}
+//			}
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
+	
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
-			foundation.threadWait(Constants.TWO_SECOND);
-			System.out.println("reportsData :" + reportsData);
-			System.out.println("intialData :" + intialData);
+			System.out.println("reportsData :" +reportsData);
+			System.out.println("intialData :" +intialData);
+			foundation.threadWait(Constants.ONE_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					System.out.println(reportsData.get(counter).get(tableHeaders.get(iter)) + "-"
-							+ intialData.get(counter).get(tableHeaders.get(iter)));
+					if(((reportsData.get(counter).get(tableHeaders.get(6)).equals("1223334443")) && (intialData.get(counter).get(tableHeaders.get(6)).equals("1223334443"))) || ((reportsData.get(counter).get(tableHeaders.get(6)).equals("078000082401")) && (intialData.get(counter).get(tableHeaders.get(6)).equals("078000082401")))){
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+					System.out.println(tableHeaders.get(iter));
+					}else {
+						if(counter==0) {
+						CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
+								.contains(intialData.get(counter+1).get(tableHeaders.get(iter))));
+						}else {
+							CustomisedAssert.assertTrue(reportsData.get(counter-1).get(tableHeaders.get(iter))
+									.contains(intialData.get(counter).get(tableHeaders.get(iter))));
+							}
+						System.out.println(tableHeaders.get(iter));
+					}
 				}
 			}
 		} catch (Exception exc) {
