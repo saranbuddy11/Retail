@@ -366,6 +366,7 @@ public class Location extends TestInfra {
 			navigationBar.navigateToMenuItem(subMenu.get(0));
 
 			// Searching for Product
+			foundation.threadWait(Constants.SHORT_TIME);
 			radio.set(GlobalProductChange.RDO_OPERATOR_PRODUCT_CHANGE);
 			foundation.threadWait(5);
 			String product = rstGlobalProductChangeData.get(CNGlobalProductChange.PRODUCT_NAME);
@@ -2511,7 +2512,6 @@ public class Location extends TestInfra {
 	/**
 	 * @author sakthir Date:30-09-2022
 	 */
-	@Parameters({ "environment" })
 	@Test(description = "176240-Verify FreedomPay Integration > ADM Premium Payment"
 			+ "176137 - ADM >>location Summary >> Devices >> Device Summary Page"
 			+ "176134- ADM >>Device Summary Page >>Premium Payment >> Freedom Pay Configuration"

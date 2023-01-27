@@ -109,7 +109,7 @@ public class Menu extends TestInfra {
 //			foundation.threadWait(Constants.ONE_SECOND);
 //			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 //			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
-//			table.selectRow(printGroupName);
+//			table.menuSelectRow(printGroupName);
 //			foundation.waitforElement(SelfService.BTN_ADD_ITEM, Constants.SHORT_TIME);
 //			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
 //			actualData = foundation.getText(SelfService.LBL_HAS_PRINT);
@@ -125,7 +125,7 @@ public class Menu extends TestInfra {
 			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			foundation.waitforElement(SelfService.FILTER_MENU, Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, printGroupName);
-			table.selectRow(printGroupName);
+			table.menuSelectRow(printGroupName);
 			foundation.waitforElement(SelfService.LBL_NO_PRINT, Constants.SHORT_TIME);
 			actualData = foundation.getText(SelfService.LBL_NO_PRINT);
 			CustomisedAssert.assertEquals(actualData, requiredData.get(1));
@@ -197,7 +197,7 @@ public class Menu extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_HAS_PRINT, Constants.SHORT_TIME);
 			
 
@@ -209,7 +209,7 @@ public class Menu extends TestInfra {
 			foundation.threadWait(Constants.ONE_SECOND);
 			foundation.waitforElement(SelfService.TXT_SPINNER_MSG, Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.LBL_INHERIT_PRINT, Constants.SHORT_TIME);
 			
 
@@ -264,13 +264,13 @@ public class Menu extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_Hide);
 			foundation.click(SelfService.BTN_SAVE);
 
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_Hide);
 			CustomisedAssert.assertTrue(isenabled);
@@ -302,13 +302,13 @@ public class Menu extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_SHOW);
 			foundation.click(SelfService.BTN_SAVE);
             foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_SHOW);
 			CustomisedAssert.assertTrue(isenabled);
@@ -368,18 +368,18 @@ public class Menu extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_SHOW);
 			foundation.click(SelfService.BTN_SAVE);
 
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_Hide);
 			foundation.click(SelfService.BTN_CANCEL);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isenabled = radio.isSelected(SelfService.RDO_BTN_SHOW);
 			CustomisedAssert.assertTrue(isenabled);
@@ -413,18 +413,18 @@ public class Menu extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(menuItem);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_Hide, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_Hide);
 			foundation.click(SelfService.BTN_SAVE);
 
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			radio.set(SelfService.RDO_BTN_SHOW);
 			foundation.click(SelfService.BTN_CANCEL);
 			textBox.enterText(SelfService.FILTER_MENU, requiredData.get(0));
-			table.selectRow(requiredData.get(0));
+			table.menuSelectRow(requiredData.get(0));
 			foundation.waitforElement(SelfService.RDO_BTN_SHOW, Constants.SHORT_TIME);
 			boolean isSelected = radio.isSelected(SelfService.RDO_BTN_SHOW);
 			CustomisedAssert.assertFalse(isSelected);

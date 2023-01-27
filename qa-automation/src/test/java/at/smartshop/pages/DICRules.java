@@ -97,7 +97,7 @@ public class DICRules {
 			CustomisedAssert.assertTrue(resultText.contains(validating_record));
 			
 			//Update the details
-			table.selectRow(existing_DICRule);
+			table.selectRowWithoutContain(existing_DICRule);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_DIC_SHOW_HEADING),dicRule_Show_Page);
 			textBox.enterText(TXTBX_NAME, updated_DICRule);
 			

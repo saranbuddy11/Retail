@@ -45,6 +45,14 @@ public class Table extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	public void menuSelectRow(String text) {
+		try {
+			By rowData = By.xpath("//tr//td[text()='" + text + "']");
+			foundation.click(rowData);
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	public void selectRowInRule(String text) {
 		try {

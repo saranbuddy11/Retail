@@ -66,6 +66,7 @@ public class AdminRoundUpCharity extends Factory {
 	public static final By TBL_DATA = By.xpath("//tbody//td");
 	public static final By ALL_LOCATION = By.xpath("//ul[@class='select2-results__options']");
 	public static final By CLICK_LOCATION = By.xpath("//span[@class='select2-selection select2-selection--multiple']");
+	public static final By NAME_ERROR= By.xpath("//label[text()='Display Name is required.']");
 
 	public By removeLocation(String location) {
 		return By.xpath("//ul//li[text()='"+location+"']/span[@class='select2-selection__choice__remove']"); }

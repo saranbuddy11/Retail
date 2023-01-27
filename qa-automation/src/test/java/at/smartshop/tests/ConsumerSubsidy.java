@@ -1754,7 +1754,8 @@ public class ConsumerSubsidy extends TestInfra {
 			CustomisedAssert.assertFalse(consumerHeaders.contains(requiredData.get(2)));
 			foundation.click(consumerSearch.objFirstNameCell(consumerSearch.getConsumerFirstName()));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.LBL_CONSUMER_SUMMARY));
-			CustomisedAssert.assertFalse(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSummary.TXT_SUBSIDY_GROUP));
 
 			// Setting GMA Subsidy ON
 			locationSummary.checkSubsidy(menus.get(0), rstLocationListData.get(CNLocationList.LOCATION_NAME),
@@ -2129,7 +2130,7 @@ public class ConsumerSubsidy extends TestInfra {
 			dropDown.selectItem(ConsumerSearch.DPD_LOCATION, requiredData.get(0), Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-			table.selectRow(requiredData.get(0));
+			table.selectRowWithoutContain(requiredData.get(0));
 			foundation.click(ConsumerSearch.ACTION_BTN);
 			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
 			foundation.isDisabled(ConsumerSearch.LBL_BULK_ASSIGN_POPUP);
@@ -2363,7 +2364,7 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-			table.selectRow(rstLocationListData.get(CNLocationList.LOCATION_NAME));
+			table.selectRowWithoutContains(rstLocationListData.get(CNLocationList.LOCATION_NAME));
 			foundation.click(ConsumerSearch.ACTION_BTN);
 			foundation.click(ConsumerSearch.BULK_ASSIGN_SUBSIDY_GROUP);
 			foundation.isDisabled(ConsumerSearch.LBL_BULK_ASSIGN_POPUP);
@@ -2538,7 +2539,7 @@ public class ConsumerSubsidy extends TestInfra {
 					Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(ConsumerSearch.TBL_CONSUMERS));
-			table.selectRow(rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
+			table.selectRowWithoutContain(rstconsumerSearchData.get(CNConsumerSearch.SEARCH));
 			foundation.click(ConsumerSearch.ACTION_BTN);
 
 			// Verify the Subsidy group in Action>Export

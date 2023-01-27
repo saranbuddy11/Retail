@@ -67,7 +67,7 @@ public class Lookup extends Factory{
 			CustomisedAssert.assertTrue(resultText.contains(validating_record));
 
 			//Update the details
-			table.selectRow(existing_lookup);
+			table.selectRowWithoutContain(existing_lookup);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(TXT_SHOW_HEADING),lookup_Show_Page);
 			textBox.enterText(TXTBX_KEYSTR, updated_lookup);
 			foundation.click(Lookup.BTN_SAVE);
