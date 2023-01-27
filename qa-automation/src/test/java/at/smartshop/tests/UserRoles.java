@@ -67,7 +67,8 @@ public class UserRoles extends TestInfra {
 			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
 			table.selectRow(lblRowRecord.get(0));
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(UserList.DPD_DEFAULT_ORG,rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE) , Constants.TEXT);
+			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE),
+					Constants.TEXT);
 			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 
@@ -93,7 +94,8 @@ public class UserRoles extends TestInfra {
 			table.selectRow(lblRowRecord.get(1));
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
 			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			//CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
+			// CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT,
+			// clientdropDownList.get(1)));
 
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
@@ -431,9 +433,9 @@ public class UserRoles extends TestInfra {
 		}
 
 	}
+
 	/**
-	 * @author afrosean
-	 * Date:21-09-2022
+	 * @author afrosean Date:21-09-2022
 	 */
 
 	@Test(description = "204699-ADM > User and Roles > Verify Copy ADM User")
@@ -468,6 +470,95 @@ public class UserRoles extends TestInfra {
 			userList.searchUserAndVerifyCopyUser(rstConsumerSearchData.get(CNConsumerSearch.FIRST_NAME));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
+
+	/**
+	 * @author karthikr
+	 * @date - 25/01/2023
+	 */
+	@Test(description = "225616 - Edit existing role and validate Manage permission feature tab")
+	public void editExistingRoleAndValidateManagePermissionFeaturesTab() {
+		final String CASE_NUM = "225616";
+
+		// Reading test data from DataBase
+		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
+
+		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME) + string.getRandomCharacter();
+		final String rowData = rstUserRolesData.get(CNUserRoles.ROW_RECORD);
+		final String defaulatOrg = rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE);
+		List<String> dropdownData = Arrays
+				.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
+		try {
+
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+
+			// Create New
+			foundation.click(UserList.CREATE_NEW_ROLE);
+			foundation.click(UserList.DRP_SELECT_ROLE);
+			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
+			textBox.enterText(UserList.LAST_NAME_FIELD, device);
+			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
+			foundation.click(UserList.GENERATE_PIN);
+			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.DPD_SELECTED_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
+			foundation.click(UserList.CLICK_OUTSIDE);
+			foundation.click(UserList.SELECT_CLIENT);
+			textBox.enterText(UserList.ENTER_CLIENT, dropdownData.get(1));
+			foundation.click(UserList.CLICK_CLIENT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
+			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
+			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
+
+			// Click on cancel Button
+			foundation.click(UserList.CANCEL_USER);
+			foundation.click(UserList.CONFIRM_CANCEL);
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
+
+			// Create New
+			foundation.click(UserList.CREATE_NEW_ROLE);
+			foundation.click(UserList.DRP_SELECT_ROLE);
+			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
+			textBox.enterText(UserList.LAST_NAME_FIELD, device);
+			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
+			foundation.click(UserList.GENERATE_PIN);
+			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.DPD_SELECTED_ORG, defaulatOrg, Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
+			foundation.click(UserList.CLICK_OUTSIDE);
+			foundation.click(UserList.SELECT_CLIENT);
+			textBox.enterText(UserList.ENTER_CLIENT, dropdownData.get(1));
+			foundation.click(UserList.CLICK_CLIENT);
+			foundation.threadWait(Constants.TWO_SECOND);
+			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
+			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
+			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
+
+			// Click on Save Button
+			foundation.click(UserList.SAVE_USER);
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		} finally {
+			foundation.waitforElement(UserList.DISABLE_USER, Constants.SHORT_TIME);
+			foundation.click(UserList.DISABLE_USER);
+			foundation.click(UserList.CONFIRM_DISABLE);
 		}
 	}
 }
