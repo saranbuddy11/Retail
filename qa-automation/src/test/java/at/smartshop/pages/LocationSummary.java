@@ -117,7 +117,7 @@ public class LocationSummary extends Factory {
 	public static final By TXT_DEVICE_SEARCH = By.id("deviceFilterType");
 	public static final By BTN_HOME_COMMERCIAL = By.cssSelector("a#loc-homeCommercial");
 	public static final By BTN_UPLOAD_INPUT = By.xpath("//div[@class ='qq-upload-button btn btn-success']/input");
-	public static final By BTN_ADD_HOME_COMMERCIAL = By.xpath("//a[text()='Add Home Commercial']");
+	public static final By BTN_ADD_HOME_COMMERCIAL = By.id("addHome");
 	public static final By TXT_UPLOAD_NEW = By.xpath("//a[text()='Upload New']");
 	public static final By BTN_UPLOAD_IMAGE = By.xpath("//div[@class ='qq-upload-button btn btn-success']");
 	public static final By TXT_ADD_NAME = By.xpath("//input[@id = 'cmrhometext']");
@@ -941,6 +941,7 @@ public class LocationSummary extends Factory {
 	public void addHomeCommercials(String imagePath) {
 		foundation.waitforElement(BTN_HOME_COMMERCIAL, Constants.SHORT_TIME);
 		foundation.click(BTN_HOME_COMMERCIAL);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(BTN_ADD_HOME_COMMERCIAL);
 		foundation.waitforElementToBeVisible(SEARCH_TXT, Constants.THREE_SECOND);
 		textBox.enterText(SEARCH_TXT, imagePath);
@@ -2503,7 +2504,7 @@ public class LocationSummary extends Factory {
 	 * @param price
 	 */
 	public void updatePriceAndVerifyPrice(String location, String product, String price) {
-
+        
 		locationList.selectLocationName(location);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationSummary.LBL_LOCATION_SUMMARY));
 		foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
@@ -2886,4 +2887,21 @@ public class LocationSummary extends Factory {
 		foundation.waitforElementToBeVisible(LocationList.LBL_LOCATION_LIST, Constants.THREE_SECOND);
 
 	}
+	
+	/**
+	 * select product verify added location from location list product tab
+	 * 
+	 * @param location
+	 * @param requiredData
+	 * @param count
+	 */	
+	public void verifyAddedProductCount(String location, String count) {
+	foundation.threadWait(Constants.THREE_SECOND);
+	locationList.selectLocationName(location);
+	foundation.scrollIntoViewElement(LocationSummary.TAB_PRODUCTS);
+	foundation.click(LocationSummary.TAB_PRODUCTS);
+	foundation.waitforElementToBeVisible(LocationSummary.TBL_PRODUCTS_GRID, 5);
+	foundation.threadWait(Constants.THREE_SECOND);
+	CustomisedAssert.assertTrue(foundation.getText(LocationSummary.TXT_PRODUCTS_COUNT).contains(count));
+}
 }

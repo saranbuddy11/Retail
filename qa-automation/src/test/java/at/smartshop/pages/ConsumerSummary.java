@@ -254,6 +254,7 @@ public class ConsumerSummary extends Factory {
 	 */
 	public void adjustBalanceInAllAccount(By option,String newBalance, String reasonCode) {
 		foundation.click(option);
+		foundation.threadWait(Constants.THREE_SECOND);
 		textBox.enterText(TXT_ADJUST_BALANCE, newBalance);
 		dropdown.selectItem(DPD_REASON, reasonCode, Constants.TEXT);
 		foundation.click(BTN_REASON_SAVE);

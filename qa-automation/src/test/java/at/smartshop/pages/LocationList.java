@@ -51,6 +51,7 @@ public class LocationList extends Factory {
 	public static final By TXT_SPINNER_SUCCESS_MSG = By
 			.xpath("//div[@class='humane humane-libnotify-success humane-animate']//li");
 	public static final By TBL_DEPLOYED_DEVICE_LIST = By.xpath("//*[@id='dataGrid_table']/tbody/tr/td/a/i");
+	public static final By GET_LOCATION_LIST=By.xpath("//tr//td[@aria-describedby='dataGrid_table_namelink']");
 
 	/**
 	 * Selecting the Location Name

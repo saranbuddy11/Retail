@@ -15,6 +15,7 @@ public class Configuration {
 	public static final String DASHBOARD_URL = "dashboard_url";
 	public static final String HUB_URL = "Hub_url";
 	public static final String V5_APP_URL = "V5_application_url";
+	public static final String V5_APP_STAGING_URL="V5_application_staging_url";
 	public static final String V5_DRIVER_PIN = "V5_Driver_Pin";
 	public static final String SOS_CURRENT_URL = "sos_current_url";
 	public static final String CURRENT_ROLE = "current_role";
@@ -22,6 +23,7 @@ public class Configuration {
 	public static final String DEVICE_ID = "device_id";
 	public static final String DEVICE_ID_STAGING = "device_id_Staging";
 	public static final String USCONNECT= "usconnect";
+	public static final String USCONNECTSTAGING="usconnectstaging";
 	public static final String NATIONAL_ACCOUNT_USER = "NationalAccountUser";
 	public static final String MASTER_NATIONAL_ACCOUNT_USER = "MasterNAUser";
 	public static final String DRIVER = "driver";
@@ -76,15 +78,13 @@ public class Configuration {
 	public static final String PRODUCT_ID = "Product_Id";
 	public static final String PRODUCT_ID_RANGE1 = "Product_Id_Range1";
 	public static final String PRODUCT_ID_RANGE2 = "Product_Id_Range2";
-
+	public static final String AUTOMATIONSOSLOAD_ORG = "AutomationSOS_Org";
 	public static final String STAGING_STEAVE_ORG="StagingSteveOrg";
 	public static final String STAGING_STEAVE_LOCATION="SteveLocStaging";
-	
 	public static final String STAGING_SUPPORT_US_365="365Support_US";
 	public static final String STAGING_SUPPORT_US_365_LOCATION="365Support_US_Location";
 	public static final String STAGING_SUPPORT_US_365_PERFORMANCE_LOCATION="365Support_US_PerformanceLocation"; 
 	public static final String STAGING_SUPPORT_US_365_NOODLE_HUT="365Support_US_NoodeHut";
-	
 	public static final String ROYALVENDING="RoyalVending";
 	public static final String AVIFOODSYSTEMS_ORGANIZATION = "AVIfoodsystems_organization";
 	public static final String ARAMARK_DETROIT_ORGANIZATION = "Aramark_Detroit_organization";

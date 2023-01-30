@@ -30,7 +30,7 @@ public class GlobalProduct extends Factory {
 	private NavigationBar navigationBar = new NavigationBar();
 	private Numbers number = new Numbers();
 	private Strings strings = new Strings();
-	private FilePath  filePath  = new FilePath(); 
+	private FilePath filePath = new FilePath();
 
 	public static final By TXT_FILTER = By.id("filterType");
 	public static final By ICON_FILTER = By.id("dataGrid_dd_enabled_button");
@@ -134,10 +134,11 @@ public class GlobalProduct extends Factory {
 	public static final By BTN_CANCEL = By.id("cancelBtn");
 
 	public By selectSmallImage(String image) {
-		return By.xpath("//table[@id='small-img-tbl']//i[@title='"+image+"']");
+		return By.xpath("//table[@id='small-img-tbl']//i[@title='" + image + "']");
 	}
+
 	public By selectLargeImage(String image) {
-		return By.xpath("//table[@id='large-img-tbl']//i[@title='"+image+"']");
+		return By.xpath("//table[@id='large-img-tbl']//i[@title='" + image + "']");
 	}
 
 	public By getGlobalProduct(String product) {
@@ -246,6 +247,7 @@ public class GlobalProduct extends Factory {
 
 	public void selectGlobalProduct(String product) {
 		textBox.enterText(TXT_FILTER, product);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']"));
 	}
 
@@ -476,6 +478,7 @@ public class GlobalProduct extends Factory {
 
 	/**
 	 * verify Price Value
+	 * 
 	 * @param name
 	 * @param price
 	 */
@@ -551,7 +554,7 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadSmallImage(String name, String Filepath) throws Exception {
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -581,7 +584,7 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadSmallImage2MB(String name, String Filepath, String message) throws Exception {
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 		foundation.click(GlobalProduct.BTN_CREATE);
 		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -607,7 +610,7 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadLargeImage(String name, String Filepath) throws Exception {
-//		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 //		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 //		foundation.click(GlobalProduct.BTN_CREATE);
 //		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
@@ -628,7 +631,7 @@ public class GlobalProduct extends Factory {
 	}
 
 	/**
-	 * upload large image with size greater than 2MB 
+	 * upload large image with size greater than 2MB
 	 * 
 	 * @param name
 	 * @param Filepath
@@ -636,13 +639,13 @@ public class GlobalProduct extends Factory {
 	 * @throws Exception
 	 */
 	public void uploadLargeImage2MB(String name, String Filepath, String message) throws Exception {
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 //		CustomisedAssert.assertTrue(foundation.isDisplayed(GlobalProduct.TXT_GLOBAL_PRODUCT));
 //		foundation.click(GlobalProduct.BTN_CREATE);
 //		foundation.isDisplayed(GlobalProduct.TXT_PRODUCT_CREATE);
 //		foundation.waitforElementToBeVisible(BTN_SHOW_IMAGES, Constants.THREE_SECOND);
 //		foundation.click(BTN_SHOW_IMAGES);
-		foundation.waitforElementToBeVisible(BTN_LARGE_CHANGE, Constants.THREE_SECOND);
+//		foundation.waitforElementToBeVisible(BTN_LARGE_CHANGE, Constants.THREE_SECOND);
 		foundation.click(BTN_LARGE_CHANGE);
 		foundation.waitforElementToBeVisible(BTN_LARGE_UPLOAD_IMAGE, Constants.THREE_SECOND);
 		foundation.threadWait(Constants.THREE_SECOND);
@@ -660,13 +663,13 @@ public class GlobalProduct extends Factory {
 	 */
 	public void uploadSmallImageInGlobalProduct(String data) {
 		foundation.threadWait(Constants.SHORT_TIME);
-	foundation.click(BTN_SMALL_CHANGE);
-	foundation.click(CHOOSE_SMALL_IMAGE);
-	foundation.waitforElementToBeVisible(selectSmallImage(data), 3);
-	foundation.click(selectSmallImage(data));
-	CustomisedAssert.assertTrue(foundation.getText(LBL_SMALL_IMAGE_NAME).equals(data));
-}
-	
+		foundation.click(BTN_SMALL_CHANGE);
+		foundation.click(CHOOSE_SMALL_IMAGE);
+		foundation.waitforElementToBeVisible(selectSmallImage(data), 3);
+		foundation.click(selectSmallImage(data));
+		CustomisedAssert.assertTrue(foundation.getText(LBL_SMALL_IMAGE_NAME).equals(data));
+	}
+
 	/**
 	 * Upload large Image In Global Product
 	 * 
@@ -679,5 +682,5 @@ public class GlobalProduct extends Factory {
 		foundation.waitforElementToBeVisible(selectLargeImage(data), 3);
 		foundation.click(selectLargeImage(data));
 		CustomisedAssert.assertTrue(foundation.getText(LBL_LARGE_IMAGE_NAME).equals(data));
-}
+	}
 }
