@@ -912,7 +912,8 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "141636-This test validates Employee Comp Details Report Data Calculation")
+	// RT Based Reports, as we can ignore as per Maheshwari
+	@Test(enabled = false, description = "141636-This test validates Employee Comp Details Report Data Calculation")
 	@Parameters({ "environment" })
 	public void employeeCompDetailsReportData(String environment) {
 		try {
@@ -1152,7 +1153,8 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "142802-This test validates Tip Summary Report Data Calculation")
+	// RT Based Reports, as we can ignore as per Maheswari
+	@Test(enabled = false, description = "142802-This test validates Tip Summary Report Data Calculation")
 	@Parameters({ "environment" })
 	public void tipSummaryReportData(String environment) {
 		try {
@@ -1326,7 +1328,8 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "142814-This test validates Tip Details Report Data Calculation")
+	// RT Based Reports, as we can ignore as per Maheswari
+	@Test(enabled = false, description = "142814-This test validates Tip Details Report Data Calculation")
 	@Parameters({ "environment" })
 	public void tipDetailsReportData(String environment) {
 		try {
@@ -1669,7 +1672,8 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "143433-This test validates Unfinished Close Report Data Calculation")
+	// RT Based Reports, as we can ignore as per Maheshwari
+	@Test(enabled = false, description = "143433-This test validates Unfinished Close Report Data Calculation")
 	@Parameters({ "environment" })
 	public void unfinishedCloseReportData(String environment) {
 		try {
@@ -1880,7 +1884,8 @@ public class Report extends TestInfra {
 		}
 	}
 
-	@Test(description = "143268-This test validates Voided Product Report Data Calculation")
+	// RT Based Report, as we can ignore as per Maheswari
+	@Test(enabled = false, description = "143268-This test validates Voided Product Report Data Calculation")
 	@Parameters({ "environment" })
 	public void voidedProductReportData(String environment) {
 		try {
@@ -2458,7 +2463,8 @@ public class Report extends TestInfra {
 
 	}
 
-	@Test(description = "145723-This test validates Billing Information Report Data Calculation")
+	// Not Using this Report as per Maheshwari, hence ignoring this test case
+	@Test(enabled = false, description = "145723-This test validates Billing Information Report Data Calculation")
 	@Parameters({ "environment" })
 	public void billingInformationReportData(String environment) {
 		try {
@@ -5991,11 +5997,13 @@ public class Report extends TestInfra {
 	}
 
 	/**
+	 * RT Based Reports, as we can ignore as per Maheswari
+	 * 
 	 * This Method is for Unpaid Order Report Data Validation
 	 * 
 	 * @author ravindhara Date: 25-08-2022
 	 */
-	@Test(description = "203621-This test validates Unpaid Order Report Data")
+	@Test(enabled = false, description = "203621-This test validates Unpaid Order Report Data")
 	public void UnpaidOrderReportDataValidation() {
 		try {
 			final String CASE_NUM = "203621";
@@ -7446,6 +7454,15 @@ public class Report extends TestInfra {
 			accountFunding.getAccountFundingHeaders();
 			accountFunding.getAccountFunding();
 			accountFunding.getInitialReportsData().putAll(AccountFunding.reportsData);
+			
+			List<String> consumerIdList = Arrays
+					.asList(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID).split(Constants.DELIMITER_HASH));	
+			String consumerId;
+			if (environment.equals(Constants.STAGING)) {
+				consumerId = consumerIdList.get(1);
+			}else{
+				consumerId = consumerIdList.get(0);
+			}
 
 			// Navigate To Admin > Consumer and search for Consumer
 			navigationBar.navigateToMenuItem(menus.get(1));
@@ -7453,7 +7470,7 @@ public class Report extends TestInfra {
 			dropdown.selectItem(ConsumerSearch.DPD_SEARCH_BY, rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 					Constants.TEXT);
 			foundation.click(ConsumerSearch.CLEAR_SEARCH);
-			textBox.enterText(ConsumerSearch.TXT_SEARCH, rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID));
+			textBox.enterText(ConsumerSearch.TXT_SEARCH, consumerId);
 			dropdown.selectItem(ConsumerSearch.DPD_LOCATION, locationName, Constants.TEXT);
 			foundation.click(ConsumerSearch.BTN_GO);
 			foundation.scrollIntoViewElement(ConsumerSearch.TBL_CONSUMERS);
@@ -8722,13 +8739,14 @@ public class Report extends TestInfra {
 			} else {
 				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 			}
-			;
 
 			// process sales API to generate data
 			cashFlowDetails.processAPI(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA),
 					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
+			foundation.threadWait(Constants.TWO_SECOND);
+			
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -8746,6 +8764,8 @@ public class Report extends TestInfra {
 					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA), deviceId,
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
+			foundation.threadWait(Constants.TWO_SECOND);
+			
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 

@@ -475,7 +475,7 @@ public class CashFlowDetails extends Factory {
 		reportList.selectLocation(location);
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(ReportList.BTN_RUN_REPORT);
-		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.TEN_SECOND);
 		verifyReportName(location);
 	}
 

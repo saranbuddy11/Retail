@@ -391,7 +391,7 @@ public class AccountFunding extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 		foundation.click(ReportList.BTN_RUN_REPORT);
-		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.MEDIUM_TIME);
 		verifyReportName(reportName);
 		checkForDataAvailabilyInResultTable();
 	}
