@@ -192,8 +192,9 @@ public class Consumer extends TestInfra {
 		}
 	}
 
+	@Parameters({"environment"})
 	@Test(description = "116747-Cancel Adjust Balance")
-	public void verifyCancelAdjustBalance() {
+	public void verifyCancelAdjustBalance(String environment) {
 		try {
 			final String CASE_NUM = "116747";
 
@@ -226,7 +227,12 @@ public class Consumer extends TestInfra {
 
 			// reading Balance and add to the array list
 			double initialbalance = consumerSummary.getBalance();
-			foundation.click(ConsumerSummary.STRIKE_ADJUST);
+			if (environment.equals(Constants.STAGING)) {
+				foundation.click(ConsumerSummary.BTN_ADJUST);
+			} else {
+				foundation.click(ConsumerSummary.STRIKE_ADJUST);
+			}
+			
 
 			// converting string to double and adding the adjusted value
 			double updatedbalance = initialbalance
@@ -2955,7 +2961,7 @@ public class Consumer extends TestInfra {
 			navigationBar.navigateToMenuItem(menu.get(2));
 			foundation.click(ConsumerSearch.BTN_CREATE_NEW);
 			if (environment.equals(Constants.STAGING)) {
-				consumerSearch.createConsumerInConsumerSearch(inputs.get(13), inputs.get(4), inputs.get(5),
+				consumerSearch.createConsumerInConsumerSearch(inputs.get(3), inputs.get(4), inputs.get(5),
 						inputs.get(6), inputs.get(7), inputs.get(8));
 			} else {
 				consumerSearch.createConsumerInConsumerSearch(inputs.get(3), inputs.get(4), inputs.get(5),
