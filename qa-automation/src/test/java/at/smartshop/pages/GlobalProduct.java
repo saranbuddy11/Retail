@@ -248,6 +248,7 @@ public class GlobalProduct extends Factory {
 	public void selectGlobalProduct(String product) {
 		textBox.enterText(TXT_FILTER, product);
 		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.click(By.xpath("//td[@aria-describedby='dataGrid_name'][text()='" + product + "']"));
 	}
 
