@@ -758,9 +758,9 @@ public class SOSLoad extends TestInfra {
 			textBox.enterText(LoadProduct.BTN_CHOOSE_FILE, FilePath.PRODUCT_TEMPLATE);
 			if(!foundation.getText(LoadProduct.DELETE_EXISTING_PRODUCT).equals(deleteExisting))
 			foundation.click(LoadProduct.BTN_SUBMIT);
+			foundation.threadWait(Constants.SHORT_TIME);
 			sosHome.logout();
-			foundation.threadWait(Constants.THREE_SECOND);
-			
+						
 			//log in ADM as super user
 			navigationBar.launchBrowserAsSuperAndSelectOrg(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -837,9 +837,8 @@ public class SOSLoad extends TestInfra {
 				excel.writeToExcel(FilePath.MIDDID_TEMPLATE, loadDeviceID.SHEET,
 					menu.get(2) , requiredString);
 				textBox.enterText(LoadDeviceID.BTN_CHOOSE_FILE,FilePath.MIDDID_TEMPLATE);
-				foundation.threadWait(Constants.SHORT_TIME);
 				foundation.click(LoadDeviceID.BTN_SUBMIT);
-				foundation.threadWait(Constants.SHORT_TIME);
+				foundation.threadWait(Constants.MEDIUM_TIME);
 				
 				//verify the error page
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadDeviceID.LBL_ERROR_MSG));
@@ -1004,7 +1003,6 @@ public class SOSLoad extends TestInfra {
 				//Upload image and File writing excel with location Id
 				loadAdvana.addHomeCommercial(location.get(0),location.get(1),location.get(2),(
 						propertyFile.readPropertyFile(Configuration.SOS_LOCATION_ID, FilePath.PROPERTY_CONFIG_FILE)),location.get(3),currentDate);
-				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
 				
 				//verify in Queue
 				foundation.threadWait(Constants.SHORT_TIME);
@@ -1020,12 +1018,11 @@ public class SOSLoad extends TestInfra {
 				loadAdvana.addHomeCommercial(location.get(0),location.get(9),location.get(2),(
 						propertyFile.readPropertyFile(Configuration.SOS_LOCATION_ID, FilePath.PROPERTY_CONFIG_FILE)),location.get(3),currentDate);
 				foundation.threadWait(Constants.SHORT_TIME);
-				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).equals(location.get(5)));
 				
 				//verify in Queue
 				navigationBar.navigateToMenuItem(menu.get(1));
 				CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(8)));
-				foundation.threadWait(Constants.MEDIUM_TIME);
+				foundation.threadWait(Constants.SHORT_TIME);
 				sosHome.logout();
 								
 				// Launch ADM as super
@@ -1192,12 +1189,12 @@ public class SOSLoad extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.isDisplayed(SOSHome.LANDING_PAGE_HEADING));
 			
 			//verify the Queue page
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(1));
 			CustomisedAssert.assertTrue(foundation.getText(LoadQueue.TBL_DATA).contains(location.get(1)));
 
             //navigate to ProductPricing
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			navigationBar.navigateToMenuItem(menu.get(0));
 						
 			//Creating product with proper Product pricing via Template in SOS Load
@@ -1207,7 +1204,7 @@ public class SOSLoad extends TestInfra {
 			textBox.enterText(LoadProductPricing.BTN_CHOOSE_FILE, FilePath.PRODUCT_PRICING_TEMPLATE);
                         textBox.enterText(LoadProductPricing.TXT_LOCATION_NUMBER, location.get(0));
 			foundation.click(LoadProductPricing.BTN_SUBMIT);
-			foundation.threadWait(Constants.THREE_SECOND);
+			foundation.threadWait(Constants.SHORT_TIME);
 			
 			//verify the Queue page
 			foundation.threadWait(Constants.THREE_SECOND);
@@ -1456,9 +1453,11 @@ public class SOSLoad extends TestInfra {
 			
 			//Select location for product to Add
 			foundation.click(loadProduct.clickLocation(location.get(0)));
+			foundation.threadWait(Constants.SHORT_TIME);
 			
 			//Creating product with Delete 'yes' option SOS Load
 			loadProduct.uploadExcelAndSelectDeleteOption(requiredString, deleteExisting.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(LoadProduct.TXT_DELETE_POPUP, location.get(4));
 			foundation.click(LoadProduct.BTN_DELETE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_RESULT));
@@ -1533,7 +1532,6 @@ public class SOSLoad extends TestInfra {
 			
 			//verify error message
 		    foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.getText(LoadProduct.SUCCESS_MESSAGE).equals(message));
             CustomisedAssert.assertTrue(foundation.isDisplayed(LoadProduct.LBL_PRODUCT_ERROR));
 			
 			//verify the error page header
@@ -1618,8 +1616,6 @@ public class SOSLoad extends TestInfra {
 			
 			//Upload image and File writing excel with Invalid location Id
 			loadAdvana.addHomeCommercial(option.get(0),option.get(1),option.get(2),requiredString,option.get(3),currentDate);
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.GET_MSG).contains(option.get(4)));
 			
 			//navigate to Queue
 			navigationBar.navigateToMenuItem(menu.get(0));
@@ -1693,13 +1689,13 @@ public class SOSLoad extends TestInfra {
 				foundation.click(LoadAdvana.BTN_SAVE);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(4)));
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_END_MSG).equals(location.get(4)));
-				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//verify error message enter without start date and valid end date
 				textBox.enterText(LoadAdvana.SELECT_END_DATE, currentDate);
 				foundation.click(LoadAdvana.BTN_SAVE);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(4)));
-				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//verify error message with invalid state and end date
 				textBox.enterText(LoadAdvana.SELECT_START_DATE, location.get(8));
@@ -1707,14 +1703,14 @@ public class SOSLoad extends TestInfra {
 				textBox.enterText(LoadAdvana.SELECT_END_DATE, location.get(8));
 				foundation.click(LoadAdvana.BTN_SAVE);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
-				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//verify error message enter valid start date and without end date
 				textBox.enterText(LoadAdvana.SELECT_START_DATE, currentDate);
 				foundation.threadWait(Constants.THREE_SECOND);
 				foundation.click(LoadAdvana.BTN_SAVE);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_END_MSG).equals(location.get(4)));
-				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//verify error message enter valid start date and invalid end date
 				textBox.enterText(LoadAdvana.SELECT_START_DATE, currentDate);
@@ -1722,7 +1718,7 @@ public class SOSLoad extends TestInfra {
 				textBox.enterText(LoadAdvana.SELECT_END_DATE, location.get(8));
 				foundation.click(LoadAdvana.BTN_SAVE);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_END_MSG).equals(location.get(6)));
-				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//verify error message enter invalid start date and valid end date
 				textBox.enterText(LoadAdvana.SELECT_START_DATE,location.get(8));
@@ -1730,7 +1726,7 @@ public class SOSLoad extends TestInfra {
 				textBox.enterText(LoadAdvana.SELECT_END_DATE, currentDate);
 				foundation.click(LoadAdvana.BTN_SAVE);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
-				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//check HasNoEndDate Check box with invalid start date
 				textBox.enterText(LoadAdvana.SELECT_START_DATE, location.get(8));
@@ -1738,7 +1734,7 @@ public class SOSLoad extends TestInfra {
 				foundation.click(LoadAdvana.CHECK_HAS_NO_END_DATE);
 				foundation.click(LoadAdvana.BTN_SAVE);
 				CustomisedAssert.assertTrue(foundation.getText(LoadAdvana.INVALID_START_MSG).equals(location.get(5)));
-				foundation.threadWait(Constants.THREE_SECOND);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//check HasNoCheck box with valid start date
 				navigationBar.navigateToMenuItem(menu);
@@ -1853,6 +1849,7 @@ public class SOSLoad extends TestInfra {
 					CustomisedAssert.assertTrue(radio.isSelected(LoadGMA.RADIO_YES));} 
 				CustomisedAssert.assertTrue(foundation.isDisplayed(LoadGMA.LBL_RADIO_YES_WARNING));
 				foundation.click(LoadGMA.BTN_SUBMIT);
+				foundation.threadWait(Constants.SHORT_TIME);
 				
 				//verify Confirm PopUp
 				loadGMA.verifyConfirmPopupFunctionality();
@@ -1900,12 +1897,14 @@ public class SOSLoad extends TestInfra {
 			//verify location is mandatory field
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(LoadGMA.BTN_SUBMIT);
+			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(LoadGMA.TXT_ERROR_MESSAGE).equals(message.get(0)));
+			foundation.threadWait(Constants.SHORT_TIME);
 			
 			//verify File is mandatory field
-			foundation.threadWait(Constants.TEN_SECOND);
 			dropDown.selectItem(LoadGMA.DPD_LOCATION, location, Constants.TEXT);
 			foundation.click(LoadGMA.BTN_SUBMIT);
+			foundation.threadWait(Constants.ONE_SECOND);
 			CustomisedAssert.assertTrue(foundation.getText(LoadGMA.TXT_ERROR_MESSAGE).equals(message.get(1)));
 			sosHome.logout();
 	

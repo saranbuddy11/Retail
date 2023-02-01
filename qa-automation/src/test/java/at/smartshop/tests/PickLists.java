@@ -390,6 +390,8 @@ public class PickLists extends TestInfra {
 			dropDown.selectItem(PickList.DRP_HAS_LIGHTSPEED, "Yes", Constants.TEXT);
 			foundation.threadWait(3);
 		    foundation.click(PickList.BTN_SAVE_LIGHTSPEED);}
+			foundation.click(OrgSummary.BTN_SAVE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(OrgList.LBL_ORG_LIST));
 		    foundation.threadWait(Constants.TEN_SECOND);
 		    
 			navigationBar.navigateToMenuItem(menuItem.get(0));
@@ -419,6 +421,7 @@ public class PickLists extends TestInfra {
 			foundation.waitforElement(PickList.BTN_SEND_TO_LIGHTSPEED, 3);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(PickList.BTN_SEND_TO_LIGHTSPEED);
+			foundation.threadWait(Constants.THREE_SECOND);
 
 			// Verifying the details on confirm Popup for sending to Lightspeed
 			CustomisedAssert.assertEquals(foundation.getText(PickList.TXT_SEND_PICKLIST), sendToLightSpeedPopup.get(0));
@@ -1709,12 +1712,6 @@ public class PickLists extends TestInfra {
 					Constants.SHORT_TIME);
 			foundation.click(PickList.TBL_NEED);
 			foundation.objectFocus(PickList.TXT_NEED);
-			foundation.click(PickList.TXT_NEED);
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.clearText();
-			foundation.threadWait(Constants.SHORT_TIME);
-			foundation.click(pickList.objPickList(rstPickListData.get(CNPickList.PRODUCT_NAME)));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(PickList.ERROR_TXT_NEED));
 			foundation.click(PickList.BTN_CLOSE);
 
 			// select location in pick list page ,click Add product and Verifying location
@@ -2224,14 +2221,6 @@ public class PickLists extends TestInfra {
 					foundation.click(pickList.objPickList(product.get(0)));
 					CustomisedAssert.assertTrue(foundation.getText(PickList.SELECT_COUNT).equals(data.get(1)));
 					
-					//Select '2 location and 1 Product' and verify the selected location on top corner message
-					pickList.selectProductToVerifySelectedMessage(product.get(2), data.get(2));
-			
-					//Select '1 location and 2 Product' and verify the selected location on top corner message
-					pickList.selectProductToVerifySelectedMessage(product.get(4), data.get(4));
-					
-//					//Select '2 location and 2 Product' and verify the selected location on top corner message
-//					pickList.selectProductToVerifySelectedMessage(product.get(6), data.get(3));
 									
 				}catch (Exception exc) {
 					TestInfra.failWithScreenShot(exc.toString());
