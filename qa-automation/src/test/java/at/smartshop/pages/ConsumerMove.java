@@ -105,8 +105,9 @@ public class ConsumerMove extends Factory {
 	}
 
 	public boolean searchConsumer(String consumer, String fromOrg, String fromLocation) {
+		foundation.threadWait(Constants.SHORT_TIME);
 		dropDown.selectItem(ConsumerMove.DPD_ORG, fromOrg, Constants.TEXT);
-		foundation.threadWait(Constants.THREE_SECOND);
+		foundation.threadWait(Constants.SHORT_TIME);
 		dropDown.selectItem(ConsumerMove.DPD_LOCATION, fromLocation, Constants.TEXT);
 		foundation.click(ConsumerMove.BTN_GO);
 		foundation.threadWait(5);
