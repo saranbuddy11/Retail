@@ -561,4 +561,69 @@ public class UserRoles extends TestInfra {
 			foundation.click(UserList.CONFIRM_DISABLE);
 		}
 	}
+
+	/**
+	 * @author karthikr
+	 * @date - 02/02/2023
+	 */
+	@Test(description = "225934 - Validate Permission Feature List page")
+	public void validatePermissionFeatureListpage() {
+		try {
+
+			final String CASE_NUM = "225934";
+			browser.navigateURL(
+					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
+			login.login(propertyFile.readPropertyFile(Configuration.CURRENT_USER, FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			List<String> menuItem = Arrays
+					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
+			navigationBar.navigateToMenuItem(menuItem.get(0));
+
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
+			List<String> lblRowRecord = Arrays
+					.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
+			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
+			table.selectRow(lblRowRecord.get(0));
+			foundation.threadWait(Constants.THREE_SECOND);
+			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE),
+					Constants.TEXT);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
+
+			List<String> clientdropDownList = Arrays
+					.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(2)));
+
+			login.logout();
+			login.login(
+					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
+							FilePath.PROPERTY_CONFIG_FILE),
+					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
+
+			// Select Menu and Menu Item
+			navigationBar.selectOrganization(
+					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
+			navigationBar.navigateToMenuItem(menuItem.get(1));
+
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
+			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(1));
+			table.selectRow(lblRowRecord.get(1));
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
+			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
+			// CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT,
+			// clientdropDownList.get(1)));
+
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 }
