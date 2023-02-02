@@ -29,6 +29,7 @@ public class OrgstrList extends Factory {
 	public static final By BTN_REMOVE = By.id("rmBtn");
 	
 	public void acceptPopup(String device) {
+		foundation.threadWait(Constants.EXTRA_LONG_TIME);
 		foundation.waitforElement(OrgstrList.ORG_LIST, Constants.SHORT_TIME);
 		textBox.enterText(OrgstrList.ORG_DEVICE_SEARCH, device);
 		foundation.click(OrgstrList.TBL_DATA);
