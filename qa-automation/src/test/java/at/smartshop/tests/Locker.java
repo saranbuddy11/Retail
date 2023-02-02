@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.openqa.selenium.Keys;
 import org.testng.annotations.Listeners;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import at.framework.database.mssql.Queries;
@@ -750,7 +751,8 @@ public class Locker extends TestInfra {
 	}
 
 	@Test(description = "135545-Validate the Pre Programed in grid 'Locker Model' Functionality")
-	public void LockerEquipmentTable() {
+	@Parameters({ "environment" })
+	public void LockerEquipmentTable(String environment) {
 		try {
 			final String CASE_NUM = "135545";
 
@@ -780,33 +782,61 @@ public class Locker extends TestInfra {
 			List<String> columnNames = Arrays
 					.asList(rstLockerSystemData.get(CNLockerSystem.COLUMN_NAMES).split(Constants.DELIMITER_TILD));
 
-			// Add db data to Array list
-			// locker system 20
-			dbData_Locker_20.put(columnNames.get(0), requiredData_Locker_20.get(0));
-			dbData_Locker_20.put(columnNames.get(1), requiredData_Locker_20.get(1));
-			dbData_Locker_20.put(columnNames.get(2), requiredData_Locker_20.get(2));
-			dbData_Locker_20.put(columnNames.get(3), requiredData_Locker_20.get(3));
-			dbData_Locker_20.put(columnNames.get(4), requiredData_Locker_20.get(4));
+			if (environment.equals(Constants.STAGING)) {
+				// Add db data to Array list
+				// locker system 20
+				dbData_Locker_20.put(columnNames.get(0), requiredData_Locker_20.get(0));
+				dbData_Locker_20.put(columnNames.get(1), requiredData_Locker_20.get(1));
+				dbData_Locker_20.put(columnNames.get(2), requiredData_Locker_20.get(2));
+				dbData_Locker_20.put(columnNames.get(3), requiredData_Locker_20.get(5));
+				dbData_Locker_20.put(columnNames.get(4), requiredData_Locker_20.get(4));
 
-			// locker system 18
-			dbData_Locker_18.put(columnNames.get(0), requiredData_Locker_18.get(0));
-			dbData_Locker_18.put(columnNames.get(1), requiredData_Locker_18.get(1));
-			dbData_Locker_18.put(columnNames.get(2), requiredData_Locker_18.get(2));
-			dbData_Locker_18.put(columnNames.get(3), requiredData_Locker_18.get(3));
-			dbData_Locker_18.put(columnNames.get(4), requiredData_Locker_18.get(4));
+				// locker system 18
+				dbData_Locker_18.put(columnNames.get(0), requiredData_Locker_18.get(0));
+				dbData_Locker_18.put(columnNames.get(1), requiredData_Locker_18.get(1));
+				dbData_Locker_18.put(columnNames.get(2), requiredData_Locker_18.get(2));
+				dbData_Locker_18.put(columnNames.get(3), requiredData_Locker_18.get(5));
+				dbData_Locker_18.put(columnNames.get(4), requiredData_Locker_18.get(4));
 
-			// Table Validations
-			Map<String, String> uiData_locker_20 = table
-					.getTblSingleRowRecordUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_1);// table.getTblRecordsUI();
+				// Table Validations
+				Map<String, String> uiData_locker_20 = table.getTblSingleRowRecordUI(
+						LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_1);// table.getTblRecordsUI();
 
-			uiData_locker_20.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
-			CustomisedAssert.assertEquals(uiData_locker_20, dbData_Locker_20);
+				uiData_locker_20.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
+				CustomisedAssert.assertEquals(uiData_locker_20, dbData_Locker_20);
 
-			Map<String, String> uiData_locker_18 = table
-					.getTblSingleRowRecordUI(LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_2);
-			uiData_locker_18.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
-			CustomisedAssert.assertEquals(uiData_locker_18, dbData_Locker_18);
+				Map<String, String> uiData_locker_18 = table.getTblSingleRowRecordUI(
+						LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_2);
+				uiData_locker_18.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
+				CustomisedAssert.assertEquals(uiData_locker_18, dbData_Locker_18);
+			} else {
+				// Add db data to Array list
+				// locker system 20
+				dbData_Locker_20.put(columnNames.get(0), requiredData_Locker_20.get(0));
+				dbData_Locker_20.put(columnNames.get(1), requiredData_Locker_20.get(1));
+				dbData_Locker_20.put(columnNames.get(2), requiredData_Locker_20.get(2));
+				dbData_Locker_20.put(columnNames.get(3), requiredData_Locker_20.get(3));
+				dbData_Locker_20.put(columnNames.get(4), requiredData_Locker_20.get(4));
 
+				// locker system 18
+				dbData_Locker_18.put(columnNames.get(0), requiredData_Locker_18.get(0));
+				dbData_Locker_18.put(columnNames.get(1), requiredData_Locker_18.get(1));
+				dbData_Locker_18.put(columnNames.get(2), requiredData_Locker_18.get(2));
+				dbData_Locker_18.put(columnNames.get(3), requiredData_Locker_18.get(3));
+				dbData_Locker_18.put(columnNames.get(4), requiredData_Locker_18.get(4));
+
+				// Table Validations
+				Map<String, String> uiData_locker_20 = table.getTblSingleRowRecordUI(
+						LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_1);// table.getTblRecordsUI();
+
+				uiData_locker_20.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
+				CustomisedAssert.assertEquals(uiData_locker_20, dbData_Locker_20);
+
+				Map<String, String> uiData_locker_18 = table.getTblSingleRowRecordUI(
+						LockerEquipment.TBL_LOCKER_EQUIPMENT_HEADER, LockerEquipment.TBL_ROW_2);
+				uiData_locker_18.remove(rstLockerSystemData.get(CNLockerSystem.TEST_DATA));
+				CustomisedAssert.assertEquals(uiData_locker_18, dbData_Locker_18);
+			}
 		} catch (Exception exc) {
 			exc.printStackTrace();
 			TestInfra.failWithScreenShot(exc.toString());

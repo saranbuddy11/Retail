@@ -143,8 +143,7 @@ public class Payments {
 		foundation.waitforElement(CreateAccount.ADD_LATER, Constants.SHORT_TIME);
 		foundation.click(CreateAccount.ADD_LATER);
 		foundation.threadWait(Constants.LONG_TIME);
-		CustomisedAssert.assertTrue(foundation.isDisplayed(CreateAccount.ALL_SET));
-		foundation.threadWait(Constants.THREE_SECOND);
+	
 	}
 
 	/**

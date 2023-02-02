@@ -119,6 +119,7 @@ public class LandingPage {
 	 */
 	public void transactionInV5Device(String product,String email,String pin) {
 		foundation.threadWait(Constants.SHORT_TIME);
+		foundation.waitforElementToBeVisible(LandingPage.IMG_SEARCH_ICON, Constants.SHORT_TIME);
 		foundation.click(LandingPage.IMG_SEARCH_ICON);
 		foundation.threadWait(Constants.THREE_SECOND);
 		foundation.click(AccountLogin.BTN_CAMELCASE);

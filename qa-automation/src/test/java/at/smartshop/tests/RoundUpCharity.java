@@ -362,6 +362,7 @@ public class RoundUpCharity extends TestInfra {
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
 				textBox.enterText(AdminRoundUpCharity.TXT_SEARCH, data.get(11));
 				foundation.click(AdminRoundUpCharity.BTN_DELETE_CHARITY);
+				foundation.threadWait(5);
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_DELETE_CHARITY));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_DELETE_CHARITY_CANCEL));
 				CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_DELETE_CHARITY_DELETE));
@@ -509,6 +510,12 @@ public class RoundUpCharity extends TestInfra {
 			
 			//verify the font-style in italic
 			CustomisedAssert.assertTrue(foundation.getFontStyle(AdminRoundUpCharity.STYLE_DISPLAY_NAME).equals(data.get(3)));
+					
+			//verify the error
+			foundation.click(AdminRoundUpCharity.BTN_SAVE);
+			foundation.threadWait(Constants.THREE_SECOND);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.NAME_ERROR));
+
 			
 			//verify maximum limit error and font-style
 			textBox.enterText(AdminRoundUpCharity.TXT_DISPLAYNAME, data.get(0));
@@ -517,20 +524,6 @@ public class RoundUpCharity extends TestInfra {
 			CustomisedAssert.assertTrue(foundation.getTextColor(AdminRoundUpCharity.ERROR_DISPLAY_NAME).equals(data.get(4)));	
 			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			
-			//select existing charity
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
-			adminRoundUpCharity.selectCharity(data.get(5));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_EDIT_CHARITY));
-			foundation.click(AdminRoundUpCharity.TXT_DISPLAYNAME);
-			foundation.clearText();
-//			foundation.threadWait(Constants.THREE_SECOND);
-//			foundation.click(AdminRoundUpCharity.BTN_SAVE);
-			
-			//verify the error
-			foundation.threadWait(Constants.SHORT_TIME);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.NAME_ERROR));
-			foundation.click(AdminRoundUpCharity.BTN_CANCEL);
 			}
 			catch (Exception exc) {
 				TestInfra.failWithScreenShot(exc.toString());
@@ -659,6 +652,7 @@ public class RoundUpCharity extends TestInfra {
 			//verify Delete Header and Content
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(AdminRoundUpCharity.BTN_DELETE_CHARITY);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_DELETE_CHARITY));
 			CustomisedAssert.assertTrue(foundation.getText(AdminRoundUpCharity.GET_CONTENT_DELETE_CHARITY).contains(content.get(0)));
 			
@@ -670,6 +664,7 @@ public class RoundUpCharity extends TestInfra {
 			//verify charity is deleted from table
 			foundation.threadWait(Constants.THREE_SECOND);
 			foundation.click(AdminRoundUpCharity.BTN_DELETE_CHARITY);
+			foundation.threadWait(Constants.THREE_SECOND);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.BTN_DELETE_CHARITY));
 			foundation.click(AdminRoundUpCharity.BTN_DELETE_CHARITY_DELETE);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(AdminRoundUpCharity.LBL_ROUNDUPCHARITY));
