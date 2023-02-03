@@ -51,6 +51,9 @@ public class AccountFundingDetail extends Factory {
 	public static final By DATA_EXISTING_START_DATE = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(5) > td:nth-child(3)");
 
+	public static final By DATA_EXISTING_START_DATE_STAGING = By.cssSelector(
+			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(4)");
+
 
 	private List<String> tableHeaders = new ArrayList<>();
 	private Map<String, Object> jsonData = new HashMap<>();

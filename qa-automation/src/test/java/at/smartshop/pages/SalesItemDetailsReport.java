@@ -282,6 +282,8 @@ public class SalesItemDetailsReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	
 
 	public void updateMultiData(String columnName, String values) {
 		try {

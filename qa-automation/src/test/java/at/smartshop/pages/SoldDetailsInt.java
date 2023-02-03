@@ -223,6 +223,22 @@ public class SoldDetailsInt extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
+	
+	/**
+	 * This Method is for Updating the Data
+	 * 
+	 * @param columnName
+	 * @param value
+	 */
+	public void updateDataForCurruncy(String columnName, String value) {
+		try {
+			for (int iter = 0; iter < intialData.size(); iter++) {
+				getIntialData().get(iter).put(columnName, value);
+			}
+		} catch (Exception exc) {
+			TestInfra.failWithScreenShot(exc.toString());
+		}
+	}
 
 	/**
 	 * This Method is for Updating the Multiple Data
@@ -261,6 +277,7 @@ public class SoldDetailsInt extends Factory {
 	public void verifyReportData() {
 		try {
 			int count = intialData.size();
+			System.out.println("sold details int");
 			System.out.println("reportsData : "+ reportsData);
 			System.out.println("intialData : "+ intialData);
 			foundation.threadWait(Constants.TWO_SECOND);

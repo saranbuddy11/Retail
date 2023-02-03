@@ -253,17 +253,17 @@ public class Report extends TestInfra {
 	private Map<String, String> rstDeviceListData;
 	private Map<String, String> rstLocationListData;
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "119928-This test validates account adjustment report")
 	@Parameters({ "environment" })
@@ -299,9 +299,7 @@ public class Report extends TestInfra {
 
 			List<String> consumerID = Arrays
 					.asList(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID).split(Constants.DELIMITER_HASH));
-			
-			
-			
+
 			if (environment.equals(Constants.STAGING)) {
 				consumerSearch.enterSearchFields(rstConsumerSearchData.get(CNConsumerSearch.SEARCH_BY),
 						consumerID.get(1),
@@ -317,18 +315,15 @@ public class Report extends TestInfra {
 			// Split database data
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			List<String> requiredData_Staging = Arrays
-					.asList(requiredData.get(1).split(Constants.DELIMITER_TILD));
-			List<String> requiredData_Test4 = Arrays
-					.asList(requiredData.get(0).split(Constants.DELIMITER_TILD));
-			
+			List<String> requiredData_Staging = Arrays.asList(requiredData.get(1).split(Constants.DELIMITER_TILD));
+			List<String> requiredData_Test4 = Arrays.asList(requiredData.get(0).split(Constants.DELIMITER_TILD));
+
 			if (environment.equals(Constants.STAGING)) {
 				foundation.click(consumerSearch.objCell(requiredData_Staging.get(5)));
 			} else {
 				foundation.click(consumerSearch.objCell(requiredData_Test4.get(5)));
 			}
-			
-			
+
 			List<String> columnName = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME).split(Constants.DELIMITER_TILD));
 			List<String> tblColumnHeader = Arrays.asList(columnName.get(1).split(Constants.DELIMITER_HASH));
@@ -386,8 +381,7 @@ public class Report extends TestInfra {
 			// Add db data to Array list
 			dbData.put(tblColumnHeader.get(1),
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
-			
-			
+
 			if (environment.equals(Constants.STAGING)) {
 				dbData.put(tblColumnHeader.get(2), requiredData_Staging.get(0));
 				dbData.put(tblColumnHeader.get(3), requiredData_Staging.get(1));
@@ -403,7 +397,7 @@ public class Report extends TestInfra {
 				dbData.put(tblColumnHeader.get(11), requiredData_Test4.get(4));
 				dbData.put(tblColumnHeader.get(4), consumerID.get(0));
 			}
-			
+
 //			dbData.put(tblColumnHeader.get(4), consumerID.get(0));
 			dbData.put(tblColumnHeader.get(8), converter.convertTOCurrency(updatedbalance));
 			dbData.put(tblColumnHeader.get(9), converter.convertTOCurrency(adustedBalance));
@@ -413,9 +407,9 @@ public class Report extends TestInfra {
 
 			// Storing UI data in iuData Map
 			Map<String, String> uiData = accountAdjustment.getTblRecordsUI();
-			
-			System.out.println("uiData :"+ uiData);
-			System.out.println("dbData :"+ dbData);
+
+			System.out.println("uiData :" + uiData);
+			System.out.println("dbData :" + dbData);
 
 			// Validate account adjustment adjusted report data
 			CustomisedAssert.assertEquals(uiData, dbData);
@@ -838,14 +832,6 @@ public class Report extends TestInfra {
 			rstProductSummaryData = dataBase.getProductSummaryData(Queries.PRODUCT_SUMMARY, CASE_NUM);
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
-//			String deviceId;
-//			if (environment.equals(Constants.STAGING)) {
-//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID_STAGING,
-//						FilePath.PROPERTY_CONFIG_FILE);
-//			} else {
-//				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
-//			}
-			
 			List<String> deviceIds = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 			String deviceId;
@@ -877,7 +863,7 @@ public class Report extends TestInfra {
 			deviceByCategory.getTblRecordsUI(deviceId);
 			deviceByCategory.getIntialData().putAll(deviceByCategory.getReportsData());
 
-			deviceByCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY2));
+			deviceByCategory.getRequiredRecord(rstProductSummaryData.get(CNProductSummary.CATEGORY1));
 
 			deviceByCategory.processAPI(deviceId, environment);
 
@@ -914,8 +900,8 @@ public class Report extends TestInfra {
 
 	// RT Based Reports, as we can ignore as per Maheshwari
 	@Test(enabled = false, description = "141636-This test validates Employee Comp Details Report Data Calculation")
-	@Parameters({ "environment" })
-	public void employeeCompDetailsReportData(String environment) {
+//	@Parameters({ "environment" })
+	public void employeeCompDetailsReportData() {
 		try {
 
 			final String CASE_NUM = "141636";
@@ -931,7 +917,7 @@ public class Report extends TestInfra {
 			rstReportListData = dataBase.getReportListData(Queries.REPORT_LIST, CASE_NUM);
 
 			// process sales API to generate data
-			employeeCompDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
+			employeeCompDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION));
 
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
@@ -1977,7 +1963,7 @@ public class Report extends TestInfra {
 //			} else {
 //				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 //			}
-			
+
 			List<String> deviceIds = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 			String deviceId;
@@ -4663,8 +4649,7 @@ public class Report extends TestInfra {
 
 			inventoryList.verifyReportHeaders(columnData.get(1));
 			if (environment.equals(Constants.STAGING)) {
-				inventoryList.verifyReportDataForExpanded(
-						Arrays.asList(expandedData.get(1).split(Constants.DELIMITER_TILD)));
+				inventoryList.verifyReportDataForExpanded(Arrays.asList(expandedData.get(1)));
 			} else {
 				inventoryList.verifyReportDataForExpanded(
 						Arrays.asList(expandedData.get(0).split(Constants.DELIMITER_TILD)));
@@ -5091,7 +5076,8 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			String date = soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
+			String date = soldDetails.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					environment);
 
 			navigationBar.navigateToMenuItem(menu.get(1));
 			reportList.selectDateTransactionSearch(rstReportListData.get(CNReportList.DATE_RANGE));
@@ -5257,8 +5243,8 @@ public class Report extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 
 			// process sales API to generate data
-			String date = salesItemDetailsReport
-					.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
+			String date = salesItemDetailsReport.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION),
+					environment);
 
 			String txnId = (String) salesItemDetailsReport.getJsonData().get(Reports.TRANS_ID);
 
@@ -5280,7 +5266,7 @@ public class Report extends TestInfra {
 			// update the report date based on calculation
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
-			
+
 			List<String> deviceIds = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 			String deviceId;
@@ -5294,10 +5280,11 @@ public class Report extends TestInfra {
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 			String productName = rstProductSummaryData.get(CNProductSummary.PRODUCT_NAME);
 			String scanCode = rstProductSummaryData.get(CNProductSummary.SCAN_CODE);
-			String cat1 = rstProductSummaryData.get(CNProductSummary.CATEGORY1);
 			String cat2 = rstProductSummaryData.get(CNProductSummary.CATEGORY2);
 			String cat3 = rstProductSummaryData.get(CNProductSummary.CATEGORY3);
 			String productType = rstProductSummaryData.get(CNProductSummary.PRODUCT_TYPE);
+			List<String> cat1 = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.CATEGORY1).split(Constants.DELIMITER_TILD));
 
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(0), location);
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(1), deviceId);
@@ -5305,15 +5292,35 @@ public class Report extends TestInfra {
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(4), txnId);
 			salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(5), productName);
 			salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(6), scanCode);
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(7), cat1);
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(8), cat2);
-			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(9), cat3);
+
+			if (salesItemDetailsReport.getIntialData().get(0).get(salesItemDetailsReport.getTableHeaders().get(6))
+					.equals(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA))) {
+				salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(7), cat1.get(0));
+			} else {
+				salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(7), cat1.get(1));
+			}
+
+			if (environment.equals(Constants.STAGING)) {
+				salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(8), cat2.toUpperCase());
+				salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(9), cat3.toUpperCase());
+			} else {
+				salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(8), cat2);
+				salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(9), cat3);
+			}
+
 			salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(10), productType);
 			salesItemDetailsReport.calculateAmount(salesItemDetailsReport.getTableHeaders().get(11), productPrice, tax);
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(12), requiredData.get(1));
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(13),
 					(String) salesItemDetailsReport.getJsonData().get(Reports.TRANS_DATE_TIME));
 			salesItemDetailsReport.updateData(salesItemDetailsReport.getTableHeaders().get(14), requiredData.get(2));
+
+			if (salesItemDetailsReport.getIntialData().get(0).get(salesItemDetailsReport.getTableHeaders().get(6))
+					.equals(rstProductSummaryData.get(CNProductSummary.ACTUAL_DATA))) {
+				salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(7), cat1.get(0));
+			} else {
+				salesItemDetailsReport.updateMultiData(salesItemDetailsReport.getTableHeaders().get(7), cat1.get(1));
+			}
 
 			salesItemDetailsReport.getTblRecordsUI();
 
@@ -5473,20 +5480,21 @@ public class Report extends TestInfra {
 			List<String> requiredData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 //			String deviceId = rstProductSummaryData.get(CNProductSummary.DEVICE_ID);
-			
+
 			List<String> deviceIdData = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
-			
+
 			String deviceId;
 			if (environment.equals(Constants.STAGING)) {
 				deviceId = deviceIdData.get(1);
 			} else {
 				deviceId = deviceIdData.get(0);
-			};
+			}
 			String productPrice = rstProductSummaryData.get(CNProductSummary.PRICE);
 			String tax = rstProductSummaryData.get(CNProductSummary.TAX);
 
-			String cat1 = rstProductSummaryData.get(CNProductSummary.CATEGORY1);
+			List<String> cat1 = Arrays
+					.asList(rstProductSummaryData.get(CNProductSummary.CATEGORY1).split(Constants.DELIMITER_TILD));
 			String cat2 = rstProductSummaryData.get(CNProductSummary.CATEGORY2);
 			String cat3 = rstProductSummaryData.get(CNProductSummary.CATEGORY3);
 
@@ -5502,10 +5510,12 @@ public class Report extends TestInfra {
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(3), productNames.get(0));
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(4), scanCodes.get(0));
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(15), costs.get(0));
+				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(8), cat1.get(0));
 			} else {
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(3), productNames.get(1));
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(4), scanCodes.get(1));
 				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(15), costs.get(1));
+				soldDetailsInt.updateMultiData(soldDetailsInt.getTableHeaders().get(8), cat1.get(1));
 			}
 
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(0), location);
@@ -5514,9 +5524,14 @@ public class Report extends TestInfra {
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(5), requiredData.get(0));
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(6), requiredData.get(1));
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(7), requiredData.get(2));
-			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(8), cat1);
-			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(9), cat2);
-			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(10), cat3);
+
+			if (environment.equals(Constants.STAGING)) {
+				soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(9), cat2.toUpperCase());
+				soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(10), cat3.toUpperCase());
+			} else {
+				soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(9), cat2);
+				soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(10), cat3);
+			}
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(11), tax);
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(12), productPrice);
 			soldDetailsInt.updateData(soldDetailsInt.getTableHeaders().get(14), productPrice);
@@ -5572,7 +5587,7 @@ public class Report extends TestInfra {
 //			} else {
 //				deviceId = propertyFile.readPropertyFile(Configuration.DEVICE_ID, FilePath.PROPERTY_CONFIG_FILE);
 //			}
-			
+
 			List<String> deviceIDList = Arrays
 					.asList(rstProductSummaryData.get(CNProductSummary.DEVICE_ID).split(Constants.DELIMITER_HASH));
 
@@ -7005,9 +7020,11 @@ public class Report extends TestInfra {
 
 			financialCanned.calculateGrossMargin(financialCanned.getTableHeaders().get(10), ProductCostPercentage,
 					spoilPercentage, shortPercentage);
-			double updatedLastYearAmount = financialCanned
-					.updateLastYearAmount(financialCanned.getTableHeaders().get(11));
-			financialCanned.updateLastYearPercent(financialCanned.getTableHeaders().get(12), updatedLastYearAmount);
+			if (environment.equals(Constants.TEST4)) {
+				double updatedLastYearAmount = financialCanned
+						.updateLastYearAmount(financialCanned.getTableHeaders().get(11));
+				financialCanned.updateLastYearPercent(financialCanned.getTableHeaders().get(12), updatedLastYearAmount);
+			}
 
 			// verify report headers
 			financialCanned.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));
@@ -7454,13 +7471,13 @@ public class Report extends TestInfra {
 			accountFunding.getAccountFundingHeaders();
 			accountFunding.getAccountFunding();
 			accountFunding.getInitialReportsData().putAll(AccountFunding.reportsData);
-			
+
 			List<String> consumerIdList = Arrays
-					.asList(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID).split(Constants.DELIMITER_HASH));	
+					.asList(rstConsumerSearchData.get(CNConsumerSearch.CONSUMER_ID).split(Constants.DELIMITER_HASH));
 			String consumerId;
 			if (environment.equals(Constants.STAGING)) {
 				consumerId = consumerIdList.get(1);
-			}else{
+			} else {
 				consumerId = consumerIdList.get(0);
 			}
 
@@ -7501,7 +7518,7 @@ public class Report extends TestInfra {
 			// Navigate to Report again to read Updated Report Data
 			accountFunding.selectAndRunReport(menus.get(0), rstReportListData.get(CNReportList.REPORT_NAME),
 					rstReportListData.get(CNReportList.DATE_RANGE), locationName);
-			
+
 			accountFunding.getAccountFunding();
 
 			// Update Date
@@ -7530,7 +7547,7 @@ public class Report extends TestInfra {
 			accountFunding.updateSales(AccountFunding.tableHeaders.get(9));
 
 			// Commented temporarily, until getting the formula for Total Sales
-			// Update Total Sales 
+			// Update Total Sales
 			accountFunding.calculateTotalSales();
 
 			// Verify Report Headers
@@ -8746,7 +8763,7 @@ public class Report extends TestInfra {
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			foundation.threadWait(Constants.TWO_SECOND);
-			
+
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -8765,7 +8782,7 @@ public class Report extends TestInfra {
 					rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
 
 			foundation.threadWait(Constants.TWO_SECOND);
-			
+
 			// navigate To Reports
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
@@ -10377,7 +10394,7 @@ public class Report extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	/*
 	 * This Method is for Daily Sales Summary Report Data Validation
 	 * 
@@ -10385,7 +10402,8 @@ public class Report extends TestInfra {
 	 * 
 	 */
 	@Test(description = "225709-Verify the Data Validation of Account Funding Details Report")
-	public void AccountFundingDetailsReportDataValication() {
+	@Parameters({ "environment" })
+	public void AccountFundingDetailsReportDataValication(String environment) {
 		try {
 			final String CASE_NUM = "225709";
 			browser.navigateURL(
@@ -10404,54 +10422,61 @@ public class Report extends TestInfra {
 					FilePath.PROPERTY_CONFIG_FILE);
 
 			// process sales API to generate data
-//			accountFundingDetail.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
-			List<String> DateRange_Existing = Arrays
-					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_TILD));
+			List<String> DateRange = Arrays
+					.asList(rstReportListData.get(CNReportList.DATE_RANGE).split(Constants.DELIMITER_HYPHEN));
 
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
 			// Select the Report Date range and Location and run report
 			reportList.selectReport(rstReportListData.get(CNReportList.REPORT_NAME));
-//			reportList.selectDate(rstReportListData.get(CNReportList.DATE_RANGE));
-			
-			reportList.selectDateRangeDate(DateRange_Existing.get(0), DateRange_Existing.get(1),
-					AccountFundingDetail.DATA_EXISTING_START_DATE,
-					AccountFundingDetail.DATA_EXISTING_START_DATE);
-			
+			if (environment.equals(Constants.STAGING)) {
+				List<String> DateRange_Existing = Arrays.asList(DateRange.get(1).split(Constants.DELIMITER_TILD));
+				reportList.selectDateRangeDate(DateRange_Existing.get(0), DateRange_Existing.get(1),
+						AccountFundingDetail.DATA_EXISTING_START_DATE_STAGING, AccountFundingDetail.DATA_EXISTING_START_DATE_STAGING);
+			} else {
+				List<String> DateRange_Existing = Arrays.asList(DateRange.get(0).split(Constants.DELIMITER_TILD));
+				reportList.selectDateRangeDate(DateRange_Existing.get(0), DateRange_Existing.get(1),
+						AccountFundingDetail.DATA_EXISTING_START_DATE, AccountFundingDetail.DATA_EXISTING_START_DATE);
+			}
+
 			reportList.selectLocation(locationName);
 			foundation.threadWait(Constants.SHORT_TIME);
 			foundation.click(ReportList.BTN_RUN_REPORT);
 			foundation.waitforElement(DailySalesSummary.LBL_REPORT_NAME, Constants.SHORT_TIME);
 			accountFundingDetail.verifyReportName(rstReportListData.get(CNReportList.REPORT_NAME));
-			List<String> requiredData = Arrays
-					.asList(rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HASH));
 
-			textBox.enterText(AccountFundingDetail.TXT_SEARCH, requiredData.get(5));
-			// Read the Report the Data
-			accountFundingDetail.getTblRecordsUI();
-			accountFundingDetail.getIntialData().putAll(accountFundingDetail.getReportsData());
+			List<String> requiredDataList = Arrays.asList(
+					rstProductSummaryData.get(CNProductSummary.REQUIRED_DATA).split(Constants.DELIMITER_HYPHEN));
 
-			// process sales API to generate data
-//			accountFundingDetail.processAPI(rstNavigationMenuData.get(CNNavigationMenu.REQUIRED_OPTION), environment);
-//
-//			// rerun and reread report
-//			foundation.click(ReportList.BTN_RUN_REPORT);
-//			foundation.threadWait(Constants.TWO_SECOND);
-//			accountFundingDetail.getTblRecordsUI();
+			if (environment.equals(Constants.STAGING)) {
+				List<String> requiredData = Arrays.asList(requiredDataList.get(1).split(Constants.DELIMITER_HASH));
+				textBox.enterText(AccountFundingDetail.TXT_SEARCH, requiredData.get(5));
+				// Read the Report the Data
+				accountFundingDetail.getTblRecordsUI();
+				accountFundingDetail.getIntialData().putAll(accountFundingDetail.getReportsData());
 
-			// update the report date based on calculation
-			
-//			String dateAndTime = (String) accountFundingDetail.getJsonData().get(Reports.TRANS_DATE_TIME);
-//			String transId= (String) accountFundingDetail.getJsonData().get(Reports.TRANS_ID);
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(0), locationName);
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(1), requiredData.get(0));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(2), requiredData.get(1));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(3), requiredData.get(2));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(4), requiredData.get(3));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(5), requiredData.get(4));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(6), requiredData.get(5));
+			} else {
+				List<String> requiredData = Arrays.asList(requiredDataList.get(0).split(Constants.DELIMITER_HASH));
+				textBox.enterText(AccountFundingDetail.TXT_SEARCH, requiredData.get(5));
+				// Read the Report the Data
+				accountFundingDetail.getTblRecordsUI();
+				accountFundingDetail.getIntialData().putAll(accountFundingDetail.getReportsData());
 
-			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(0), locationName);
-//			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(1), dateAndTime);
-			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(1), requiredData.get(0));
-			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(2), requiredData.get(1));
-			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(3), requiredData.get(2));
-			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(4), requiredData.get(3));
-			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(5), requiredData.get(4));
-			accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(6), requiredData.get(5));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(0), locationName);
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(1), requiredData.get(0));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(2), requiredData.get(1));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(3), requiredData.get(2));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(4), requiredData.get(3));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(5), requiredData.get(4));
+				accountFundingDetail.updateData(accountFundingDetail.getTableHeaders().get(6), requiredData.get(5));
+			}
 
 			// verify report headers
 			accountFundingDetail.verifyReportHeaders(rstProductSummaryData.get(CNProductSummary.COLUMN_NAME));

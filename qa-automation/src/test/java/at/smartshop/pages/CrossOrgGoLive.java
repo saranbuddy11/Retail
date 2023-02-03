@@ -22,7 +22,7 @@ public class CrossOrgGoLive {
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(5)");
 
 	public static final By DATA_EXISTING_DATE = By.cssSelector(
-			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(4) > td:nth-child(6)");
+			"body > div.daterangepicker.ltr.show-calendar.opensright > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(3) > td:nth-child(1)");
 
 	public void verifyReportName(String reportName) {
 		try {

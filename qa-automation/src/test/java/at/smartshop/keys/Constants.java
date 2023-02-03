@@ -62,6 +62,7 @@ public class Constants {
 	public static final int FIFTEEN_SECOND = 15;
 	public static final String PRE_PROD = "PreProd";
 	public static final String TEST3 = "Test3";
+	public static final String TEST4 = "Test4";
 	public static final String TEST_RAIL_PASS_MESSAGE = "QA PASS";
 	public static final String TEST_RAIL_PASS_STATUSID = "1";
 	public static final String TEST_RAIL_FAIL_STATUSID = "5";

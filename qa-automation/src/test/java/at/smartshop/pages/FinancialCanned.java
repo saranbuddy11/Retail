@@ -411,6 +411,7 @@ public class FinancialCanned extends Factory {
 	 */
 	public void verifyReportData() {
 		try {
+			System.out.println("Financial canned");
 			System.out.println("intialData :" + intialData);
 			System.out.println("reportsData :" + reportsData);
 			foundation.threadWait(Constants.TWO_SECOND);
