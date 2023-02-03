@@ -248,6 +248,7 @@ public class V5ReleaseTest extends TestInfra {
 
 			// verify edits applied to product or not
 			navigationBar.navigateToMenuItem(menuItem.get(0));
+			foundation.threadWait(Constants.SHORT_TIME);
 			globalProduct.selectGlobalProduct(productName);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY1), editedCategory1);
 			CustomisedAssert.assertEquals(dropDown.getSelectedItem(ProductSummary.DPD_CATEGORY2), editedCategory2);

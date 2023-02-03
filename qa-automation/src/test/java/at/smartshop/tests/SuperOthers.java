@@ -589,6 +589,7 @@ public class SuperOthers extends TestInfra {
 
 			// resetting test data
 			foundation.waitforElement(OrgstrList.ORG_LIST, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.MEDIUM_TIME);
 			textBox.enterText(OrgstrList.ORG_DEVICE_SEARCH, numeric);
 			foundation.click(OrgstrList.TBL_DATA);
 			foundation.waitforElement(OrgstrList.BTN_REMOVE, Constants.SHORT_TIME);
@@ -821,6 +822,7 @@ public class SuperOthers extends TestInfra {
 			// Click on Save Button
 			foundation.click(OrgSummary.BTN_SAVE);
 			foundation.waitforElementToDisappear(OrgList.TXT_SPINNER_MSG, Constants.SHORT_TIME);
+			foundation.threadWait(Constants.SHORT_TIME);
 			textBox.enterText(OrgList.TXT_SEARCH_ORG, orgName);
 			CustomisedAssert.assertTrue(foundation.getText(OrgList.LBL_FIRST_ORG_NAME).contains(orgName));
 
@@ -2134,6 +2136,7 @@ public class SuperOthers extends TestInfra {
 			TestInfra.failWithScreenShot(exc.toString());
 		} finally {
 			// Reset the details
+			foundation.threadWait(Constants.EXTRA_LONG_TIME);
 			textBox.enterText(Campus.SEARCH_BOX, updatedData.get(1));
 			foundation.click(Campus.SELECT_GRID);
 			textBox.enterText(Campus.TXTBX_NAME, updatedData.get(0));

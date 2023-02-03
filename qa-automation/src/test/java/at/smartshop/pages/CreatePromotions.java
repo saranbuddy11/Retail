@@ -976,7 +976,8 @@ public class CreatePromotions extends Factory {
 	public void launchBrowserAndCreateBundlePromoWithLocationDetails(String menu, String promoType, String promoName,
 			String displayName, String location) {
 		// Login to ADM with Super User, Select Org
-		navigationBar.launchBrowserAsSuperAndSelectOrg(
+		navigationBar.launchBrowserAndSelectOrg(
+				propertyFile.readPropertyFile(Configuration.CURRENT_USER_STAGING, FilePath.PROPERTY_CONFIG_FILE),
 				propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 		CustomisedAssert.assertTrue(foundation.isDisplayed(LocationList.LBL_LOCATION_LIST));
 
