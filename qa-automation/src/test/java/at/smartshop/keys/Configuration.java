@@ -31,6 +31,7 @@ public class Configuration {
 	public static final String CHROME_DRIVER = "chrome_driver";
 	public static final String CURRENT_USER = "username";
 	public static final String CURRENT_PASSWORD = "password";
+	public static final String SUPERDEV_USER = "SuperDevUserName";
 	public static final String CURRENT_USER_STAGING = "usernameStaging";
 	public static final String CURRENT_PASSWORD_STAGING = "passwordStaging";
 	public static final String OPERATOR_USER = "OperatorUser";
