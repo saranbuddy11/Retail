@@ -485,13 +485,8 @@ public class UserRoles extends TestInfra {
 		rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
 		rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
 
-		final String device = rstUserRolesData.get(CNUserRoles.ROLE_NAME) + string.getRandomCharacter();
-		final String rowData = rstUserRolesData.get(CNUserRoles.ROW_RECORD);
-		final String defaulatOrg = rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE);
-		List<String> dropdownData = Arrays
-				.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
+		final String roleName = rstUserRolesData.get(CNUserRoles.ROLE_NAME);
 		try {
-
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.SUPERDEV_USER, FilePath.PROPERTY_CONFIG_FILE),
@@ -502,63 +497,22 @@ public class UserRoles extends TestInfra {
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
 			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
-			// Create New
-			foundation.click(UserList.CREATE_NEW_ROLE);
-			foundation.click(UserList.DRP_SELECT_ROLE);
-			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
-			textBox.enterText(UserList.LAST_NAME_FIELD, device);
-			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
-			foundation.click(UserList.GENERATE_PIN);
-			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, defaulatOrg, Constants.TEXT);
+			// Create Manage Role
+			foundation.threadWait(Constants.SHORT_TIME);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
+			foundation.click(UserList.BTN_MANAGE_ROLES);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(UserList.DPD_SELECTED_ORG, defaulatOrg, Constants.TEXT);
+			foundation.waitforElementToBeVisible(UserList.TXT_SEARCH_ROLE, Constants.SHORT_TIME);
+			textBox.enterText(UserList.TXT_SEARCH_ROLE, roleName);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
-			foundation.click(UserList.CLICK_OUTSIDE);
-			foundation.click(UserList.SELECT_CLIENT);
-			textBox.enterText(UserList.ENTER_CLIENT, dropdownData.get(1));
-			foundation.click(UserList.CLICK_CLIENT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
-			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
-			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
+			table.selectRowWithoutContain(roleName);
 
-			// Click on cancel Button
-			foundation.click(UserList.CANCEL_USER);
-			foundation.click(UserList.CONFIRM_CANCEL);
-			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.CREATE_NEW_ROLE));
-
-			// Create New
-			foundation.click(UserList.CREATE_NEW_ROLE);
-			foundation.click(UserList.DRP_SELECT_ROLE);
-			textBox.enterText(UserList.FIRST_NAME_FIELD, device);
-			textBox.enterText(UserList.LAST_NAME_FIELD, device);
-			textBox.enterText(UserList.EMAIL_ADDRESS_FIELD, device + rowData);
-			foundation.click(UserList.GENERATE_PIN);
-			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, defaulatOrg, Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(UserList.DPD_SELECTED_ORG, defaulatOrg, Constants.TEXT);
-			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(UserList.SELECT_LOCATION, dropdownData.get(0), Constants.TEXT);
-			foundation.click(UserList.CLICK_OUTSIDE);
-			foundation.click(UserList.SELECT_CLIENT);
-			textBox.enterText(UserList.ENTER_CLIENT, dropdownData.get(1));
-			foundation.click(UserList.CLICK_CLIENT);
-			foundation.threadWait(Constants.TWO_SECOND);
-			foundation.click(UserList.SELECT_NATIONAL_ACCOUNT);
-			textBox.enterText(UserList.SELECT_NATIONAL_ACCOUNT, dropdownData.get(2));
-			foundation.click(UserList.CLICK_NATIONAL_ACCOUNT);
-
-			// Click on Save Button
-			foundation.click(UserList.SAVE_USER);
-
+			// Click on Manage Permission Features Tab
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_FEATURE));
+			foundation.click(UserList.BTN_MANAGE_FEATURE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.FEATURE_LIST_PAGE));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
-		} finally {
-			foundation.waitforElement(UserList.DISABLE_USER, Constants.SHORT_TIME);
-			foundation.click(UserList.DISABLE_USER);
-			foundation.click(UserList.CONFIRM_DISABLE);
 		}
 	}
 
@@ -569,59 +523,37 @@ public class UserRoles extends TestInfra {
 	@Test(description = "225934 - Validate Permission Feature List page")
 	public void validatePermissionFeatureListpage() {
 		try {
-
 			final String CASE_NUM = "225934";
+
+			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
+			rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
+
+			final String roleName = rstUserRolesData.get(CNUserRoles.ROLE_NAME);
+
 			browser.navigateURL(
 					propertyFile.readPropertyFile(Configuration.CURRENT_URL, FilePath.PROPERTY_CONFIG_FILE));
 			login.login(propertyFile.readPropertyFile(Configuration.SUPERDEV_USER, FilePath.PROPERTY_CONFIG_FILE),
 					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
 
-			rstNavigationMenuData = dataBase.getNavigationMenuData(Queries.NAVIGATION_MENU, CASE_NUM);
-			rstUserRolesData = dataBase.getUserRolesData(Queries.USER_ROLES, CASE_NUM);
-
 			// Select Menu and Menu Item
 			navigationBar.selectOrganization(
 					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			List<String> menuItem = Arrays
-					.asList(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM).split(Constants.DELIMITER_TILD));
-			navigationBar.navigateToMenuItem(menuItem.get(0));
+			navigationBar.navigateToMenuItem(rstNavigationMenuData.get(CNNavigationMenu.MENU_ITEM));
 
+			// Create Manage Role
+			foundation.threadWait(Constants.SHORT_TIME);
 			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
-			List<String> lblRowRecord = Arrays
-					.asList(rstUserRolesData.get(CNUserRoles.ROW_RECORD).split(Constants.DELIMITER_TILD));
-			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(0));
-			table.selectRow(lblRowRecord.get(0));
+			foundation.click(UserList.BTN_MANAGE_ROLES);
 			foundation.threadWait(Constants.THREE_SECOND);
-			dropDown.selectItem(UserList.DPD_DEFAULT_ORG, rstUserRolesData.get(CNUserRoles.ERROR_MESSAGE),
-					Constants.TEXT);
+			foundation.waitforElementToBeVisible(UserList.TXT_SEARCH_ROLE, Constants.SHORT_TIME);
+			textBox.enterText(UserList.TXT_SEARCH_ROLE, roleName);
 			foundation.threadWait(Constants.THREE_SECOND);
-			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
+			table.selectRowWithoutContain(roleName);
 
-			List<String> clientdropDownList = Arrays
-					.asList(rstUserRolesData.get(CNUserRoles.CLIENT_DROPDOWN).split(Constants.DELIMITER_TILD));
-			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(1)));
-			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(2)));
-
-			login.logout();
-			login.login(
-					propertyFile.readPropertyFile(Configuration.MASTER_NATIONAL_ACCOUNT_USER,
-							FilePath.PROPERTY_CONFIG_FILE),
-					propertyFile.readPropertyFile(Configuration.CURRENT_PASSWORD, FilePath.PROPERTY_CONFIG_FILE));
-
-			// Select Menu and Menu Item
-			navigationBar.selectOrganization(
-					propertyFile.readPropertyFile(Configuration.CURRENT_ORG, FilePath.PROPERTY_CONFIG_FILE));
-			navigationBar.navigateToMenuItem(menuItem.get(1));
-
-			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_ROLES));
-			textBox.enterText(UserList.TXT_FILTER, lblRowRecord.get(1));
-			table.selectRow(lblRowRecord.get(1));
-			CustomisedAssert.assertTrue(foundation.isDisplayed(UserSummary.DPD_CLIENT));
-			CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT, clientdropDownList.get(0)));
-			// CustomisedAssert.assertTrue(dropDown.verifyItemPresent(UserSummary.DPD_CLIENT,
-			// clientdropDownList.get(1)));
-
+			// Click on Manage Permission Features Tab
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.BTN_MANAGE_FEATURE));
+			foundation.click(UserList.BTN_MANAGE_FEATURE);
+			CustomisedAssert.assertTrue(foundation.isDisplayed(UserList.FEATURE_LIST_PAGE));
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
