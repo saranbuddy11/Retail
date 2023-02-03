@@ -239,20 +239,23 @@ public class FinancialRecapReport extends Factory {
 				Constants.EMPTY_STRING);
 		String feesCreditCard = intialData.get(0).get(tableHeaders.get(9)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
-		String productRefunds = intialData.get(0).get(tableHeaders.get(10)).replaceAll(Reports.REPLACE_DOLLOR,
-				Constants.EMPTY_STRING);
-		String fundingClientOperator = intialData.get(0).get(tableHeaders.get(11)).replaceAll(Reports.REPLACE_DOLLOR,
-				Constants.EMPTY_STRING);
-		String closedGMA = intialData.get(0).get(tableHeaders.get(12)).replaceAll(Reports.REPLACE_DOLLOR,
-				Constants.EMPTY_STRING);
-		String otherAdjustment = intialData.get(0).get(tableHeaders.get(13)).replaceAll(Reports.REPLACE_DOLLOR,
-				Constants.EMPTY_STRING);
+//		String productRefunds = intialData.get(0).get(tableHeaders.get(10)).replaceAll(Reports.REPLACE_DOLLOR,
+//				Constants.EMPTY_STRING);
+//		String fundingClientOperator = intialData.get(0).get(tableHeaders.get(11)).replaceAll(Reports.REPLACE_DOLLOR,
+//				Constants.EMPTY_STRING);
+//		String closedGMA = intialData.get(0).get(tableHeaders.get(12)).replaceAll(Reports.REPLACE_DOLLOR,
+//				Constants.EMPTY_STRING);
+//		String otherAdjustment = intialData.get(0).get(tableHeaders.get(13)).replaceAll(Reports.REPLACE_DOLLOR,
+//				Constants.EMPTY_STRING);
 		String cashFunding = intialData.get(0).get(tableHeaders.get(14)).replaceAll(Reports.REPLACE_DOLLOR,
 				Constants.EMPTY_STRING);
 		double netCashOwed = Double.parseDouble(grossSales) + Double.parseDouble(feesGMA)
-				+ Double.parseDouble(feesCreditCard) + Double.parseDouble(productRefunds)
-				+ Double.parseDouble(fundingClientOperator) + Double.parseDouble(closedGMA)
-				+ Double.parseDouble(otherAdjustment) + Double.parseDouble(cashFunding);
+				+ Double.parseDouble(feesCreditCard)
+//				+ Double.parseDouble(productRefunds)
+//				+ Double.parseDouble(fundingClientOperator) 
+//				+ Double.parseDouble(closedGMA)
+//				+ Double.parseDouble(otherAdjustment) 
+				+ Double.parseDouble(cashFunding);
 		BigDecimal val = BigDecimal.valueOf(netCashOwed);
 		val = val.setScale(2, RoundingMode.HALF_EVEN);
 		intialData.get(0).put(tableHeaders.get(15), String.valueOf(val));

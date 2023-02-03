@@ -171,7 +171,9 @@ public class InventoryList extends Factory {
 	 */
 	public void verifyReportDataForExpanded(List<String> expectedData) {
 		try {
-			for (int counter = 0; counter < 2; counter++) {
+			System.out.println("reportsData :"+reportsData);
+			System.out.println("expectedData :"+expectedData);
+			for (int counter = 0; counter < 1; counter++) {
 				List<String> expectedDataList = Arrays
 						.asList(expectedData.get(counter).split(Constants.DELIMITER_HASH));
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {

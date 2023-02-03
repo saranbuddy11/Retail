@@ -703,11 +703,14 @@ public class UFSByDevice extends Factory {
 		try {
 			int count = initialDataOfSalesTimeDetails.size();
 			foundation.threadWait(Constants.TWO_SECOND);
+			System.out.println("reportsData :"+reportsDataOfSalesTimeDetails);
+			System.out.println("expectedData :"+initialDataOfSalesTimeDetails);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeadersOfSalesTimeDetails.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsDataOfSalesTimeDetails.get(counter)
 							.get(tableHeadersOfSalesTimeDetails.get(iter)).contains(initialDataOfSalesTimeDetails
 									.get(counter).get(tableHeadersOfSalesTimeDetails.get(iter))));
+					System.out.println(reportsDataOfSalesTimeDetails.get(counter).get(tableHeadersOfSalesTimeDetails.get(iter)) +":"+initialDataOfSalesTimeDetails.get(counter).get(tableHeadersOfSalesTimeDetails.get(iter)));
 				}
 			}
 		} catch (Exception exc) {

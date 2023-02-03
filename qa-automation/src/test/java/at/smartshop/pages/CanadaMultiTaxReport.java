@@ -233,7 +233,7 @@ public class CanadaMultiTaxReport extends Factory {
 			foundation.threadWait(Constants.ONE_SECOND);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
-					if(((reportsData.get(counter).get(tableHeaders.get(6)).equals("078000082401")) && (intialData.get(counter).get(tableHeaders.get(6)).equals("078000082401"))) || ((reportsData.get(counter).get(tableHeaders.get(6)).equals("1223334443")) && (intialData.get(counter).get(tableHeaders.get(2)).equals("1223334443")))){
+					if(((reportsData.get(counter).get(tableHeaders.get(6)).equals("078000082401")) && (intialData.get(counter).get(tableHeaders.get(6)).equals("078000082401"))) || ((reportsData.get(counter).get(tableHeaders.get(6)).equals("1223334443")) && (intialData.get(counter).get(tableHeaders.get(6)).equals("1223334443")))){
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
 							.contains(intialData.get(counter).get(tableHeaders.get(iter))));
 					System.out.println(tableHeaders.get(iter));
