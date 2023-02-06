@@ -124,6 +124,7 @@ public class AccountFunding extends Factory {
 			reportsData.put(count, reportsdata);
 			count++;
 		}
+		System.out.println("reportsData" + reportsData);
 	}
 
 	/**
@@ -168,6 +169,7 @@ public class AccountFunding extends Factory {
 	 */
 	public void verifyReportRecords() {
 		int coulumnCount = tableHeaders.size();
+		System.out.println("Account Funding");
 		System.out.println("initialReportsData :"+initialReportsData.get(0));
 		System.out.println("reportsData :"+reportsData.get(0));
 		for (int iter = 0; iter < reportsData.size(); iter++) {
@@ -222,14 +224,18 @@ public class AccountFunding extends Factory {
 	 * Calculate Total Sales
 	 */
 	public void calculateTotalSales() {
-		double accountSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(8)));
-		double creditSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(9)));
-		double kioskCash = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(5)));
-		double consumerCredits = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(4)));
-		double operatorCredit = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(3)));
-//		double totalSales = kioskCash + 2 * accountSales + creditSales;
-		double totalSales = kioskCash + accountSales + creditSales + consumerCredits + operatorCredit;
-		totalSales = Math.floor(totalSales);
+//		double accountSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(8)));
+//		double creditSales = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(9)));
+//		double kioskCash = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(5)));
+//		double consumerCredits = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(4)));
+//		double operatorCredit = Double.parseDouble(reportsData.get(0).get(tableHeaders.get(3)));
+////		double totalSales = kioskCash + 2 * accountSales + creditSales;
+//		double totalSales = kioskCash + 2 * accountSales + creditSales + consumerCredits + operatorCredit;
+		JsonObject gmatrans = (JsonObject) jsonData.get(Reports.GMA_TRANS);
+		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
+		System.out.println(amount);
+		double totalSales = Double.parseDouble(initialReportsData.get(0).get(tableHeaders.get(10))) + 3 * Double.parseDouble(amount);
+		totalSales = Math.round(totalSales * 100.0) / 100.0;
 		initialReportsData.get(0).put(tableHeaders.get(10), String.valueOf(totalSales));
 	}
 
@@ -270,7 +276,8 @@ public class AccountFunding extends Factory {
 		String amount = gmatrans.get(Reports.AMOUNT).getAsString();
 		String initialBalance = initialReportsData.get(0).get(tableHeaders.get(7));
 		double adjustAmount = Double.parseDouble(admData.get(1)) + Double.parseDouble(amount)
-				+ Double.parseDouble(amount) + Double.parseDouble(amount) - Double.parseDouble(amount);
+				+ Double.parseDouble(amount) + Double.parseDouble(amount)
+				- Double.parseDouble(amount);
 		double updatedBalance = Double.parseDouble(initialBalance) + adjustAmount;
 		updatedBalance = Math.round(updatedBalance * 100.0) / 100.0;
 		initialReportsData.get(0).put(tableHeaders.get(7), String.valueOf(updatedBalance));
@@ -385,7 +392,7 @@ public class AccountFunding extends Factory {
 		foundation.threadWait(Constants.SHORT_TIME);
 		foundation.waitforClikableElement(ReportList.BTN_RUN_REPORT, Constants.SHORT_TIME);
 		foundation.click(ReportList.BTN_RUN_REPORT);
-		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.SHORT_TIME);
+		foundation.waitforElement(ProductSales.LBL_REPORT_NAME, Constants.MEDIUM_TIME);
 		verifyReportName(reportName);
 		checkForDataAvailabilyInResultTable();
 	}

@@ -790,7 +790,7 @@ public class ReportsSmokeTestForSTAGING extends TestInfra {
 			// CashAudit.DATA_EXISTING_DATE);
 
 			foundation.threadWait(Constants.TWO_SECOND);
-			reportList.selectLocationForSecondTypeDropdown(propertyFile
+			reportList.selectLocation(propertyFile
 					.readPropertyFile(Configuration.STAGING_SUPPORT_US_365_LOCATION, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 

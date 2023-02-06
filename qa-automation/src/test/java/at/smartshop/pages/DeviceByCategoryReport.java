@@ -53,7 +53,7 @@ public class DeviceByCategoryReport extends Factory {
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(1) > td:nth-child(3)");
 	public static final By DATA_EXISTING_END_DATE_STAGING = By.cssSelector(
 			"body > div.daterangepicker.ltr.show-ranges.opensright.show-calendar  > div.drp-calendar.right > div.calendar-table > table > tbody > tr:nth-child(5) > td:nth-child(3)");
-	
+
 	private List<String> tableHeaders = new ArrayList<>();
 	private List<String> priceData = new LinkedList<>();
 	private List<String> category1Data = new LinkedList<>();
@@ -86,15 +86,16 @@ public class DeviceByCategoryReport extends Factory {
 				reportsData.put(recordCount, uiTblRowValues);
 				recordCount++;
 			}
+			System.out.println("reportsData" + reportsData);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void getRequiredRecord(String category) {
 		try {
 			for (int rowCount = 0; rowCount < intialData.size(); rowCount++) {
-				if (intialData.get(rowCount).get(tableHeaders.get(4)).equals(category)) {
+				if (intialData.get(rowCount).get(tableHeaders.get(3)).equals(category)) {
 					recordCount = rowCount;
 					System.out.println(rowCount);
 					break;
@@ -114,7 +115,7 @@ public class DeviceByCategoryReport extends Factory {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
 	}
-	
+
 	public void checkForDataAvailabilyInResultTable() {
 		try {
 			if (foundation.isDisplayed(REPORT_GRID_FIRST_ROW)) {
@@ -144,11 +145,13 @@ public class DeviceByCategoryReport extends Factory {
 
 	public void updateTotal(String itemPrice, String columnUnitsSold, String columnTotal) {
 		try {
-			int initialTotal = Integer.parseInt(reportsData.get(recordCount).get(columnUnitsSold));
-			double price = Double.parseDouble(requiredJsonData.get(0));
-			double updatedTotal = initialTotal * price;
-			updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
-			intialData.get(recordCount).put(columnTotal, String.valueOf(updatedTotal));
+//			for (int iter = 0; iter < intialData.size(); iter++) {
+				int initialTotal = Integer.parseInt(reportsData.get(recordCount).get(columnUnitsSold));
+				double price = Double.parseDouble(requiredJsonData.get(0));
+				double updatedTotal = initialTotal * price;
+				updatedTotal = Math.round(updatedTotal * 100.0) / 100.0;
+				intialData.get(recordCount).put(columnTotal, String.valueOf(updatedTotal));
+//			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -156,9 +159,11 @@ public class DeviceByCategoryReport extends Factory {
 
 	public void updateCount(String columnName, String count) {
 		try {
-			int initialCount = Integer.parseInt(intialData.get(recordCount).get(columnName));
-			int updatedCount = initialCount + Integer.parseInt(count);
-			intialData.get(recordCount).put(columnName, String.valueOf(updatedCount));
+//			for (int iter = 0; iter < intialData.size(); iter++) {
+				int initialCount = Integer.parseInt(intialData.get(recordCount).get(columnName));
+				int updatedCount = initialCount + Integer.parseInt(count);
+				intialData.get(recordCount).put(columnName, String.valueOf(updatedCount));
+//			}
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -179,9 +184,9 @@ public class DeviceByCategoryReport extends Factory {
 		try {
 			int count = intialData.size();
 			foundation.threadWait(Constants.ONE_SECOND);
-
-			System.out.println("reportsData :"+reportsData);
-			System.out.println("intialData :"+intialData);
+			System.out.println("device by category");
+			System.out.println("reportsData :" + reportsData);
+			System.out.println("intialData :" + intialData);
 			for (int counter = 0; counter < count; counter++) {
 				for (int iter = 0; iter < tableHeaders.size(); iter++) {
 					CustomisedAssert.assertTrue(reportsData.get(counter).get(tableHeaders.get(iter))
@@ -201,6 +206,7 @@ public class DeviceByCategoryReport extends Factory {
 					propertyFile.readPropertyFile(Configuration.TRANS_SALES, FilePath.PROPERTY_CONFIG_FILE),
 					(String) jsonData.get(Reports.JSON));
 			getJsonArrayData();
+			foundation.threadWait(Constants.THREE_SECOND);
 		} catch (Exception exc) {
 			TestInfra.failWithScreenShot(exc.toString());
 		}
@@ -257,12 +263,12 @@ public class DeviceByCategoryReport extends Factory {
 					Constants.EMPTY_STRING);
 			String saleValue;
 			if (environment.equals(Constants.STAGING)) {
-				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
+				saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION_STAGING);
 			} else {
-				 saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
-			};
+				saleValue = jsonFunctions.readFileAsString(FilePath.JSON_SALES_CREATION);
+			}
+			;
 
-			
 			JsonObject saleJson = jsonFunctions.convertStringToJson(saleValue);
 			saleJson.addProperty(Reports.TRANS_ID, (String) jsonData.get(Reports.TRANS_ID));
 			saleJson.addProperty(Reports.TRANS_DATE, (String) jsonData.get(Reports.TRANS_DATE));

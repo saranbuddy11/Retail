@@ -145,17 +145,17 @@ public class ReportsSmokeTest extends TestInfra {
 	private Map<String, String> rstNavigationMenuData;
 	private Map<String, String> rstReportListData;
 
-	@Parameters({ "driver", "browser", "reportsDB" })
-	@BeforeClass
-	public void beforeTest(String drivers, String browsers, String reportsDB) {
-		try {
-			browser.launch(drivers, browsers);
-			dataSourceManager.switchToReportsDB(reportsDB);
-			browser.close();
-		} catch (Exception exc) {
-			TestInfra.failWithScreenShot(exc.toString());
-		}
-	}
+//	@Parameters({ "driver", "browser", "reportsDB" })
+//	@BeforeClass
+//	public void beforeTest(String drivers, String browsers, String reportsDB) {
+//		try {
+//			browser.launch(drivers, browsers);
+//			dataSourceManager.switchToReportsDB(reportsDB);
+//			browser.close();
+//		} catch (Exception exc) {
+//			TestInfra.failWithScreenShot(exc.toString());
+//		}
+//	}
 
 	@Test(description = "166893- This test validates Data existance and Excel file exportaion of Sales Time Details Report")
 	public void salesTimeDetailsReport() {
@@ -2643,7 +2643,11 @@ public class ReportsSmokeTest extends TestInfra {
 //					rstReportListData.get(CNReportList.END_MONTH), CashAudit.DATA_EXISTING_DATE,
 //					CashAudit.DATA_EXISTING_DATE);
 
-			reportList.selectLocationForSecondTypeDropdown(
+//			reportList.selectLocationForSecondTypeDropdown(
+//					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
+//			foundation.objectClick(ReportList.BTN_RUN_REPORT);
+			
+			reportList.selectLocation(
 					propertyFile.readPropertyFile(Configuration.CURRENT_LOC, FilePath.PROPERTY_CONFIG_FILE));
 			foundation.objectClick(ReportList.BTN_RUN_REPORT);
 
